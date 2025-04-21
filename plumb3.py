@@ -4,9 +4,7 @@ import pdfplumber
 from typing import Dict, List
 
 
-def extract_three_methods(
-    pdf_path: str, y_tolerance: int = 5, x_tolerance: int = 5, words_file: str = None
-) -> Dict:
+def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int = 5, words_file: str = None) -> Dict:
     """Extract text using three different methods and return comparison."""
     results = {
         "extract_text": [],
@@ -16,7 +14,7 @@ def extract_three_methods(
     }
 
     # List of required attributes for word sorting
-    extra_attrs = ["x0", "y0", "x1", "y1", "text", "fontname", "size", "top"]
+    extra_attrs = ["x0", "y0", "x1", "y1", "text", "fontname", "size", "top", "adv"]
 
     with pdfplumber.open(pdf_path) as pdf:
         for page_num, page in enumerate(pdf.pages):
@@ -34,14 +32,17 @@ def extract_three_methods(
             results["extract_text_lines"].append(
                 {
                     "page": page_num + 1,
-                    "content": [line["text"] for line in text_lines]
-                    if text_lines
-                    else [],
+                    "content": [line["text"] for line in text_lines] if text_lines else [],
                 }
             )
 
             # Method 3: extract_words() with manual alignment and combining consecutive words
-            words = page.extract_words(extra_attrs=extra_attrs)
+            words = page.extract_words(
+                x_tolerance_ratio=0.3,
+                use_text_flow=True,
+                keep_blank_chars=True,
+                extra_attrs=extra_attrs
+            )
             if words:
                 # 1. Sort words by 'top' (vertical position)
                 sorted_words = sorted(words, key=lambda w: w["top"])
@@ -64,9 +65,11 @@ def extract_three_methods(
                 # 3. For each line, sort by x0 and combine words
                 combined_lines = []
                 line_bboxes = []
-                for line in lines:
+                lines_json = []
+
+                for line_number, line in enumerate(lines, 1):
                     line_sorted = sorted(line, key=lambda w: w["x0"])
-                    # Combine consecutive words within x_tolerance
+                    # Combine consecutive words within x_tolerance for full line text
                     combined_line = []
                     current_word = line_sorted[0].copy()
                     for next_word in line_sorted[1:]:
@@ -78,6 +81,7 @@ def extract_three_methods(
                             current_word = next_word.copy()
                     combined_line.append(current_word)
                     combined_lines.append(combined_line)
+
                     # Calculate bounding box for the line
                     line_bbox = {
                         "x0": min(w["x0"] for w in line_sorted),
@@ -87,35 +91,100 @@ def extract_three_methods(
                     }
                     line_bboxes.append((line_sorted, line_bbox))
 
+                    # Split line into text segments by font, size, direction
+                    text_segments = []
+                    seg_start = 0
+                    for i in range(1, len(line_sorted)):
+                        prev = line_sorted[i - 1]
+                        curr = line_sorted[i]
+                        if (
+                            prev.get("fontname") != curr.get("fontname")
+                            or prev.get("size") != curr.get("size")
+                            or prev.get("upright", True) != curr.get("upright", True)
+                        ):
+                            segment_words = line_sorted[seg_start:i]
+                            segment_text = "".join(w["text"] for w in segment_words)
+                            segment_bbox = {
+                                "x0": min(w["x0"] for w in segment_words),
+                                "top": min(w["top"] for w in segment_words),
+                                "x1": max(w["x1"] for w in segment_words),
+                                "bottom": max(w["bottom"] for w in segment_words),
+                            }
+                            text_segments.append(
+                                {
+                                    "font_size": prev.get("size"),
+                                    "font": prev.get("fontname"),
+                                    "direction": "upright" if prev.get("upright", True) else "rotated",
+                                    "text": segment_text,
+                                    "bbox": segment_bbox,
+                                }
+                            )
+                            seg_start = i
+                    # Add last segment
+                    segment_words = line_sorted[seg_start:]
+                    if segment_words:
+                        last = segment_words[0]
+                        segment_text = "".join(w["text"] for w in segment_words)
+                        segment_bbox = {
+                            "x0": min(w["x0"] for w in segment_words),
+                            "top": min(w["top"] for w in segment_words),
+                            "x1": max(w["x1"] for w in segment_words),
+                            "bottom": max(w["bottom"] for w in segment_words),
+                        }
+                        text_segments.append(
+                            {
+                                "font_size": last.get("size"),
+                                "font": last.get("fontname"),
+                                "direction": "upright" if last.get("upright", True) else "rotated",
+                                "text": segment_text,
+                                "bbox": segment_bbox,
+                            }
+                        )
+
+                    # Full line text (all combined words, space separated)
+                    full_line_text = " ".join(w["text"] for w in combined_line)
+
+                    # Store in new structure
+                    lines_json.append(
+                        {
+                            "line_number": line_number,
+                            "text": full_line_text,
+                            "bbox": line_bbox,
+                            "text_segments": text_segments,
+                        }
+                    )
+
                 # 4. Write words and lines to file in one operation
                 if words_file:
                     with open(words_file, "w", encoding="utf-8") as wf:
-                        # Write all sorted words
+                        wf.write("=== Words (raw, sorted by top) ===\n")
                         for word in sorted_words:
                             word_out = word.copy()
                             word_out["page"] = page_num + 1
-                            wf.write(json.dumps(word_out) + "\n")
-                        # Write all lines with bounding boxes
-                        for line_sorted, line_bbox in line_bboxes:
-                            line_texts = [w["text"] for w in line_sorted]
-                            wf.write(
-                                json.dumps(
-                                    {
-                                        "page": page_num + 1,
-                                        "line_texts": line_texts,
-                                        "bounding_box": line_bbox,
-                                    }
-                                )
-                                + "\n"
-                            )
+                            wf.write(json.dumps(word_out, indent=2) + "\n")
+                        wf.write("\n=== Lines (grouped, with text segments) ===\n")
+                        json.dump(
+                            {
+                                "page": page_num + 1,
+                                "lines": lines_json,
+                            },
+                            wf,
+                            indent=2,
+                            ensure_ascii=False,
+                        )
+                        wf.write("\n\n")
 
-                # 5. Prepare extract_words_manual output as before
                 results["extract_words_manual"].append(
                     {
                         "page": page_num + 1,
-                        "content": [
-                            " ".join(w["text"] for w in line) for line in combined_lines
-                        ],
+                        "content": [" ".join(w["text"] for w in line) for line in combined_lines],
+                    }
+                )
+            else:
+                results["extract_words_manual"].append(
+                    {
+                        "page": page_num + 1,
+                        "content": [],
                     }
                 )
 
@@ -128,9 +197,7 @@ def extract_three_methods(
                 "words": results["extract_words_manual"][page_idx]["content"],
             }
 
-            max_lines = max(
-                len(methods["text"]), len(methods["lines"]), len(methods["words"])
-            )
+            max_lines = max(len(methods["text"]), len(methods["lines"]), len(methods["words"]))
 
             for line_idx in range(max_lines):
                 comparison_entry = {
@@ -164,14 +231,14 @@ def main():
     parser.add_argument(
         "-t",
         "--tolerance",
-        type=int,
+        type=float,
         default=5,
         help="Y-axis tolerance for word grouping (default: 5)",
     )
     parser.add_argument(
         "-x",
         "--x_tolerance",
-        type=int,
+        type=float,
         default=2,
         help="X-axis tolerance for combining consecutive words (default: 3)",
     )
@@ -184,30 +251,17 @@ def main():
 
     args = parser.parse_args()
 
-    results = extract_three_methods(
-        args.input_pdf, args.tolerance, args.x_tolerance, args.words_file
-    )
+    results = extract_three_methods(args.input_pdf, args.tolerance, args.x_tolerance, args.words_file)
 
     # Generate summary statistics
     stats = {
         "page_count": len(results["extract_text"]),
         "avg_lines_per_page": {
-            "extract_text": sum(len(p["content"]) for p in results["extract_text"])
-            / len(results["extract_text"]),
-            "extract_text_lines": sum(
-                len(p["content"]) for p in results["extract_text_lines"]
-            )
-            / len(results["extract_text_lines"]),
-            "extract_words_manual": sum(
-                len(p["content"]) for p in results["extract_words_manual"]
-            )
-            / len(results["extract_words_manual"]),
+            "extract_text": sum(len(p["content"]) for p in results["extract_text"]) / len(results["extract_text"]),
+            "extract_text_lines": sum(len(p["content"]) for p in results["extract_text_lines"]) / len(results["extract_text_lines"]),
+            "extract_words_manual": sum(len(p["content"]) for p in results["extract_words_manual"]) / len(results["extract_words_manual"]),
         },
-        "total_differences": sum(
-            1
-            for entry in results["comparison"]
-            if len(set(entry["methods"].values())) > 1
-        ),
+        "total_differences": sum(1 for entry in results["comparison"] if len(set(entry["methods"].values())) > 1),
     }
 
     output = {
