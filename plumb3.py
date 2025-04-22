@@ -3,6 +3,7 @@ import json
 import pdfplumber
 from typing import Dict, List
 import re
+import os
 
 
 def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int = 5, words_file: str = None) -> Dict:
@@ -12,6 +13,8 @@ def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int 
         "extract_text_lines": [],
         "extract_words_manual": [],
         "comparison": [],
+        "lines_json_by_page": [],
+        "raw_words_by_page": [],
     }
 
     # List of required attributes for word sorting
@@ -181,13 +184,25 @@ def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int 
                         "content": [" ".join(w["text"] for w in line) for line in combined_lines],
                     }
                 )
+                # Save raw words for this page
+                results["raw_words_by_page"].append({
+                    "page": page_num + 1,
+                    "words": [dict(word, page=page_num + 1) for word in sorted_words]
+                })
+                # Save lines_json for this page
+                results["lines_json_by_page"].append({
+                    "page": page_num + 1,
+                    "lines": lines_json,
+                })
             else:
-                results["extract_words_manual"].append(
-                    {
-                        "page": page_num + 1,
-                        "content": [],
-                    }
-                )
+                results["raw_words_by_page"].append({
+                    "page": page_num + 1,
+                    "words": []
+                })
+                results["lines_json_by_page"].append({
+                    "page": page_num + 1,
+                    "lines": [],
+                })
 
         # Generate comparison
         for page_idx in range(len(results["extract_text"])):
@@ -233,11 +248,16 @@ def main():
     parser = argparse.ArgumentParser(description="PDF Text Extraction Comparison Tool")
     parser.add_argument("input_pdf", help="Path to input PDF file")
     parser.add_argument(
-        "-o",
-        "--output",
-        type=argparse.FileType("w"),
-        default="-",
-        help="Output file (default: stdout)",
+        "--output-dir",
+        type=str,
+        default="extract",
+        help="Directory to save output files (default: extract)",
+    )
+    parser.add_argument(
+        "--basename",
+        type=str,
+        default=None,
+        help="Base name for output files (default: input file base name)",
     )
     parser.add_argument(
         "-t",
@@ -254,39 +274,95 @@ def main():
         help="X-axis tolerance for combining consecutive words (default: 3)",
     )
     parser.add_argument(
-        "--words-file",
-        type=str,
-        default=None,
-        help="Optional: Output file to write all words (one JSON object per line)",
+        "--save-words",
+        action="store_true",
+        help="If set, save raw words to <basename>_words.json",
+    )
+    parser.add_argument(
+        "--compare",
+        action="store_true",
+        help="If set, save comparison of three methods to <basename>_compare.json",
     )
 
     args = parser.parse_args()
 
-    results = extract_three_methods(args.input_pdf, args.tolerance, args.x_tolerance, args.words_file)
+    # Determine base name
+    if args.basename:
+        base = args.basename
+    else:
+        base = os.path.splitext(os.path.basename(args.input_pdf))[0]
 
-    # Generate summary statistics
-    stats = {
+    # Ensure output directory exists
+    os.makedirs(args.output_dir, exist_ok=True)
+
+    # Run extraction
+    results = extract_three_methods(args.input_pdf, args.tolerance, args.x_tolerance)
+
+    # Save lines_json_by_page to <output_dir>/<basename>_lines.json
+    lines_path = os.path.join(args.output_dir, f"{base}_lines.json")
+    with open(lines_path, "w", encoding="utf-8") as f:
+        json.dump(results["lines_json_by_page"], f, indent=2, ensure_ascii=False)
+
+    # Save raw_words_by_page to <output_dir>/<basename>_words.json if requested
+    if args.save_words:
+        words_path = os.path.join(args.output_dir, f"{base}_words.json")
+        with open(words_path, "w", encoding="utf-8") as f:
+            json.dump(results["raw_words_by_page"], f, indent=2, ensure_ascii=False)
+
+    # Save comparison to <output_dir>/<basename>_compare.json if requested
+    if args.compare:
+        # Remove blank lines and normalize for comparison
+        for page_idx in range(len(results["extract_text"])):
+            text_content = [normalize_line(line) for line in results["extract_text"][page_idx]["content"] if line.strip()]
+            lines_content = [normalize_line(line) for line in results["extract_text_lines"][page_idx]["content"] if line.strip()]
+            words_content = [normalize_line(line) for line in results["extract_words_manual"][page_idx]["content"] if line.strip()]
+            methods = {
+                "text": text_content,
+                "lines": lines_content,
+                "words": words_content,
+            }
+            max_lines = max(len(methods["text"]), len(methods["lines"]), len(methods["words"]))
+            for line_idx in range(max_lines):
+                comparison_entry = {
+                    "page": page_idx + 1,
+                    "line": line_idx + 1,
+                    "methods": {},
+                }
+                for method in methods:
+                    try:
+                        content = methods[method][line_idx]
+                        comparison_entry["methods"][method] = content
+                    except IndexError:
+                        comparison_entry["methods"][method] = None
+                results["comparison"].append(comparison_entry)
+        compare_path = os.path.join(args.output_dir, f"{base}_compare.json")
+        with open(compare_path, "w", encoding="utf-8") as f:
+            json.dump(results["comparison"], f, indent=2, ensure_ascii=False)
+
+    # Restore metadata and statistics
+    metadata = {
+        "input_file": args.input_pdf,
+        "y_tolerance": args.tolerance,
+        "x_tolerance": args.x_tolerance,
+    }
+    statistics = {
         "page_count": len(results["extract_text"]),
         "avg_lines_per_page": {
             "extract_text": sum(len(p["content"]) for p in results["extract_text"]) / len(results["extract_text"]),
             "extract_text_lines": sum(len(p["content"]) for p in results["extract_text_lines"]) / len(results["extract_text_lines"]),
             "extract_words_manual": sum(len(p["content"]) for p in results["extract_words_manual"]) / len(results["extract_words_manual"]),
         },
-        "total_differences": sum(1 for entry in results["comparison"] if len(set(entry["methods"].values())) > 1),
+        "total_differences": (
+            sum(
+                1
+                for entry in results["comparison"]
+                if len(set(v for v in entry["methods"].values() if v is not None)) > 1
+            ) if "comparison" in results and results["comparison"] else None
+        ),
     }
-
-    output = {
-        "metadata": {
-            "input_file": args.input_pdf,
-            "y_tolerance": args.tolerance,
-            "x_tolerance": args.x_tolerance,
-        },
-        "statistics": stats,
-        "detailed_results": results,
-    }
-
-    json.dump(output, args.output, indent=2)
-    args.output.write("\n")
+    info_path = os.path.join(args.output_dir, f"{base}_info.json")
+    with open(info_path, "w", encoding="utf-8") as f:
+        json.dump({"metadata": metadata, "statistics": statistics}, f, indent=2, ensure_ascii=False)
 
 
 if __name__ == "__main__":
