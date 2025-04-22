@@ -2,6 +2,7 @@ import argparse
 import json
 import pdfplumber
 from typing import Dict, List
+import re
 
 
 def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int = 5, words_file: str = None) -> Dict:
@@ -191,10 +192,16 @@ def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int 
         # Generate comparison
         for page_idx in range(len(results["extract_text"])):
             page_num = page_idx + 1
+
+            # Remove blank lines and normalize spaces for each method's content
+            text_content = [normalize_line(line) for line in results["extract_text"][page_idx]["content"] if line.strip()]
+            lines_content = [normalize_line(line) for line in results["extract_text_lines"][page_idx]["content"] if line.strip()]
+            words_content = [normalize_line(line) for line in results["extract_words_manual"][page_idx]["content"] if line.strip()]
+
             methods = {
-                "text": results["extract_text"][page_idx]["content"],
-                "lines": results["extract_text_lines"][page_idx]["content"],
-                "words": results["extract_words_manual"][page_idx]["content"],
+                "text": text_content,
+                "lines": lines_content,
+                "words": words_content,
             }
 
             max_lines = max(len(methods["text"]), len(methods["lines"]), len(methods["words"]))
@@ -216,6 +223,10 @@ def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int 
                 results["comparison"].append(comparison_entry)
 
     return results
+
+
+def normalize_line(line):
+    return re.sub(r'\s+', ' ', line).strip()
 
 
 def main():
