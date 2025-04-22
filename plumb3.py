@@ -116,8 +116,9 @@ def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int 
                             }
                             text_segments.append(
                                 {
-                                    "font_size": prev.get("size"),
                                     "font": prev.get("fontname"),
+                                    "reported_size": prev.get("size"),
+                                    "rounded_size": round(float(prev.get("size", "0")) * 2) / 2,
                                     "direction": "upright" if prev.get("upright", True) else "rotated",
                                     "text": segment_text,
                                     "bbox": segment_bbox,
@@ -137,8 +138,9 @@ def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int 
                         }
                         text_segments.append(
                             {
-                                "font_size": last.get("size"),
                                 "font": last.get("fontname"),
+                                "reported_size": last.get("size"),
+                                "rounded_size": round(float(last.get("size", "0")) * 2) / 2,
                                 "direction": "upright" if last.get("upright", True) else "rotated",
                                 "text": segment_text,
                                 "bbox": segment_bbox,
