@@ -2,7 +2,7 @@ import argparse
 import json
 import os
 import re
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 def parse_page_range(page_range, max_page, exclude_pages=None):
     if not page_range:
@@ -42,8 +42,7 @@ def round_font_size(size):
     except Exception:
         return size
 
-def analyze_vertical_layout(lines, page_height):
-    # Returns a list of tuples: (unused_space, used_space, fonts, preview)
+def analyze_vertical_layout(lines, page_height, page_width):
     regions = []
     if not lines:
         return regions
@@ -52,9 +51,12 @@ def analyze_vertical_layout(lines, page_height):
     for line in sorted_lines:
         top = line["bbox"]["top"]
         bottom = line["bbox"]["bottom"]
+        x0 = line["bbox"]["x0"]
+        x1 = line["bbox"]["x1"]
+        left_indent = round(x0, 2)
+        right_indent = round(page_width - x1, 2)
         unused = round(top - prev_bottom, 2)
         used = round(bottom - top, 2)
-        # Fonts for this line, use rounded_size
         fonts = set()
         for seg in line.get("text_segments", []):
             font = seg.get("font", "")
@@ -64,6 +66,8 @@ def analyze_vertical_layout(lines, page_height):
         regions.append({
             "unused": unused,
             "used": used,
+            "left_indent": left_indent,
+            "right_indent": right_indent,
             "fonts": sorted(fonts),
             "preview": preview,
         })
@@ -73,6 +77,8 @@ def analyze_vertical_layout(lines, page_height):
     regions.append({
         "unused": unused,
         "used": None,
+        "left_indent": None,
+        "right_indent": None,
         "fonts": [],
         "preview": "",
     })
@@ -83,27 +89,27 @@ def display_vertical_layout_table(regions):
     FONT_SIZE_WIDTH = 6
     FONT_COL_WIDTH = FONT_NAME_WIDTH + FONT_SIZE_WIDTH + 1  # +1 for space
 
-    print(f"{'Line':>5} {'Unused':>8} {'Used':>8} {'Font':<{FONT_NAME_WIDTH}} {'Size':>{FONT_SIZE_WIDTH}} {'Preview'}")
+    print(f"{'Line':>5} {'Unused':>8} {'Used':>8} {'Left':>8} {'Right':>8} {'Font':<{FONT_NAME_WIDTH}} {'Size':>{FONT_SIZE_WIDTH}} {'Preview'}")
     line_num = 1
     for reg in regions:
         unused = f"{reg['unused']:.2f}" if reg['unused'] is not None else ""
         used = f"{reg['used']:.2f}" if reg['used'] is not None else ""
+        left_indent = f"{reg['left_indent']:.2f}" if reg['left_indent'] is not None else ""
+        right_indent = f"{reg['right_indent']:.2f}" if reg['right_indent'] is not None else ""
         fonts = reg['fonts']
         preview = reg['preview']
         if not fonts:
-            # For the last region (unused space after last line)
-            print(f"{'':>5} {unused:>8} {used:>8} {'':<{FONT_NAME_WIDTH}} {'':>{FONT_SIZE_WIDTH}}")
+            print(f"{'':>5} {unused:>8} {used:>8} {left_indent:>8} {right_indent:>8} {'':<{FONT_NAME_WIDTH}} {'':>{FONT_SIZE_WIDTH}}")
             continue
         for i, font in enumerate(fonts):
-            # Split font and size
             if " " in font:
                 font_name, font_size = font.rsplit(" ", 1)
             else:
                 font_name, font_size = font, ""
             if i == 0:
-                print(f"{line_num:>5} {unused:>8} {used:>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}} {preview}")
+                print(f"{line_num:>5} {unused:>8} {used:>8} {left_indent:>8} {right_indent:>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}} {preview}")
             else:
-                print(f"{'':>5} {'':>8} {'':>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}}")
+                print(f"{'':>5} {'':>8} {'':>8} {'':>8} {'':>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}}")
         line_num += 1
 
 def collect_fonts(lines):
@@ -118,6 +124,56 @@ def collect_fonts(lines):
     for font, sizes in font_counter.items():
         print(f"Font: {font}, sizes in set: {[repr(s) for s in sizes]}")
     return font_counter
+
+def round_to_quarter(val):
+    try:
+        return round(float(val) * 4) / 4
+    except Exception:
+        return val
+
+def print_spacing_table(title, counter, by_indent=None):
+    print(title)
+    if by_indent is None:
+        # Unused spacing table
+        gt1 = []
+        eq1 = []
+        for val, count in sorted(counter.items(), key=lambda x: float(x[0])):
+            if count > 1:
+                gt1.append((val, count))
+            else:
+                eq1.append(val)
+        for val, count in gt1:
+            print(f"  {val:>6} {count}")
+        if eq1:
+            eq1_sorted = ", ".join(str(v) for v in sorted(eq1, key=float))
+            print(f"  Occurred 1x: {eq1_sorted}")
+        print()
+    else:
+        # Used spacing table with indent breakdown
+        print(f"{'Line Spacing':>12} {'Indent':>10} {'Count':>8}")
+        for used_size in sorted(counter.keys(), key=float):
+            total_count = counter[used_size]
+            indents = by_indent[used_size]
+            indent_items = sorted(indents.items(), key=lambda x: float(x[0]))
+            if len(indent_items) == 1:
+                indent_val, indent_count = indent_items[0]
+                print(f"{used_size:>12} {indent_val:>10} {indent_count:>8}")
+                print()
+            else:
+                print(f"{used_size:>12} {'':>10} {total_count:>8}")
+                gt1 = []
+                eq1 = []
+                for indent_val, indent_count in indent_items:
+                    if indent_count > 1:
+                        gt1.append((indent_val, indent_count))
+                    else:
+                        eq1.append(indent_val)
+                for indent_val, indent_count in gt1:
+                    print(f"{'':>12} {indent_val:>10} {indent_count:>8}")
+                if eq1:
+                    eq1_sorted = ", ".join(str(v) for v in sorted(eq1, key=float))
+                    print(f"{'':>22} {'1x:':>10} {eq1_sorted}")
+                print()
 
 def main():
     parser = argparse.ArgumentParser(description="Analyze PDF layout from plumb3.py lines JSON")
@@ -144,6 +200,10 @@ def main():
     sorted_data = []
     filtered_data = []
 
+    doc_used_counter = Counter()
+    doc_unused_counter = Counter()
+    doc_used_by_indent = defaultdict(Counter)  # used_size -> left_indent -> count
+
     for page in data:
         page_num = page["page"]
         if page_num not in pages_to_process:
@@ -157,7 +217,7 @@ def main():
         print(f"\nPage {page_num} (width={page_width:.2f}, height={page_height:.2f})")
         margins = find_margins(lines, page_width, page_height)
         print(f"Margins: left={margins['left']:.2f}, right={margins['right']:.2f}, top={margins['top']:.2f}, bottom={margins['bottom']:.2f}")
-        regions = analyze_vertical_layout(lines, page_height)
+        regions = analyze_vertical_layout(lines, page_height, page_width)
         if args.text_view:
             for reg in regions:
                 if reg["used"] is not None:
@@ -174,6 +234,37 @@ def main():
         sorted_lines = sorted(lines, key=lambda l: l["bbox"]["top"])
         sorted_data.append({"page": page_num, "lines": sorted_lines})
         filtered_data.append({"page": page_num, "lines": sorted_lines})
+
+        # --- Collect per-page used/unused stats ---
+        page_used_counter = Counter()
+        page_unused_counter = Counter()
+        page_used_by_indent = defaultdict(Counter)
+        for reg in regions:
+            if reg["used"] is not None:
+                used_rounded = round_to_quarter(reg["used"])
+                page_used_counter[used_rounded] += 1
+                doc_used_counter[used_rounded] += 1
+            if reg["unused"] is not None:
+                unused_rounded = round_to_quarter(reg["unused"])
+                page_unused_counter[unused_rounded] += 1
+                doc_unused_counter[unused_rounded] += 1
+            if reg["used"] is not None and reg["left_indent"] is not None:
+                used_rounded = round_to_quarter(reg["used"])
+                left_indent_rounded = round(reg["left_indent"])
+                doc_used_by_indent[used_rounded][left_indent_rounded] += 1
+                page_used_by_indent[used_rounded][left_indent_rounded] += 1
+
+        # --- Print per-page stats ---
+        print()
+        print_spacing_table(
+            "  Used spacing (rounded to 0.25):",
+            page_used_counter,
+            by_indent=page_used_by_indent
+        )
+        print_spacing_table(
+            "  Unused spacing (rounded to 0.25):",
+            page_unused_counter
+        )
 
     # Save sorted and filtered JSON
     with open(os.path.join(args.output, "sorted_lines.json"), "w", encoding="utf-8") as f:
@@ -194,6 +285,16 @@ def main():
 
     # Summary
     print(f"\nSummary: {len(pages_to_process)} pages, {total_lines} lines, {len(all_fonts)} unique fonts, {total_unused:.2f} units unused vertical space.")
+
+    print_spacing_table(
+        "\nDocument-wide used spacing (rounded to 0.25):",
+        doc_used_counter,
+        by_indent=doc_used_by_indent
+    )
+    print_spacing_table(
+        "Document-wide unused spacing (rounded to 0.25):",
+        doc_unused_counter
+    )
 
 if __name__ == "__main__":
     main()
