@@ -4,6 +4,7 @@ import os
 import re
 from collections import defaultdict, Counter
 
+
 def parse_page_range(page_range, max_page, exclude_pages=None):
     if not page_range:
         pages = set(range(1, max_page + 1))
@@ -19,8 +20,10 @@ def parse_page_range(page_range, max_page, exclude_pages=None):
         pages -= set(exclude_pages)
     return sorted(pages)
 
+
 def is_line_empty(line):
     return not line.get("text", "").strip()
+
 
 def find_margins(lines, page_width, page_height):
     if not lines:
@@ -36,11 +39,13 @@ def find_margins(lines, page_width, page_height):
         "bottom": page_height - bottom,
     }
 
+
 def round_font_size(size):
     try:
         return round(float(size) * 2) / 2
     except Exception:
         return size
+
 
 def analyze_vertical_layout(lines, page_height, page_width):
     regions = []
@@ -63,26 +68,31 @@ def analyze_vertical_layout(lines, page_height, page_width):
             rounded_size = seg.get("rounded_size", "")
             fonts.add(f"{font} {rounded_size}")
         preview = line.get("text", "")[:60].replace("\n", " ")
-        regions.append({
-            "unused": unused,
-            "used": used,
-            "left_indent": left_indent,
-            "right_indent": right_indent,
-            "fonts": sorted(fonts),
-            "preview": preview,
-        })
+        regions.append(
+            {
+                "unused": unused,
+                "used": used,
+                "left_indent": left_indent,
+                "right_indent": right_indent,
+                "fonts": sorted(fonts),
+                "preview": preview,
+            }
+        )
         prev_bottom = bottom
     # Add unused space after last line
     unused = round(page_height - prev_bottom, 2)
-    regions.append({
-        "unused": unused,
-        "used": None,
-        "left_indent": None,
-        "right_indent": None,
-        "fonts": [],
-        "preview": "",
-    })
+    regions.append(
+        {
+            "unused": unused,
+            "used": None,
+            "left_indent": None,
+            "right_indent": None,
+            "fonts": [],
+            "preview": "",
+        }
+    )
     return regions
+
 
 def display_vertical_layout_table(regions):
     FONT_NAME_WIDTH = 24
@@ -92,12 +102,12 @@ def display_vertical_layout_table(regions):
     print(f"{'Line':>5} {'Unused':>8} {'Used':>8} {'Left':>8} {'Right':>8} {'Font':<{FONT_NAME_WIDTH}} {'Size':>{FONT_SIZE_WIDTH}} {'Preview'}")
     line_num = 1
     for reg in regions:
-        unused = f"{reg['unused']:.2f}" if reg['unused'] is not None else ""
-        used = f"{reg['used']:.2f}" if reg['used'] is not None else ""
-        left_indent = f"{reg['left_indent']:.2f}" if reg['left_indent'] is not None else ""
-        right_indent = f"{reg['right_indent']:.2f}" if reg['right_indent'] is not None else ""
-        fonts = reg['fonts']
-        preview = reg['preview']
+        unused = f"{reg['unused']:.2f}" if reg["unused"] is not None else ""
+        used = f"{reg['used']:.2f}" if reg["used"] is not None else ""
+        left_indent = f"{reg['left_indent']:.2f}" if reg["left_indent"] is not None else ""
+        right_indent = f"{reg['right_indent']:.2f}" if reg["right_indent"] is not None else ""
+        fonts = reg["fonts"]
+        preview = reg["preview"]
         if not fonts:
             print(f"{'':>5} {unused:>8} {used:>8} {left_indent:>8} {right_indent:>8} {'':<{FONT_NAME_WIDTH}} {'':>{FONT_SIZE_WIDTH}}")
             continue
@@ -112,6 +122,7 @@ def display_vertical_layout_table(regions):
                 print(f"{'':>5} {'':>8} {'':>8} {'':>8} {'':>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}}")
         line_num += 1
 
+
 def collect_fonts(lines):
     font_counter = defaultdict(set)
     for line in lines:
@@ -125,11 +136,13 @@ def collect_fonts(lines):
         print(f"Font: {font}, sizes in set: {[repr(s) for s in sizes]}")
     return font_counter
 
+
 def round_to_quarter(val):
     try:
         return round(float(val) * 4) / 4
     except Exception:
         return val
+
 
 def print_spacing_table(title, counter, by_indent=None):
     print(title)
@@ -175,6 +188,7 @@ def print_spacing_table(title, counter, by_indent=None):
                     print(f"{'':>22} {'1x:':>10} {eq1_sorted}")
                 print()
 
+
 def main():
     parser = argparse.ArgumentParser(description="Analyze PDF layout from plumb3.py lines JSON")
     parser.add_argument("input_json", help="Input lines JSON file")
@@ -211,9 +225,13 @@ def main():
         lines = [line for line in page["lines"] if not is_line_empty(line)]
         if not lines:
             continue
-        # Assume page size from max bbox
-        page_width = max(line["bbox"]["x1"] for line in lines)
-        page_height = max(line["bbox"]["bottom"] for line in lines)
+
+        # Always use page size from pdfplumber metadata
+        try:
+            page_width = page["width"]
+            page_height = page["height"]
+        except KeyError:
+            raise ValueError(f"Page {page_num} is missing 'width' or 'height' from pdfplumber output.")
         print(f"\nPage {page_num} (width={page_width:.2f}, height={page_height:.2f})")
         margins = find_margins(lines, page_width, page_height)
         print(f"Margins: left={margins['left']:.2f}, right={margins['right']:.2f}, top={margins['top']:.2f}, bottom={margins['bottom']:.2f}")
@@ -256,15 +274,8 @@ def main():
 
         # --- Print per-page stats ---
         print()
-        print_spacing_table(
-            "  Used spacing (rounded to 0.25):",
-            page_used_counter,
-            by_indent=page_used_by_indent
-        )
-        print_spacing_table(
-            "  Unused spacing (rounded to 0.25):",
-            page_unused_counter
-        )
+        print_spacing_table("  Used spacing (rounded to 0.25):", page_used_counter, by_indent=page_used_by_indent)
+        print_spacing_table("  Unused spacing (rounded to 0.25):", page_unused_counter)
 
     # Save sorted and filtered JSON
     with open(os.path.join(args.output, "sorted_lines.json"), "w", encoding="utf-8") as f:
@@ -286,15 +297,10 @@ def main():
     # Summary
     print(f"\nSummary: {len(pages_to_process)} pages, {total_lines} lines, {len(all_fonts)} unique fonts, {total_unused:.2f} units unused vertical space.")
 
-    print_spacing_table(
-        "\nDocument-wide used spacing (rounded to 0.25):",
-        doc_used_counter,
-        by_indent=doc_used_by_indent
-    )
-    print_spacing_table(
-        "Document-wide unused spacing (rounded to 0.25):",
-        doc_unused_counter
-    )
+    print_spacing_table("\nDocument-wide used spacing (rounded to 0.25):", doc_used_counter, by_indent=doc_used_by_indent)
+    print_spacing_table("Document-wide unused spacing (rounded to 0.25):", doc_unused_counter)
+
 
 if __name__ == "__main__":
     main()
+
