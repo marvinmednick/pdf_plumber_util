@@ -195,6 +195,8 @@ def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int 
                 results["lines_json_by_page"].append({
                     "page": page_num + 1,
                     "lines": lines_json,
+                    "page_width": page.width,
+                    "page_height": page.height
                 })
             else:
                 results["raw_words_by_page"].append({
@@ -204,6 +206,8 @@ def extract_three_methods(pdf_path: str, y_tolerance: int = 5, x_tolerance: int 
                 results["lines_json_by_page"].append({
                     "page": page_num + 1,
                     "lines": [],
+                    "page_width": page.width,
+                    "page_height": page.height
                 })
 
         # Generate comparison

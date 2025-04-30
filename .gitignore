@@ -175,3 +175,7 @@ no_sync/
 
 
 .vscode
+# Data files
+data
+extract
+output

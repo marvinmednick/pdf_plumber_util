@@ -101,26 +101,33 @@ def display_vertical_layout_table(regions):
 
     print(f"{'Line':>5} {'Unused':>8} {'Used':>8} {'Left':>8} {'Right':>8} {'Font':<{FONT_NAME_WIDTH}} {'Size':>{FONT_SIZE_WIDTH}} {'Preview'}")
     line_num = 1
-    for reg in regions:
-        unused = f"{reg['unused']:.2f}" if reg["unused"] is not None else ""
-        used = f"{reg['used']:.2f}" if reg["used"] is not None else ""
-        left_indent = f"{reg['left_indent']:.2f}" if reg["left_indent"] is not None else ""
-        right_indent = f"{reg['right_indent']:.2f}" if reg["right_indent"] is not None else ""
+    for idx, reg in enumerate(regions):
+        unused = f"{reg['unused']:.2f}" if reg["unused"] is not None else "-"
+        used = f"{reg['used']:.2f}" if reg["used"] is not None else "-"
+        left_indent = f"{reg['left_indent']:.2f}" if reg["left_indent"] is not None else "-"
+        right_indent = f"{reg['right_indent']:.2f}" if reg["right_indent"] is not None else "-"
         fonts = reg["fonts"]
         preview = reg["preview"]
-        if not fonts:
+        is_last = idx == len(regions) - 1
+
+        if not fonts and not is_last:
             print(f"{'':>5} {unused:>8} {used:>8} {left_indent:>8} {right_indent:>8} {'':<{FONT_NAME_WIDTH}} {'':>{FONT_SIZE_WIDTH}}")
             continue
-        for i, font in enumerate(fonts):
-            if " " in font:
-                font_name, font_size = font.rsplit(" ", 1)
-            else:
-                font_name, font_size = font, ""
-            if i == 0:
-                print(f"{line_num:>5} {unused:>8} {used:>8} {left_indent:>8} {right_indent:>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}} {preview}")
-            else:
-                print(f"{'':>5} {'':>8} {'':>8} {'':>8} {'':>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}}")
-        line_num += 1
+
+        if is_last:
+            # Last row: show line number, unused, and dashes for other fields
+            print(f"{line_num:>5} {unused:>8} {'-':>8} {'-':>8} {'-':>8} {'-':<{FONT_NAME_WIDTH}} {'-':>{FONT_SIZE_WIDTH}}")
+        else:
+            for i, font in enumerate(fonts):
+                if " " in font:
+                    font_name, font_size = font.rsplit(" ", 1)
+                else:
+                    font_name, font_size = font, ""
+                if i == 0:
+                    print(f"{line_num:>5} {unused:>8} {used:>8} {left_indent:>8} {right_indent:>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}} {preview}")
+                else:
+                    print(f"{'':>5} {'':>8} {'':>8} {'':>8} {'':>8} {font_name:<{FONT_NAME_WIDTH}.{FONT_NAME_WIDTH}} {font_size:>{FONT_SIZE_WIDTH}}")
+            line_num += 1
 
 
 def collect_fonts(lines):
@@ -131,9 +138,6 @@ def collect_fonts(lines):
             rounded_size = seg.get("rounded_size", "")
             rounded_size_str = f"{float(rounded_size):.1f}"
             font_counter[font].add(rounded_size_str)
-    # After all additions, print the set for each font
-    for font, sizes in font_counter.items():
-        print(f"Font: {font}, sizes in set: {[repr(s) for s in sizes]}")
     return font_counter
 
 
@@ -226,12 +230,13 @@ def main():
         if not lines:
             continue
 
-        # Always use page size from pdfplumber metadata
+        # Get page dimensions from the JSON
         try:
-            page_width = page["width"]
-            page_height = page["height"]
+            page_width = page["page_width"]
+            page_height = page["page_height"]
         except KeyError:
-            raise ValueError(f"Page {page_num} is missing 'width' or 'height' from pdfplumber output.")
+            raise ValueError(f"Page {page_num} is missing 'page_width' or 'page_height' in the JSON.")
+        
         print(f"\nPage {page_num} (width={page_width:.2f}, height={page_height:.2f})")
         margins = find_margins(lines, page_width, page_height)
         print(f"Margins: left={margins['left']:.2f}, right={margins['right']:.2f}, top={margins['top']:.2f}, bottom={margins['bottom']:.2f}")
