@@ -49,7 +49,11 @@ def add_extraction_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--spacing-sizes",
         type=str,
-        help="Comma-separated list of spacing sizes to visualize (e.g. '2.0,2.5,5.0') or range (e.g. '>2.0,<8.5')",
+        help="Comma-separated list of spacing sizes to visualize. Each item can be:\n"
+             "- A single value (e.g. '2.0')\n"
+             "- A range (e.g. '2.0-4.0')\n"
+             "- Less than or equal (e.g. '-4.0')\n"
+             "- Greater than or equal (e.g. '2.0-')",
     )
     parser.add_argument(
         "--spacing-colors",

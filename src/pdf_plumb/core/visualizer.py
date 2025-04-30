@@ -3,17 +3,9 @@
 from typing import List, Dict, Optional, Union, Tuple
 from pathlib import Path
 import re
-from reportlab.pdfgen import canvas
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.units import inch
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import Paragraph, Table, TableStyle
+import fitz  # PyMuPDF
 from ..utils.constants import ROUND_TO_NEAREST_PT
 from ..utils.helpers import round_to_nearest
-import fitz  # Add this import at the top
 import collections
 
 
@@ -38,27 +30,23 @@ class SpacingVisualizer:
     
     def __init__(self):
         """Initialize the visualizer."""
-        self.styles = getSampleStyleSheet()
-        self.styles.add(ParagraphStyle(
-            name='Legend',
-            fontName='Helvetica',
-            fontSize=10,
-            leading=12,
-        ))
+        pass
     
     def _parse_range(self, range_str: str) -> Tuple[Optional[float], Optional[float]]:
         """Parse a single range specification into min and max values."""
+        range_str = range_str.strip()
+        
         # Single value
         if re.match(r'^\d+(\.\d+)?$', range_str):
             val = float(range_str)
             return val, val
             
         # Less than or equal
-        if re.match(r'^-\d+(\.\d+)?$', range_str):
+        if re.match(r'^-(\d+(\.\d+)?)$', range_str):
             return None, float(range_str[1:])
             
         # Greater than or equal
-        if re.match(r'^\d+(\.\d+)?-$', range_str):
+        if re.match(r'^(\d+(\.\d+)?)-$', range_str):
             return float(range_str[:-1]), None
             
         # Range between two values
@@ -189,16 +177,6 @@ class SpacingVisualizer:
                     width=1.5
                 )
 
-            # Add this after your line drawing for a test
-            if spacing == 1.5 and page_num == 0:
-                page.draw_rect(
-                    rect=fitz.Rect(50, 50, 200, 100),
-                    color=(1, 0, 0),
-                    fill=(1, 0, 0),
-                    width=5
-                )
-                print("[TEST] Drew a red rectangle on page 1")
-
         # Add a legend page for each unique spacing
         self._add_legend_page(doc, unique_spacings, spacing_to_color, spacing_to_pattern, spacing_occurrences)
 
@@ -221,7 +199,16 @@ class SpacingVisualizer:
         height = doc[0].rect.height
         legend_page = doc.new_page(width=width, height=height)
 
-        legend_page.insert_text((72, 72), "Vertical Spacing Legend", fontsize=18, fontname="helv", color=(0, 0, 0))
+        # Add title
+        legend_page.insert_text(
+            (72, 72),
+            "Vertical Spacing Legend",
+            fontsize=18,
+            fontname="helv",
+            color=(0, 0, 0)
+        )
+
+        # Add column headers
         y = 110
         legend_page.insert_text((72, y), "Spacing (pt)", fontsize=12, fontname="helv", color=(0, 0, 0))
         legend_page.insert_text((180, y), "Count", fontsize=12, fontname="helv", color=(0, 0, 0))
@@ -229,22 +216,34 @@ class SpacingVisualizer:
         legend_page.insert_text((350, y), "Pattern", fontsize=12, fontname="helv", color=(0, 0, 0))
         y += 20
 
+        # Add entries for each spacing
         color_map = self._get_color_map()
         for spacing in spacings:
             color_name = spacing_to_color[spacing]
             pattern = spacing_to_pattern[spacing]
             color_rgb = color_map.get(color_name, (1, 0, 0))
             count = spacing_occurrences[spacing]
+            
+            # Add spacing value
             legend_page.insert_text((72, y), f"{spacing:.2f}", fontsize=12, fontname="helv", color=(0, 0, 0))
+            
+            # Add count
             legend_page.insert_text((180, y), str(count), fontsize=12, fontname="helv", color=(0, 0, 0))
+            
+            # Add color name
             legend_page.insert_text((250, y), color_name, fontsize=12, fontname="helv", color=color_rgb)
+            
+            # Add pattern name
             legend_page.insert_text((350, y), pattern, fontsize=12, fontname="helv", color=(0, 0, 0))
+            
+            # Draw sample line
             legend_page.draw_line(
                 p1=(420, y + 8),
                 p2=(520, y + 8),
                 color=color_rgb,
                 width=2
             )
+            
             y += 24
 
     def _get_color_map(self):
