@@ -97,6 +97,8 @@ class PDFExtractor:
 
         # Process each line
         lines_json = []
+        prev_line_bottom = None  # Track previous line's bottom for gap calculation
+
         for line_number, line in enumerate(lines, 1):
             line_sorted = sorted(line, key=lambda w: w["x0"])
             text_segments = self._create_text_segments(line_sorted)
@@ -105,12 +107,74 @@ class PDFExtractor:
             # Get the text from segments instead of joining words
             line_text = "".join(segment["text"] for segment in text_segments)
 
-            lines_json.append({
+            # Calculate predominant size and font
+            size_widths = {}  # Map of size -> total width
+            font_widths = {}  # Map of font -> total width
+            total_line_width = 0
+
+            for segment in text_segments:
+                # Get segment width
+                width = segment["bbox"]["x1"] - segment["bbox"]["x0"]
+                total_line_width += width
+
+                # Track size widths
+                size = segment.get("rounded_size", 0)
+                size_widths[size] = size_widths.get(size, 0) + width
+
+                # Track font widths
+                font = segment.get("font", "UnknownFont")
+                font_widths[font] = font_widths.get(font, 0) + width
+
+            # Find predominant size and font
+            predominant_size = max(size_widths.items(), key=lambda x: x[1])[0] if size_widths else None
+            predominant_font = max(font_widths.items(), key=lambda x: x[1])[0] if font_widths else None
+
+            # Calculate coverage percentages
+            predominant_size_coverage = (size_widths[predominant_size] / total_line_width * 100) if predominant_size and total_line_width > 0 else 0
+            predominant_font_coverage = (font_widths[predominant_font] / total_line_width * 100) if predominant_font and total_line_width > 0 else 0
+
+            # Calculate gap_before
+            gap_before = None
+            if prev_line_bottom is not None and line_bbox.get("top") is not None:
+                gap_before = line_bbox["top"] - prev_line_bottom
+                if gap_before < 0:  # Handle overlapping lines
+                    gap_before = 0
+
+            # Create line object
+            line_obj = {
                 "line_number": line_number,
                 "text": line_text,
                 "bbox": line_bbox,
                 "text_segments": text_segments,
-            })
+                "predominant_size": predominant_size,
+                "predominant_font": predominant_font,
+                "predominant_size_coverage": round(predominant_size_coverage, 1),  # Round to 1 decimal place
+                "predominant_font_coverage": round(predominant_font_coverage, 1),  # Round to 1 decimal place
+                "gap_before": gap_before,
+            }
+            lines_json.append(line_obj)
+
+            # Update prev_line_bottom for next iteration
+            if line_bbox.get("bottom") is not None:
+                prev_line_bottom = line_bbox["bottom"]
+
+        # Calculate gap_after in a second pass
+        for i in range(len(lines_json) - 1):
+            current_line = lines_json[i]
+            next_line = lines_json[i + 1]
+            
+            if (current_line["bbox"].get("bottom") is not None and 
+                next_line["bbox"].get("top") is not None):
+                gap_after = next_line["bbox"]["top"] - current_line["bbox"]["bottom"]
+                if gap_after < 0:  # Handle overlapping lines
+                    gap_after = 0
+                current_line["gap_after"] = gap_after
+            else:
+                current_line["gap_after"] = None
+
+        # Set gap_after for last line
+        if lines_json:
+            lines_json[-1]["gap_after"] = None
 
         return {
             "page": page_num,
