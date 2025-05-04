@@ -2,7 +2,7 @@
 
 import json
 from collections import Counter
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Any
 from ..utils.constants import (
     POINTS_PER_INCH,
     DEFAULT_PAGE_HEIGHT,
@@ -13,6 +13,23 @@ from ..utils.constants import (
     ROUND_TO_NEAREST_PT,
 )
 from ..utils.helpers import round_to_nearest
+
+
+# New constants for contextual analysis
+LINE_SPACING_TOLERANCE = 0.3
+PARA_SPACING_TOLERANCE = 0.75
+SECTION_SPACING_TOLERANCE = 2.0
+
+# Spacing classification types
+SPACING_TYPES = {
+    'TIGHT': 'Tight',
+    'LINE': 'Line',
+    'PARA1': 'Paragraph1',
+    'PARA2': 'Paragraph2',
+    'SECTION': 'Section',
+    'WIDE': 'Wide',
+    'OTHER': 'Other'
+}
 
 
 class DocumentAnalyzer:
@@ -115,6 +132,10 @@ class DocumentAnalyzer:
                 "overall_estimated_height": max_page_bottom or DEFAULT_PAGE_HEIGHT,
                 "header_candidates": {},
                 "footer_candidates": {},
+                "contextual_gaps": {},
+                "contextual_spacing_rules": {},
+                "contextual_header_candidates": {},
+                "contextual_footer_candidates": {},
             }
         else:
             font_counts = Counter(all_fonts)
@@ -142,18 +163,40 @@ class DocumentAnalyzer:
                 "overall_estimated_height": max_page_bottom or DEFAULT_PAGE_HEIGHT,
                 "header_candidates": {},
                 "footer_candidates": {},
+                "contextual_gaps": {},
+                "contextual_spacing_rules": {},
+                "contextual_header_candidates": {},
+                "contextual_footer_candidates": {},
             }
 
         # Second pass: Identify header/footer candidates
         all_header_candidates = []
         all_footer_candidates = []
+        all_contextual_header_candidates = []
+        all_contextual_footer_candidates = []
         page_height_to_use = analysis_results["overall_estimated_height"]
 
         print(f"\nUsing estimated page height: {page_height_to_use:.2f} points ({page_height_to_use / POINTS_PER_INCH:.2f} inches)")
 
+        # Collect contextual gaps across all pages
+        all_lines = []
+        for page_info in analysis_results["page_details"]:
+            all_lines.extend(page_info["lines"])
+        
+        # Perform contextual analysis
+        contextual_gaps = self._collect_contextual_gaps(all_lines)
+        spacing_rules_by_context = self._analyze_contextual_spacing(contextual_gaps)
+        
+        # Store contextual analysis results
+        analysis_results["contextual_gaps"] = contextual_gaps
+        analysis_results["contextual_spacing_rules"] = spacing_rules_by_context
+
+        # Process each page
         for page_info in analysis_results["page_details"]:
             page_num = page_info["page_num"]
             print(f"  Processing Page {page_num} (Pass 2 - Header/Footer).")
+            
+            # Original method
             header_cand, footer_cand = self._identify_header_footer_candidates(
                 page_info["lines"],
                 page_height_to_use,
@@ -163,12 +206,27 @@ class DocumentAnalyzer:
                 all_header_candidates.append(header_cand)
             if footer_cand is not None:
                 all_footer_candidates.append(footer_cand)
+            
+            # Contextual method
+            contextual_header_cand, contextual_footer_cand = self._identify_header_footer_contextual(
+                page_info["lines"],
+                page_height_to_use,
+                spacing_rules_by_context
+            )
+            if contextual_header_cand is not None:
+                all_contextual_header_candidates.append(contextual_header_cand)
+            if contextual_footer_cand is not None:
+                all_contextual_footer_candidates.append(contextual_footer_cand)
 
         # Aggregate header/footer candidates
         if all_header_candidates:
             analysis_results["header_candidates"] = Counter(all_header_candidates)
         if all_footer_candidates:
             analysis_results["footer_candidates"] = Counter(all_footer_candidates)
+        if all_contextual_header_candidates:
+            analysis_results["contextual_header_candidates"] = Counter(all_contextual_header_candidates)
+        if all_contextual_footer_candidates:
+            analysis_results["contextual_footer_candidates"] = Counter(all_contextual_footer_candidates)
 
         # Add final determined boundaries
         analysis_results["final_header_bottom"] = (
@@ -179,6 +237,18 @@ class DocumentAnalyzer:
         analysis_results["final_footer_top"] = (
             analysis_results["footer_candidates"].most_common(1)[0][0]
             if analysis_results.get("footer_candidates")
+            else page_height_to_use
+        )
+        
+        # Add contextual boundaries
+        analysis_results["contextual_final_header_bottom"] = (
+            analysis_results["contextual_header_candidates"].most_common(1)[0][0]
+            if analysis_results.get("contextual_header_candidates")
+            else 0.0
+        )
+        analysis_results["contextual_final_footer_top"] = (
+            analysis_results["contextual_footer_candidates"].most_common(1)[0][0]
+            if analysis_results.get("contextual_footer_candidates")
             else page_height_to_use
         )
 
@@ -320,77 +390,67 @@ class DocumentAnalyzer:
         return candidate_header_bottom_y, candidate_footer_top_y
 
     def print_analysis(self, results: Dict, output_file: Optional[str] = None, show_output: bool = False) -> None:
-        """Print analysis results in a readable format.
+        """Print analysis results in a readable format."""
+        output = []
         
-        Args:
-            results: The analysis results dictionary
-            output_file: Optional path to save the analysis output. If None, prints to stdout.
-            show_output: Whether to show the output on stdout in addition to saving to file.
-        """
-        if not results:
-            return
-
-        # Create a list to store all output lines
-        output_lines = []
-
-        output_lines.append("\n--- Analysis Results ---")
+        output.append("\n--- Analysis Results ---")
 
         # Font analysis
-        output_lines.append("\nFont Usage Analysis:")
+        output.append("\nFont Usage Analysis:")
         likely_body_font = "N/A"
         if results["font_counts"]:
             sorted_fonts = sorted(results["font_counts"].items(), key=lambda item: item[1], reverse=True)
-            output_lines.append("  Distribution:")
+            output.append("  Distribution:")
             for font, count in sorted_fonts:
-                output_lines.append(f"    - {font}: {count} lines")
+                output.append(f"    - {font}: {count} lines")
             if results["most_common_font"]:
                 likely_body_font = results["most_common_font"][0]
-                output_lines.append(f"\n  Conclusion: Likely body text font is '{likely_body_font}' ({results['most_common_font'][1]} lines).")
+                output.append(f"\n  Conclusion: Likely body text font is '{likely_body_font}' ({results['most_common_font'][1]} lines).")
             else:
-                output_lines.append("\n  Conclusion: Could not determine a dominant font.")
+                output.append("\n  Conclusion: Could not determine a dominant font.")
         else:
-            output_lines.append("  No font data found.")
+            output.append("  No font data found.")
 
         # Size analysis
-        output_lines.append(f"\nFont Size Analysis (Rounded to nearest {ROUND_TO_NEAREST_PT}pt):")
+        output.append(f"\nFont Size Analysis (Rounded to nearest {ROUND_TO_NEAREST_PT}pt):")
         likely_body_size = "N/A"
         if results["size_counts"]:
             sorted_sizes = sorted(results["size_counts"].items(), key=lambda item: item[0])
-            output_lines.append("  Distribution:")
+            output.append("  Distribution:")
             for size, count in sorted_sizes:
                 rounded_size = round_to_nearest(size, ROUND_TO_NEAREST_PT)
-                output_lines.append(f"    - {rounded_size:.2f} pt: {count} lines")
+                output.append(f"    - {rounded_size:.2f} pt: {count} lines")
             if results["most_common_size"]:
                 likely_body_size_val = round_to_nearest(results['most_common_size'][0], ROUND_TO_NEAREST_PT)
                 likely_body_size = f"{likely_body_size_val:.2f} pt"
-                output_lines.append(f"\n  Conclusion: Likely body text size is {likely_body_size} ({results['most_common_size'][1]} lines).")
+                output.append(f"\n  Conclusion: Likely body text size is {likely_body_size} ({results['most_common_size'][1]} lines).")
             else:
-                output_lines.append("\n  Conclusion: Could not determine a dominant font size.")
+                output.append("\n  Conclusion: Could not determine a dominant font size.")
         else:
-            output_lines.append("  No font size data found.")
+            output.append("  No font size data found.")
 
         # Spacing analysis
-        output_lines.append(f"\nVertical Line Spacing Analysis (Gap between lines, rounded to {ROUND_TO_NEAREST_PT}pt):")
+        output.append(f"\nVertical Line Spacing Analysis (Gap between lines, rounded to {ROUND_TO_NEAREST_PT}pt):")
         likely_line_spacing = "N/A"
         likely_para_spacing = "N/A"
         potential_para_gaps_found = []
         if results["spacing_counts"]:
             spacing_counts = Counter(results["spacing_counts"])
-            output_lines.append("  Spacing Distribution (Top 10 most frequent):")
+            output.append("  Spacing Distribution (Top 10 most frequent):")
             limit = 10
             count = 0
             for spacing, num in spacing_counts.most_common():
                 rounded_spacing = round_to_nearest(spacing, ROUND_TO_NEAREST_PT)
                 if count < limit or len(spacing_counts) <= limit:
-                    output_lines.append(f"    - {rounded_spacing:.2f} pt gap: {num} occurrences")
+                    output.append(f"    - {rounded_spacing:.2f} pt gap: {num} occurrences")
                 elif count == limit:
-                    output_lines.append("    ...")
+                    output.append("    ...")
                 count += 1
 
             if results["most_common_spacing"]:
                 common_spacing_val = round_to_nearest(results["most_common_spacing"][0], ROUND_TO_NEAREST_PT)
                 likely_line_spacing = f"{common_spacing_val:.2f} pt"
-                output_lines.append(f"\n  Conclusion: Likely standard line spacing (within paragraphs) is {likely_line_spacing} ({results['most_common_spacing'][1]} occurrences).")
+                output.append(f"\n  Conclusion: Likely standard line spacing (within paragraphs) is {likely_line_spacing} ({results['most_common_spacing'][1]} occurrences).")
 
                 para_gap_multiplier = 1.3
                 potential_para_gaps = {
@@ -406,82 +466,384 @@ class DocumentAnalyzer:
                         f"{round_to_nearest(g, ROUND_TO_NEAREST_PT):.2f} pt ({n} times)"
                         for g, n in sorted_para_gaps[:3]
                     ]
-                    output_lines.append(f"  Conclusion: Likely paragraph spacing is around {likely_para_spacing} (found {sorted_para_gaps[0][1]} times).")
-                    output_lines.append(f"              Other potential paragraph/section gaps: {', '.join(potential_para_gaps_found[1:])}")
+                    output.append(f"  Conclusion: Likely paragraph spacing is around {likely_para_spacing} (found {sorted_para_gaps[0][1]} times).")
+                    output.append(f"              Other potential paragraph/section gaps: {', '.join(potential_para_gaps_found[1:])}")
                 else:
-                    output_lines.append("  Conclusion: Could not clearly distinguish paragraph spacing from line spacing or larger section breaks.")
+                    output.append("  Conclusion: Could not clearly distinguish paragraph spacing from line spacing or larger section breaks.")
             else:
-                output_lines.append("\n  Conclusion: Could not determine a dominant line spacing.")
+                output.append("\n  Conclusion: Could not determine a dominant line spacing.")
         else:
-            output_lines.append("  No spacing data found.")
+            output.append("  No spacing data found.")
 
-        # Header/Footer analysis
-        output_lines.append("\nHeader Analysis:")
+        # Contextual spacing rules
+        output.append("\nContextual Spacing Rules:")
+        if results["contextual_spacing_rules"]:
+            for context_size, rules in results["contextual_spacing_rules"].items():
+                output.append(f"\n  For text size {context_size}pt:")
+                if "most_common_gap" in rules:
+                    output.append(f"    Base spacing: {rules['most_common_gap']:.1f}pt")
+                if "line_spacing_range" in rules:
+                    output.append(f"    Line spacing range: {rules['line_spacing_range'][0]:.1f}pt - {rules['line_spacing_range'][1]:.1f}pt")
+                if "para_spacing_range" in rules:
+                    output.append(f"    Paragraph spacing range: {rules['para_spacing_range'][0]:.1f}pt - {rules['para_spacing_range'][1]:.1f}pt")
+                if "section_spacing_range" in rules:
+                    output.append(f"    Section spacing range: {rules['section_spacing_range'][0]:.1f}pt - {rules['section_spacing_range'][1]:.1f}pt")
+        else:
+            output.append("  No contextual spacing rules found.")
+
+        # Header analysis
+        output.append("\nHeader Analysis:")
         header_bottom_y = round_to_nearest(results.get("final_header_bottom", 0.0), ROUND_TO_NEAREST_PT)
         header_bottom_in = header_bottom_y / POINTS_PER_INCH
-        output_lines.append(f"  Conclusion: Determined Header Bottom Boundary at Y = {header_bottom_y:.2f} pt ({header_bottom_in:.2f} inches from top).")
+        output.append(f"  Traditional method:")
+        output.append(f"    Conclusion: Determined Header Bottom Boundary at Y = {header_bottom_y:.2f} pt ({header_bottom_in:.2f} inches from top).")
         if results.get("header_candidates"):
             header_counter = Counter(results["header_candidates"])
             if header_counter:
-                output_lines.append("  Supporting Evidence (Candidate Y coords and page counts, Top 5):")
+                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 5):")
                 limit = 5
                 count = 0
                 for y_coord, num in header_counter.most_common():
                     rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
                     if count < limit or len(header_counter) <= limit:
-                        output_lines.append(f"    - {rounded_y:.2f} pt : {num} pages")
+                        output.append(f"      - {rounded_y:.2f} pt : {num} pages")
                     elif count == limit:
-                        output_lines.append("    ...")
+                        output.append("      ...")
                     count += 1
             else:
-                output_lines.append("  No consistent header candidates found across pages.")
+                output.append("    No consistent header candidates found across pages.")
         else:
-            output_lines.append("  No header candidates identified during processing.")
+            output.append("    No header candidates identified during processing.")
 
-        output_lines.append("\nFooter Analysis:")
+        # Contextual header analysis
+        contextual_header_bottom_y = round_to_nearest(results.get("contextual_final_header_bottom", 0.0), ROUND_TO_NEAREST_PT)
+        contextual_header_bottom_in = contextual_header_bottom_y / POINTS_PER_INCH
+        output.append(f"  Contextual method:")
+        output.append(f"    Conclusion: Determined Header Bottom Boundary at Y = {contextual_header_bottom_y:.2f} pt ({contextual_header_bottom_in:.2f} inches from top).")
+        if results.get("contextual_header_candidates"):
+            contextual_header_counter = Counter(results["contextual_header_candidates"])
+            if contextual_header_counter:
+                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 5):")
+                limit = 5
+                count = 0
+                for y_coord, num in contextual_header_counter.most_common():
+                    rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
+                    if count < limit or len(contextual_header_counter) <= limit:
+                        output.append(f"      - {rounded_y:.2f} pt : {num} pages")
+                    elif count == limit:
+                        output.append("      ...")
+                    count += 1
+            else:
+                output.append("    No consistent header candidates found across pages.")
+        else:
+            output.append("    No header candidates identified during processing.")
+
+        # Footer analysis
+        output.append("\nFooter Analysis:")
         page_height = results.get("overall_estimated_height", DEFAULT_PAGE_HEIGHT)
         footer_top_y = round_to_nearest(results.get("final_footer_top", page_height), ROUND_TO_NEAREST_PT)
         footer_top_in = footer_top_y / POINTS_PER_INCH
         footer_size_in = (page_height - footer_top_y) / POINTS_PER_INCH
-        output_lines.append(f"  Conclusion: Determined Footer Top Boundary at Y = {footer_top_y:.2f} pt ({footer_top_in:.2f} inches from top).")
-        output_lines.append(f"              (Implies footer region starts {footer_size_in:.2f} inches from bottom edge)")
-
+        output.append(f"  Traditional method:")
+        output.append(f"    Conclusion: Determined Footer Top Boundary at Y = {footer_top_y:.2f} pt ({footer_top_in:.2f} inches from top).")
+        output.append(f"                (Implies footer region starts {footer_size_in:.2f} inches from bottom edge)")
         if results.get("footer_candidates"):
             footer_counter = Counter(results["footer_candidates"])
             if footer_counter:
-                output_lines.append("  Supporting Evidence (Candidate Y coords and page counts, Top 5):")
+                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 5):")
                 limit = 5
                 count = 0
                 for y_coord, num in footer_counter.most_common():
                     rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
                     if count < limit or len(footer_counter) <= limit:
-                        output_lines.append(f"    - {rounded_y:.2f} pt : {num} pages")
+                        output.append(f"      - {rounded_y:.2f} pt : {num} pages")
                     elif count == limit:
-                        output_lines.append("    ...")
+                        output.append("      ...")
                     count += 1
             else:
-                output_lines.append("  No consistent footer candidates found across pages.")
+                output.append("    No consistent footer candidates found across pages.")
         else:
-            output_lines.append("  No footer candidates identified during processing.")
+            output.append("    No footer candidates identified during processing.")
 
-        output_lines.append("\n--- Summary of Key Document Characteristics ---")
-        output_lines.append(f"  Likely Body Font:   {likely_body_font}")
-        output_lines.append(f"  Likely Body Size:   {likely_body_size}")
-        output_lines.append(f"  Likely Line Spacing: {likely_line_spacing}")
-        output_lines.append(f"  Likely Para Spacing: {likely_para_spacing}")
-        output_lines.append(f"  Est. Header Bottom: {header_bottom_y:.2f} pt ({header_bottom_in:.2f} in)")
-        output_lines.append(f"  Est. Footer Top:    {footer_top_y:.2f} pt ({footer_top_in:.2f} in)")
-        output_lines.append("---------------------------------------------")
+        # Contextual footer analysis
+        contextual_footer_top_y = round_to_nearest(results.get("contextual_final_footer_top", page_height), ROUND_TO_NEAREST_PT)
+        contextual_footer_top_in = contextual_footer_top_y / POINTS_PER_INCH
+        contextual_footer_size_in = (page_height - contextual_footer_top_y) / POINTS_PER_INCH
+        output.append(f"  Contextual method:")
+        output.append(f"    Conclusion: Determined Footer Top Boundary at Y = {contextual_footer_top_y:.2f} pt ({contextual_footer_top_in:.2f} inches from top).")
+        output.append(f"                (Implies footer region starts {contextual_footer_size_in:.2f} inches from bottom edge)")
+        if results.get("contextual_footer_candidates"):
+            contextual_footer_counter = Counter(results["contextual_footer_candidates"])
+            if contextual_footer_counter:
+                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 5):")
+                limit = 5
+                count = 0
+                for y_coord, num in contextual_footer_counter.most_common():
+                    rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
+                    if count < limit or len(contextual_footer_counter) <= limit:
+                        output.append(f"      - {rounded_y:.2f} pt : {num} pages")
+                    elif count == limit:
+                        output.append("      ...")
+                    count += 1
+            else:
+                output.append("    No consistent footer candidates found across pages.")
+        else:
+            output.append("    No footer candidates identified during processing.")
 
-        # Join all lines with newlines
-        output_text = "\n".join(output_lines)
+        output.append("\n--- Summary of Key Document Characteristics ---")
+        output.append(f"  Likely Body Font:   {likely_body_font}")
+        output.append(f"  Likely Body Size:   {likely_body_size}")
+        output.append(f"  Likely Line Spacing: {likely_line_spacing}")
+        output.append(f"  Likely Para Spacing: {likely_para_spacing}")
+        output.append(f"  Est. Header Bottom: {header_bottom_y:.2f} pt ({header_bottom_in:.2f} in)")
+        output.append(f"  Est. Footer Top:    {footer_top_y:.2f} pt ({footer_top_in:.2f} in)")
+        output.append("---------------------------------------------")
 
-        # Write to file if specified
-        if output_file:
-            from ..utils.helpers import save_text
-            save_text(output_text, output_file)
+        # Join all output lines
+        output_text = "\n".join(output)
+
+        # Always save to file
+        try:
+            with open(output_file, "w", encoding="utf-8") as f:
+                f.write(output_text)
             print(f"Analysis results saved to {output_file}")
+        except Exception as e:
+            print(f"Error saving analysis results to file: {e}")
+            return
 
-        # Show output on stdout if requested or if no output file specified
-        if show_output or not output_file:
-            print(output_text) 
+        # Optionally show on stdout
+        if show_output:
+            print("\nAnalysis Results:")
+            print(output_text)
+
+    def _collect_contextual_gaps(self, lines: List[Dict]) -> Dict[float, List[float]]:
+        """Collect gaps between lines with the same predominant size.
+        
+        Args:
+            lines: List of enriched line objects
+            
+        Returns:
+            Dictionary mapping context sizes to lists of gaps
+        """
+        gaps_by_context = {}
+        
+        for i in range(1, len(lines)):
+            current_line = lines[i]
+            previous_line = lines[i-1]
+            
+            # Only consider gaps between lines with the same predominant size
+            if (current_line.get('predominant_size') == previous_line.get('predominant_size') and
+                current_line.get('predominant_size') is not None):
+                
+                context_size = current_line['predominant_size']
+                gap = current_line.get('gap_before')
+                
+                if gap is not None and gap > 0.01:
+                    gaps_by_context.setdefault(context_size, []).append(round(gap, 1))
+        
+        return gaps_by_context
+
+    def _analyze_contextual_spacing(self, gaps_by_context: Dict[float, List[float]]) -> Dict[float, Dict[str, Any]]:
+        """Analyze spacing patterns for each context size.
+        
+        Args:
+            gaps_by_context: Dictionary mapping context sizes to lists of gaps
+            
+        Returns:
+            Dictionary mapping context sizes to their spacing rules
+        """
+        spacing_rules_by_context = {}
+        
+        for context_size, gap_list in gaps_by_context.items():
+            if not gap_list:
+                continue
+                
+            # Get frequency distribution of gaps
+            gap_counts = Counter(gap_list)
+            most_common_gap = gap_counts.most_common(1)[0][0]
+            
+            # Define ranges based on the most common gap
+            line_spacing_range = (
+                most_common_gap * (1 - LINE_SPACING_TOLERANCE),
+                most_common_gap * (1 + LINE_SPACING_TOLERANCE)
+            )
+            
+            para_spacing_range = (
+                most_common_gap * (1 + PARA_SPACING_TOLERANCE),
+                most_common_gap * (1 + SECTION_SPACING_TOLERANCE)
+            )
+            
+            section_spacing_range = (
+                most_common_gap * (1 + SECTION_SPACING_TOLERANCE),
+                float('inf')
+            )
+            
+            # Store rules for this context
+            spacing_rules_by_context[context_size] = {
+                'line_spacing_range': line_spacing_range,
+                'para_spacing_range': para_spacing_range,
+                'section_spacing_range': section_spacing_range,
+                'most_common_gap': most_common_gap,
+                'gap_distribution': dict(gap_counts)
+            }
+        
+        return spacing_rules_by_context
+
+    def _classify_gap_contextual(
+        self, 
+        gap: float, 
+        context_size: float, 
+        spacing_rules_by_context: Dict[float, Dict[str, Any]]
+    ) -> str:
+        """Classify a gap based on contextual rules.
+        
+        Args:
+            gap: The gap to classify
+            context_size: The predominant size of the line
+            spacing_rules_by_context: Dictionary of spacing rules by context
+            
+        Returns:
+            String classification of the gap
+        """
+        if context_size not in spacing_rules_by_context:
+            return SPACING_TYPES['OTHER']
+            
+        rules = spacing_rules_by_context[context_size]
+        
+        # Check if gap falls within any defined range
+        if gap <= rules['line_spacing_range'][1]:
+            return SPACING_TYPES['LINE']
+        elif gap <= rules['para_spacing_range'][1]:
+            return SPACING_TYPES['PARA1']
+        elif gap <= rules['section_spacing_range'][1]:
+            return SPACING_TYPES['SECTION']
+        else:
+            return SPACING_TYPES['WIDE']
+
+    def _identify_header_footer_contextual(
+        self,
+        page_lines: List[Dict],
+        page_height: float,
+        spacing_rules_by_context: Dict[float, Dict[str, Any]]
+    ) -> Tuple[Optional[float], Optional[float]]:
+        """Identify header and footer boundaries using contextual analysis.
+        
+        Args:
+            page_lines: List of enriched line objects for the page
+            page_height: Height of the page in points
+            spacing_rules_by_context: Dictionary of spacing rules by context
+            
+        Returns:
+            Tuple of (header_bottom_y, footer_top_y)
+        """
+        if not page_lines:
+            return 0, page_height
+
+        # Define zones
+        header_max_y = HEADER_ZONE_INCHES * POINTS_PER_INCH
+        footer_min_y = page_height - (FOOTER_ZONE_INCHES * POINTS_PER_INCH)
+
+        # Header identification
+        candidate_header_bottom_y = 0
+        header_block_lines = []
+        last_line_in_header_zone_bottom = 0
+
+        for i, current_line in enumerate(page_lines):
+            line_top = current_line.get("bbox", {}).get("top")
+            line_bottom = current_line.get("bbox", {}).get("bottom")
+
+            if line_top is None or line_bottom is None:
+                continue
+
+            if i == 0 and line_top >= header_max_y:
+                candidate_header_bottom_y = 0
+                break
+
+            if line_top < header_max_y:
+                last_line_in_header_zone_bottom = max(last_line_in_header_zone_bottom, line_bottom)
+
+            if line_top < header_max_y:
+                header_block_lines.append(current_line)
+                current_block_bottom = line_bottom
+
+                if i + 1 < len(page_lines):
+                    next_line = page_lines[i + 1]
+                    gap = current_line.get('gap_after')
+                    
+                    if gap is not None:
+                        # Use contextual classification
+                        gap_type = self._classify_gap_contextual(
+                            gap,
+                            current_line.get('predominant_size', 0),
+                            spacing_rules_by_context
+                        )
+                        
+                        if gap_type in [SPACING_TYPES['SECTION'], SPACING_TYPES['WIDE']]:
+                            candidate_header_bottom_y = current_block_bottom
+                            break
+                else:
+                    candidate_header_bottom_y = current_block_bottom
+                    break
+            else:
+                if not header_block_lines:
+                    candidate_header_bottom_y = 0
+                elif candidate_header_bottom_y == 0:
+                    candidate_header_bottom_y = last_line_in_header_zone_bottom
+                break
+
+        # Footer identification
+        candidate_footer_top_y = page_height
+        footer_block_lines = []
+        first_line_in_footer_zone_top = page_height
+
+        for i in range(len(page_lines) - 1, -1, -1):
+            current_line = page_lines[i]
+            line_top = current_line.get("bbox", {}).get("top")
+            line_bottom = current_line.get("bbox", {}).get("bottom")
+
+            if line_top is None or line_bottom is None:
+                continue
+
+            if i == len(page_lines) - 1 and line_bottom <= footer_min_y:
+                candidate_footer_top_y = page_height
+                break
+
+            if line_bottom > footer_min_y:
+                first_line_in_footer_zone_top = min(first_line_in_footer_zone_top, line_top)
+
+            if line_bottom > footer_min_y:
+                footer_block_lines.append(current_line)
+                current_block_top = line_top
+
+                if i - 1 >= 0:
+                    prev_line = page_lines[i - 1]
+                    gap = current_line.get('gap_before')
+                    
+                    if gap is not None:
+                        # Use contextual classification
+                        gap_type = self._classify_gap_contextual(
+                            gap,
+                            current_line.get('predominant_size', 0),
+                            spacing_rules_by_context
+                        )
+                        
+                        if gap_type in [SPACING_TYPES['SECTION'], SPACING_TYPES['WIDE']]:
+                            candidate_footer_top_y = current_block_top
+                            break
+                else:
+                    candidate_footer_top_y = current_block_top
+                    break
+            else:
+                if not footer_block_lines:
+                    candidate_footer_top_y = page_height
+                elif candidate_footer_top_y == page_height:
+                    candidate_footer_top_y = first_line_in_footer_zone_top
+                break
+
+        # Round results
+        if candidate_header_bottom_y is not None:
+            candidate_header_bottom_y = round_to_nearest(candidate_header_bottom_y, ROUND_TO_NEAREST_PT)
+        if candidate_footer_top_y is not None:
+            candidate_footer_top_y = round_to_nearest(candidate_footer_top_y, ROUND_TO_NEAREST_PT)
+
+        return candidate_header_bottom_y, candidate_footer_top_y 
