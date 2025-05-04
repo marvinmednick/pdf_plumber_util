@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 import fitz  # PyMuPDF
 from ..utils.constants import ROUND_TO_NEAREST_PT
-from ..utils.helpers import round_to_nearest
+from ..utils.helpers import round_to_nearest, save_text
 import collections
 
 
@@ -108,7 +108,7 @@ class SpacingVisualizer:
         lines_data: List[Dict]
     ) -> None:
         """Create a visualization PDF with spacing lines using PyMuPDF, and add a legend page."""
-        print(f"[DEBUG] ROUND_TO_NEAREST_PT: {ROUND_TO_NEAREST_PT}")
+        # print(f"[DEBUG] ROUND_TO_NEAREST_PT: {ROUND_TO_NEAREST_PT}")
         doc = fitz.open(input_pdf)
         color_map = self._get_color_map()
 
@@ -117,14 +117,14 @@ class SpacingVisualizer:
         spacing_lines = collections.defaultdict(list)  # spacing_value: list of (page_num, y)
 
         for page_data in lines_data:
-            print(f"[DEBUG] Page {page_data['page']} has {len(page_data['lines'])} lines")
+            # print(f"[DEBUG] Page {page_data['page']} has {len(page_data['lines'])} lines")
             page_num = page_data['page'] - 1
             lines = page_data['lines']
-            if lines:
-                print(f"[DEBUG] First line keys: {list(lines[0].keys())}")
-                if page_num == 0:
-                    for i, line in enumerate(lines):
-                        print(f"[DEBUG] Line {i} keys: {list(line.keys())}")
+            # if lines:
+                # print(f"[DEBUG] First line keys: {list(lines[0].keys())}")
+                # if page_num == 0:
+                    #for i, line in enumerate(lines):
+                        # print(f"[DEBUG] Line {i} keys: {list(line.keys())}")
             
             # Find the last non-blank line's bottom position
             prev_bottom = None
@@ -146,11 +146,11 @@ class SpacingVisualizer:
                     raw_spacing = top - prev_bottom
                     if raw_spacing > 0:
                         spacing = round_to_nearest(raw_spacing, ROUND_TO_NEAREST_PT)
-                        print(f"[DEBUG] raw spacing: {raw_spacing}, rounded spacing: {spacing}, top: {top}")
+                        # print(f"[DEBUG] raw spacing: {raw_spacing}, rounded spacing: {spacing}, top: {top}")
                         for i, range_spec in enumerate(spacing_ranges):
-                            print(f"[DEBUG] comparing {spacing} to {range_spec}")
+                            # print(f"[DEBUG] comparing {spacing} to {range_spec}")
                             if self.matches_range(spacing, range_spec):
-                                print(f"[DEBUG] MATCHED: {spacing} in {range_spec}")
+                                # print(f"[DEBUG] MATCHED: {spacing} in {range_spec}")
                                 spacing_occurrences[spacing] += 1
                                 spacing_lines[spacing].append((page_num, top))
                                 break
@@ -167,16 +167,16 @@ class SpacingVisualizer:
         # Draw lines for each spacing occurrence
         for spacing, occurrences in spacing_lines.items():
             color = color_map.get(spacing_to_color[spacing], (1, 0, 0))
-            print(f"[TRACE] Drawing {len(occurrences)} lines for spacing {spacing} on pages {[p for p, _ in occurrences]}")
+            # print(f"[TRACE] Drawing {len(occurrences)} lines for spacing {spacing} on pages {[p for p, _ in occurrences]}")
             for page_num, top in occurrences:
                 page = doc[page_num]
                 y_draw = top
-                print(
-                    f"[TRACE] Drawing line: page={page_num+1}, "
-                    f"pdfplumber_top={top:.2f}, y_draw={y_draw:.2f}, "
-                    f"spacing={spacing:.2f}, color={spacing_to_color[spacing]}, "
-                    f"page_height={page.rect.height:.2f}"
-                )
+                # print(
+                #     f"[TRACE] Drawing line: page={page_num+1}, "
+                #     f"pdfplumber_top={top:.2f}, y_draw={y_draw:.2f}, "
+                #     f"spacing={spacing:.2f}, color={spacing_to_color[spacing]}, "
+                #     f"page_height={page.rect.height:.2f}"
+                # )
                 if not (0 <= y_draw <= page.rect.height):
                     print(f"[WARNING] y_draw {y_draw} is out of bounds for page height {page.rect.height}")
                 page.draw_line(
@@ -282,4 +282,4 @@ class SpacingVisualizer:
             'chocolate': (0.82, 0.41, 0.12),
             'hotpink': (1, 0.41, 0.71),
             'slategray': (0.44, 0.5, 0.56),
-        } 
+        }

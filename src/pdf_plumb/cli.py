@@ -94,6 +94,16 @@ def parse_args():
         type=str,
         help="Path to the lines JSON file to analyze",
     )
+    analyze_parser.add_argument(
+        "-f", "--output-file",
+        type=str,
+        help="Path to save the analysis output (default: <basename>_analysis.txt in output directory)",
+    )
+    analyze_parser.add_argument(
+        "--show-output",
+        action="store_true",
+        help="Show analysis output on stdout in addition to saving to file",
+    )
 
     # Process command (extract + analyze)
     process_parser = subparsers.add_parser(
@@ -102,6 +112,16 @@ def parse_args():
         description="Extract text from PDF and analyze the results in one step.",
     )
     add_extraction_args(process_parser)
+    process_parser.add_argument(
+        "-f", "--output-file",
+        type=str,
+        help="Path to save the analysis output (default: <basename>_analysis.txt in output directory)",
+    )
+    process_parser.add_argument(
+        "--show-output",
+        action="store_true",
+        help="Show analysis output on stdout in addition to saving to file",
+    )
 
     return parser.parse_args()
 
@@ -171,7 +191,7 @@ def extract_pdf(args) -> Optional[str]:
         return None
 
 
-def analyze_lines(lines_file: str) -> None:
+def analyze_lines(lines_file: str, output_file: Optional[str] = None, show_output: bool = False) -> None:
     """Analyze extracted text data."""
     try:
         # Initialize analyzer
@@ -183,7 +203,7 @@ def analyze_lines(lines_file: str) -> None:
         
         if results:
             # Print analysis results
-            analyzer.print_analysis(results)
+            analyzer.print_analysis(results, output_file, show_output)
         else:
             print("No analysis results to display.", file=sys.stderr)
     
@@ -199,12 +219,20 @@ def main():
         extract_pdf(args)
     
     elif args.command == "analyze":
-        analyze_lines(args.lines_file)
+        # If no output file specified, use default path
+        if not args.output_file:
+            basename = get_base_name(args.lines_file)
+            args.output_file = str(Path("output") / f"{basename}_analysis.txt")
+        analyze_lines(args.lines_file, args.output_file, args.show_output)
     
     elif args.command == "process":
         lines_file = extract_pdf(args)
         if lines_file:
-            analyze_lines(lines_file)
+            # If no output file specified, use default path
+            if not args.output_file:
+                basename = get_base_name(args.pdf_file, args.basename)
+                args.output_file = str(Path(args.output_dir) / f"{basename}_analysis.txt")
+            analyze_lines(lines_file, args.output_file, args.show_output)
     
     else:
         print("Please specify a command: extract, analyze, or process")

@@ -319,69 +319,78 @@ class DocumentAnalyzer:
 
         return candidate_header_bottom_y, candidate_footer_top_y
 
-    def print_analysis(self, results: Dict) -> None:
-        """Print analysis results in a readable format."""
+    def print_analysis(self, results: Dict, output_file: Optional[str] = None, show_output: bool = False) -> None:
+        """Print analysis results in a readable format.
+        
+        Args:
+            results: The analysis results dictionary
+            output_file: Optional path to save the analysis output. If None, prints to stdout.
+            show_output: Whether to show the output on stdout in addition to saving to file.
+        """
         if not results:
             return
 
-        print("\n--- Analysis Results ---")
+        # Create a list to store all output lines
+        output_lines = []
+
+        output_lines.append("\n--- Analysis Results ---")
 
         # Font analysis
-        print("\nFont Usage Analysis:")
+        output_lines.append("\nFont Usage Analysis:")
         likely_body_font = "N/A"
         if results["font_counts"]:
             sorted_fonts = sorted(results["font_counts"].items(), key=lambda item: item[1], reverse=True)
-            print("  Distribution:")
+            output_lines.append("  Distribution:")
             for font, count in sorted_fonts:
-                print(f"    - {font}: {count} lines")
+                output_lines.append(f"    - {font}: {count} lines")
             if results["most_common_font"]:
                 likely_body_font = results["most_common_font"][0]
-                print(f"\n  Conclusion: Likely body text font is '{likely_body_font}' ({results['most_common_font'][1]} lines).")
+                output_lines.append(f"\n  Conclusion: Likely body text font is '{likely_body_font}' ({results['most_common_font'][1]} lines).")
             else:
-                print("\n  Conclusion: Could not determine a dominant font.")
+                output_lines.append("\n  Conclusion: Could not determine a dominant font.")
         else:
-            print("  No font data found.")
+            output_lines.append("  No font data found.")
 
         # Size analysis
-        print(f"\nFont Size Analysis (Rounded to nearest {ROUND_TO_NEAREST_PT}pt):")
+        output_lines.append(f"\nFont Size Analysis (Rounded to nearest {ROUND_TO_NEAREST_PT}pt):")
         likely_body_size = "N/A"
         if results["size_counts"]:
             sorted_sizes = sorted(results["size_counts"].items(), key=lambda item: item[0])
-            print("  Distribution:")
+            output_lines.append("  Distribution:")
             for size, count in sorted_sizes:
                 rounded_size = round_to_nearest(size, ROUND_TO_NEAREST_PT)
-                print(f"    - {rounded_size:.2f} pt: {count} lines")
+                output_lines.append(f"    - {rounded_size:.2f} pt: {count} lines")
             if results["most_common_size"]:
                 likely_body_size_val = round_to_nearest(results['most_common_size'][0], ROUND_TO_NEAREST_PT)
                 likely_body_size = f"{likely_body_size_val:.2f} pt"
-                print(f"\n  Conclusion: Likely body text size is {likely_body_size} ({results['most_common_size'][1]} lines).")
+                output_lines.append(f"\n  Conclusion: Likely body text size is {likely_body_size} ({results['most_common_size'][1]} lines).")
             else:
-                print("\n  Conclusion: Could not determine a dominant font size.")
+                output_lines.append("\n  Conclusion: Could not determine a dominant font size.")
         else:
-            print("  No font size data found.")
+            output_lines.append("  No font size data found.")
 
         # Spacing analysis
-        print(f"\nVertical Line Spacing Analysis (Gap between lines, rounded to {ROUND_TO_NEAREST_PT}pt):")
+        output_lines.append(f"\nVertical Line Spacing Analysis (Gap between lines, rounded to {ROUND_TO_NEAREST_PT}pt):")
         likely_line_spacing = "N/A"
         likely_para_spacing = "N/A"
         potential_para_gaps_found = []
         if results["spacing_counts"]:
             spacing_counts = Counter(results["spacing_counts"])
-            print("  Spacing Distribution (Top 10 most frequent):")
+            output_lines.append("  Spacing Distribution (Top 10 most frequent):")
             limit = 10
             count = 0
             for spacing, num in spacing_counts.most_common():
                 rounded_spacing = round_to_nearest(spacing, ROUND_TO_NEAREST_PT)
                 if count < limit or len(spacing_counts) <= limit:
-                    print(f"    - {rounded_spacing:.2f} pt gap: {num} occurrences")
+                    output_lines.append(f"    - {rounded_spacing:.2f} pt gap: {num} occurrences")
                 elif count == limit:
-                    print("    ...")
+                    output_lines.append("    ...")
                 count += 1
 
             if results["most_common_spacing"]:
                 common_spacing_val = round_to_nearest(results["most_common_spacing"][0], ROUND_TO_NEAREST_PT)
                 likely_line_spacing = f"{common_spacing_val:.2f} pt"
-                print(f"\n  Conclusion: Likely standard line spacing (within paragraphs) is {likely_line_spacing} ({results['most_common_spacing'][1]} occurrences).")
+                output_lines.append(f"\n  Conclusion: Likely standard line spacing (within paragraphs) is {likely_line_spacing} ({results['most_common_spacing'][1]} occurrences).")
 
                 para_gap_multiplier = 1.3
                 potential_para_gaps = {
@@ -397,82 +406,82 @@ class DocumentAnalyzer:
                         f"{round_to_nearest(g, ROUND_TO_NEAREST_PT):.2f} pt ({n} times)"
                         for g, n in sorted_para_gaps[:3]
                     ]
-                    print(f"  Conclusion: Likely paragraph spacing is around {likely_para_spacing} (found {sorted_para_gaps[0][1]} times).")
-                    print(f"              Other potential paragraph/section gaps: {', '.join(potential_para_gaps_found[1:])}")
+                    output_lines.append(f"  Conclusion: Likely paragraph spacing is around {likely_para_spacing} (found {sorted_para_gaps[0][1]} times).")
+                    output_lines.append(f"              Other potential paragraph/section gaps: {', '.join(potential_para_gaps_found[1:])}")
                 else:
-                    print("  Conclusion: Could not clearly distinguish paragraph spacing from line spacing or larger section breaks.")
+                    output_lines.append("  Conclusion: Could not clearly distinguish paragraph spacing from line spacing or larger section breaks.")
             else:
-                print("\n  Conclusion: Could not determine a dominant line spacing.")
+                output_lines.append("\n  Conclusion: Could not determine a dominant line spacing.")
         else:
-            print("  No spacing data found.")
+            output_lines.append("  No spacing data found.")
 
         # Header/Footer analysis
-        print("\nHeader Analysis:")
+        output_lines.append("\nHeader Analysis:")
         header_bottom_y = round_to_nearest(results.get("final_header_bottom", 0.0), ROUND_TO_NEAREST_PT)
         header_bottom_in = header_bottom_y / POINTS_PER_INCH
-        print(f"  Conclusion: Determined Header Bottom Boundary at Y = {header_bottom_y:.2f} pt ({header_bottom_in:.2f} inches from top).")
+        output_lines.append(f"  Conclusion: Determined Header Bottom Boundary at Y = {header_bottom_y:.2f} pt ({header_bottom_in:.2f} inches from top).")
         if results.get("header_candidates"):
             header_counter = Counter(results["header_candidates"])
             if header_counter:
-                print("  Supporting Evidence (Candidate Y coords and page counts, Top 5):")
+                output_lines.append("  Supporting Evidence (Candidate Y coords and page counts, Top 5):")
                 limit = 5
                 count = 0
                 for y_coord, num in header_counter.most_common():
                     rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
                     if count < limit or len(header_counter) <= limit:
-                        print(f"    - {rounded_y:.2f} pt : {num} pages")
+                        output_lines.append(f"    - {rounded_y:.2f} pt : {num} pages")
                     elif count == limit:
-                        print("    ...")
+                        output_lines.append("    ...")
                     count += 1
             else:
-                print("  No consistent header candidates found across pages.")
+                output_lines.append("  No consistent header candidates found across pages.")
         else:
-            print("  No header candidates identified during processing.")
+            output_lines.append("  No header candidates identified during processing.")
 
-        print("\nFooter Analysis:")
+        output_lines.append("\nFooter Analysis:")
         page_height = results.get("overall_estimated_height", DEFAULT_PAGE_HEIGHT)
         footer_top_y = round_to_nearest(results.get("final_footer_top", page_height), ROUND_TO_NEAREST_PT)
         footer_top_in = footer_top_y / POINTS_PER_INCH
         footer_size_in = (page_height - footer_top_y) / POINTS_PER_INCH
-        print(f"  Conclusion: Determined Footer Top Boundary at Y = {footer_top_y:.2f} pt ({footer_top_in:.2f} inches from top).")
-        print(f"              (Implies footer region starts {footer_size_in:.2f} inches from bottom edge)")
+        output_lines.append(f"  Conclusion: Determined Footer Top Boundary at Y = {footer_top_y:.2f} pt ({footer_top_in:.2f} inches from top).")
+        output_lines.append(f"              (Implies footer region starts {footer_size_in:.2f} inches from bottom edge)")
 
         if results.get("footer_candidates"):
             footer_counter = Counter(results["footer_candidates"])
             if footer_counter:
-                print("  Supporting Evidence (Candidate Y coords and page counts, Top 5):")
+                output_lines.append("  Supporting Evidence (Candidate Y coords and page counts, Top 5):")
                 limit = 5
                 count = 0
                 for y_coord, num in footer_counter.most_common():
                     rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
                     if count < limit or len(footer_counter) <= limit:
-                        print(f"    - {rounded_y:.2f} pt : {num} pages")
+                        output_lines.append(f"    - {rounded_y:.2f} pt : {num} pages")
                     elif count == limit:
-                        print("    ...")
+                        output_lines.append("    ...")
                     count += 1
             else:
-                print("  No consistent footer candidates found across pages.")
+                output_lines.append("  No consistent footer candidates found across pages.")
         else:
-            print("  No footer candidates identified during processing.")
+            output_lines.append("  No footer candidates identified during processing.")
 
-        print("\n--- Summary of Key Document Characteristics ---")
-        print(f"  Likely Body Font:   {likely_body_font}")
-        print(f"  Likely Body Size:   {likely_body_size}")
-        print(f"  Likely Line Spacing: {likely_line_spacing}")
-        print(f"  Likely Para Spacing: {likely_para_spacing}")
-        print(f"  Est. Header Bottom: {header_bottom_y:.2f} pt ({header_bottom_in:.2f} in)")
-        print(f"  Est. Footer Top:    {footer_top_y:.2f} pt ({footer_top_in:.2f} in)")
-        print("---------------------------------------------")
+        output_lines.append("\n--- Summary of Key Document Characteristics ---")
+        output_lines.append(f"  Likely Body Font:   {likely_body_font}")
+        output_lines.append(f"  Likely Body Size:   {likely_body_size}")
+        output_lines.append(f"  Likely Line Spacing: {likely_line_spacing}")
+        output_lines.append(f"  Likely Para Spacing: {likely_para_spacing}")
+        output_lines.append(f"  Est. Header Bottom: {header_bottom_y:.2f} pt ({header_bottom_in:.2f} in)")
+        output_lines.append(f"  Est. Footer Top:    {footer_top_y:.2f} pt ({footer_top_in:.2f} in)")
+        output_lines.append("---------------------------------------------")
 
-        for line in results["page_details"]:
-            if 'spacing' in line:
-                raw_spacing = line['spacing']
-                spacing = round_to_nearest(raw_spacing, ROUND_TO_NEAREST_PT)
-                print(f"[DEBUG] raw spacing: {raw_spacing}, rounded spacing: {spacing}, top: {line['bbox']['top']}")
-                for i, range_spec in enumerate(spacing_ranges):
-                    print(f"[DEBUG] comparing {spacing} to {range_spec}")
-                    if self.matches_range(spacing, range_spec):
-                        print(f"[DEBUG] MATCHED: {spacing} in {range_spec}")
-                        spacing_occurrences[spacing] += 1
-                        spacing_lines[spacing].append((line['page_num'], line['bbox']['top']))
-                        break 
+        # Join all lines with newlines
+        output_text = "\n".join(output_lines)
+
+        # Write to file if specified
+        if output_file:
+            from ..utils.helpers import save_text
+            save_text(output_text, output_file)
+            print(f"Analysis results saved to {output_file}")
+
+        # Show output on stdout if requested or if no output file specified
+        if show_output or not output_file:
+            print(output_text) 
