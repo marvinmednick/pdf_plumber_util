@@ -102,9 +102,12 @@ class PDFExtractor:
             text_segments = self._create_text_segments(line_sorted)
             line_bbox = self._calculate_line_bbox(line_sorted)
 
+            # Get the text from segments instead of joining words
+            line_text = "".join(segment["text"] for segment in text_segments)
+
             lines_json.append({
                 "line_number": line_number,
-                "text": " ".join(w["text"] for w in line_sorted),
+                "text": line_text,
                 "bbox": line_bbox,
                 "text_segments": text_segments,
             })

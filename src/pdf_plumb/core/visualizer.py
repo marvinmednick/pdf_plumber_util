@@ -125,14 +125,23 @@ class SpacingVisualizer:
                 if page_num == 0:
                     for i, line in enumerate(lines):
                         print(f"[DEBUG] Line {i} keys: {list(line.keys())}")
+            
+            # Find the last non-blank line's bottom position
             prev_bottom = None
             for line in lines:
                 bbox = line.get('bbox', {})
                 top = bbox.get('top')
                 bottom = bbox.get('bottom')
+                text = line.get('text', '').strip()
+                
+                # Skip lines with no text content
+                if not text:
+                    continue
+                    
                 if top is None or bottom is None:
                     prev_bottom = bottom
                     continue
+                    
                 if prev_bottom is not None:
                     raw_spacing = top - prev_bottom
                     if raw_spacing > 0:
