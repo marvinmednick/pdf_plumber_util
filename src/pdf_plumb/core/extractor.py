@@ -175,9 +175,16 @@ class PDFExtractor:
             else:
                 current_line["gap_after"] = None
 
-        # Set gap_after for last line
+        # Set gap_after for last line as distance to bottom of page
         if lines_json:
-            lines_json[-1]["gap_after"] = None
+            last_line = lines_json[-1]
+            if last_line["bbox"].get("bottom") is not None and page_height is not None:
+                gap_after = page_height - last_line["bbox"]["bottom"]
+                if gap_after < 0:
+                    gap_after = 0
+                last_line["gap_after"] = gap_after
+            else:
+                last_line["gap_after"] = None
 
         return {
             "page": page_num,
