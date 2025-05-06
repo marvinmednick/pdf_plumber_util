@@ -16,19 +16,27 @@ from ..utils.helpers import round_to_nearest
 
 
 # New constants for contextual analysis
-LINE_SPACING_TOLERANCE = 0.3
-PARA_SPACING_TOLERANCE = 0.75
-SECTION_SPACING_TOLERANCE = 2.0
+LINE_SPACING_TOLERANCE = 0.2  # 20% tolerance for line spacing
+PARA_SPACING_MULTIPLIER = 1.1  # Paragraph spacing is ~1.1x font size
+SECTION_SPACING_MULTIPLIER = 2.0  # Section spacing is > paragraph spacing
+GAP_ROUNDING = 0.5  # Round gaps to nearest 0.5pt for analysis
 
 # Spacing classification types
 SPACING_TYPES = {
     'TIGHT': 'Tight',
     'LINE': 'Line',
-    'PARA1': 'Paragraph1',
-    'PARA2': 'Paragraph2',
+    'PARA': 'Paragraph',
     'SECTION': 'Section',
-    'WIDE': 'Wide',
-    'OTHER': 'Other'
+    'WIDE': 'Wide'
+}
+
+# Colors for visualization
+SPACING_COLORS = {
+    'TIGHT': '#FFB6C1',  # Light pink
+    'LINE': '#98FB98',   # Light green
+    'PARA': '#87CEEB',   # Sky blue
+    'SECTION': '#DDA0DD', # Plum
+    'WIDE': '#F0E68C'    # Khaki
 }
 
 
@@ -478,16 +486,47 @@ class DocumentAnalyzer:
         # Contextual spacing rules
         output.append("\nContextual Spacing Rules:")
         if results["contextual_spacing_rules"]:
-            for context_size, rules in results["contextual_spacing_rules"].items():
-                output.append(f"\n  For text size {context_size}pt:")
+            # Sort contexts by total gaps (most common first)
+            sorted_contexts = sorted(
+                results["contextual_spacing_rules"].items(),
+                key=lambda x: x[1]['total_gaps'],
+                reverse=True
+            )
+            
+            for context_size, rules in sorted_contexts:
+                output.append(f"\n  For text size {context_size}pt (found in {rules['total_lines']} lines, {rules['total_gaps']} gaps):")
+                
+                # Base spacing
                 if "most_common_gap" in rules:
                     output.append(f"    Base spacing: {rules['most_common_gap']:.1f}pt")
+                
+                # Line spacing
                 if "line_spacing_range" in rules:
                     output.append(f"    Line spacing range: {rules['line_spacing_range'][0]:.1f}pt - {rules['line_spacing_range'][1]:.1f}pt")
-                if "para_spacing_range" in rules:
-                    output.append(f"    Paragraph spacing range: {rules['para_spacing_range'][0]:.1f}pt - {rules['para_spacing_range'][1]:.1f}pt")
-                if "section_spacing_range" in rules:
-                    output.append(f"    Section spacing range: {rules['section_spacing_range'][0]:.1f}pt - {rules['section_spacing_range'][1]:.1f}pt")
+                    if rules['line_gaps']:
+                        output.append("      Common line gaps:")
+                        for gap, count in rules['line_gaps'].items():
+                            output.append(f"        {gap:.1f}pt ({count} occurrences)")
+                
+                # Paragraph spacing
+                if "para_spacing_max" in rules:
+                    output.append(f"    Paragraph spacing max: {rules['para_spacing_max']:.1f}pt")
+                    if rules['para_gaps']:
+                        output.append("      Common paragraph gaps:")
+                        for gap, count in rules['para_gaps'].items():
+                            output.append(f"        {gap:.1f}pt ({count} occurrences)")
+                
+                # Section spacing
+                if rules['section_gaps']:
+                    output.append("    Section gaps:")
+                    for gap, count in rules['section_gaps'].items():
+                        output.append(f"        {gap:.1f}pt ({count} occurrences)")
+                
+                # Overall gap distribution
+                if rules['gap_distribution']:
+                    output.append("    Overall gap distribution (top 5):")
+                    for gap, count in sorted(rules['gap_distribution'].items(), key=lambda x: x[1], reverse=True)[:5]:
+                        output.append(f"        {gap:.1f}pt ({count} occurrences)")
         else:
             output.append("  No contextual spacing rules found.")
 
@@ -616,17 +655,25 @@ class DocumentAnalyzer:
             print("\nAnalysis Results:")
             print(output_text)
 
-    def _collect_contextual_gaps(self, lines: List[Dict]) -> Dict[float, List[float]]:
+    def _collect_contextual_gaps(self, lines: List[Dict]) -> Dict[float, Dict[str, Any]]:
         """Collect gaps between lines with the same predominant size.
         
         Args:
             lines: List of enriched line objects
             
         Returns:
-            Dictionary mapping context sizes to lists of gaps
+            Dictionary mapping context sizes to lists of gaps and total lines
         """
         gaps_by_context = {}
+        total_lines_by_context = {}
         
+        # First count total lines per context size
+        for line in lines:
+            context_size = line.get('predominant_size')
+            if context_size is not None:
+                total_lines_by_context[context_size] = total_lines_by_context.get(context_size, 0) + 1
+        
+        # Then collect gaps
         for i in range(1, len(lines)):
             current_line = lines[i]
             previous_line = lines[i-1]
@@ -639,22 +686,34 @@ class DocumentAnalyzer:
                 gap = current_line.get('gap_before')
                 
                 if gap is not None and gap > 0.01:
-                    gaps_by_context.setdefault(context_size, []).append(round(gap, 1))
+                    # Round gap to nearest 0.5pt for analysis
+                    rounded_gap = round(gap / GAP_ROUNDING) * GAP_ROUNDING
+                    gaps_by_context.setdefault(context_size, []).append(rounded_gap)
+        
+        # Add total line counts to the results
+        for context_size in gaps_by_context:
+            gaps_by_context[context_size] = {
+                'gaps': gaps_by_context[context_size],
+                'total_lines': total_lines_by_context.get(context_size, 0)
+            }
         
         return gaps_by_context
 
-    def _analyze_contextual_spacing(self, gaps_by_context: Dict[float, List[float]]) -> Dict[float, Dict[str, Any]]:
+    def _analyze_contextual_spacing(self, gaps_by_context: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
         """Analyze spacing patterns for each context size.
         
         Args:
-            gaps_by_context: Dictionary mapping context sizes to lists of gaps
+            gaps_by_context: Dictionary mapping context sizes to gap data
             
         Returns:
             Dictionary mapping context sizes to their spacing rules
         """
         spacing_rules_by_context = {}
         
-        for context_size, gap_list in gaps_by_context.items():
+        for context_size, gap_data in gaps_by_context.items():
+            gap_list = gap_data['gaps']
+            total_lines = gap_data['total_lines']
+            
             if not gap_list:
                 continue
                 
@@ -662,29 +721,33 @@ class DocumentAnalyzer:
             gap_counts = Counter(gap_list)
             most_common_gap = gap_counts.most_common(1)[0][0]
             
-            # Define ranges based on the most common gap
+            # Define line spacing range based on most common gap
             line_spacing_range = (
                 most_common_gap * (1 - LINE_SPACING_TOLERANCE),
                 most_common_gap * (1 + LINE_SPACING_TOLERANCE)
             )
             
-            para_spacing_range = (
-                most_common_gap * (1 + PARA_SPACING_TOLERANCE),
-                most_common_gap * (1 + SECTION_SPACING_TOLERANCE)
-            )
+            # Define paragraph spacing range based on font size
+            para_spacing_max = context_size * PARA_SPACING_MULTIPLIER
             
-            section_spacing_range = (
-                most_common_gap * (1 + SECTION_SPACING_TOLERANCE),
-                float('inf')
-            )
+            # Collect gaps within each category
+            line_gaps = {g: c for g, c in gap_counts.items() if g <= line_spacing_range[1]}
+            para_gaps = {g: c for g, c in gap_counts.items() 
+                        if g > line_spacing_range[1] and g <= para_spacing_max}
+            section_gaps = {g: c for g, c in gap_counts.items() 
+                          if g > para_spacing_max}
             
-            # Store rules for this context
+            # Store rules and statistics for this context
             spacing_rules_by_context[context_size] = {
                 'line_spacing_range': line_spacing_range,
-                'para_spacing_range': para_spacing_range,
-                'section_spacing_range': section_spacing_range,
+                'para_spacing_max': para_spacing_max,
                 'most_common_gap': most_common_gap,
-                'gap_distribution': dict(gap_counts)
+                'gap_distribution': dict(gap_counts),
+                'line_gaps': dict(sorted(line_gaps.items())),
+                'para_gaps': dict(sorted(para_gaps.items())),
+                'section_gaps': dict(sorted(section_gaps.items())),
+                'total_gaps': len(gap_list),
+                'total_lines': total_lines
             }
         
         return spacing_rules_by_context
@@ -706,19 +769,25 @@ class DocumentAnalyzer:
             String classification of the gap
         """
         if context_size not in spacing_rules_by_context:
-            return SPACING_TYPES['OTHER']
+            # Fall back to most common font size if available
+            common_sizes = sorted(spacing_rules_by_context.keys(), 
+                                key=lambda x: spacing_rules_by_context[x]['total_gaps'],
+                                reverse=True)
+            if common_sizes:
+                context_size = common_sizes[0]
+            else:
+                return SPACING_TYPES['OTHER']
             
         rules = spacing_rules_by_context[context_size]
+        rounded_gap = round(gap / GAP_ROUNDING) * GAP_ROUNDING
         
         # Check if gap falls within any defined range
-        if gap <= rules['line_spacing_range'][1]:
+        if rounded_gap <= rules['line_spacing_range'][1]:
             return SPACING_TYPES['LINE']
-        elif gap <= rules['para_spacing_range'][1]:
-            return SPACING_TYPES['PARA1']
-        elif gap <= rules['section_spacing_range'][1]:
-            return SPACING_TYPES['SECTION']
+        elif rounded_gap <= rules['para_spacing_max']:
+            return SPACING_TYPES['PARA']
         else:
-            return SPACING_TYPES['WIDE']
+            return SPACING_TYPES['SECTION']
 
     def _identify_header_footer_contextual(
         self,
