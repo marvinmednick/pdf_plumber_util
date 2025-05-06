@@ -134,11 +134,14 @@ class PDFExtractor:
             predominant_font_coverage = (font_widths[predominant_font] / total_line_width * 100) if predominant_font and total_line_width > 0 else 0
 
             # Calculate gap_before
-            gap_before = None
-            if prev_line_bottom is not None and line_bbox.get("top") is not None:
+            if line_number == 1:
+                gap_before = line_bbox.get("top", 0)  # Distance from top of page
+            elif prev_line_bottom is not None and line_bbox.get("top") is not None:
                 gap_before = line_bbox["top"] - prev_line_bottom
                 if gap_before < 0:  # Handle overlapping lines
                     gap_before = 0
+            else:
+                gap_before = None
 
             # Create line object
             line_obj = {
