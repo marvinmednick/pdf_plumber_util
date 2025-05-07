@@ -1,4 +1,23 @@
-"""Core PDF extraction functionality."""
+"""Core PDF extraction functionality.
+
+This module provides functionality for extracting and processing text from PDF documents.
+It includes methods for:
+- Text extraction using multiple strategies (raw text, text lines, word-based)
+- Word and line processing with font and size analysis
+- Text segment creation and bounding box calculation
+- Comparison of different extraction methods
+- Results saving and statistics generation
+
+The extraction process involves:
+1. Opening and reading the PDF file
+2. Processing each page using multiple extraction methods
+3. Analyzing and normalizing the extracted text
+4. Generating comparison data between methods
+5. Saving results in various formats
+
+The module uses pdfplumber for PDF processing and includes custom logic for
+text alignment, font analysis, and spacing calculations.
+"""
 
 import json
 from typing import Dict, List, Optional
@@ -7,16 +26,62 @@ from ..utils.helpers import normalize_line, save_json
 
 
 class PDFExtractor:
-    """Handles PDF text extraction and processing."""
+    """Handles PDF text extraction and processing.
+    
+    This class provides comprehensive PDF text extraction capabilities using
+    multiple methods to ensure accurate text capture. It processes the extracted
+    text to identify:
+    - Text lines and their properties
+    - Font usage and size distribution
+    - Text segment boundaries
+    - Line spacing and gaps
+    
+    The class maintains tolerance values for text alignment and provides
+    methods for saving and comparing extraction results.
+    
+    Attributes:
+        y_tolerance (int): Vertical tolerance for line alignment
+        x_tolerance (int): Horizontal tolerance for word alignment
+        extra_attrs (List[str]): Additional attributes to extract from PDF
+    """
 
     def __init__(self, y_tolerance: int = 5, x_tolerance: int = 5):
-        """Initialize the extractor with tolerance values."""
+        """Initialize the extractor with tolerance values.
+        
+        Args:
+            y_tolerance: Vertical tolerance for line alignment in points
+            x_tolerance: Horizontal tolerance for word alignment in points
+        """
         self.y_tolerance = y_tolerance
         self.x_tolerance = x_tolerance
         self.extra_attrs = ["x0", "y0", "x1", "y1", "text", "fontname", "size", "top", "adv"]
 
     def extract_from_pdf(self, pdf_path: str) -> Dict:
-        """Extract text from PDF using multiple methods."""
+        """Extract text from PDF using multiple methods.
+        
+        This is the main entry point for PDF text extraction. It processes the
+        PDF file using three different extraction methods:
+        1. Raw text extraction (extract_text)
+        2. Text line extraction (extract_text_lines)
+        3. Word-based extraction with manual alignment
+        
+        Args:
+            pdf_path: Path to the PDF file to process
+            
+        Returns:
+            Dictionary containing extraction results from all methods:
+            - extract_text: Raw text extraction results
+            - extract_text_lines: Line-based extraction results
+            - extract_words_manual: Word-based extraction results
+            - comparison: Comparison between methods
+            - lines_json_by_page: Detailed line data
+            - raw_words_by_page: Raw word data
+            
+        Raises:
+            FileNotFoundError: If the PDF file doesn't exist
+            Exception: For other PDF processing errors
+        """
+        # --- Initialize Results Structure ---
         results = {
             "extract_text": [],
             "extract_text_lines": [],
@@ -26,23 +91,24 @@ class PDFExtractor:
             "raw_words_by_page": [],
         }
 
+        # --- Process PDF File ---
         with pdfplumber.open(pdf_path) as pdf:
             for page_num, page in enumerate(pdf.pages):
-                # Method 1: extract_text()
+                # --- Method 1: Raw Text Extraction ---
                 text_raw = page.extract_text()
                 results["extract_text"].append({
                     "page": page_num + 1,
                     "content": text_raw.split("\n") if text_raw else [],
                 })
 
-                # Method 2: extract_text_lines()
+                # --- Method 2: Text Line Extraction ---
                 text_lines = page.extract_text_lines(layout=True)
                 results["extract_text_lines"].append({
                     "page": page_num + 1,
                     "content": [line["text"] for line in text_lines] if text_lines else [],
                 })
 
-                # Method 3: extract_words() with manual alignment
+                # --- Method 3: Word-based Extraction ---
                 words = page.extract_words(
                     x_tolerance_ratio=0.3,
                     use_text_flow=True,
@@ -51,6 +117,7 @@ class PDFExtractor:
                 )
 
                 if words:
+                    # Process words into lines and segments
                     lines_json, raw_words = self._process_words(words, page_num + 1, page.width, page.height)
                     results["lines_json_by_page"].append(lines_json)
                     results["raw_words_by_page"].append(raw_words)
@@ -59,6 +126,7 @@ class PDFExtractor:
                         "content": [" ".join(w["text"] for w in line) for line in self._combine_words(words)],
                     })
                 else:
+                    # Handle empty page case
                     results["lines_json_by_page"].append({
                         "page": page_num + 1,
                         "lines": [],
@@ -70,17 +138,34 @@ class PDFExtractor:
                         "words": []
                     })
 
-            # Generate comparison
+            # --- Generate Comparison Data ---
             results["comparison"] = self._generate_comparison(results)
 
         return results
 
     def _process_words(self, words: List[Dict], page_num: int, page_width: float, page_height: float) -> tuple:
-        """Process words into lines and segments."""
-        # Sort words by vertical position
+        """Process words into lines and segments.
+        
+        This method takes raw word data and processes it into structured line
+        data, including:
+        - Text segments with font and size information
+        - Line bounding boxes
+        - Predominant font and size analysis
+        - Gap calculations between lines
+        
+        Args:
+            words: List of word objects from PDF
+            page_num: Page number being processed
+            page_width: Width of the page in points
+            page_height: Height of the page in points
+            
+        Returns:
+            Tuple containing:
+            - Dictionary with processed line data
+            - Dictionary with raw word data
+        """
+        # --- Sort and Group Words into Lines ---
         sorted_words = sorted(words, key=lambda w: w["top"])
-
-        # Group words into lines
         lines = []
         current_line = []
         prev_top = sorted_words[0]["top"]
@@ -95,25 +180,26 @@ class PDFExtractor:
         if current_line:
             lines.append(current_line)
 
-        # Process each line
+        # --- Process Each Line ---
         lines_json = []
         prev_line_bottom = None  # Track previous line's bottom for gap calculation
 
         for line_number, line in enumerate(lines, 1):
+            # --- Sort Line Words and Create Segments ---
             line_sorted = sorted(line, key=lambda w: w["x0"])
             text_segments = self._create_text_segments(line_sorted)
             line_bbox = self._calculate_line_bbox(line_sorted)
 
-            # Get the text from segments instead of joining words
+            # --- Get Line Text ---
             line_text = "".join(segment["text"] for segment in text_segments)
 
-            # Calculate predominant size and font
+            # --- Analyze Font and Size Distribution ---
             size_widths = {}  # Map of size -> total width
             font_widths = {}  # Map of font -> total width
             total_line_width = 0
 
             for segment in text_segments:
-                # Get segment width
+                # Calculate segment width
                 width = segment["bbox"]["x1"] - segment["bbox"]["x0"]
                 total_line_width += width
 
@@ -125,15 +211,15 @@ class PDFExtractor:
                 font = segment.get("font", "UnknownFont")
                 font_widths[font] = font_widths.get(font, 0) + width
 
-            # Find predominant size and font
+            # --- Calculate Predominant Values ---
             predominant_size = max(size_widths.items(), key=lambda x: x[1])[0] if size_widths else None
             predominant_font = max(font_widths.items(), key=lambda x: x[1])[0] if font_widths else None
 
-            # Calculate coverage percentages
+            # --- Calculate Coverage Percentages ---
             predominant_size_coverage = (size_widths[predominant_size] / total_line_width * 100) if predominant_size and total_line_width > 0 else 0
             predominant_font_coverage = (font_widths[predominant_font] / total_line_width * 100) if predominant_font and total_line_width > 0 else 0
 
-            # Calculate gap_before
+            # --- Calculate Gap Before ---
             if line_number == 1:
                 gap_before = line_bbox.get("top", 0)  # Distance from top of page
             elif prev_line_bottom is not None and line_bbox.get("top") is not None:
@@ -143,7 +229,7 @@ class PDFExtractor:
             else:
                 gap_before = None
 
-            # Create line object
+            # --- Create Line Object ---
             line_obj = {
                 "line_number": line_number,
                 "text": line_text,
@@ -151,17 +237,17 @@ class PDFExtractor:
                 "text_segments": text_segments,
                 "predominant_size": predominant_size,
                 "predominant_font": predominant_font,
-                "predominant_size_coverage": round(predominant_size_coverage, 1),  # Round to 1 decimal place
-                "predominant_font_coverage": round(predominant_font_coverage, 1),  # Round to 1 decimal place
+                "predominant_size_coverage": round(predominant_size_coverage, 1),
+                "predominant_font_coverage": round(predominant_font_coverage, 1),
                 "gap_before": gap_before,
             }
             lines_json.append(line_obj)
 
-            # Update prev_line_bottom for next iteration
+            # Update previous line bottom for next iteration
             if line_bbox.get("bottom") is not None:
                 prev_line_bottom = line_bbox["bottom"]
 
-        # Calculate gap_after in a second pass
+        # --- Calculate Gap After in Second Pass ---
         for i in range(len(lines_json) - 1):
             current_line = lines_json[i]
             next_line = lines_json[i + 1]
@@ -175,7 +261,7 @@ class PDFExtractor:
             else:
                 current_line["gap_after"] = None
 
-        # Set gap_after for last line as distance to bottom of page
+        # --- Set Gap After for Last Line ---
         if lines_json:
             last_line = lines_json[-1]
             if last_line["bbox"].get("bottom") is not None and page_height is not None:
@@ -197,7 +283,17 @@ class PDFExtractor:
         }
 
     def _create_text_segments(self, line: List[Dict]) -> List[Dict]:
-        """Create text segments from a line of words."""
+        """Create text segments from a line of words.
+        
+        Groups words into segments based on font, size, and orientation changes.
+        Each segment represents a continuous text span with consistent properties.
+        
+        Args:
+            line: List of word objects in a line
+            
+        Returns:
+            List of text segment objects with properties and bounding boxes
+        """
         text_segments = []
         seg_start = 0
 
@@ -220,7 +316,14 @@ class PDFExtractor:
         return text_segments
 
     def _create_segment(self, words: List[Dict]) -> Dict:
-        """Create a text segment from a group of words."""
+        """Create a text segment from a group of words.
+        
+        Args:
+            words: List of word objects to combine into a segment
+            
+        Returns:
+            Dictionary containing segment properties and bounding box
+        """
         segment_text = "".join(w["text"] for w in words)
         segment_bbox = {
             "x0": min(w["x0"] for w in words),
@@ -238,7 +341,14 @@ class PDFExtractor:
         }
 
     def _calculate_line_bbox(self, line: List[Dict]) -> Dict:
-        """Calculate bounding box for a line of words."""
+        """Calculate bounding box for a line of words.
+        
+        Args:
+            line: List of word objects in a line
+            
+        Returns:
+            Dictionary containing line bounding box coordinates
+        """
         return {
             "x0": min(w["x0"] for w in line),
             "top": min(w["top"] for w in line),
@@ -247,7 +357,18 @@ class PDFExtractor:
         }
 
     def _combine_words(self, words: List[Dict]) -> List[List[Dict]]:
-        """Combine consecutive words within x_tolerance."""
+        """Combine consecutive words within x_tolerance.
+        
+        Groups words into lines based on vertical position and combines
+        horizontally adjacent words within tolerance.
+        
+        Args:
+            words: List of word objects to process
+            
+        Returns:
+            List of lines, where each line is a list of combined word objects
+        """
+        # --- Group Words into Lines ---
         lines = []
         current_line = []
         prev_top = words[0]["top"]
@@ -262,6 +383,7 @@ class PDFExtractor:
         if current_line:
             lines.append(current_line)
 
+        # --- Combine Words Within Lines ---
         combined_lines = []
         for line in lines:
             line_sorted = sorted(line, key=lambda w: w["x0"])
@@ -280,7 +402,17 @@ class PDFExtractor:
         return combined_lines
 
     def _generate_comparison(self, results: Dict) -> List[Dict]:
-        """Generate comparison of extraction methods."""
+        """Generate comparison of extraction methods.
+        
+        Creates a line-by-line comparison of text extracted using different
+        methods to help identify differences and potential issues.
+        
+        Args:
+            results: Dictionary containing extraction results
+            
+        Returns:
+            List of comparison entries, each containing text from all methods
+        """
         comparison = []
         for page_idx in range(len(results["extract_text"])):
             page_num = page_idx + 1
@@ -308,22 +440,37 @@ class PDFExtractor:
         return comparison
 
     def save_results(self, results: Dict, output_dir: str, base_name: str) -> None:
-        """Save extraction results to files."""
+        """Save extraction results to files.
+        
+        Saves the extraction results in multiple formats:
+        - Lines data (JSON)
+        - Raw words data (JSON)
+        - Comparison data (JSON)
+        - Metadata and statistics (JSON)
+        
+        Args:
+            results: Dictionary containing extraction results
+            output_dir: Directory to save output files
+            base_name: Base name for output files
+            
+        Raises:
+            IOError: If there's an error writing to the output files
+        """
         from pathlib import Path
 
-        # Save lines data
+        # --- Save Lines Data ---
         lines_path = Path(output_dir) / f"{base_name}_lines.json"
         save_json(results["lines_json_by_page"], lines_path)
 
-        # Save raw words data
+        # --- Save Raw Words Data ---
         words_path = Path(output_dir) / f"{base_name}_words.json"
         save_json(results["raw_words_by_page"], words_path)
 
-        # Save comparison data
+        # --- Save Comparison Data ---
         compare_path = Path(output_dir) / f"{base_name}_compare.json"
         save_json(results["comparison"], compare_path)
 
-        # Save metadata and statistics
+        # --- Save Metadata and Statistics ---
         metadata = {
             "y_tolerance": self.y_tolerance,
             "x_tolerance": self.x_tolerance,
