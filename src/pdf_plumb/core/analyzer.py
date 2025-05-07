@@ -89,7 +89,8 @@ class DocumentAnalyzer:
         document structure.
         
         Args:
-            lines_file: Path to the JSON file containing line data
+            lines_file: Path to the JSON file containing processed line data
+                       (blank lines removed and gaps adjusted)
             
         Returns:
             Dict containing analysis results including:
@@ -169,11 +170,11 @@ class DocumentAnalyzer:
                         all_sizes.append(rounded_font_size)
 
                 # --- Spacing Analysis ---
-                if previous_line_bottom is not None:
-                    spacing = line_top - previous_line_bottom
-                    if spacing > 0:
-                        rounded_spacing = round_to_nearest(spacing, ROUND_TO_NEAREST_PT)
-                        all_spacings.append(rounded_spacing)
+                # Use gap_before for spacing analysis since it's already adjusted
+                gap_before = line.get("gap_before")
+                if gap_before is not None and gap_before > 0:
+                    rounded_spacing = round_to_nearest(gap_before, ROUND_TO_NEAREST_PT)
+                    all_spacings.append(rounded_spacing)
 
                 previous_line_bottom = line_bottom
 
