@@ -1091,7 +1091,11 @@ class DocumentAnalyzer:
         
         # Analyze spacing distribution
         distribution_analysis = self.pdf_analyzer._analyze_spacing_distribution(data)
-        analysis_results.update(distribution_analysis)
+        analysis_results.update({
+            'contextual_gaps': distribution_analysis['contextual_gaps'],
+            'contextual_spacing_rules': distribution_analysis['spacing_rules'],
+            'distribution_by_size': distribution_analysis['distribution_by_size']
+        })
         
         # Analyze headers and footers
         header_analysis = self.pdf_analyzer._identify_header_footer_candidates(data, 'header')
