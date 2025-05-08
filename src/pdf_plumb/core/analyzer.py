@@ -1145,6 +1145,9 @@ class DocumentAnalyzer:
             print(f"An unexpected error occurred loading the file: {e}")
             return None
 
+        # Get base name from lines file (removing _lines suffix)
+        base_name = Path(lines_file).stem.replace('_lines', '')
+
         # --- Initialize Analysis Variables ---
         all_fonts = []
         all_sizes = []
@@ -1238,7 +1241,6 @@ class DocumentAnalyzer:
         })
         
         # Save block analysis results using FileHandler directly
-        base_name = Path(lines_file).stem
         self.file_handler.save_json(block_analysis, base_name, "blocks")
         
         # Analyze headers and footers
@@ -1384,4 +1386,142 @@ class DocumentAnalyzer:
                 if contextual_footer_candidates
                 else page_height
             )
-        } 
+        }
+
+    def analyze_document_data(self, data: Dict, base_name: str) -> Dict:
+        """Analyze document structure from data in memory.
+        
+        This is the main entry point for document analysis when data is already in memory.
+        It performs multiple passes over the document to collect various statistics and
+        identify document structure.
+        
+        Args:
+            data: Dictionary containing processed line data
+            base_name: Base name for output files
+            
+        Returns:
+            Dict containing analysis results including:
+            - Font usage statistics
+            - Size distribution
+            - Spacing patterns
+            - Header/footer boundaries
+            - Contextual spacing rules
+        """
+        # --- Initialize Analysis Variables ---
+        all_fonts = []
+        all_sizes = []
+        page_details = []
+        max_page_bottom = 0
+
+        print(f"Analyzing {len(data)} page(s)...")
+
+        # --- First Pass: Collect Basic Stats ---
+        for page_data in data:
+            page_num = page_data.get("page", "Unknown")
+            lines = page_data.get("lines", [])
+            page_height = page_data.get("page_height", DEFAULT_PAGE_HEIGHT)
+
+            print(f"  Processing Page {page_num} with {len(lines)} lines (Pass 1).")
+
+            page_max_bottom = 0
+            valid_lines_for_page = []
+
+            # Process each line on the page
+            for line in lines:
+                bbox = line.get("bbox")
+                text_segments = line.get("text_segments", [])
+
+                # Skip invalid lines
+                if not text_segments or not bbox or not line.get("text", "").strip():
+                    continue
+
+                line_top = bbox.get("top")
+                line_bottom = bbox.get("bottom")
+
+                if line_top is None or line_bottom is None or line_bottom <= line_top:
+                    continue
+
+                valid_lines_for_page.append(line)
+
+                # Update page height estimate
+                if line_bottom > page_max_bottom:
+                    page_max_bottom = line_bottom
+
+                # --- Font and Size Analysis ---
+                for segment in text_segments:
+                    font_name = segment.get("font", "UnknownFont")
+                    font_size = segment.get("rounded_size")
+                    if font_size is not None:
+                        rounded_font_size = round_to_nearest(font_size, ROUND_TO_NEAREST_PT)
+                        all_fonts.append(font_name)
+                        all_sizes.append(rounded_font_size)
+
+            # Store page details
+            page_details.append({
+                "page_num": page_num,
+                "lines": valid_lines_for_page,
+                "estimated_height": page_max_bottom,
+            })
+            if page_max_bottom > max_page_bottom:
+                max_page_bottom = page_max_bottom
+
+        # --- Aggregate Initial Results ---
+        if not all_fonts or not all_sizes:
+            print("Warning: Insufficient data found to perform basic analysis.")
+            analysis_results = self._create_empty_analysis_results(page_details, max_page_bottom)
+        else:
+            analysis_results = self._create_analysis_results(
+                all_fonts, all_sizes, [], page_details, max_page_bottom
+            )
+
+        # --- Perform Detailed Analysis ---
+        print("\nPerforming detailed analysis...")
+        
+        # Analyze spacing patterns
+        spacing_analysis = self.pdf_analyzer._analyze_line_spacing(data)
+        analysis_results.update(spacing_analysis)
+        
+        # Analyze paragraph spacing
+        para_analysis = self.pdf_analyzer._analyze_paragraph_spacing(data)
+        analysis_results.update(para_analysis)
+        
+        # Analyze spacing distribution
+        distribution_analysis = self.pdf_analyzer._analyze_spacing_distribution(data)
+        analysis_results.update({
+            'contextual_gaps': distribution_analysis['contextual_gaps'],
+            'contextual_spacing_rules': distribution_analysis['spacing_rules'],
+            'distribution_by_size': distribution_analysis['distribution_by_size']
+        })
+        
+        # Analyze blocks
+        block_analysis = self.pdf_analyzer._analyze_blocks(data, distribution_analysis['spacing_rules'])
+        analysis_results.update({
+            'blocks': block_analysis['pages']
+        })
+        
+        # Save block analysis results using FileHandler directly
+        self.file_handler.save_json(block_analysis, base_name, "blocks")
+        
+        # Analyze headers and footers
+        header_analysis = self.pdf_analyzer._identify_header_footer_candidates(data, 'header')
+        footer_analysis = self.pdf_analyzer._identify_header_footer_candidates(data, 'footer')
+        analysis_results.update({
+            'header_candidates': header_analysis['y_coord_counts'],
+            'footer_candidates': footer_analysis['y_coord_counts']
+        })
+        
+        # Analyze headers and footers using contextual method
+        contextual_header_analysis = self.pdf_analyzer._identify_header_footer_contextual(data, 'header')
+        contextual_footer_analysis = self.pdf_analyzer._identify_header_footer_contextual(data, 'footer')
+        analysis_results.update({
+            'contextual_header_candidates': contextual_header_analysis['y_coord_counts'],
+            'contextual_footer_candidates': contextual_footer_analysis['y_coord_counts']
+        })
+
+        # --- Determine Final Boundaries ---
+        analysis_results.update(self._determine_final_boundaries(
+            analysis_results,
+            max_page_bottom
+        ))
+
+        return analysis_results 

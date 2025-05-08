@@ -211,6 +211,81 @@ def analyze_lines(lines_file: str, output_file: Optional[str] = None, show_outpu
         print(f"Error during analysis: {e}", file=sys.stderr)
 
 
+def process_pdf(args) -> None:
+    """Process PDF file (extract and analyze in one step)."""
+    try:
+        # Ensure output directory exists
+        output_dir = ensure_output_dir(args.output_dir)
+        
+        # Get base name for output files
+        basename = get_base_name(args.pdf_file, args.basename)
+        
+        # Initialize extractor
+        extractor = PDFExtractor(
+            y_tolerance=args.y_tolerance,
+            x_tolerance=args.x_tolerance,
+        )
+        
+        # Extract text
+        print(f"Extracting text from {args.pdf_file}...")
+        results = extractor.extract_from_pdf(args.pdf_file)
+        
+        # Save results
+        print(f"Saving results to {output_dir}...")
+        extractor.save_results(results, output_dir, basename)
+        
+        # Handle visualization if requested
+        if args.visualize_spacing:
+            from .core.visualizer import SpacingVisualizer
+            visualizer = SpacingVisualizer()
+            
+            # Parse spacing sizes
+            spacing_sizes = visualizer.parse_spacing_sizes(args.spacing_sizes)
+            if not spacing_sizes:
+                print("No spacing sizes specified for visualization. Using all found sizes.")
+                # Extract all unique spacing sizes from results
+                spacing_sizes = sorted(set(
+                    line.get('spacing', 0)
+                    for page in results['lines_json_by_page']
+                    for line in page['lines']
+                    if line.get('spacing') is not None
+                ))
+            
+            # Parse colors and patterns
+            spacing_colors = visualizer.parse_colors(args.spacing_colors)
+            spacing_patterns = visualizer.parse_patterns(args.spacing_patterns)
+            
+            # Create visualization
+            output_pdf = str(Path(output_dir) / f"{basename}_visualized.pdf")
+            print(f"Creating visualization in {output_pdf}...")
+            visualizer.create_visualization(
+                args.pdf_file,
+                output_pdf,
+                spacing_sizes,
+                spacing_colors,
+                spacing_patterns,
+                results['lines_json_by_page']
+            )
+            print("Visualization complete.")
+        
+        # Initialize analyzer and analyze data directly
+        analyzer = DocumentAnalyzer()
+        print(f"Analyzing extracted data...")
+        analysis_results = analyzer.analyze_document_data(results['lines_json_by_page'], basename)
+        
+        if analysis_results:
+            # If no output file specified, use default path
+            if not args.output_file:
+                args.output_file = str(Path(output_dir) / f"{basename}_analysis.txt")
+            # Print analysis results
+            analyzer.print_analysis(analysis_results, args.output_file, args.show_output)
+        else:
+            print("No analysis results to display.", file=sys.stderr)
+    
+    except Exception as e:
+        print(f"Error during processing: {e}", file=sys.stderr)
+
+
 def main():
     """Main entry point."""
     args = parse_args()
@@ -226,13 +301,7 @@ def main():
         analyze_lines(args.lines_file, args.output_file, args.show_output)
     
     elif args.command == "process":
-        lines_file = extract_pdf(args)
-        if lines_file:
-            # If no output file specified, use default path
-            if not args.output_file:
-                basename = get_base_name(args.pdf_file, args.basename)
-                args.output_file = str(Path(args.output_dir) / f"{basename}_analysis.txt")
-            analyze_lines(lines_file, args.output_file, args.show_output)
+        process_pdf(args)
     
     else:
         print("Please specify a command: extract, analyze, or process")
