@@ -329,7 +329,8 @@ class PDFExtractor:
         Returns:
             Dictionary containing segment properties and bounding box
         """
-        segment_text = "".join(w["text"] for w in words)
+        # Join words and trim whitespace while preserving original word texts
+        segment_text = "".join(w["text"] for w in words).strip()
         segment_bbox = {
             "x0": min(w["x0"] for w in words),
             "top": min(w["top"] for w in words),
@@ -444,116 +445,6 @@ class PDFExtractor:
 
         return comparison
 
-    def _process_blank_lines(self, lines_data: List[Dict]) -> List[Dict]:
-        """Process lines to remove blank lines and adjust gaps.
-        
-        This method:
-        1. Removes lines that contain only whitespace
-        2. Adjusts gap_before and gap_after values to account for removed lines
-        3. Updates line numbers to be sequential
-        4. Preserves original line numbers for reference
-        5. Rounds gap values to the configured precision
-        
-        Args:
-            lines_data: List of page data dictionaries containing lines
-            
-        Returns:
-            List of page data dictionaries with processed lines
-        """
-        processed_pages = []
-        
-        for page_data in lines_data:
-            page_lines = page_data.get("lines", [])
-            if not page_lines:
-                processed_pages.append(page_data)
-                continue
-                
-            # --- Process Lines ---
-            processed_lines = []
-            prev_line = None
-            page_height = page_data.get("page_height", 0)
-            
-            for i, line in enumerate(page_lines):
-                # Skip blank lines
-                if not line.get("text", "").strip():
-                    continue
-                    
-                # Create new line object
-                new_line = line.copy()
-                
-                # Store original line number
-                new_line["original_line_number"] = line.get("line_number")
-                
-                # --- Adjust Gap Before ---
-                if prev_line is None:
-                    # First non-blank line - gap is from top of page
-                    gap = line.get("bbox", {}).get("top", 0)
-                    new_line["gap_before"] = round(gap / self.gap_rounding) * self.gap_rounding
-                else:
-                    # Calculate gap from previous non-blank line
-                    prev_bottom = prev_line.get("bbox", {}).get("bottom")
-                    curr_top = line.get("bbox", {}).get("top")
-                    if prev_bottom is not None and curr_top is not None:
-                        gap = curr_top - prev_bottom
-                        if gap < 0:
-                            gap = 0
-                        new_line["gap_before"] = round(gap / self.gap_rounding) * self.gap_rounding
-                    else:
-                        new_line["gap_before"] = None
-                
-                # --- Adjust Gap After ---
-                if i == len(page_lines) - 1:
-                    # Last line - gap is to bottom of page
-                    line_bottom = line.get("bbox", {}).get("bottom")
-                    if line_bottom is not None:
-                        gap = page_height - line_bottom
-                        if gap < 0:
-                            gap = 0
-                        new_line["gap_after"] = round(gap / self.gap_rounding) * self.gap_rounding
-                    else:
-                        new_line["gap_after"] = None
-                else:
-                    # Find next non-blank line
-                    next_line = None
-                    for j in range(i + 1, len(page_lines)):
-                        if page_lines[j].get("text", "").strip():
-                            next_line = page_lines[j]
-                            break
-                    
-                    if next_line:
-                        # Calculate gap to next non-blank line
-                        curr_bottom = line.get("bbox", {}).get("bottom")
-                        next_top = next_line.get("bbox", {}).get("top")
-                        if curr_bottom is not None and next_top is not None:
-                            gap = next_top - curr_bottom
-                            if gap < 0:
-                                gap = 0
-                            new_line["gap_after"] = round(gap / self.gap_rounding) * self.gap_rounding
-                        else:
-                            new_line["gap_after"] = None
-                    else:
-                        # No more non-blank lines - gap is to bottom of page
-                        line_bottom = line.get("bbox", {}).get("bottom")
-                        if line_bottom is not None:
-                            gap = page_height - line_bottom
-                            if gap < 0:
-                                gap = 0
-                            new_line["gap_after"] = round(gap / self.gap_rounding) * self.gap_rounding
-                        else:
-                            new_line["gap_after"] = None
-                
-                # Update line number
-                new_line["line_number"] = len(processed_lines) + 1
-                processed_lines.append(new_line)
-                prev_line = new_line
-            
-            # Create new page data
-            processed_page = page_data.copy()
-            processed_page["lines"] = processed_lines
-            processed_pages.append(processed_page)
-        
-        return processed_pages
-
     def save_results(self, results: Dict, output_dir: str, base_name: str) -> None:
         """Save extraction results to files.
         
@@ -568,9 +459,8 @@ class PDFExtractor:
         # Save full lines data
         self.file_handler.save_json(results["lines_json_by_page"], base_name, "full_lines")
         
-        # Process and save lines data (with blank lines removed)
-        processed_lines = self._process_blank_lines(results["lines_json_by_page"])
-        self.file_handler.save_json(processed_lines, base_name, "lines")
+        # Save lines data (already processed in _process_words)
+        self.file_handler.save_json(results["lines_json_by_page"], base_name, "lines")
         
         # Save raw words data
         self.file_handler.save_json(results["raw_words_by_page"], base_name, "words")
