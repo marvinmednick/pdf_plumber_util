@@ -24,6 +24,7 @@ from typing import Dict, List, Optional
 import pdfplumber
 from ..utils.helpers import normalize_line
 from ..utils.file_handler import FileHandler
+from ..core.utils.logging import LogManager
 
 
 class PDFExtractor:
@@ -47,19 +48,20 @@ class PDFExtractor:
         extra_attrs (List[str]): Additional attributes to extract from PDF
     """
 
-    def __init__(self, y_tolerance: int = 5, x_tolerance: int = 5, gap_rounding: float = 0.5):
-        """Initialize the extractor with tolerance values.
+    def __init__(self, y_tolerance: float = 3.0, x_tolerance: float = 3.0, debug_level: str = 'INFO'):
+        """Initialize the extractor.
         
         Args:
-            y_tolerance: Vertical tolerance for line alignment in points
-            x_tolerance: Horizontal tolerance for word alignment in points
-            gap_rounding: Amount to round gap values to (in points)
+            y_tolerance: Y-axis tolerance for word alignment
+            x_tolerance: X-axis tolerance for word alignment
+            debug_level: Logging level (DEBUG, INFO, WARNING, ERROR)
         """
         self.y_tolerance = y_tolerance
         self.x_tolerance = x_tolerance
-        self.gap_rounding = gap_rounding
+        self.gap_rounding = 0.5
         self.extra_attrs = ["x0", "y0", "x1", "y1", "text", "fontname", "size", "top", "adv"]
-        self.file_handler = FileHandler()
+        self.logger = LogManager(debug_level)
+        self.file_handler = FileHandler(debug_level=debug_level)
 
     def extract_from_pdf(self, pdf_path: str) -> Dict:
         """Extract text from PDF using multiple methods.

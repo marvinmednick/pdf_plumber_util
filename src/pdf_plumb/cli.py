@@ -2,12 +2,14 @@
 
 import argparse
 import sys
+import os
 from pathlib import Path
 from typing import Optional
 
 from .core.extractor import PDFExtractor
 from .core.analyzer import DocumentAnalyzer
 from .utils.helpers import ensure_output_dir, get_base_name
+from .core.visualizer import SpacingVisualizer
 
 
 def add_extraction_args(parser: argparse.ArgumentParser) -> None:
@@ -39,6 +41,13 @@ def add_extraction_args(parser: argparse.ArgumentParser) -> None:
         type=float,
         default=3.0,
         help="X-axis tolerance for word alignment (default: 3.0)",
+    )
+    parser.add_argument(
+        "--debug-level",
+        type=str,
+        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+        default='INFO',
+        help="Set the logging level (default: INFO)",
     )
     # Add visualization arguments
     parser.add_argument(
@@ -151,8 +160,7 @@ def extract_pdf(args) -> Optional[str]:
         
         # Handle visualization if requested
         if args.visualize_spacing:
-            from .core.visualizer import SpacingVisualizer
-            visualizer = SpacingVisualizer()
+            visualizer = SpacingVisualizer(output_dir=output_dir, debug_level=args.debug_level)
             
             # Parse spacing sizes
             spacing_sizes = visualizer.parse_spacing_sizes(args.spacing_sizes)
@@ -212,78 +220,58 @@ def analyze_lines(lines_file: str, output_file: Optional[str] = None, show_outpu
 
 
 def process_pdf(args) -> None:
-    """Process PDF file (extract and analyze in one step)."""
+    """Process a PDF file through the extraction and analysis pipeline."""
     try:
-        # Ensure output directory exists
-        output_dir = ensure_output_dir(args.output_dir)
+        # Initialize components
+        extractor = PDFExtractor(debug_level=args.debug_level)
+        analyzer = DocumentAnalyzer(debug_level=args.debug_level)
+        visualizer = SpacingVisualizer(output_dir=args.output_dir)
         
-        # Get base name for output files
-        basename = get_base_name(args.pdf_file, args.basename)
-        
-        # Initialize extractor
-        extractor = PDFExtractor(
-            y_tolerance=args.y_tolerance,
-            x_tolerance=args.x_tolerance,
-        )
-        
-        # Extract text
-        print(f"Extracting text from {args.pdf_file}...")
+        # Extract text and metadata
+        print(f"\nExtracting text from {args.pdf_file}...")
         results = extractor.extract_from_pdf(args.pdf_file)
         
-        # Save results
-        print(f"Saving results to {output_dir}...")
-        extractor.save_results(results, output_dir, basename)
+        # Save intermediate results
+        base_name = get_base_name(args.pdf_file)
+        extractor.save_results(results, args.output_dir, base_name)
         
-        # Handle visualization if requested
-        if args.visualize_spacing:
-            from .core.visualizer import SpacingVisualizer
-            visualizer = SpacingVisualizer()
-            
-            # Parse spacing sizes
-            spacing_sizes = visualizer.parse_spacing_sizes(args.spacing_sizes)
-            if not spacing_sizes:
-                print("No spacing sizes specified for visualization. Using all found sizes.")
-                # Extract all unique spacing sizes from results
-                spacing_sizes = sorted(set(
-                    line.get('spacing', 0)
-                    for page in results['lines_json_by_page']
-                    for line in page['lines']
-                    if line.get('spacing') is not None
-                ))
-            
-            # Parse colors and patterns
-            spacing_colors = visualizer.parse_colors(args.spacing_colors)
-            spacing_patterns = visualizer.parse_patterns(args.spacing_patterns)
-            
-            # Create visualization
-            output_pdf = str(Path(output_dir) / f"{basename}_visualized.pdf")
-            print(f"Creating visualization in {output_pdf}...")
-            visualizer.create_visualization(
-                args.pdf_file,
-                output_pdf,
-                spacing_sizes,
-                spacing_colors,
-                spacing_patterns,
-                results['lines_json_by_page']
-            )
-            print("Visualization complete.")
+        # Analyze document structure
+        print("\nAnalyzing document structure...")
+        analysis_results = analyzer.analyze_document_data(results['lines_json_by_page'], base_name)
         
-        # Initialize analyzer and analyze data directly
-        analyzer = DocumentAnalyzer()
-        print(f"Analyzing extracted data...")
-        analysis_results = analyzer.analyze_document_data(results['lines_json_by_page'], basename)
+        # Print analysis results
+        analyzer.print_analysis(analysis_results, show_output=args.show_output)
         
-        if analysis_results:
-            # If no output file specified, use default path
-            if not args.output_file:
-                args.output_file = str(Path(output_dir) / f"{basename}_analysis.txt")
-            # Print analysis results
-            analyzer.print_analysis(analysis_results, args.output_file, args.show_output)
-        else:
-            print("No analysis results to display.", file=sys.stderr)
-    
+        # Create line spacing visualization
+        print("\nCreating line spacing visualization...")
+        visualizer.create_visualization(
+            input_pdf=args.pdf_file,
+            output_pdf=os.path.join(args.output_dir, f"{base_name}_spacing.pdf"),
+            spacing_ranges=visualizer.parse_spacing_sizes(args.spacing_sizes) if args.spacing_sizes else [],
+            spacing_colors=visualizer.parse_colors(args.spacing_colors),
+            spacing_patterns=visualizer.parse_patterns(args.spacing_patterns),
+            lines_data=results['lines_json_by_page']
+        )
+        
+        # Create block spacing visualization
+        print("\nCreating block spacing visualization...")
+        visualizer.create_block_visualization(
+            input_pdf=args.pdf_file,
+            output_pdf=os.path.join(args.output_dir, f"{base_name}_block_spacing.pdf"),
+            spacing_ranges=visualizer.parse_spacing_sizes(args.spacing_sizes) if args.spacing_sizes else [],
+            spacing_colors=visualizer.parse_colors(args.spacing_colors),
+            spacing_patterns=visualizer.parse_patterns(args.spacing_patterns),
+            blocks_data=analysis_results['blocks']
+        )
+        
+        print(f"\nProcessing complete. Results saved to {args.output_dir}")
+        
     except Exception as e:
-        print(f"Error during processing: {e}", file=sys.stderr)
+        print(f"Error processing PDF: {e}")
+        if args.debug_level == 'DEBUG':
+            import traceback
+            traceback.print_exc()
+        sys.exit(1)
 
 
 def main():
