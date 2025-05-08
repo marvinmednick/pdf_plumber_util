@@ -865,7 +865,7 @@ class DocumentAnalyzer:
                     likely_para_spacing = f"{likely_para_spacing_val:.2f} pt"
                     potential_para_gaps_found = [
                         f"{round_to_nearest(g, ROUND_TO_NEAREST_PT):.2f} pt ({n} times)"
-                        for g, n in sorted_para_gaps[:3]
+                        for g, n in sorted_para_gaps[:10]
                     ]
                     output.append(f"  Conclusion: Likely paragraph spacing is around {likely_para_spacing} (found {sorted_para_gaps[0][1]} times).")
                     output.append(f"              Other potential paragraph/section gaps: {', '.join(potential_para_gaps_found[1:])}")
@@ -917,8 +917,8 @@ class DocumentAnalyzer:
                 
                 # Overall gap distribution
                 if rules['gap_distribution']:
-                    output.append("    Overall gap distribution (top 5):")
-                    for gap, count in sorted(rules['gap_distribution'].items(), key=lambda x: x[1], reverse=True)[:5]:
+                    output.append("    Overall gap distribution (top 10):")
+                    for gap, count in sorted(rules['gap_distribution'].items(), key=lambda x: x[1], reverse=True)[:10]:
                         output.append(f"        {gap:.1f}pt ({count} occurrences)")
         else:
             output.append("  No contextual spacing rules found.")
@@ -932,8 +932,8 @@ class DocumentAnalyzer:
         if results.get("header_candidates"):
             header_counter = Counter(results["header_candidates"])
             if header_counter:
-                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 5):")
-                limit = 5
+                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 10):")
+                limit = 10
                 count = 0
                 for y_coord, num in header_counter.most_common():
                     rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
@@ -955,8 +955,8 @@ class DocumentAnalyzer:
         if results.get("contextual_header_candidates"):
             contextual_header_counter = Counter(results["contextual_header_candidates"])
             if contextual_header_counter:
-                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 5):")
-                limit = 5
+                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 10):")
+                limit = 10
                 count = 0
                 for y_coord, num in contextual_header_counter.most_common():
                     rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
@@ -982,8 +982,8 @@ class DocumentAnalyzer:
         if results.get("footer_candidates"):
             footer_counter = Counter(results["footer_candidates"])
             if footer_counter:
-                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 5):")
-                limit = 5
+                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 10):")
+                limit = 10
                 count = 0
                 for y_coord, num in footer_counter.most_common():
                     rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
@@ -1007,8 +1007,8 @@ class DocumentAnalyzer:
         if results.get("contextual_footer_candidates"):
             contextual_footer_counter = Counter(results["contextual_footer_candidates"])
             if contextual_footer_counter:
-                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 5):")
-                limit = 5
+                output.append("    Supporting Evidence (Candidate Y coords and page counts, Top 10):")
+                limit = 10
                 count = 0
                 for y_coord, num in contextual_footer_counter.most_common():
                     rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
