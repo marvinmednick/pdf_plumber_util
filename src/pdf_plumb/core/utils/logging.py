@@ -13,12 +13,13 @@ class LogManager:
         self.logger = logging.getLogger('pdf_plumb')
         self.logger.setLevel(getattr(logging, level.upper()))
         
-        # Add console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(
-            logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        )
-        self.logger.addHandler(console_handler)
+        # Only add console handler if none exist
+        if not self.logger.handlers:
+            console_handler = logging.StreamHandler()
+            console_handler.setFormatter(
+                logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            )
+            self.logger.addHandler(console_handler)
         
     def info(self, message: str):
         """Log an info message."""

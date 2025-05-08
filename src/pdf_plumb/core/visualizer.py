@@ -5,7 +5,8 @@ from pathlib import Path
 import re
 import fitz  # PyMuPDF
 from ..utils.constants import ROUND_TO_NEAREST_PT
-from ..utils.helpers import round_to_nearest, save_text
+from ..utils.helpers import round_to_nearest
+from ..utils.file_handler import FileHandler
 import collections
 
 
@@ -28,9 +29,13 @@ class SpacingVisualizer:
         'solid', 'dashed', 'dotted', 'dashdot'
     ]
     
-    def __init__(self):
-        """Initialize the visualizer."""
-        pass
+    def __init__(self, output_dir: str = "output"):
+        """Initialize the visualizer.
+        
+        Args:
+            output_dir: Directory to save output files
+        """
+        self.file_handler = FileHandler(output_dir=output_dir)
     
     def _parse_range(self, range_str: str) -> Tuple[Optional[float], Optional[float]]:
         """Parse a single range specification into min and max values."""
@@ -282,4 +287,70 @@ class SpacingVisualizer:
             'chocolate': (0.82, 0.41, 0.12),
             'hotpink': (1, 0.41, 0.71),
             'slategray': (0.44, 0.5, 0.56),
+        }
+
+    def generate_visualization(self, data: Dict, base_name: str) -> None:
+        """Generate visualization output.
+        
+        Args:
+            data: Dictionary containing analysis data
+            base_name: Base name for output files
+        """
+        # Generate text output
+        text_output = self._generate_text_output(data)
+        self.file_handler.save_text(text_output, base_name, "visualization")
+        
+        # Generate JSON output
+        json_output = self._generate_json_output(data)
+        self.file_handler.save_json(json_output, base_name, "visualization")
+        
+    def _generate_text_output(self, data: Dict) -> str:
+        """Generate text-based visualization.
+        
+        Args:
+            data: Dictionary containing analysis data
+            
+        Returns:
+            Formatted text output
+        """
+        output = []
+        
+        # Add header
+        output.append("PDF Analysis Visualization")
+        output.append("=" * 30)
+        output.append("")
+        
+        # Add page information
+        for page in data.get("pages", []):
+            output.append(f"Page {page['page_number']}")
+            output.append("-" * 20)
+            
+            # Add line information
+            for line in page.get("lines", []):
+                output.append(f"Line {line['line_number']}: {line['text']}")
+                if line.get("gap_before"):
+                    output.append(f"  Gap before: {line['gap_before']}")
+                if line.get("gap_after"):
+                    output.append(f"  Gap after: {line['gap_after']}")
+                output.append("")
+            
+            output.append("")
+        
+        return "\n".join(output)
+        
+    def _generate_json_output(self, data: Dict) -> Dict:
+        """Generate JSON-based visualization.
+        
+        Args:
+            data: Dictionary containing analysis data
+            
+        Returns:
+            Formatted JSON output
+        """
+        return {
+            "visualization": {
+                "pages": data.get("pages", []),
+                "metadata": data.get("metadata", {}),
+                "statistics": data.get("statistics", {})
+            }
         }

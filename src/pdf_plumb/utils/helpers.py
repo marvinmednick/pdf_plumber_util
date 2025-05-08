@@ -27,22 +27,4 @@ def get_base_name(input_path: str, basename: Optional[str] = None) -> str:
     import os
     if basename:
         return basename
-    return os.path.splitext(os.path.basename(input_path))[0]
-
-
-def save_json(data: Any, path: str, indent: int = 2) -> None:
-    """Save data to a JSON file."""
-    import json
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=indent, ensure_ascii=False)
-
-
-def save_text(data: str, path: str) -> None:
-    """Save plain text data to a file.
-    
-    Args:
-        data: The text data to save
-        path: The file path to save to
-    """
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(data) 
+    return os.path.splitext(os.path.basename(input_path))[0] 

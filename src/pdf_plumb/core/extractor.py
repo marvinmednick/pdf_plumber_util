@@ -22,7 +22,8 @@ text alignment, font analysis, and spacing calculations.
 import json
 from typing import Dict, List, Optional
 import pdfplumber
-from ..utils.helpers import normalize_line, save_json
+from ..utils.helpers import normalize_line
+from ..utils.file_handler import FileHandler
 
 
 class PDFExtractor:
@@ -58,6 +59,7 @@ class PDFExtractor:
         self.x_tolerance = x_tolerance
         self.gap_rounding = gap_rounding
         self.extra_attrs = ["x0", "y0", "x1", "y1", "text", "fontname", "size", "top", "adv"]
+        self.file_handler = FileHandler()
 
     def extract_from_pdf(self, pdf_path: str) -> Dict:
         """Extract text from PDF using multiple methods.
@@ -555,57 +557,40 @@ class PDFExtractor:
     def save_results(self, results: Dict, output_dir: str, base_name: str) -> None:
         """Save extraction results to files.
         
-        Saves the extraction results in multiple formats:
-        - Full lines data (JSON) - includes all lines including blank lines
-        - Processed lines data (JSON) - blank lines removed and gaps adjusted
-        - Raw words data (JSON)
-        - Comparison data (JSON)
-        - Metadata and statistics (JSON)
-        
         Args:
             results: Dictionary containing extraction results
-            output_dir: Directory to save output files
+            output_dir: Directory to save results in
             base_name: Base name for output files
-            
-        Raises:
-            IOError: If there's an error writing to the output files
         """
-        from pathlib import Path
-
-        # --- Save Full Lines Data ---
-        full_lines_path = Path(output_dir) / f"{base_name}_full_lines.json"
-        save_json(results["lines_json_by_page"], full_lines_path)
-
-        # --- Process and Save Lines Data ---
+        # Update FileHandler's output directory
+        self.file_handler.output_dir = output_dir
+        
+        # Save full lines data
+        self.file_handler.save_json(results["lines_json_by_page"], base_name, "full_lines")
+        
+        # Process and save lines data (with blank lines removed)
         processed_lines = self._process_blank_lines(results["lines_json_by_page"])
-        lines_path = Path(output_dir) / f"{base_name}_lines.json"
-        save_json(processed_lines, lines_path)
-
-        # --- Save Raw Words Data ---
-        words_path = Path(output_dir) / f"{base_name}_words.json"
-        save_json(results["raw_words_by_page"], words_path)
-
-        # --- Save Comparison Data ---
-        compare_path = Path(output_dir) / f"{base_name}_compare.json"
-        save_json(results["comparison"], compare_path)
-
-        # --- Save Metadata and Statistics ---
+        self.file_handler.save_json(processed_lines, base_name, "lines")
+        
+        # Save raw words data
+        self.file_handler.save_json(results["raw_words_by_page"], base_name, "words")
+        
+        # Save comparison data
+        self.file_handler.save_json(results["comparison"], base_name, "compare")
+        
+        # Generate and save metadata and statistics
         metadata = {
-            "y_tolerance": self.y_tolerance,
-            "x_tolerance": self.x_tolerance,
-            "gap_rounding": self.gap_rounding,
+            "total_pages": len(results["lines_json_by_page"]),
+            "total_lines": sum(len(page["lines"]) for page in results["lines_json_by_page"]),
+            "total_words": sum(len(page["words"]) for page in results["raw_words_by_page"])
         }
+        
         statistics = {
-            "page_count": len(results["extract_text"]),
-            "avg_lines_per_page": {
-                "extract_text": sum(len(p["content"]) for p in results["extract_text"]) / len(results["extract_text"]),
-                "extract_text_lines": sum(len(p["content"]) for p in results["extract_text_lines"]) / len(results["extract_text_lines"]),
-                "extract_words_manual": sum(len(p["content"]) for p in results["extract_words_manual"]) / len(results["extract_words_manual"]),
-            },
-            "total_differences": sum(
-                1 for entry in results["comparison"]
-                if len(set(v for v in entry["methods"].values() if v is not None)) > 1
-            ) if results["comparison"] else None,
+            "extraction_methods": {
+                "raw_text": len(results["extract_text"]),
+                "text_lines": len(results["extract_text_lines"]),
+                "words_manual": len(results["extract_words_manual"])
+            }
         }
-        info_path = Path(output_dir) / f"{base_name}_info.json"
-        save_json({"metadata": metadata, "statistics": statistics}, info_path) 
+        
+        self.file_handler.save_json({"metadata": metadata, "statistics": statistics}, base_name, "info") 

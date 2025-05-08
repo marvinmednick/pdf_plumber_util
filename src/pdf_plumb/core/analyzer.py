@@ -29,7 +29,8 @@ from ..utils.constants import (
     SMALL_GAP_MULTIPLIER,
     ROUND_TO_NEAREST_PT,
 )
-from ..utils.helpers import round_to_nearest
+from ..utils.helpers import round_to_nearest, ensure_output_dir
+from ..utils.file_handler import FileHandler
 from pathlib import Path
 from .utils.logging import LogManager
 
@@ -673,6 +674,137 @@ class PDFAnalyzer:
         # Move document summary generation logic here
         pass
 
+    def _analyze_blocks(self, lines_data: Dict, spacing_rules: Dict[float, Dict[str, Any]]) -> Dict:
+        """Analyze and combine lines into blocks based on contextual spacing rules.
+        
+        This method combines consecutive lines that have the same predominant size
+        and whose gap between them falls within the contextual line spacing range
+        into blocks. Each block contains the combined lines and their metadata.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            spacing_rules: Dictionary of spacing rules by context size
+            
+        Returns:
+            Dictionary containing block analysis results:
+            {
+                'pages': [
+                    {
+                        'page': page_num,
+                        'blocks': [
+                            {
+                                'lines': [line_objects],
+                                'text': combined_text,
+                                'predominant_size': size,
+                                'gap_before': gap,
+                                'gap_after': gap,
+                                'size_coverage': coverage,
+                                'predominant_font': font,
+                                'font_coverage': coverage
+                            }
+                        ]
+                    }
+                ]
+            }
+        """
+        pages = []
+        
+        for page_data in lines_data:
+            page_num = page_data.get("page", "Unknown")
+            lines = page_data.get("lines", [])
+            blocks = []
+            current_block = None
+            
+            for i, line in enumerate(lines):
+                # Skip invalid lines
+                if not line.get("text", "").strip():
+                    continue
+                    
+                size = line.get('predominant_size')
+                if size is None:
+                    continue
+                    
+                # Get gap before this line
+                gap = line.get('gap_before', 0)
+                
+                # Check if this line should start a new block
+                start_new_block = True
+                if current_block is not None:
+                    # Check if line belongs to current block
+                    if (current_block['predominant_size'] == size and
+                        size in spacing_rules and
+                        gap <= spacing_rules[size]['line_spacing_range'][1]):
+                        start_new_block = False
+                
+                if start_new_block:
+                    # Calculate metadata for previous block if it exists
+                    if current_block is not None:
+                        self._calculate_block_metadata(current_block)
+                        blocks.append(current_block)
+                    
+                    # Start new block
+                    current_block = {
+                        'lines': [line],
+                        'text': line.get("text", ""),
+                        'predominant_size': size,
+                        'gap_before': gap,
+                        'gap_after': 0,  # Will be updated when block is complete
+                        'size_coverage': 0,  # Will be calculated
+                        'predominant_font': None,  # Will be calculated
+                        'font_coverage': 0  # Will be calculated
+                    }
+                else:
+                    # Add line to current block
+                    current_block['lines'].append(line)
+                    current_block['text'] += "\n" + line.get("text", "")
+                    current_block['gap_after'] = gap
+            
+            # Add final block if it exists
+            if current_block is not None:
+                self._calculate_block_metadata(current_block)
+                blocks.append(current_block)
+            
+            pages.append({
+                'page': page_num,
+                'blocks': blocks
+            })
+        
+        return {'pages': pages}
+    
+    def _calculate_block_metadata(self, block: Dict) -> None:
+        """Calculate metadata for a block based on its lines.
+        
+        Args:
+            block: Block dictionary to update with metadata
+        """
+        if not block['lines']:
+            return
+            
+        # Calculate size coverage
+        total_segments = 0
+        size_counts = Counter()
+        font_counts = Counter()
+        
+        for line in block['lines']:
+            for segment in line.get('text_segments', []):
+                total_segments += 1
+                size = segment.get('rounded_size')
+                font = segment.get('font')
+                if size is not None:
+                    size_counts[size] += 1
+                if font is not None:
+                    font_counts[font] += 1
+        
+        if total_segments > 0:
+            # Calculate predominant size coverage
+            most_common_size = size_counts.most_common(1)[0]
+            block['size_coverage'] = most_common_size[1] / total_segments
+            
+            # Calculate predominant font coverage
+            most_common_font = font_counts.most_common(1)[0]
+            block['predominant_font'] = most_common_font[0]
+            block['font_coverage'] = most_common_font[1] / total_segments
+
 
 class DocumentAnalyzer:
     """Analyzes document structure, fonts, and spacing.
@@ -689,6 +821,7 @@ class DocumentAnalyzer:
     
     Attributes:
         pdf_analyzer: Instance of PDFAnalyzer for detailed analysis
+        file_handler: Instance of FileHandler for file operations
     """
 
     def __init__(self, debug_level: str = 'INFO'):
@@ -697,7 +830,8 @@ class DocumentAnalyzer:
         Args:
             debug_level: Logging level for the analyzer
         """
-        self.pdf_analyzer = PDFAnalyzer(debug_level)
+        self.file_handler = FileHandler(debug_level=debug_level)
+        self.pdf_analyzer = PDFAnalyzer(debug_level=debug_level)
 
     def print_analysis(self, results: Dict, output_file: Optional[str] = None, show_output: bool = False) -> None:
         """Print analysis results in a readable format.
@@ -1097,6 +1231,16 @@ class DocumentAnalyzer:
             'distribution_by_size': distribution_analysis['distribution_by_size']
         })
         
+        # Analyze blocks
+        block_analysis = self.pdf_analyzer._analyze_blocks(data, distribution_analysis['spacing_rules'])
+        analysis_results.update({
+            'blocks': block_analysis['pages']
+        })
+        
+        # Save block analysis results using FileHandler directly
+        base_name = Path(lines_file).stem
+        self.file_handler.save_json(block_analysis, base_name, "blocks")
+        
         # Analyze headers and footers
         header_analysis = self.pdf_analyzer._identify_header_footer_candidates(data, 'header')
         footer_analysis = self.pdf_analyzer._identify_header_footer_candidates(data, 'footer')
@@ -1240,58 +1384,4 @@ class DocumentAnalyzer:
                 if contextual_footer_candidates
                 else page_height
             )
-        }
-
-    def _collect_contextual_gaps(self, lines: List[Dict]) -> Dict[float, Dict[str, Any]]:
-        """Collect gaps between lines with the same predominant size.
-        
-        This method analyzes the vertical spacing between lines, grouping them
-        by their predominant font size. This allows for more accurate spacing
-        analysis that takes into account the context of the text.
-        
-        Args:
-            lines: List of enriched line objects containing font and spacing info
-            
-        Returns:
-            Dictionary mapping context sizes to gap data:
-            {
-                font_size: {
-                    'gaps': [list of gaps],
-                    'total_lines': count
-                }
-            }
-        """
-        gaps_by_context = {}
-        total_lines_by_context = {}
-        
-        # First count total lines per context size
-        for line in lines:
-            context_size = line.get('predominant_size')
-            if context_size is not None:
-                total_lines_by_context[context_size] = total_lines_by_context.get(context_size, 0) + 1
-        
-        # Then collect gaps
-        for i in range(1, len(lines)):
-            current_line = lines[i]
-            previous_line = lines[i-1]
-            
-            # Only consider gaps between lines with the same predominant size
-            if (current_line.get('predominant_size') == previous_line.get('predominant_size') and
-                current_line.get('predominant_size') is not None):
-                
-                context_size = current_line['predominant_size']
-                gap = current_line.get('gap_before')
-                
-                if gap is not None and gap > 0.01:
-                    # Round gap to nearest 0.5pt for analysis
-                    rounded_gap = round(gap / GAP_ROUNDING) * GAP_ROUNDING
-                    gaps_by_context.setdefault(context_size, []).append(rounded_gap)
-        
-        # Add total line counts to the results
-        for context_size in gaps_by_context:
-            gaps_by_context[context_size] = {
-                'gaps': gaps_by_context[context_size],
-                'total_lines': total_lines_by_context.get(context_size, 0)
-            }
-        
-        return gaps_by_context 
+        } 
