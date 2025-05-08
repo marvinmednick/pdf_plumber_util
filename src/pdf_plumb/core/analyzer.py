@@ -700,7 +700,13 @@ class PDFAnalyzer:
                                 'gap_after': gap,
                                 'size_coverage': coverage,
                                 'predominant_font': font,
-                                'font_coverage': coverage
+                                'font_coverage': coverage,
+                                'bbox': {
+                                    'x0': min_x,
+                                    'x1': max_x,
+                                    'top': min_top,
+                                    'bottom': max_bottom
+                                }
                             }
                         ]
                     }
@@ -751,18 +757,40 @@ class PDFAnalyzer:
                         'gap_after': 0,  # Will be updated when block is complete
                         'size_coverage': 0,  # Will be calculated
                         'predominant_font': None,  # Will be calculated
-                        'font_coverage': 0  # Will be calculated
+                        'font_coverage': 0,  # Will be calculated
+                        'bbox': {
+                            'x0': line['bbox']['x0'],
+                            'x1': line['bbox']['x1'],
+                            'top': line['bbox']['top'],
+                            'bottom': line['bbox']['bottom']
+                        }
                     }
                 else:
                     # Add line to current block
                     current_block['lines'].append(line)
                     current_block['text'] += "\n" + line.get("text", "")
+                    # Update block bbox to encompass all lines
+                    current_block['bbox']['x0'] = min(current_block['bbox']['x0'], line['bbox']['x0'])
+                    current_block['bbox']['x1'] = max(current_block['bbox']['x1'], line['bbox']['x1'])
+                    current_block['bbox']['top'] = min(current_block['bbox']['top'], line['bbox']['top'])
+                    current_block['bbox']['bottom'] = max(current_block['bbox']['bottom'], line['bbox']['bottom'])
                     current_block['gap_after'] = gap
             
             # Add final block if it exists
             if current_block is not None:
                 self._calculate_block_metadata(current_block)
                 blocks.append(current_block)
+            
+            # Calculate gaps between blocks based on their bboxes
+            for i in range(len(blocks)):
+                if i > 0:  # Not the first block
+                    prev_block = blocks[i-1]
+                    curr_block = blocks[i]
+                    blocks[i]['gap_before'] = curr_block['bbox']['top'] - prev_block['bbox']['bottom']
+                if i < len(blocks) - 1:  # Not the last block
+                    curr_block = blocks[i]
+                    next_block = blocks[i+1]
+                    blocks[i]['gap_after'] = next_block['bbox']['top'] - curr_block['bbox']['bottom']
             
             pages.append({
                 'page': page_num,
