@@ -30,6 +30,8 @@ from ..utils.constants import (
     ROUND_TO_NEAREST_PT,
 )
 from ..utils.helpers import round_to_nearest
+from pathlib import Path
+from .utils.logging import LogManager
 
 
 # --- Constants for Contextual Analysis ---
@@ -44,7 +46,8 @@ SPACING_TYPES = {
     'LINE': 'Line',        # Standard line spacing within paragraphs
     'PARA': 'Paragraph',   # Spacing between paragraphs
     'SECTION': 'Section',  # Spacing between major sections
-    'WIDE': 'Wide'         # Very large gaps (potential page breaks)
+    'WIDE': 'Wide',         # Very large gaps (potential page breaks)
+    'OTHER': 'Other'        # Default classification for unknown or unclassified gaps
 }
 
 # --- Colors for Visualization ---
@@ -55,6 +58,620 @@ SPACING_COLORS = {
     'SECTION': '#DDA0DD', # Plum
     'WIDE': '#F0E68C'    # Khaki
 }
+
+
+class PDFAnalyzer:
+    """Analyzes PDF document structure and patterns."""
+    
+    def __init__(self, debug_level: str = 'INFO'):
+        self.logger = LogManager(debug_level)
+        
+    def _collect_contextual_gaps(self, lines: List[Dict]) -> Dict[float, Dict[str, Any]]:
+        """Collect gaps between lines with the same predominant size.
+        
+        This method analyzes the vertical spacing between lines, grouping them
+        by their predominant font size. This allows for more accurate spacing
+        analysis that takes into account the context of the text.
+        
+        Args:
+            lines: List of enriched line objects containing font and spacing info
+            
+        Returns:
+            Dictionary mapping context sizes to gap data:
+            {
+                font_size: {
+                    'gaps': [list of gaps],
+                    'total_lines': count
+                }
+            }
+        """
+        gaps_by_context = {}
+        total_lines_by_context = {}
+        
+        # First count total lines per context size
+        for line in lines:
+            context_size = line.get('predominant_size')
+            if context_size is not None:
+                total_lines_by_context[context_size] = total_lines_by_context.get(context_size, 0) + 1
+        
+        # Then collect gaps
+        for i in range(1, len(lines)):
+            current_line = lines[i]
+            previous_line = lines[i-1]
+            
+            # Only consider gaps between lines with the same predominant size
+            if (current_line.get('predominant_size') == previous_line.get('predominant_size') and
+                current_line.get('predominant_size') is not None):
+                
+                context_size = current_line['predominant_size']
+                gap = current_line.get('gap_before')
+                
+                if gap is not None and gap > 0.01:
+                    # Round gap to nearest 0.5pt for analysis
+                    rounded_gap = round(gap / GAP_ROUNDING) * GAP_ROUNDING
+                    gaps_by_context.setdefault(context_size, []).append(rounded_gap)
+        
+        # Add total line counts to the results
+        for context_size in gaps_by_context:
+            gaps_by_context[context_size] = {
+                'gaps': gaps_by_context[context_size],
+                'total_lines': total_lines_by_context.get(context_size, 0)
+            }
+        
+        return gaps_by_context
+        
+    def _analyze_contextual_spacing(self, gaps_by_context: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
+        """Analyze spacing patterns for each context size.
+        
+        Takes the collected gaps and analyzes them to determine spacing rules
+        for each font size context. This includes identifying:
+        - Line spacing ranges
+        - Paragraph spacing thresholds
+        - Section spacing patterns
+        
+        Args:
+            gaps_by_context: Dictionary mapping context sizes to gap data
+            
+        Returns:
+            Dictionary mapping context sizes to their spacing rules:
+            {
+                font_size: {
+                    'line_spacing_range': (min, max),
+                    'para_spacing_max': value,
+                    'most_common_gap': value,
+                    'gap_distribution': {gap: count},
+                    'line_gaps': {gap: count},
+                    'para_gaps': {gap: count},
+                    'section_gaps': {gap: count},
+                    'total_gaps': count,
+                    'total_lines': count
+                }
+            }
+        """
+        spacing_rules_by_context = {}
+        
+        for context_size, gap_data in gaps_by_context.items():
+            gap_list = gap_data['gaps']
+            total_lines = gap_data['total_lines']
+            
+            if not gap_list:
+                continue
+                
+            # Get frequency distribution of gaps
+            gap_counts = Counter(gap_list)
+            most_common_gap = gap_counts.most_common(1)[0][0]
+            
+            # Define line spacing range based on most common gap
+            line_spacing_range = (
+                most_common_gap * (1 - LINE_SPACING_TOLERANCE),
+                most_common_gap * (1 + LINE_SPACING_TOLERANCE)
+            )
+            
+            # Define paragraph spacing range based on font size
+            para_spacing_max = context_size * PARA_SPACING_MULTIPLIER
+            
+            # Collect gaps within each category
+            line_gaps = {g: c for g, c in gap_counts.items() if g <= line_spacing_range[1]}
+            para_gaps = {g: c for g, c in gap_counts.items() 
+                        if g > line_spacing_range[1] and g <= para_spacing_max}
+            section_gaps = {g: c for g, c in gap_counts.items() 
+                          if g > para_spacing_max}
+            
+            # Store rules and statistics for this context
+            spacing_rules_by_context[context_size] = {
+                'line_spacing_range': line_spacing_range,
+                'para_spacing_max': para_spacing_max,
+                'most_common_gap': most_common_gap,
+                'gap_distribution': dict(gap_counts),
+                'line_gaps': dict(sorted(line_gaps.items())),
+                'para_gaps': dict(sorted(para_gaps.items())),
+                'section_gaps': dict(sorted(section_gaps.items())),
+                'total_gaps': len(gap_list),
+                'total_lines': total_lines
+            }
+        
+        return spacing_rules_by_context
+        
+    def _classify_gap_contextual(
+        self, 
+        gap: float, 
+        context_size: float, 
+        spacing_rules_by_context: Dict[float, Dict[str, Any]]
+    ) -> str:
+        """Classify a gap based on contextual rules.
+        
+        Uses the spacing rules determined for a particular font size context
+        to classify a gap as line spacing, paragraph spacing, or section spacing.
+        
+        Args:
+            gap: The gap to classify in points
+            context_size: The predominant size of the line
+            spacing_rules_by_context: Dictionary of spacing rules by context
+            
+        Returns:
+            String classification of the gap ('Tight', 'Line', 'Paragraph',
+            'Section', or 'Wide')
+        """
+        if context_size not in spacing_rules_by_context:
+            # Fall back to most common font size if available
+            common_sizes = sorted(spacing_rules_by_context.keys(), 
+                                key=lambda x: spacing_rules_by_context[x]['total_gaps'],
+                                reverse=True)
+            if common_sizes:
+                context_size = common_sizes[0]
+            else:
+                return SPACING_TYPES['LINE']  # Default to line spacing if no context available
+            
+        rules = spacing_rules_by_context[context_size]
+        rounded_gap = round(gap / GAP_ROUNDING) * GAP_ROUNDING
+        
+        # Check if gap falls within any defined range
+        if rounded_gap <= rules['line_spacing_range'][1]:
+            return SPACING_TYPES['LINE']
+        elif rounded_gap <= rules['para_spacing_max']:
+            return SPACING_TYPES['PARA']
+        else:
+            return SPACING_TYPES['SECTION']
+        
+    def analyze_spacing(self, lines_data: Dict, output_dir: str, base_name: str) -> Dict:
+        """Analyze line spacing patterns in the document.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            output_dir: Directory to save analysis results
+            base_name: Base name for output files
+            
+        Returns:
+            Dictionary containing spacing analysis results
+        """
+        self.logger.info("Analyzing line spacing patterns")
+        
+        # Extract spacing analysis logic from current analyze_document method
+        spacing_results = {
+            'line_spacing': self._analyze_line_spacing(lines_data),
+            'paragraph_spacing': self._analyze_paragraph_spacing(lines_data),
+            'spacing_distribution': self._analyze_spacing_distribution(lines_data)
+        }
+        
+        return spacing_results
+        
+    def analyze_headers_footers(self, lines_data: Dict, output_dir: str, base_name: str) -> Dict:
+        """Analyze header and footer patterns in the document.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            output_dir: Directory to save analysis results
+            base_name: Base name for output files
+            
+        Returns:
+            Dictionary containing header/footer analysis results
+        """
+        self.logger.info("Analyzing header and footer patterns")
+        
+        # Extract header/footer analysis logic from current analyze_document method
+        hf_results = {
+            'headers': self._identify_header_footer_candidates(lines_data, 'header'),
+            'footers': self._identify_header_footer_candidates(lines_data, 'footer'),
+            'contextual_headers': self._identify_header_footer_contextual(lines_data, 'header'),
+            'contextual_footers': self._identify_header_footer_contextual(lines_data, 'footer')
+        }
+        
+        return hf_results
+        
+    def generate_consolidated_report(self, 
+                                   lines_data: Dict,
+                                   spacing_analysis: Dict,
+                                   header_footer_analysis: Dict,
+                                   output_dir: str,
+                                   base_name: str) -> Dict:
+        """Generate a consolidated analysis report.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            spacing_analysis: Results from spacing analysis
+            header_footer_analysis: Results from header/footer analysis
+            output_dir: Directory to save analysis results
+            base_name: Base name for output files
+            
+        Returns:
+            Dictionary containing consolidated analysis results
+        """
+        self.logger.info("Generating consolidated analysis report")
+        
+        # Combine all analysis results
+        consolidated_report = {
+            'document_summary': self._generate_document_summary(lines_data),
+            'spacing_analysis': spacing_analysis,
+            'header_footer_analysis': header_footer_analysis,
+            'metadata': {
+                'output_dir': output_dir,
+                'base_name': base_name
+            }
+        }
+        
+        return consolidated_report
+        
+    def _analyze_line_spacing(self, lines_data: Dict) -> Dict:
+        """Analyze line spacing patterns.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            
+        Returns:
+            Dictionary containing line spacing analysis results
+        """
+        all_spacings = []
+        
+        # Collect spacing data from all pages
+        for page_data in lines_data:
+            lines = page_data.get("lines", [])
+            
+            for line in lines:
+                # Use gap_before for spacing analysis since it's already adjusted
+                gap_before = line.get("gap_before")
+                if gap_before is not None and gap_before > 0:
+                    rounded_spacing = round_to_nearest(gap_before, ROUND_TO_NEAREST_PT)
+                    all_spacings.append(rounded_spacing)
+        
+        # Analyze spacing patterns
+        spacing_counts = Counter(all_spacings)
+        most_common_spacing = None
+        
+        # Find most common non-zero spacing
+        common_spacings = spacing_counts.most_common()
+        for sp, count in common_spacings:
+            if sp > 0.01:
+                most_common_spacing = (sp, count)
+                break
+        if most_common_spacing is None and common_spacings:
+            most_common_spacing = common_spacings[0]
+            
+        # Identify potential paragraph gaps
+        para_gap_multiplier = 1.3
+        potential_para_gaps = {}
+        if most_common_spacing:
+            common_spacing_val = most_common_spacing[0]
+            potential_para_gaps = {
+                k: v for k, v in spacing_counts.items()
+                if k > common_spacing_val * para_gap_multiplier
+                and k < common_spacing_val * LARGE_GAP_MULTIPLIER * 1.5
+            }
+            
+        return {
+            'spacing_counts': dict(spacing_counts),
+            'most_common_spacing': most_common_spacing,
+            'potential_para_gaps': dict(potential_para_gaps),
+            'total_spacings': len(all_spacings)
+        }
+        
+    def _analyze_paragraph_spacing(self, lines_data: Dict) -> Dict:
+        """Analyze paragraph spacing patterns.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            
+        Returns:
+            Dictionary containing paragraph spacing analysis results
+        """
+        para_spacings = []
+        section_spacings = []
+        
+        # Collect spacing data from all pages
+        for page_data in lines_data:
+            lines = page_data.get("lines", [])
+            previous_line = None
+            
+            for line in lines:
+                if previous_line is None:
+                    previous_line = line
+                    continue
+                    
+                gap = line.get("gap_before")
+                if gap is not None and gap > 0:
+                    # Use contextual classification to identify paragraph and section gaps
+                    gap_type = self._classify_gap_contextual(
+                        gap,
+                        line.get('predominant_size', 0),
+                        self._analyze_contextual_spacing(self._collect_contextual_gaps(lines))
+                    )
+                    
+                    if gap_type == SPACING_TYPES['PARA']:
+                        para_spacings.append(gap)
+                    elif gap_type == SPACING_TYPES['SECTION']:
+                        section_spacings.append(gap)
+                        
+                previous_line = line
+        
+        # Analyze paragraph spacing patterns
+        para_counts = Counter(para_spacings)
+        section_counts = Counter(section_spacings)
+        
+        return {
+            'paragraph_spacings': dict(para_counts),
+            'section_spacings': dict(section_counts),
+            'total_paragraphs': len(para_spacings),
+            'total_sections': len(section_spacings),
+            'avg_paragraph_spacing': sum(para_spacings) / len(para_spacings) if para_spacings else 0,
+            'avg_section_spacing': sum(section_spacings) / len(section_spacings) if section_spacings else 0
+        }
+        
+    def _analyze_spacing_distribution(self, lines_data: Dict) -> Dict:
+        """Analyze spacing distribution patterns.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            
+        Returns:
+            Dictionary containing spacing distribution analysis results
+        """
+        # Collect all lines for contextual analysis
+        all_lines = []
+        for page_data in lines_data:
+            all_lines.extend(page_data.get("lines", []))
+            
+        # Collect contextual gaps
+        contextual_gaps = self._collect_contextual_gaps(all_lines)
+        
+        # Analyze contextual spacing
+        spacing_rules = self._analyze_contextual_spacing(contextual_gaps)
+        
+        # Analyze distribution by font size
+        distribution_by_size = {}
+        for size, rules in spacing_rules.items():
+            distribution_by_size[size] = {
+                'line_spacing_range': rules['line_spacing_range'],
+                'para_spacing_max': rules['para_spacing_max'],
+                'most_common_gap': rules['most_common_gap'],
+                'total_gaps': rules['total_gaps'],
+                'total_lines': rules['total_lines'],
+                'gap_distribution': rules['gap_distribution']
+            }
+            
+        return {
+            'contextual_gaps': contextual_gaps,
+            'spacing_rules': spacing_rules,
+            'distribution_by_size': distribution_by_size,
+            'total_contexts': len(spacing_rules)
+        }
+        
+    def _identify_header_footer_candidates(self, lines_data: Dict, target: str) -> Dict:
+        """Identify header/footer candidates using traditional method.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            target: Either 'header' or 'footer' to specify which to identify
+            
+        Returns:
+            Dictionary containing header/footer candidate analysis results
+        """
+        candidates = []
+        page_height = lines_data[0].get("page_height", DEFAULT_PAGE_HEIGHT)
+        
+        # Define analysis zones
+        header_max_y = HEADER_ZONE_INCHES * POINTS_PER_INCH
+        footer_min_y = page_height - (FOOTER_ZONE_INCHES * POINTS_PER_INCH)
+        
+        for page_data in lines_data:
+            lines = page_data.get("lines", [])
+            page_num = page_data.get("page", "Unknown")
+            
+            if target == 'header':
+                # Process header zone
+                for i, line in enumerate(lines):
+                    line_top = line.get("bbox", {}).get("top")
+                    line_bottom = line.get("bbox", {}).get("bottom")
+                    
+                    if line_top is None or line_bottom is None:
+                        continue
+                        
+                    if line_top < header_max_y:
+                        # Check gap to next line
+                        if i + 1 < len(lines):
+                            next_line = lines[i + 1]
+                            next_line_top = next_line.get("bbox", {}).get("top")
+                            
+                            if next_line_top is not None:
+                                gap = next_line_top - line_bottom
+                                if gap >= LARGE_GAP_MULTIPLIER * self._get_base_spacing(lines):
+                                    candidates.append({
+                                        'page': page_num,
+                                        'y_coord': line_bottom,
+                                        'text': line.get("text", ""),
+                                        'gap': gap
+                                    })
+            else:
+                # Process footer zone
+                for i in range(len(lines) - 1, -1, -1):
+                    line = lines[i]
+                    line_top = line.get("bbox", {}).get("top")
+                    line_bottom = line.get("bbox", {}).get("bottom")
+                    
+                    if line_top is None or line_bottom is None:
+                        continue
+                        
+                    if line_bottom > footer_min_y:
+                        # Check gap from previous line
+                        if i > 0:
+                            prev_line = lines[i - 1]
+                            prev_line_bottom = prev_line.get("bbox", {}).get("bottom")
+                            
+                            if prev_line_bottom is not None:
+                                gap = line_top - prev_line_bottom
+                                if gap >= LARGE_GAP_MULTIPLIER * self._get_base_spacing(lines):
+                                    candidates.append({
+                                        'page': page_num,
+                                        'y_coord': line_top,
+                                        'text': line.get("text", ""),
+                                        'gap': gap
+                                    })
+        
+        # Analyze candidates
+        y_coords = [c['y_coord'] for c in candidates]
+        y_coord_counts = Counter(y_coords)
+        
+        return {
+            'candidates': candidates,
+            'y_coord_counts': dict(y_coord_counts),
+            'total_candidates': len(candidates),
+            'most_common_y': y_coord_counts.most_common(1)[0] if y_coord_counts else None
+        }
+        
+    def _get_base_spacing(self, lines: List[Dict]) -> float:
+        """Get the base spacing for a set of lines.
+        
+        Args:
+            lines: List of line objects
+            
+        Returns:
+            The most common non-zero spacing value
+        """
+        spacings = []
+        for line in lines:
+            gap = line.get("gap_before")
+            if gap is not None and gap > 0:
+                spacings.append(gap)
+                
+        if not spacings:
+            return 0
+            
+        spacing_counts = Counter(spacings)
+        common_spacings = spacing_counts.most_common()
+        
+        for sp, count in common_spacings:
+            if sp > 0.01:
+                return sp
+                
+        return common_spacings[0][0] if common_spacings else 0
+        
+    def _identify_header_footer_contextual(self, lines_data: Dict, target: str) -> Dict:
+        """Identify header/footer candidates using contextual method.
+        
+        Args:
+            lines_data: Dictionary containing processed line data
+            target: Either 'header' or 'footer' to specify which to identify
+            
+        Returns:
+            Dictionary containing contextual header/footer analysis results
+        """
+        candidates = []
+        page_height = lines_data[0].get("page_height", DEFAULT_PAGE_HEIGHT)
+        
+        # Define analysis zones
+        header_max_y = HEADER_ZONE_INCHES * POINTS_PER_INCH
+        footer_min_y = page_height - (FOOTER_ZONE_INCHES * POINTS_PER_INCH)
+        
+        # Collect all lines for contextual analysis
+        all_lines = []
+        for page_data in lines_data:
+            all_lines.extend(page_data.get("lines", []))
+            
+        # Get contextual spacing rules
+        contextual_gaps = self._collect_contextual_gaps(all_lines)
+        spacing_rules = self._analyze_contextual_spacing(contextual_gaps)
+        
+        for page_data in lines_data:
+            lines = page_data.get("lines", [])
+            page_num = page_data.get("page", "Unknown")
+            
+            if target == 'header':
+                # Process header zone
+                for i, line in enumerate(lines):
+                    line_top = line.get("bbox", {}).get("top")
+                    line_bottom = line.get("bbox", {}).get("bottom")
+                    
+                    if line_top is None or line_bottom is None:
+                        continue
+                        
+                    if line_top < header_max_y:
+                        # Check gap to next line
+                        if i + 1 < len(lines):
+                            next_line = lines[i + 1]
+                            gap = line.get('gap_after')
+                            
+                            if gap is not None:
+                                # Use contextual classification
+                                gap_type = self._classify_gap_contextual(
+                                    gap,
+                                    line.get('predominant_size', 0),
+                                    spacing_rules
+                                )
+                                
+                                if gap_type in [SPACING_TYPES['SECTION'], SPACING_TYPES['WIDE']]:
+                                    candidates.append({
+                                        'page': page_num,
+                                        'y_coord': line_bottom,
+                                        'text': line.get("text", ""),
+                                        'gap': gap,
+                                        'gap_type': gap_type
+                                    })
+            else:
+                # Process footer zone
+                for i in range(len(lines) - 1, -1, -1):
+                    line = lines[i]
+                    line_top = line.get("bbox", {}).get("top")
+                    line_bottom = line.get("bbox", {}).get("bottom")
+                    
+                    if line_top is None or line_bottom is None:
+                        continue
+                        
+                    if line_bottom > footer_min_y:
+                        # Check gap from previous line
+                        if i > 0:
+                            gap = line.get('gap_before')
+                            
+                            if gap is not None:
+                                # Use contextual classification
+                                gap_type = self._classify_gap_contextual(
+                                    gap,
+                                    line.get('predominant_size', 0),
+                                    spacing_rules
+                                )
+                                
+                                if gap_type in [SPACING_TYPES['SECTION'], SPACING_TYPES['WIDE']]:
+                                    candidates.append({
+                                        'page': page_num,
+                                        'y_coord': line_top,
+                                        'text': line.get("text", ""),
+                                        'gap': gap,
+                                        'gap_type': gap_type
+                                    })
+        
+        # Analyze candidates
+        y_coords = [c['y_coord'] for c in candidates]
+        y_coord_counts = Counter(y_coords)
+        
+        return {
+            'candidates': candidates,
+            'y_coord_counts': dict(y_coord_counts),
+            'total_candidates': len(candidates),
+            'most_common_y': y_coord_counts.most_common(1)[0] if y_coord_counts else None,
+            'spacing_rules': spacing_rules
+        }
+        
+    def _generate_document_summary(self, lines_data: Dict) -> Dict:
+        """Generate document summary statistics."""
+        # Move document summary generation logic here
+        pass
 
 
 class DocumentAnalyzer:
@@ -71,708 +688,16 @@ class DocumentAnalyzer:
     thresholds) and contextual methods (based on font sizes and patterns).
     
     Attributes:
-        None (stateless class)
+        pdf_analyzer: Instance of PDFAnalyzer for detailed analysis
     """
 
-    def __init__(self):
+    def __init__(self, debug_level: str = 'INFO'):
         """Initialize the analyzer.
         
-        This is a stateless class, so initialization is minimal.
-        """
-        pass
-
-    def analyze_document(self, lines_file: str) -> Dict:
-        """Analyze document structure from lines JSON file.
-        
-        This is the main entry point for document analysis. It performs multiple
-        passes over the document to collect various statistics and identify
-        document structure.
-        
         Args:
-            lines_file: Path to the JSON file containing processed line data
-                       (blank lines removed and gaps adjusted)
-            
-        Returns:
-            Dict containing analysis results including:
-            - Font usage statistics
-            - Size distribution
-            - Spacing patterns
-            - Header/footer boundaries
-            - Contextual spacing rules
-            
-        Raises:
-            FileNotFoundError: If the input file doesn't exist
-            JSONDecodeError: If the input file isn't valid JSON
+            debug_level: Logging level for the analyzer
         """
-        # --- Load and Validate Input ---
-        try:
-            with open(lines_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-        except FileNotFoundError:
-            print(f"Error: File not found at {lines_file}")
-            return None
-        except json.JSONDecodeError:
-            print(f"Error: Could not decode JSON from {lines_file}")
-            return None
-        except Exception as e:
-            print(f"An unexpected error occurred loading the file: {e}")
-            return None
-
-        # --- Initialize Analysis Variables ---
-        all_fonts = []
-        all_sizes = []
-        all_spacings = []
-        page_details = []
-        max_page_bottom = 0
-
-        print(f"Analyzing {len(data)} page(s)...")
-
-        # --- First Pass: Collect Basic Stats ---
-        for page_data in data:
-            page_num = page_data.get("page", "Unknown")
-            lines = page_data.get("lines", [])
-            page_height = page_data.get("page_height", DEFAULT_PAGE_HEIGHT)
-
-            print(f"  Processing Page {page_num} with {len(lines)} lines (Pass 1).")
-
-            page_max_bottom = 0
-            previous_line_bottom = None
-            valid_lines_for_page = []
-
-            # Process each line on the page
-            for line in lines:
-                bbox = line.get("bbox")
-                text_segments = line.get("text_segments", [])
-
-                # Skip invalid lines
-                if not text_segments or not bbox or not line.get("text", "").strip():
-                    continue
-
-                line_top = bbox.get("top")
-                line_bottom = bbox.get("bottom")
-
-                if line_top is None or line_bottom is None or line_bottom <= line_top:
-                    continue
-
-                valid_lines_for_page.append(line)
-
-                # Update page height estimate
-                if line_bottom > page_max_bottom:
-                    page_max_bottom = line_bottom
-
-                # --- Font and Size Analysis ---
-                for segment in text_segments:
-                    font_name = segment.get("font", "UnknownFont")
-                    font_size = segment.get("rounded_size")
-                    if font_size is not None:
-                        rounded_font_size = round_to_nearest(font_size, ROUND_TO_NEAREST_PT)
-                        all_fonts.append(font_name)
-                        all_sizes.append(rounded_font_size)
-
-                # --- Spacing Analysis ---
-                # Use gap_before for spacing analysis since it's already adjusted
-                gap_before = line.get("gap_before")
-                if gap_before is not None and gap_before > 0:
-                    rounded_spacing = round_to_nearest(gap_before, ROUND_TO_NEAREST_PT)
-                    all_spacings.append(rounded_spacing)
-
-                previous_line_bottom = line_bottom
-
-            # Store page details
-            page_details.append({
-                "page_num": page_num,
-                "lines": valid_lines_for_page,
-                "estimated_height": page_max_bottom,
-            })
-            if page_max_bottom > max_page_bottom:
-                max_page_bottom = page_max_bottom
-
-        # --- Aggregate Initial Results ---
-        if not all_fonts or not all_sizes or not all_spacings:
-            print("Warning: Insufficient data found to perform basic analysis.")
-            analysis_results = self._create_empty_analysis_results(page_details, max_page_bottom)
-        else:
-            analysis_results = self._create_analysis_results(
-                all_fonts, all_sizes, all_spacings, page_details, max_page_bottom
-            )
-
-        # --- Second Pass: Header/Footer Analysis ---
-        all_header_candidates = []
-        all_footer_candidates = []
-        all_contextual_header_candidates = []
-        all_contextual_footer_candidates = []
-        page_height_to_use = analysis_results["overall_estimated_height"]
-
-        print(f"\nUsing estimated page height: {page_height_to_use:.2f} points ({page_height_to_use / POINTS_PER_INCH:.2f} inches)")
-
-        # --- Collect Contextual Gaps ---
-        all_lines = []
-        for page_info in analysis_results["page_details"]:
-            all_lines.extend(page_info["lines"])
-        
-        # Perform contextual analysis
-        contextual_gaps = self._collect_contextual_gaps(all_lines)
-        spacing_rules_by_context = self._analyze_contextual_spacing(contextual_gaps)
-        
-        # Store contextual analysis results
-        analysis_results["contextual_gaps"] = contextual_gaps
-        analysis_results["contextual_spacing_rules"] = spacing_rules_by_context
-
-        # --- Process Each Page for Header/Footer ---
-        for page_info in analysis_results["page_details"]:
-            page_num = page_info["page_num"]
-            print(f"  Processing Page {page_num} (Pass 2 - Header/Footer).")
-            
-            # Traditional method
-            header_cand, footer_cand = self._identify_header_footer_candidates(
-                page_info["lines"],
-                page_height_to_use,
-                analysis_results,
-            )
-            if header_cand is not None:
-                all_header_candidates.append(header_cand)
-            if footer_cand is not None:
-                all_footer_candidates.append(footer_cand)
-            
-            # Contextual method
-            contextual_header_cand, contextual_footer_cand = self._identify_header_footer_contextual(
-                page_info["lines"],
-                page_height_to_use,
-                spacing_rules_by_context
-            )
-            if contextual_header_cand is not None:
-                all_contextual_header_candidates.append(contextual_header_cand)
-            if contextual_footer_cand is not None:
-                all_contextual_footer_candidates.append(contextual_footer_cand)
-
-        # --- Aggregate Header/Footer Results ---
-        if all_header_candidates:
-            analysis_results["header_candidates"] = Counter(all_header_candidates)
-        if all_footer_candidates:
-            analysis_results["footer_candidates"] = Counter(all_footer_candidates)
-        if all_contextual_header_candidates:
-            analysis_results["contextual_header_candidates"] = Counter(all_contextual_header_candidates)
-        if all_contextual_footer_candidates:
-            analysis_results["contextual_footer_candidates"] = Counter(all_contextual_footer_candidates)
-
-        # --- Determine Final Boundaries ---
-        analysis_results.update(self._determine_final_boundaries(
-            analysis_results,
-            page_height_to_use
-        ))
-
-        return analysis_results
-
-    def _create_empty_analysis_results(self, page_details: List[Dict], max_page_bottom: float) -> Dict:
-        """Create empty analysis results structure.
-        
-        Args:
-            page_details: List of page details
-            max_page_bottom: Maximum page bottom coordinate
-            
-        Returns:
-            Dictionary with empty analysis results
-        """
-        return {
-            "font_counts": {},
-            "size_counts": {},
-            "spacing_counts": {},
-            "most_common_font": None,
-            "most_common_size": None,
-            "most_common_spacing": None,
-            "page_details": page_details,
-            "overall_estimated_height": max_page_bottom or DEFAULT_PAGE_HEIGHT,
-            "header_candidates": {},
-            "footer_candidates": {},
-            "contextual_gaps": {},
-            "contextual_spacing_rules": {},
-            "contextual_header_candidates": {},
-            "contextual_footer_candidates": {},
-        }
-
-    def _create_analysis_results(
-        self,
-        all_fonts: List[str],
-        all_sizes: List[float],
-        all_spacings: List[float],
-        page_details: List[Dict],
-        max_page_bottom: float
-    ) -> Dict:
-        """Create analysis results from collected data.
-        
-        Args:
-            all_fonts: List of all font names
-            all_sizes: List of all font sizes
-            all_spacings: List of all spacings
-            page_details: List of page details
-            max_page_bottom: Maximum page bottom coordinate
-            
-        Returns:
-            Dictionary with analysis results
-        """
-        font_counts = Counter(all_fonts)
-        size_counts = Counter(all_sizes)
-        spacing_counts = Counter(all_spacings)
-        
-        # Find most common values
-        most_common_font = font_counts.most_common(1)[0] if font_counts else None
-        most_common_size = size_counts.most_common(1)[0] if size_counts else None
-        
-        # Find most common non-zero spacing
-        common_spacings = spacing_counts.most_common()
-        most_common_spacing = None
-        for sp, count in common_spacings:
-            if sp > 0.01:
-                most_common_spacing = (sp, count)
-                break
-        if most_common_spacing is None and common_spacings:
-            most_common_spacing = common_spacings[0]
-
-        return {
-            "font_counts": dict(font_counts),
-            "size_counts": dict(size_counts),
-            "spacing_counts": dict(spacing_counts),
-            "most_common_font": most_common_font,
-            "most_common_size": most_common_size,
-            "most_common_spacing": most_common_spacing,
-            "page_details": page_details,
-            "overall_estimated_height": max_page_bottom or DEFAULT_PAGE_HEIGHT,
-            "header_candidates": {},
-            "footer_candidates": {},
-            "contextual_gaps": {},
-            "contextual_spacing_rules": {},
-            "contextual_header_candidates": {},
-            "contextual_footer_candidates": {},
-        }
-
-    def _determine_final_boundaries(self, analysis_results: Dict, page_height: float) -> Dict:
-        """Determine final header and footer boundaries.
-        
-        Args:
-            analysis_results: Dictionary containing analysis results
-            page_height: Height of the page in points
-            
-        Returns:
-            Dictionary with final boundary coordinates
-        """
-        return {
-            "final_header_bottom": (
-                analysis_results["header_candidates"].most_common(1)[0][0]
-                if analysis_results.get("header_candidates")
-                else 0.0
-            ),
-            "final_footer_top": (
-                analysis_results["footer_candidates"].most_common(1)[0][0]
-                if analysis_results.get("footer_candidates")
-                else page_height
-            ),
-            "contextual_final_header_bottom": (
-                analysis_results["contextual_header_candidates"].most_common(1)[0][0]
-                if analysis_results.get("contextual_header_candidates")
-                else 0.0
-            ),
-            "contextual_final_footer_top": (
-                analysis_results["contextual_footer_candidates"].most_common(1)[0][0]
-                if analysis_results.get("contextual_footer_candidates")
-                else page_height
-            )
-        }
-
-    def _identify_header_footer_candidates(
-        self, page_lines: List[Dict], page_height: float, analysis_results: Dict
-    ) -> Tuple[Optional[float], Optional[float]]:
-        """Identify candidate header and footer boundaries for a single page.
-        
-        Uses traditional spacing-based method to identify header and footer
-        boundaries. This method looks for large gaps in the header and footer
-        zones of the page.
-        
-        Args:
-            page_lines: List of line objects for the page
-            page_height: Height of the page in points
-            analysis_results: Dictionary containing analysis results from first pass
-            
-        Returns:
-            Tuple of (header_bottom_y, footer_top_y) coordinates, or (None, None)
-            if analysis cannot be performed
-        """
-        # --- Validate Input ---
-        if not page_lines or not analysis_results or not analysis_results.get("most_common_spacing"):
-            if not analysis_results or not analysis_results.get("most_common_spacing"):
-                print("  Warning: Cannot perform header/footer analysis without most_common_spacing.")
-                return None, None
-            elif not page_lines:
-                return 0, page_height
-
-        # --- Define Analysis Zones ---
-        header_max_y = HEADER_ZONE_INCHES * POINTS_PER_INCH
-        footer_min_y = page_height - (FOOTER_ZONE_INCHES * POINTS_PER_INCH)
-
-        # --- Calculate Spacing Thresholds ---
-        base_spacing = analysis_results["most_common_spacing"][0]
-        large_gap_threshold = base_spacing * LARGE_GAP_MULTIPLIER
-        small_gap_threshold = base_spacing * SMALL_GAP_MULTIPLIER
-
-        # --- Identify Header Boundary ---
-        header_boundary = self._identify_header_boundary(
-            page_lines,
-            header_max_y,
-            large_gap_threshold,
-            small_gap_threshold
-        )
-
-        # --- Identify Footer Boundary ---
-        footer_boundary = self._identify_footer_boundary(
-            page_lines,
-            footer_min_y,
-            page_height,
-            large_gap_threshold,
-            small_gap_threshold
-        )
-
-        return header_boundary, footer_boundary
-
-    def _identify_header_boundary(
-        self,
-        page_lines: List[Dict],
-        header_max_y: float,
-        large_gap_threshold: float,
-        small_gap_threshold: float
-    ) -> float:
-        """Identify the header boundary using traditional spacing analysis.
-        
-        Args:
-            page_lines: List of line objects for the page
-            header_max_y: Maximum y-coordinate for header zone
-            large_gap_threshold: Threshold for identifying section breaks
-            small_gap_threshold: Threshold for identifying paragraph breaks
-            
-        Returns:
-            Y-coordinate of the header bottom boundary
-        """
-        candidate_header_bottom_y = 0
-        header_block_lines = []
-        last_line_in_header_zone_bottom = 0
-
-        for i, current_line in enumerate(page_lines):
-            line_top = current_line.get("bbox", {}).get("top")
-            line_bottom = current_line.get("bbox", {}).get("bottom")
-
-            if line_top is None or line_bottom is None:
-                continue
-
-            # Handle case where first line is below header zone
-            if i == 0 and line_top >= header_max_y:
-                candidate_header_bottom_y = 0
-                break
-
-            # Track the bottom of the last line in header zone
-            if line_top < header_max_y:
-                last_line_in_header_zone_bottom = max(last_line_in_header_zone_bottom, line_bottom)
-
-            # Process lines in header zone
-            if line_top < header_max_y:
-                header_block_lines.append(current_line)
-                current_block_bottom = line_bottom
-
-                if i + 1 < len(page_lines):
-                    next_line = page_lines[i + 1]
-                    next_line_top = next_line.get("bbox", {}).get("top")
-                    next_line_bottom = next_line.get("bbox", {}).get("bottom")
-
-                    if next_line_top is None or next_line_bottom is None:
-                        candidate_header_bottom_y = current_block_bottom
-                        break
-
-                    # Analyze gap to next line
-                    gap = next_line_top - current_block_bottom
-                    if gap < 0:
-                        gap = 0
-
-                    if gap >= large_gap_threshold:
-                        candidate_header_bottom_y = current_block_bottom
-                        break
-                    elif gap < small_gap_threshold:
-                        pass
-                    else:
-                        candidate_header_bottom_y = current_block_bottom
-                else:
-                    candidate_header_bottom_y = current_block_bottom
-                    break
-            else:
-                # Handle transition out of header zone
-                if not header_block_lines:
-                    candidate_header_bottom_y = 0
-                elif candidate_header_bottom_y == 0:
-                    candidate_header_bottom_y = last_line_in_header_zone_bottom
-                break
-
-        return round_to_nearest(candidate_header_bottom_y, ROUND_TO_NEAREST_PT)
-
-    def _identify_footer_boundary(
-        self,
-        page_lines: List[Dict],
-        footer_min_y: float,
-        page_height: float,
-        large_gap_threshold: float,
-        small_gap_threshold: float
-    ) -> float:
-        """Identify the footer boundary using traditional spacing analysis.
-        
-        Args:
-            page_lines: List of line objects for the page
-            footer_min_y: Minimum y-coordinate for footer zone
-            page_height: Height of the page in points
-            large_gap_threshold: Threshold for identifying section breaks
-            small_gap_threshold: Threshold for identifying paragraph breaks
-            
-        Returns:
-            Y-coordinate of the footer top boundary
-        """
-        candidate_footer_top_y = page_height
-        footer_block_lines = []
-        first_line_in_footer_zone_top = page_height
-
-        for i in range(len(page_lines) - 1, -1, -1):
-            current_line = page_lines[i]
-            line_top = current_line.get("bbox", {}).get("top")
-            line_bottom = current_line.get("bbox", {}).get("bottom")
-
-            if line_top is None or line_bottom is None:
-                continue
-
-            # Handle case where last line is above footer zone
-            if i == len(page_lines) - 1 and line_bottom <= footer_min_y:
-                candidate_footer_top_y = page_height
-                break
-
-            # Track the top of the first line in footer zone
-            if line_bottom > footer_min_y:
-                first_line_in_footer_zone_top = min(first_line_in_footer_zone_top, line_top)
-
-            # Process lines in footer zone
-            if line_bottom > footer_min_y:
-                footer_block_lines.append(current_line)
-                current_block_top = line_top
-
-                if i - 1 >= 0:
-                    prev_line = page_lines[i - 1]
-                    prev_line_top = prev_line.get("bbox", {}).get("top")
-                    prev_line_bottom = prev_line.get("bbox", {}).get("bottom")
-
-                    if prev_line_top is None or prev_line_bottom is None:
-                        candidate_footer_top_y = current_block_top
-                        break
-
-                    # Analyze gap from previous line
-                    gap = current_block_top - prev_line_bottom
-                    if gap < 0:
-                        gap = 0
-
-                    if gap >= large_gap_threshold:
-                        candidate_footer_top_y = current_block_top
-                        break
-                    elif gap < small_gap_threshold:
-                        pass
-                    else:
-                        candidate_footer_top_y = current_block_top
-                else:
-                    candidate_footer_top_y = current_block_top
-                    break
-            else:
-                # Handle transition out of footer zone
-                if not footer_block_lines:
-                    candidate_footer_top_y = page_height
-                elif candidate_footer_top_y == page_height:
-                    candidate_footer_top_y = first_line_in_footer_zone_top
-                break
-
-        return round_to_nearest(candidate_footer_top_y, ROUND_TO_NEAREST_PT)
-
-    def _identify_header_footer_contextual(
-        self,
-        page_lines: List[Dict],
-        page_height: float,
-        spacing_rules_by_context: Dict[float, Dict[str, Any]]
-    ) -> Tuple[Optional[float], Optional[float]]:
-        """Identify header and footer boundaries using contextual analysis.
-        
-        Uses the contextual spacing rules to identify header and footer
-        boundaries. This method takes into account the font size and spacing
-        patterns of the text to make more accurate determinations.
-        
-        Args:
-            page_lines: List of line objects for the page
-            page_height: Height of the page in points
-            spacing_rules_by_context: Dictionary of spacing rules by context
-            
-        Returns:
-            Tuple of (header_bottom_y, footer_top_y) coordinates
-        """
-        if not page_lines:
-            return 0, page_height
-
-        # --- Define Analysis Zones ---
-        header_max_y = HEADER_ZONE_INCHES * POINTS_PER_INCH
-        footer_min_y = page_height - (FOOTER_ZONE_INCHES * POINTS_PER_INCH)
-
-        # --- Identify Header Boundary ---
-        header_boundary = self._identify_header_boundary_contextual(
-            page_lines,
-            header_max_y,
-            spacing_rules_by_context
-        )
-
-        # --- Identify Footer Boundary ---
-        footer_boundary = self._identify_footer_boundary_contextual(
-            page_lines,
-            footer_min_y,
-            page_height,
-            spacing_rules_by_context
-        )
-
-        return header_boundary, footer_boundary
-
-    def _identify_header_boundary_contextual(
-        self,
-        page_lines: List[Dict],
-        header_max_y: float,
-        spacing_rules_by_context: Dict[float, Dict[str, Any]]
-    ) -> float:
-        """Identify the header boundary using contextual spacing analysis.
-        
-        Args:
-            page_lines: List of line objects for the page
-            header_max_y: Maximum y-coordinate for header zone
-            spacing_rules_by_context: Dictionary of spacing rules by context
-            
-        Returns:
-            Y-coordinate of the header bottom boundary
-        """
-        candidate_header_bottom_y = 0
-        header_block_lines = []
-        last_line_in_header_zone_bottom = 0
-
-        for i, current_line in enumerate(page_lines):
-            line_top = current_line.get("bbox", {}).get("top")
-            line_bottom = current_line.get("bbox", {}).get("bottom")
-
-            if line_top is None or line_bottom is None:
-                continue
-
-            # Handle case where first line is below header zone
-            if i == 0 and line_top >= header_max_y:
-                candidate_header_bottom_y = 0
-                break
-
-            # Track the bottom of the last line in header zone
-            if line_top < header_max_y:
-                last_line_in_header_zone_bottom = max(last_line_in_header_zone_bottom, line_bottom)
-
-            # Process lines in header zone
-            if line_top < header_max_y:
-                header_block_lines.append(current_line)
-                current_block_bottom = line_bottom
-
-                if i + 1 < len(page_lines):
-                    next_line = page_lines[i + 1]
-                    gap = current_line.get('gap_after')
-                    
-                    if gap is not None:
-                        # Use contextual classification
-                        gap_type = self._classify_gap_contextual(
-                            gap,
-                            current_line.get('predominant_size', 0),
-                            spacing_rules_by_context
-                        )
-                        
-                        if gap_type in [SPACING_TYPES['SECTION'], SPACING_TYPES['WIDE']]:
-                            candidate_header_bottom_y = current_block_bottom
-                            break
-                else:
-                    candidate_header_bottom_y = current_block_bottom
-                    break
-            else:
-                # Handle transition out of header zone
-                if not header_block_lines:
-                    candidate_header_bottom_y = 0
-                elif candidate_header_bottom_y == 0:
-                    candidate_header_bottom_y = last_line_in_header_zone_bottom
-                break
-
-        return round_to_nearest(candidate_header_bottom_y, ROUND_TO_NEAREST_PT)
-
-    def _identify_footer_boundary_contextual(
-        self,
-        page_lines: List[Dict],
-        footer_min_y: float,
-        page_height: float,
-        spacing_rules_by_context: Dict[float, Dict[str, Any]]
-    ) -> float:
-        """Identify the footer boundary using contextual spacing analysis.
-        
-        Args:
-            page_lines: List of line objects for the page
-            footer_min_y: Minimum y-coordinate for footer zone
-            page_height: Height of the page in points
-            spacing_rules_by_context: Dictionary of spacing rules by context
-            
-        Returns:
-            Y-coordinate of the footer top boundary
-        """
-        candidate_footer_top_y = page_height
-        footer_block_lines = []
-        first_line_in_footer_zone_top = page_height
-
-        for i in range(len(page_lines) - 1, -1, -1):
-            current_line = page_lines[i]
-            line_top = current_line.get("bbox", {}).get("top")
-            line_bottom = current_line.get("bbox", {}).get("bottom")
-
-            if line_top is None or line_bottom is None:
-                continue
-
-            # Handle case where last line is above footer zone
-            if i == len(page_lines) - 1 and line_bottom <= footer_min_y:
-                candidate_footer_top_y = page_height
-                break
-
-            # Track the top of the first line in footer zone
-            if line_bottom > footer_min_y:
-                first_line_in_footer_zone_top = min(first_line_in_footer_zone_top, line_top)
-
-            # Process lines in footer zone
-            if line_bottom > footer_min_y:
-                footer_block_lines.append(current_line)
-                current_block_top = line_top
-
-                if i - 1 >= 0:
-                    prev_line = page_lines[i - 1]
-                    gap = current_line.get('gap_before')
-                    
-                    if gap is not None:
-                        # Use contextual classification
-                        gap_type = self._classify_gap_contextual(
-                            gap,
-                            current_line.get('predominant_size', 0),
-                            spacing_rules_by_context
-                        )
-                        
-                        if gap_type in [SPACING_TYPES['SECTION'], SPACING_TYPES['WIDE']]:
-                            candidate_footer_top_y = current_block_top
-                            break
-                else:
-                    candidate_footer_top_y = current_block_top
-                    break
-            else:
-                # Handle transition out of footer zone
-                if not footer_block_lines:
-                    candidate_footer_top_y = page_height
-                elif candidate_footer_top_y == page_height:
-                    candidate_footer_top_y = first_line_in_footer_zone_top
-                break
-
-        return round_to_nearest(candidate_footer_top_y, ROUND_TO_NEAREST_PT)
+        self.pdf_analyzer = PDFAnalyzer(debug_level)
 
     def print_analysis(self, results: Dict, output_file: Optional[str] = None, show_output: bool = False) -> None:
         """Print analysis results in a readable format.
@@ -1035,18 +960,283 @@ class DocumentAnalyzer:
         output_text = "\n".join(output)
 
         # Always save to file
-        try:
-            with open(output_file, "w", encoding="utf-8") as f:
-                f.write(output_text)
-            print(f"Analysis results saved to {output_file}")
-        except Exception as e:
-            print(f"Error saving analysis results to file: {e}")
-            return
+        if output_file:
+            try:
+                with open(output_file, "w", encoding="utf-8") as f:
+                    f.write(output_text)
+                print(f"Analysis results saved to {output_file}")
+            except Exception as e:
+                print(f"Error saving analysis results to file: {e}")
+                return
 
         # Optionally show on stdout
         if show_output:
             print("\nAnalysis Results:")
             print(output_text)
+
+    def analyze_document(self, lines_file: str) -> Dict:
+        """Analyze document structure from lines JSON file.
+        
+        This is the main entry point for document analysis. It performs multiple
+        passes over the document to collect various statistics and identify
+        document structure.
+        
+        Args:
+            lines_file: Path to the JSON file containing processed line data
+                       (blank lines removed and gaps adjusted)
+            
+        Returns:
+            Dict containing analysis results including:
+            - Font usage statistics
+            - Size distribution
+            - Spacing patterns
+            - Header/footer boundaries
+            - Contextual spacing rules
+            
+        Raises:
+            FileNotFoundError: If the input file doesn't exist
+            JSONDecodeError: If the input file isn't valid JSON
+        """
+        # --- Load and Validate Input ---
+        try:
+            with open(lines_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            print(f"Error: File not found at {lines_file}")
+            return None
+        except json.JSONDecodeError:
+            print(f"Error: Could not decode JSON from {lines_file}")
+            return None
+        except Exception as e:
+            print(f"An unexpected error occurred loading the file: {e}")
+            return None
+
+        # --- Initialize Analysis Variables ---
+        all_fonts = []
+        all_sizes = []
+        page_details = []
+        max_page_bottom = 0
+
+        print(f"Analyzing {len(data)} page(s)...")
+
+        # --- First Pass: Collect Basic Stats ---
+        for page_data in data:
+            page_num = page_data.get("page", "Unknown")
+            lines = page_data.get("lines", [])
+            page_height = page_data.get("page_height", DEFAULT_PAGE_HEIGHT)
+
+            print(f"  Processing Page {page_num} with {len(lines)} lines (Pass 1).")
+
+            page_max_bottom = 0
+            valid_lines_for_page = []
+
+            # Process each line on the page
+            for line in lines:
+                bbox = line.get("bbox")
+                text_segments = line.get("text_segments", [])
+
+                # Skip invalid lines
+                if not text_segments or not bbox or not line.get("text", "").strip():
+                    continue
+
+                line_top = bbox.get("top")
+                line_bottom = bbox.get("bottom")
+
+                if line_top is None or line_bottom is None or line_bottom <= line_top:
+                    continue
+
+                valid_lines_for_page.append(line)
+
+                # Update page height estimate
+                if line_bottom > page_max_bottom:
+                    page_max_bottom = line_bottom
+
+                # --- Font and Size Analysis ---
+                for segment in text_segments:
+                    font_name = segment.get("font", "UnknownFont")
+                    font_size = segment.get("rounded_size")
+                    if font_size is not None:
+                        rounded_font_size = round_to_nearest(font_size, ROUND_TO_NEAREST_PT)
+                        all_fonts.append(font_name)
+                        all_sizes.append(rounded_font_size)
+
+            # Store page details
+            page_details.append({
+                "page_num": page_num,
+                "lines": valid_lines_for_page,
+                "estimated_height": page_max_bottom,
+            })
+            if page_max_bottom > max_page_bottom:
+                max_page_bottom = page_max_bottom
+
+        # --- Aggregate Initial Results ---
+        if not all_fonts or not all_sizes:
+            print("Warning: Insufficient data found to perform basic analysis.")
+            analysis_results = self._create_empty_analysis_results(page_details, max_page_bottom)
+        else:
+            analysis_results = self._create_analysis_results(
+                all_fonts, all_sizes, [], page_details, max_page_bottom
+            )
+
+        # --- Perform Detailed Analysis ---
+        print("\nPerforming detailed analysis...")
+        
+        # Analyze spacing patterns
+        spacing_analysis = self.pdf_analyzer._analyze_line_spacing(data)
+        analysis_results.update(spacing_analysis)
+        
+        # Analyze paragraph spacing
+        para_analysis = self.pdf_analyzer._analyze_paragraph_spacing(data)
+        analysis_results.update(para_analysis)
+        
+        # Analyze spacing distribution
+        distribution_analysis = self.pdf_analyzer._analyze_spacing_distribution(data)
+        analysis_results.update(distribution_analysis)
+        
+        # Analyze headers and footers
+        header_analysis = self.pdf_analyzer._identify_header_footer_candidates(data, 'header')
+        footer_analysis = self.pdf_analyzer._identify_header_footer_candidates(data, 'footer')
+        analysis_results.update({
+            'header_candidates': header_analysis['y_coord_counts'],
+            'footer_candidates': footer_analysis['y_coord_counts']
+        })
+        
+        # Analyze headers and footers using contextual method
+        contextual_header_analysis = self.pdf_analyzer._identify_header_footer_contextual(data, 'header')
+        contextual_footer_analysis = self.pdf_analyzer._identify_header_footer_contextual(data, 'footer')
+        analysis_results.update({
+            'contextual_header_candidates': contextual_header_analysis['y_coord_counts'],
+            'contextual_footer_candidates': contextual_footer_analysis['y_coord_counts']
+        })
+
+        # --- Determine Final Boundaries ---
+        analysis_results.update(self._determine_final_boundaries(
+            analysis_results,
+            max_page_bottom
+        ))
+
+        return analysis_results
+
+    def _create_empty_analysis_results(self, page_details: List[Dict], max_page_bottom: float) -> Dict:
+        """Create empty analysis results structure.
+        
+        Args:
+            page_details: List of page details
+            max_page_bottom: Maximum page bottom coordinate
+            
+        Returns:
+            Dictionary with empty analysis results
+        """
+        return {
+                "font_counts": {},
+                "size_counts": {},
+                "spacing_counts": {},
+                "most_common_font": None,
+                "most_common_size": None,
+                "most_common_spacing": None,
+                "page_details": page_details,
+                "overall_estimated_height": max_page_bottom or DEFAULT_PAGE_HEIGHT,
+                "header_candidates": {},
+                "footer_candidates": {},
+                "contextual_gaps": {},
+                "contextual_spacing_rules": {},
+                "contextual_header_candidates": {},
+                "contextual_footer_candidates": {},
+            }
+
+    def _create_analysis_results(
+        self,
+        all_fonts: List[str],
+        all_sizes: List[float],
+        all_spacings: List[float],
+        page_details: List[Dict],
+        max_page_bottom: float
+    ) -> Dict:
+        """Create analysis results from collected data.
+        
+        Args:
+            all_fonts: List of all font names
+            all_sizes: List of all font sizes
+            all_spacings: List of all spacings
+            page_details: List of page details
+            max_page_bottom: Maximum page bottom coordinate
+            
+        Returns:
+            Dictionary with analysis results
+        """
+        font_counts = Counter(all_fonts)
+        size_counts = Counter(all_sizes)
+        spacing_counts = Counter(all_spacings)
+    
+        # Find most common values
+        most_common_font = font_counts.most_common(1)[0] if font_counts else None
+        most_common_size = size_counts.most_common(1)[0] if size_counts else None
+    
+        # Find most common non-zero spacing
+        common_spacings = spacing_counts.most_common()
+        most_common_spacing = None
+        for sp, count in common_spacings:
+            if sp > 0.01:
+                most_common_spacing = (sp, count)
+                break
+        if most_common_spacing is None and common_spacings:
+            most_common_spacing = common_spacings[0]
+
+        return {
+                "font_counts": dict(font_counts),
+                "size_counts": dict(size_counts),
+                "spacing_counts": dict(spacing_counts),
+                "most_common_font": most_common_font,
+                "most_common_size": most_common_size,
+                "most_common_spacing": most_common_spacing,
+                "page_details": page_details,
+                "overall_estimated_height": max_page_bottom or DEFAULT_PAGE_HEIGHT,
+                "header_candidates": {},
+                "footer_candidates": {},
+                "contextual_gaps": {},
+                "contextual_spacing_rules": {},
+                "contextual_header_candidates": {},
+                "contextual_footer_candidates": {},
+            }
+
+    def _determine_final_boundaries(self, analysis_results: Dict, page_height: float) -> Dict:
+        """Determine final header and footer boundaries.
+        
+        Args:
+            analysis_results: Dictionary containing analysis results
+            page_height: Height of the page in points
+            
+        Returns:
+            Dictionary with final boundary coordinates
+        """
+        # Convert dictionaries to Counter objects
+        header_candidates = Counter(analysis_results.get("header_candidates", {}))
+        footer_candidates = Counter(analysis_results.get("footer_candidates", {}))
+        contextual_header_candidates = Counter(analysis_results.get("contextual_header_candidates", {}))
+        contextual_footer_candidates = Counter(analysis_results.get("contextual_footer_candidates", {}))
+        
+        return {
+            "final_header_bottom": (
+                header_candidates.most_common(1)[0][0]
+                if header_candidates
+                else 0.0
+            ),
+            "final_footer_top": (
+                footer_candidates.most_common(1)[0][0]
+                if footer_candidates
+                else page_height
+            ),
+            "contextual_final_header_bottom": (
+                contextual_header_candidates.most_common(1)[0][0]
+                if contextual_header_candidates
+                else 0.0
+            ),
+            "contextual_final_footer_top": (
+                contextual_footer_candidates.most_common(1)[0][0]
+                if contextual_footer_candidates
+                else page_height
+            )
+        }
 
     def _collect_contextual_gaps(self, lines: List[Dict]) -> Dict[float, Dict[str, Any]]:
         """Collect gaps between lines with the same predominant size.
@@ -1100,117 +1290,4 @@ class DocumentAnalyzer:
                 'total_lines': total_lines_by_context.get(context_size, 0)
             }
         
-        return gaps_by_context
-
-    def _analyze_contextual_spacing(self, gaps_by_context: Dict[float, Dict[str, Any]]) -> Dict[float, Dict[str, Any]]:
-        """Analyze spacing patterns for each context size.
-        
-        Takes the collected gaps and analyzes them to determine spacing rules
-        for each font size context. This includes identifying:
-        - Line spacing ranges
-        - Paragraph spacing thresholds
-        - Section spacing patterns
-        
-        Args:
-            gaps_by_context: Dictionary mapping context sizes to gap data
-            
-        Returns:
-            Dictionary mapping context sizes to their spacing rules:
-            {
-                font_size: {
-                    'line_spacing_range': (min, max),
-                    'para_spacing_max': value,
-                    'most_common_gap': value,
-                    'gap_distribution': {gap: count},
-                    'line_gaps': {gap: count},
-                    'para_gaps': {gap: count},
-                    'section_gaps': {gap: count},
-                    'total_gaps': count,
-                    'total_lines': count
-                }
-            }
-        """
-        spacing_rules_by_context = {}
-        
-        for context_size, gap_data in gaps_by_context.items():
-            gap_list = gap_data['gaps']
-            total_lines = gap_data['total_lines']
-            
-            if not gap_list:
-                continue
-                
-            # Get frequency distribution of gaps
-            gap_counts = Counter(gap_list)
-            most_common_gap = gap_counts.most_common(1)[0][0]
-            
-            # Define line spacing range based on most common gap
-            line_spacing_range = (
-                most_common_gap * (1 - LINE_SPACING_TOLERANCE),
-                most_common_gap * (1 + LINE_SPACING_TOLERANCE)
-            )
-            
-            # Define paragraph spacing range based on font size
-            para_spacing_max = context_size * PARA_SPACING_MULTIPLIER
-            
-            # Collect gaps within each category
-            line_gaps = {g: c for g, c in gap_counts.items() if g <= line_spacing_range[1]}
-            para_gaps = {g: c for g, c in gap_counts.items() 
-                        if g > line_spacing_range[1] and g <= para_spacing_max}
-            section_gaps = {g: c for g, c in gap_counts.items() 
-                          if g > para_spacing_max}
-            
-            # Store rules and statistics for this context
-            spacing_rules_by_context[context_size] = {
-                'line_spacing_range': line_spacing_range,
-                'para_spacing_max': para_spacing_max,
-                'most_common_gap': most_common_gap,
-                'gap_distribution': dict(gap_counts),
-                'line_gaps': dict(sorted(line_gaps.items())),
-                'para_gaps': dict(sorted(para_gaps.items())),
-                'section_gaps': dict(sorted(section_gaps.items())),
-                'total_gaps': len(gap_list),
-                'total_lines': total_lines
-            }
-        
-        return spacing_rules_by_context
-
-    def _classify_gap_contextual(
-        self, 
-        gap: float, 
-        context_size: float, 
-        spacing_rules_by_context: Dict[float, Dict[str, Any]]
-    ) -> str:
-        """Classify a gap based on contextual rules.
-        
-        Uses the spacing rules determined for a particular font size context
-        to classify a gap as line spacing, paragraph spacing, or section spacing.
-        
-        Args:
-            gap: The gap to classify in points
-            context_size: The predominant size of the line
-            spacing_rules_by_context: Dictionary of spacing rules by context
-            
-        Returns:
-            String classification of the gap ('Tight', 'Line', 'Paragraph',
-            'Section', or 'Wide')
-        """
-        if context_size not in spacing_rules_by_context:
-            # Fall back to most common font size if available
-            common_sizes = sorted(spacing_rules_by_context.keys(), 
-                                key=lambda x: spacing_rules_by_context[x]['total_gaps'],
-                                reverse=True)
-            if common_sizes:
-                context_size = common_sizes[0]
-            else:
-                return SPACING_TYPES['OTHER']
-            
-        rules = spacing_rules_by_context[context_size]
-        rounded_gap = round(gap / GAP_ROUNDING) * GAP_ROUNDING
-        
-        # Check if gap falls within any defined range
-        if rounded_gap <= rules['line_spacing_range'][1]:
-            return SPACING_TYPES['LINE']
-        elif rounded_gap <= rules['para_spacing_max']:
-            return SPACING_TYPES['PARA']
-        else:
-            return SPACING_TYPES['SECTION'] 
+        return gaps_by_context 
