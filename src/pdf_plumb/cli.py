@@ -225,7 +225,7 @@ def process_pdf(args) -> None:
         # Initialize components
         extractor = PDFExtractor(debug_level=args.debug_level)
         analyzer = DocumentAnalyzer(debug_level=args.debug_level)
-        visualizer = SpacingVisualizer(output_dir=args.output_dir)
+        visualizer = SpacingVisualizer(output_dir=args.output_dir, debug_level=args.debug_level)
         
         # Extract text and metadata
         print(f"\nExtracting text from {args.pdf_file}...")
@@ -240,29 +240,61 @@ def process_pdf(args) -> None:
         analysis_results = analyzer.analyze_document_data(results['lines_json_by_page'], base_name)
         
         # Print analysis results
-        analyzer.print_analysis(analysis_results, show_output=args.show_output)
+        output_file = args.output_file or os.path.join(args.output_dir, f"{base_name}_analysis.txt")
+        analyzer.print_analysis(analysis_results, output_file=output_file, show_output=args.show_output)
         
-        # Create line spacing visualization
-        print("\nCreating line spacing visualization...")
-        visualizer.create_visualization(
-            input_pdf=args.pdf_file,
-            output_pdf=os.path.join(args.output_dir, f"{base_name}_spacing.pdf"),
-            spacing_ranges=visualizer.parse_spacing_sizes(args.spacing_sizes) if args.spacing_sizes else [],
-            spacing_colors=visualizer.parse_colors(args.spacing_colors),
-            spacing_patterns=visualizer.parse_patterns(args.spacing_patterns),
-            lines_data=results['lines_json_by_page']
-        )
-        
-        # Create block spacing visualization
-        print("\nCreating block spacing visualization...")
-        visualizer.create_block_visualization(
-            input_pdf=args.pdf_file,
-            output_pdf=os.path.join(args.output_dir, f"{base_name}_block_spacing.pdf"),
-            spacing_ranges=visualizer.parse_spacing_sizes(args.spacing_sizes) if args.spacing_sizes else [],
-            spacing_colors=visualizer.parse_colors(args.spacing_colors),
-            spacing_patterns=visualizer.parse_patterns(args.spacing_patterns),
-            blocks_data=analysis_results['blocks']
-        )
+        # Handle visualization if requested
+        if args.visualize_spacing:
+            # Parse spacing sizes
+            spacing_sizes = visualizer.parse_spacing_sizes(args.spacing_sizes)
+            if not spacing_sizes:
+                print("No spacing sizes specified for visualization. Using all found sizes.")
+                # Extract all unique spacing sizes from results
+                spacing_sizes = sorted(set(
+                    line.get('spacing', 0)
+                    for page in results['lines_json_by_page']
+                    for line in page['lines']
+                    if line.get('spacing') is not None
+                ))
+            
+            # Parse colors and patterns
+            spacing_colors = visualizer.parse_colors(args.spacing_colors)
+            spacing_patterns = visualizer.parse_patterns(args.spacing_patterns)
+            
+            # Create main visualization (like extract command)
+            output_pdf = os.path.join(args.output_dir, f"{base_name}_visualized.pdf")
+            print(f"Creating visualization in {output_pdf}...")
+            visualizer.create_visualization(
+                args.pdf_file,
+                output_pdf,
+                spacing_sizes,
+                spacing_colors,
+                spacing_patterns,
+                results['lines_json_by_page']
+            )
+            print("Visualization complete.")
+            
+            # Create line spacing visualization
+            print("\nCreating line spacing visualization...")
+            visualizer.create_visualization(
+                input_pdf=args.pdf_file,
+                output_pdf=os.path.join(args.output_dir, f"{base_name}_spacing.pdf"),
+                spacing_ranges=spacing_sizes,
+                spacing_colors=spacing_colors,
+                spacing_patterns=spacing_patterns,
+                lines_data=results['lines_json_by_page']
+            )
+            
+            # Create block spacing visualization
+            print("\nCreating block spacing visualization...")
+            visualizer.create_block_visualization(
+                input_pdf=args.pdf_file,
+                output_pdf=os.path.join(args.output_dir, f"{base_name}_block_spacing.pdf"),
+                spacing_ranges=spacing_sizes,
+                spacing_colors=spacing_colors,
+                spacing_patterns=spacing_patterns,
+                blocks_data=analysis_results['blocks']
+            )
         
         print(f"\nProcessing complete. Results saved to {args.output_dir}")
         
