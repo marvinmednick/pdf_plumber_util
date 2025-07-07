@@ -22,9 +22,11 @@ text alignment, font analysis, and spacing calculations.
 import json
 from typing import Dict, List, Optional
 import pdfplumber
+from rich.progress import Progress, TaskID
 from ..utils.helpers import normalize_line
 from ..utils.file_handler import FileHandler
 from ..core.utils.logging import LogManager
+from ..config import get_config
 
 
 class PDFExtractor:
@@ -48,20 +50,15 @@ class PDFExtractor:
         extra_attrs (List[str]): Additional attributes to extract from PDF
     """
 
-    def __init__(self, y_tolerance: float = 3.0, x_tolerance: float = 3.0, debug_level: str = 'INFO'):
-        """Initialize the extractor.
-        
-        Args:
-            y_tolerance: Y-axis tolerance for word alignment
-            x_tolerance: X-axis tolerance for word alignment
-            debug_level: Logging level (DEBUG, INFO, WARNING, ERROR)
-        """
-        self.y_tolerance = y_tolerance
-        self.x_tolerance = x_tolerance
-        self.gap_rounding = 0.5
+    def __init__(self):
+        """Initialize the extractor using configuration."""
+        self.config = get_config()
+        self.y_tolerance = self.config.y_tolerance
+        self.x_tolerance = self.config.x_tolerance
+        self.gap_rounding = self.config.gap_rounding
         self.extra_attrs = ["x0", "y0", "x1", "y1", "text", "fontname", "size", "top", "adv"]
-        self.logger = LogManager(debug_level)
-        self.file_handler = FileHandler(debug_level=debug_level)
+        self.logger = LogManager(self.config.log_level)
+        self.file_handler = FileHandler(debug_level=self.config.log_level)
 
     def extract_from_pdf(self, pdf_path: str) -> Dict:
         """Extract text from PDF using multiple methods.
@@ -100,50 +97,55 @@ class PDFExtractor:
 
         # --- Process PDF File ---
         with pdfplumber.open(pdf_path) as pdf:
-            for page_num, page in enumerate(pdf.pages):
-                # --- Method 1: Raw Text Extraction ---
-                text_raw = page.extract_text()
-                results["extract_text"].append({
-                    "page": page_num + 1,
-                    "content": text_raw.split("\n") if text_raw else [],
-                })
-
-                # --- Method 2: Text Line Extraction ---
-                text_lines = page.extract_text_lines(layout=True)
-                results["extract_text_lines"].append({
-                    "page": page_num + 1,
-                    "content": [line["text"] for line in text_lines] if text_lines else [],
-                })
-
-                # --- Method 3: Word-based Extraction ---
-                words = page.extract_words(
-                    x_tolerance_ratio=0.3,
-                    use_text_flow=True,
-                    keep_blank_chars=True,
-                    extra_attrs=self.extra_attrs
-                )
-
-                if words:
-                    # Process words into lines and segments
-                    lines_json, raw_words = self._process_words(words, page_num + 1, page.width, page.height)
-                    results["lines_json_by_page"].append(lines_json)
-                    results["raw_words_by_page"].append(raw_words)
-                    results["extract_words_manual"].append({
+            with Progress() as progress:
+                task = progress.add_task("Extracting PDF pages...", total=len(pdf.pages))
+                
+                for page_num, page in enumerate(pdf.pages):
+                    # --- Method 1: Raw Text Extraction ---
+                    text_raw = page.extract_text()
+                    results["extract_text"].append({
                         "page": page_num + 1,
-                        "content": [" ".join(w["text"] for w in line) for line in self._combine_words(words)],
+                        "content": text_raw.split("\n") if text_raw else [],
                     })
-                else:
-                    # Handle empty page case
-                    results["lines_json_by_page"].append({
+
+                    # --- Method 2: Text Line Extraction ---
+                    text_lines = page.extract_text_lines(layout=True)
+                    results["extract_text_lines"].append({
                         "page": page_num + 1,
-                        "lines": [],
-                        "page_width": page.width,
-                        "page_height": page.height
+                        "content": [line["text"] for line in text_lines] if text_lines else [],
                     })
-                    results["raw_words_by_page"].append({
-                        "page": page_num + 1,
-                        "words": []
-                    })
+
+                    # --- Method 3: Word-based Extraction ---
+                    words = page.extract_words(
+                        x_tolerance_ratio=0.3,
+                        use_text_flow=True,
+                        keep_blank_chars=True,
+                        extra_attrs=self.extra_attrs
+                    )
+
+                    if words:
+                        # Process words into lines and segments
+                        lines_json, raw_words = self._process_words(words, page_num + 1, page.width, page.height)
+                        results["lines_json_by_page"].append(lines_json)
+                        results["raw_words_by_page"].append(raw_words)
+                        results["extract_words_manual"].append({
+                            "page": page_num + 1,
+                            "content": [" ".join(w["text"] for w in line) for line in self._combine_words(words)],
+                        })
+                    else:
+                        # Handle empty page case
+                        results["lines_json_by_page"].append({
+                            "page": page_num + 1,
+                            "lines": [],
+                            "page_width": page.width,
+                            "page_height": page.height
+                        })
+                        results["raw_words_by_page"].append({
+                            "page": page_num + 1,
+                            "words": []
+                        })
+                    
+                    progress.advance(task)
 
             # --- Generate Comparison Data ---
             results["comparison"] = self._generate_comparison(results)

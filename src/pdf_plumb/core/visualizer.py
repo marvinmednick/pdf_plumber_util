@@ -4,7 +4,7 @@ from typing import List, Dict, Optional, Union, Tuple
 from pathlib import Path
 import re
 import fitz  # PyMuPDF
-from ..utils.constants import ROUND_TO_NEAREST_PT
+from ..config import get_config
 from ..utils.helpers import round_to_nearest
 from ..utils.file_handler import FileHandler
 import collections
@@ -14,60 +14,13 @@ from ..core.utils.logging import LogManager
 class SpacingVisualizer:
     """Visualizes vertical spacing patterns in PDF documents."""
     
-    # Default colors and patterns
-    DEFAULT_COLORS = [
-        'red',      # Primary color 1
-        'blue',     # Primary color 2
-        'green',    # Primary color 3
-        'purple',   # Primary color 4
-        'orange',   # Primary color 5
-        'pink',     # Distinct color 1
-        'magenta',  # Distinct color 2
-        'yellow',   # Distinct color 3
-        'lightblue',# Distinct color 4
-        'darkred',  # Dark variant 1
-        'darkblue', # Dark variant 2
-        'darkgreen',# Dark variant 3
-        'crimson',  # Additional color 1
-        'navy',     # Additional color 2
-        'forestgreen', # Additional color 3
-        'indigo',   # Additional color 4
-        'orangered',# Additional color 5
-        'hotpink',  # Additional color 6
-        'slategray',# Additional color 7
-        'deeppink', # Additional color 8
-        'darkviolet',# Additional color 9
-        'darkorange',# Additional color 10
-        'chocolate',# Additional color 11
-        'dimgray',  # Additional color 12
-        'saddlebrown',# Additional color 13
-        'forestgreen',# Additional color 14
-        'navy',     # Additional color 15
-        'crimson',  # Additional color 16
-        'orangered',# Additional color 17
-        'hotpink',  # Additional color 18
-        'mediumblue',# Additional color 19
-        'mediumpurple',# Additional color 20
-        'mediumseagreen',# Additional color 21
-        'mediumvioletred',# Additional color 22
-        'olive',    # Additional color 23
-        'olivedrab',# Additional color 24
-        'peru',     # Additional color 25
-        'plum',     # Additional color 26
-        'powderblue',# Additional color 27
-        'rosybrown',# Additional color 28
-        'royalblue',# Additional color 29
-        'sienna',   # Additional color 30
-        'skyblue',  # Additional color 31
-        'steelblue',# Additional color 32
-        'tan',      # Additional color 33
-        'thistle',  # Additional color 34
-        'tomato',   # Additional color 35
-        'turquoise',# Additional color 36
-        'violet',   # Additional color 37
-        'wheat',    # Additional color 38
-        'yellowgreen'# Additional color 39
-    ]
+    def __init__(self):
+        """Initialize the visualizer with configuration."""
+        self.config = get_config()
+        
+        # Use colors from config
+        self.DEFAULT_COLORS = self.config.default_spacing_colors
+        self.DEFAULT_PATTERNS = self.config.default_spacing_patterns
     
     # Pattern definitions with varying line widths and dash patterns
     # Format: (pattern_name, line_width, dash_pattern)
@@ -317,7 +270,7 @@ class SpacingVisualizer:
                 if first_line:
                     top_gap = first_line['bbox']['top']
                     if top_gap > 0:
-                        spacing = round_to_nearest(top_gap, ROUND_TO_NEAREST_PT)
+                        spacing = round_to_nearest(top_gap, self.config.round_to_nearest_pt)
                         for i, range_spec in enumerate(spacing_ranges):
                             if self.matches_range(spacing, range_spec):
                                 spacing_occurrences[spacing] += 1
@@ -343,7 +296,7 @@ class SpacingVisualizer:
                     if prev_bottom is not None:
                         raw_spacing = top - prev_bottom
                         if raw_spacing > 0:
-                            spacing = round_to_nearest(raw_spacing, ROUND_TO_NEAREST_PT)
+                            spacing = round_to_nearest(raw_spacing, self.config.round_to_nearest_pt)
                             for i, range_spec in enumerate(spacing_ranges):
                                 if self.matches_range(spacing, range_spec):
                                     spacing_occurrences[spacing] += 1
@@ -355,7 +308,7 @@ class SpacingVisualizer:
                 if last_line:
                     bottom_gap = page_height - last_line['bbox']['bottom']
                     if bottom_gap > 0:
-                        spacing = round_to_nearest(bottom_gap, ROUND_TO_NEAREST_PT)
+                        spacing = round_to_nearest(bottom_gap, self.config.round_to_nearest_pt)
                         for i, range_spec in enumerate(spacing_ranges):
                             if self.matches_range(spacing, range_spec):
                                 spacing_occurrences[spacing] += 1
@@ -673,7 +626,7 @@ class SpacingVisualizer:
             if first_block:
                 top_gap = first_block['bbox']['top']
                 if top_gap > 0:
-                    spacing = round_to_nearest(top_gap, ROUND_TO_NEAREST_PT)
+                    spacing = round_to_nearest(top_gap, self.config.round_to_nearest_pt)
                     for i, range_spec in enumerate(spacing_ranges):
                         if self.matches_range(spacing, range_spec):
                             spacing_occurrences[spacing] += 1
@@ -688,7 +641,7 @@ class SpacingVisualizer:
                 # Calculate gap between blocks
                 gap = curr_block['bbox']['top'] - prev_block['bbox']['bottom']
                 if gap > 0:
-                    spacing = round_to_nearest(gap, ROUND_TO_NEAREST_PT)
+                    spacing = round_to_nearest(gap, self.config.round_to_nearest_pt)
                     for i, range_spec in enumerate(spacing_ranges):
                         if self.matches_range(spacing, range_spec):
                             spacing_occurrences[spacing] += 1
@@ -699,7 +652,7 @@ class SpacingVisualizer:
             if last_block:
                 bottom_gap = page_height - last_block['bbox']['bottom']
                 if bottom_gap > 0:
-                    spacing = round_to_nearest(bottom_gap, ROUND_TO_NEAREST_PT)
+                    spacing = round_to_nearest(bottom_gap, self.config.round_to_nearest_pt)
                     for i, range_spec in enumerate(spacing_ranges):
                         if self.matches_range(spacing, range_spec):
                             spacing_occurrences[spacing] += 1

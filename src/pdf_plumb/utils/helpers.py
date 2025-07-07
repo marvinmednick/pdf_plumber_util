@@ -2,11 +2,14 @@
 
 import re
 from typing import Any, Dict, List, Optional
-from .constants import ROUND_TO_NEAREST_PT
+from ..config import get_config
 
 
-def round_to_nearest(value: float, nearest: float = ROUND_TO_NEAREST_PT) -> float:
+def round_to_nearest(value: float, nearest: float = None) -> float:
     """Round value to the nearest specified increment (e.g., 0.5 or 0.25)."""
+    if nearest is None:
+        config = get_config()
+        nearest = config.round_to_nearest_pt
     return round(value / nearest) * nearest
 
 

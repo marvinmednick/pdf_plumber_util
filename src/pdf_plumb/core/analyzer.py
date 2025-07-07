@@ -20,26 +20,15 @@ with the contextual method taking into account font sizes and spacing patterns.
 import json
 from collections import Counter
 from typing import Dict, List, Optional, Tuple, Any
-from ..utils.constants import (
-    POINTS_PER_INCH,
-    DEFAULT_PAGE_HEIGHT,
-    HEADER_ZONE_INCHES,
-    FOOTER_ZONE_INCHES,
-    LARGE_GAP_MULTIPLIER,
-    SMALL_GAP_MULTIPLIER,
-    ROUND_TO_NEAREST_PT,
-)
+from ..config import get_config
 from ..utils.helpers import round_to_nearest, ensure_output_dir
 from ..utils.file_handler import FileHandler
 from pathlib import Path
 from .utils.logging import LogManager
 
 
-# --- Constants for Contextual Analysis ---
-LINE_SPACING_TOLERANCE = 0.2  # 20% tolerance for line spacing
-PARA_SPACING_MULTIPLIER = 1.1  # Paragraph spacing is ~1.1x font size
-SECTION_SPACING_MULTIPLIER = 2.0  # Section spacing is > paragraph spacing
-GAP_ROUNDING = 0.5  # Round gaps to nearest 0.5pt for analysis
+# Get configuration instance
+config = get_config()
 
 # --- Spacing Classification Types ---
 SPACING_TYPES = {
@@ -109,7 +98,7 @@ class PDFAnalyzer:
                 
                 if gap is not None and gap > 0.01:
                     # Round gap to nearest 0.5pt for analysis
-                    rounded_gap = round(gap / GAP_ROUNDING) * GAP_ROUNDING
+                    rounded_gap = round(gap / config.gap_rounding) * config.gap_rounding
                     gaps_by_context.setdefault(context_size, []).append(rounded_gap)
         
         # Add total line counts to the results
@@ -164,12 +153,12 @@ class PDFAnalyzer:
             
             # Define line spacing range based on most common gap
             line_spacing_range = (
-                most_common_gap * (1 - LINE_SPACING_TOLERANCE),
-                most_common_gap * (1 + LINE_SPACING_TOLERANCE)
+                most_common_gap * (1 - config.line_spacing_tolerance),
+                most_common_gap * (1 + config.line_spacing_tolerance)
             )
             
             # Define paragraph spacing range based on font size
-            para_spacing_max = context_size * PARA_SPACING_MULTIPLIER
+            para_spacing_max = context_size * config.para_spacing_multiplier
             
             # Collect gaps within each category
             line_gaps = {g: c for g, c in gap_counts.items() if g <= line_spacing_range[1]}
@@ -224,7 +213,7 @@ class PDFAnalyzer:
                 return SPACING_TYPES['LINE']  # Default to line spacing if no context available
             
         rules = spacing_rules_by_context[context_size]
-        rounded_gap = round(gap / GAP_ROUNDING) * GAP_ROUNDING
+        rounded_gap = round(gap / config.gap_rounding) * config.gap_rounding
         
         # Check if gap falls within any defined range
         if rounded_gap <= rules['line_spacing_range'][1]:
@@ -331,7 +320,7 @@ class PDFAnalyzer:
                 # Use gap_before for spacing analysis since it's already adjusted
                 gap_before = line.get("gap_before")
                 if gap_before is not None and gap_before > 0:
-                    rounded_spacing = round_to_nearest(gap_before, ROUND_TO_NEAREST_PT)
+                    rounded_spacing = round_to_nearest(gap_before, config.round_to_nearest_pt)
                     all_spacings.append(rounded_spacing)
         
         # Analyze spacing patterns
@@ -355,7 +344,7 @@ class PDFAnalyzer:
             potential_para_gaps = {
                 k: v for k, v in spacing_counts.items()
                 if k > common_spacing_val * para_gap_multiplier
-                and k < common_spacing_val * LARGE_GAP_MULTIPLIER * 1.5
+                and k < common_spacing_val * config.large_gap_multiplier * 1.5
             }
             
         return {
@@ -466,11 +455,11 @@ class PDFAnalyzer:
             Dictionary containing header/footer candidate analysis results
         """
         candidates = []
-        page_height = lines_data[0].get("page_height", DEFAULT_PAGE_HEIGHT)
+        page_height = lines_data[0].get("page_height", config.default_page_height)
         
         # Define analysis zones
-        header_max_y = HEADER_ZONE_INCHES * POINTS_PER_INCH
-        footer_min_y = page_height - (FOOTER_ZONE_INCHES * POINTS_PER_INCH)
+        header_max_y = config.header_zone_inches * config.points_per_inch
+        footer_min_y = page_height - (config.footer_zone_inches * config.points_per_inch)
         
         for page_data in lines_data:
             lines = page_data.get("lines", [])
@@ -493,7 +482,7 @@ class PDFAnalyzer:
                             
                             if next_line_top is not None:
                                 gap = next_line_top - line_bottom
-                                if gap >= LARGE_GAP_MULTIPLIER * self._get_base_spacing(lines):
+                                if gap >= config.large_gap_multiplier * self._get_base_spacing(lines):
                                     candidates.append({
                                         'page': page_num,
                                         'y_coord': line_bottom,
@@ -518,7 +507,7 @@ class PDFAnalyzer:
                             
                             if prev_line_bottom is not None:
                                 gap = line_top - prev_line_bottom
-                                if gap >= LARGE_GAP_MULTIPLIER * self._get_base_spacing(lines):
+                                if gap >= config.large_gap_multiplier * self._get_base_spacing(lines):
                                     candidates.append({
                                         'page': page_num,
                                         'y_coord': line_top,
@@ -575,11 +564,11 @@ class PDFAnalyzer:
             Dictionary containing contextual header/footer analysis results
         """
         candidates = []
-        page_height = lines_data[0].get("page_height", DEFAULT_PAGE_HEIGHT)
+        page_height = lines_data[0].get("page_height", config.default_page_height)
         
         # Define analysis zones
-        header_max_y = HEADER_ZONE_INCHES * POINTS_PER_INCH
-        footer_min_y = page_height - (FOOTER_ZONE_INCHES * POINTS_PER_INCH)
+        header_max_y = config.header_zone_inches * config.points_per_inch
+        footer_min_y = page_height - (config.footer_zone_inches * config.points_per_inch)
         
         # Collect all lines for contextual analysis
         all_lines = []
@@ -900,16 +889,16 @@ class DocumentAnalyzer:
             output.append("  No font data found.")
 
         # Size analysis
-        output.append(f"\nFont Size Analysis (Rounded to nearest {ROUND_TO_NEAREST_PT}pt):")
+        output.append(f"\nFont Size Analysis (Rounded to nearest {config.round_to_nearest_pt}pt):")
         likely_body_size = "N/A"
         if results["size_counts"]:
             sorted_sizes = sorted(results["size_counts"].items(), key=lambda item: item[0])
             output.append("  Distribution:")
             for size, count in sorted_sizes:
-                rounded_size = round_to_nearest(size, ROUND_TO_NEAREST_PT)
+                rounded_size = round_to_nearest(size, config.round_to_nearest_pt)
                 output.append(f"    - {rounded_size:.2f} pt: {count} lines")
             if results["most_common_size"]:
-                likely_body_size_val = round_to_nearest(results['most_common_size'][0], ROUND_TO_NEAREST_PT)
+                likely_body_size_val = round_to_nearest(results['most_common_size'][0], config.round_to_nearest_pt)
                 likely_body_size = f"{likely_body_size_val:.2f} pt"
                 output.append(f"\n  Conclusion: Likely body text size is {likely_body_size} ({results['most_common_size'][1]} lines).")
             else:
@@ -918,7 +907,7 @@ class DocumentAnalyzer:
             output.append("  No font size data found.")
 
         # Spacing analysis
-        output.append(f"\nVertical Line Spacing Analysis (Gap between lines, rounded to {ROUND_TO_NEAREST_PT}pt):")
+        output.append(f"\nVertical Line Spacing Analysis (Gap between lines, rounded to {config.round_to_nearest_pt}pt):")
         likely_line_spacing = "N/A"
         likely_para_spacing = "N/A"
         potential_para_gaps_found = []
@@ -928,7 +917,7 @@ class DocumentAnalyzer:
             limit = 10
             count = 0
             for spacing, num in spacing_counts.most_common():
-                rounded_spacing = round_to_nearest(spacing, ROUND_TO_NEAREST_PT)
+                rounded_spacing = round_to_nearest(spacing, config.round_to_nearest_pt)
                 if count < limit or len(spacing_counts) <= limit:
                     output.append(f"    - {rounded_spacing:.2f} pt gap: {num} occurrences")
                 elif count == limit:
@@ -936,7 +925,7 @@ class DocumentAnalyzer:
                 count += 1
 
             if results["most_common_spacing"]:
-                common_spacing_val = round_to_nearest(results["most_common_spacing"][0], ROUND_TO_NEAREST_PT)
+                common_spacing_val = round_to_nearest(results["most_common_spacing"][0], config.round_to_nearest_pt)
                 likely_line_spacing = f"{common_spacing_val:.2f} pt"
                 output.append(f"\n  Conclusion: Likely standard line spacing (within paragraphs) is {likely_line_spacing} ({results['most_common_spacing'][1]} occurrences).")
 
@@ -944,14 +933,14 @@ class DocumentAnalyzer:
                 potential_para_gaps = {
                     k: v for k, v in spacing_counts.items()
                     if k > common_spacing_val * para_gap_multiplier
-                    and k < common_spacing_val * LARGE_GAP_MULTIPLIER * 1.5
+                    and k < common_spacing_val * config.large_gap_multiplier * 1.5
                 }
                 if potential_para_gaps:
                     sorted_para_gaps = sorted(potential_para_gaps.items(), key=lambda item: item[1], reverse=True)
-                    likely_para_spacing_val = round_to_nearest(sorted_para_gaps[0][0], ROUND_TO_NEAREST_PT)
+                    likely_para_spacing_val = round_to_nearest(sorted_para_gaps[0][0], config.round_to_nearest_pt)
                     likely_para_spacing = f"{likely_para_spacing_val:.2f} pt"
                     potential_para_gaps_found = [
-                        f"{round_to_nearest(g, ROUND_TO_NEAREST_PT):.2f} pt ({n} times)"
+                        f"{round_to_nearest(g, config.round_to_nearest_pt):.2f} pt ({n} times)"
                         for g, n in sorted_para_gaps[:10]
                     ]
                     output.append(f"  Conclusion: Likely paragraph spacing is around {likely_para_spacing} (found {sorted_para_gaps[0][1]} times).")
@@ -1012,8 +1001,8 @@ class DocumentAnalyzer:
 
         # Header analysis
         output.append("\nHeader Analysis:")
-        header_bottom_y = round_to_nearest(results.get("final_header_bottom", 0.0), ROUND_TO_NEAREST_PT)
-        header_bottom_in = header_bottom_y / POINTS_PER_INCH
+        header_bottom_y = round_to_nearest(results.get("final_header_bottom", 0.0), config.round_to_nearest_pt)
+        header_bottom_in = header_bottom_y / config.points_per_inch
         output.append(f"  Traditional method:")
         output.append(f"    Conclusion: Determined Header Bottom Boundary at Y = {header_bottom_y:.2f} pt ({header_bottom_in:.2f} inches from top).")
         if results.get("header_candidates"):
@@ -1023,7 +1012,7 @@ class DocumentAnalyzer:
                 limit = 10
                 count = 0
                 for y_coord, num in header_counter.most_common():
-                    rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
+                    rounded_y = round_to_nearest(y_coord, config.round_to_nearest_pt)
                     if count < limit or len(header_counter) <= limit:
                         output.append(f"      - {rounded_y:.2f} pt : {num} pages")
                     elif count == limit:
@@ -1035,8 +1024,8 @@ class DocumentAnalyzer:
             output.append("    No header candidates identified during processing.")
 
         # Contextual header analysis
-        contextual_header_bottom_y = round_to_nearest(results.get("contextual_final_header_bottom", 0.0), ROUND_TO_NEAREST_PT)
-        contextual_header_bottom_in = contextual_header_bottom_y / POINTS_PER_INCH
+        contextual_header_bottom_y = round_to_nearest(results.get("contextual_final_header_bottom", 0.0), config.round_to_nearest_pt)
+        contextual_header_bottom_in = contextual_header_bottom_y / config.points_per_inch
         output.append(f"  Contextual method:")
         output.append(f"    Conclusion: Determined Header Bottom Boundary at Y = {contextual_header_bottom_y:.2f} pt ({contextual_header_bottom_in:.2f} inches from top).")
         if results.get("contextual_header_candidates"):
@@ -1046,7 +1035,7 @@ class DocumentAnalyzer:
                 limit = 10
                 count = 0
                 for y_coord, num in contextual_header_counter.most_common():
-                    rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
+                    rounded_y = round_to_nearest(y_coord, config.round_to_nearest_pt)
                     if count < limit or len(contextual_header_counter) <= limit:
                         output.append(f"      - {rounded_y:.2f} pt : {num} pages")
                     elif count == limit:
@@ -1059,10 +1048,10 @@ class DocumentAnalyzer:
 
         # Footer analysis
         output.append("\nFooter Analysis:")
-        page_height = results.get("overall_estimated_height", DEFAULT_PAGE_HEIGHT)
-        footer_top_y = round_to_nearest(results.get("final_footer_top", page_height), ROUND_TO_NEAREST_PT)
-        footer_top_in = footer_top_y / POINTS_PER_INCH
-        footer_size_in = (page_height - footer_top_y) / POINTS_PER_INCH
+        page_height = results.get("overall_estimated_height", config.default_page_height)
+        footer_top_y = round_to_nearest(results.get("final_footer_top", page_height), config.round_to_nearest_pt)
+        footer_top_in = footer_top_y / config.points_per_inch
+        footer_size_in = (page_height - footer_top_y) / config.points_per_inch
         output.append(f"  Traditional method:")
         output.append(f"    Conclusion: Determined Footer Top Boundary at Y = {footer_top_y:.2f} pt ({footer_top_in:.2f} inches from top).")
         output.append(f"                (Implies footer region starts {footer_size_in:.2f} inches from bottom edge)")
@@ -1073,7 +1062,7 @@ class DocumentAnalyzer:
                 limit = 10
                 count = 0
                 for y_coord, num in footer_counter.most_common():
-                    rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
+                    rounded_y = round_to_nearest(y_coord, config.round_to_nearest_pt)
                     if count < limit or len(footer_counter) <= limit:
                         output.append(f"      - {rounded_y:.2f} pt : {num} pages")
                     elif count == limit:
@@ -1085,9 +1074,9 @@ class DocumentAnalyzer:
             output.append("    No footer candidates identified during processing.")
 
         # Contextual footer analysis
-        contextual_footer_top_y = round_to_nearest(results.get("contextual_final_footer_top", page_height), ROUND_TO_NEAREST_PT)
-        contextual_footer_top_in = contextual_footer_top_y / POINTS_PER_INCH
-        contextual_footer_size_in = (page_height - contextual_footer_top_y) / POINTS_PER_INCH
+        contextual_footer_top_y = round_to_nearest(results.get("contextual_final_footer_top", page_height), config.round_to_nearest_pt)
+        contextual_footer_top_in = contextual_footer_top_y / config.points_per_inch
+        contextual_footer_size_in = (page_height - contextual_footer_top_y) / config.points_per_inch
         output.append(f"  Contextual method:")
         output.append(f"    Conclusion: Determined Footer Top Boundary at Y = {contextual_footer_top_y:.2f} pt ({contextual_footer_top_in:.2f} inches from top).")
         output.append(f"                (Implies footer region starts {contextual_footer_size_in:.2f} inches from bottom edge)")
@@ -1098,7 +1087,7 @@ class DocumentAnalyzer:
                 limit = 10
                 count = 0
                 for y_coord, num in contextual_footer_counter.most_common():
-                    rounded_y = round_to_nearest(y_coord, ROUND_TO_NEAREST_PT)
+                    rounded_y = round_to_nearest(y_coord, config.round_to_nearest_pt)
                     if count < limit or len(contextual_footer_counter) <= limit:
                         output.append(f"      - {rounded_y:.2f} pt : {num} pages")
                     elif count == limit:
@@ -1188,7 +1177,7 @@ class DocumentAnalyzer:
         for page_data in data:
             page_num = page_data.get("page", "Unknown")
             lines = page_data.get("lines", [])
-            page_height = page_data.get("page_height", DEFAULT_PAGE_HEIGHT)
+            page_height = page_data.get("page_height", config.default_page_height)
 
             print(f"  Processing Page {page_num} with {len(lines)} lines (Pass 1).")
 
@@ -1221,7 +1210,7 @@ class DocumentAnalyzer:
                     font_name = segment.get("font", "UnknownFont")
                     font_size = segment.get("rounded_size")
                     if font_size is not None:
-                        rounded_font_size = round_to_nearest(font_size, ROUND_TO_NEAREST_PT)
+                        rounded_font_size = round_to_nearest(font_size, config.round_to_nearest_pt)
                         all_fonts.append(font_name)
                         all_sizes.append(rounded_font_size)
 
@@ -1313,7 +1302,7 @@ class DocumentAnalyzer:
                 "most_common_size": None,
                 "most_common_spacing": None,
                 "page_details": page_details,
-                "overall_estimated_height": max_page_bottom or DEFAULT_PAGE_HEIGHT,
+                "overall_estimated_height": max_page_bottom or config.default_page_height,
                 "header_candidates": {},
                 "footer_candidates": {},
                 "contextual_gaps": {},
@@ -1368,7 +1357,7 @@ class DocumentAnalyzer:
                 "most_common_size": most_common_size,
                 "most_common_spacing": most_common_spacing,
                 "page_details": page_details,
-                "overall_estimated_height": max_page_bottom or DEFAULT_PAGE_HEIGHT,
+                "overall_estimated_height": max_page_bottom or config.default_page_height,
                 "header_candidates": {},
                 "footer_candidates": {},
                 "contextual_gaps": {},
@@ -1447,7 +1436,7 @@ class DocumentAnalyzer:
         for page_data in data:
             page_num = page_data.get("page", "Unknown")
             lines = page_data.get("lines", [])
-            page_height = page_data.get("page_height", DEFAULT_PAGE_HEIGHT)
+            page_height = page_data.get("page_height", config.default_page_height)
 
             print(f"  Processing Page {page_num} with {len(lines)} lines (Pass 1).")
 
@@ -1480,7 +1469,7 @@ class DocumentAnalyzer:
                     font_name = segment.get("font", "UnknownFont")
                     font_size = segment.get("rounded_size")
                     if font_size is not None:
-                        rounded_font_size = round_to_nearest(font_size, ROUND_TO_NEAREST_PT)
+                        rounded_font_size = round_to_nearest(font_size, config.round_to_nearest_pt)
                         all_fonts.append(font_name)
                         all_sizes.append(rounded_font_size)
 

@@ -10,6 +10,7 @@ from .core.extractor import PDFExtractor
 from .core.analyzer import DocumentAnalyzer
 from .utils.helpers import ensure_output_dir, get_base_name
 from .core.visualizer import SpacingVisualizer
+from .config import get_config, update_config
 
 
 def add_extraction_args(parser: argparse.ArgumentParser) -> None:
@@ -22,32 +23,33 @@ def add_extraction_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "-o", "--output-dir",
         type=str,
-        default="output",
-        help="Directory to save output files (default: output)",
+        default=str(config.output_dir),
+        help=f"Directory to save output files (default: {config.output_dir})",
     )
     parser.add_argument(
         "-b", "--basename",
         type=str,
         help="Base name for output files (default: PDF filename without extension)",
     )
+    config = get_config()
     parser.add_argument(
         "-y", "--y-tolerance",
         type=float,
-        default=3.0,
-        help="Y-axis tolerance for word alignment (default: 3.0)",
+        default=config.y_tolerance,
+        help=f"Y-axis tolerance for word alignment (default: {config.y_tolerance})",
     )
     parser.add_argument(
         "-x", "--x-tolerance",
         type=float,
-        default=3.0,
-        help="X-axis tolerance for word alignment (default: 3.0)",
+        default=config.x_tolerance,
+        help=f"X-axis tolerance for word alignment (default: {config.x_tolerance})",
     )
     parser.add_argument(
         "--debug-level",
         type=str,
         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
-        default='INFO',
-        help="Set the logging level (default: INFO)",
+        default=config.log_level,
+        help=f"Set the logging level (default: {config.log_level})",
     )
     # Add visualization arguments
     parser.add_argument(
@@ -145,10 +147,14 @@ def extract_pdf(args) -> Optional[str]:
         basename = get_base_name(args.pdf_file, args.basename)
         
         # Initialize extractor
-        extractor = PDFExtractor(
+        # Update config with CLI arguments
+        update_config(
             y_tolerance=args.y_tolerance,
             x_tolerance=args.x_tolerance,
+            log_level=args.debug_level
         )
+        
+        extractor = PDFExtractor()
         
         # Extract text
         print(f"Extracting text from {args.pdf_file}...")
@@ -160,7 +166,7 @@ def extract_pdf(args) -> Optional[str]:
         
         # Handle visualization if requested
         if args.visualize_spacing:
-            visualizer = SpacingVisualizer(output_dir=output_dir, debug_level=args.debug_level)
+            visualizer = SpacingVisualizer()
             
             # Parse spacing sizes
             spacing_sizes = visualizer.parse_spacing_sizes(args.spacing_sizes)
@@ -222,10 +228,18 @@ def analyze_lines(lines_file: str, output_file: Optional[str] = None, show_outpu
 def process_pdf(args) -> None:
     """Process a PDF file through the extraction and analysis pipeline."""
     try:
+        # Update config with CLI arguments
+        update_config(
+            y_tolerance=args.y_tolerance,
+            x_tolerance=args.x_tolerance,
+            log_level=args.debug_level,
+            output_dir=Path(args.output_dir)
+        )
+        
         # Initialize components
-        extractor = PDFExtractor(debug_level=args.debug_level)
-        analyzer = DocumentAnalyzer(debug_level=args.debug_level)
-        visualizer = SpacingVisualizer(output_dir=args.output_dir, debug_level=args.debug_level)
+        extractor = PDFExtractor()
+        analyzer = DocumentAnalyzer()
+        visualizer = SpacingVisualizer()
         
         # Extract text and metadata
         print(f"\nExtracting text from {args.pdf_file}...")
