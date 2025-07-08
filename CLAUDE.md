@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-PDF Plumb is a Python PDF text extraction and analysis tool that provides comprehensive PDF document analysis capabilities. The tool uses multiple extraction strategies and advanced text processing to identify document structure, fonts, spacing patterns, headers/footers, and generates detailed visualizations.
+PDF Plumb is a modern Python PDF text extraction and analysis tool that provides comprehensive PDF document analysis capabilities. The tool uses multiple extraction strategies and advanced text processing to identify document structure, fonts, spacing patterns, headers/footers, and generates detailed visualizations.
+
+**Current Status**: Phase 1 template migration complete - modern Python project with centralized configuration, comprehensive testing, and enhanced user experience.
 
 ## Development Environment
 
@@ -14,6 +16,9 @@ This project uses Python 3.12+ and is managed with uv (modern Python package man
 - `pdfplumber>=0.11.6` - Primary PDF processing library
 - `pdfminer-six>=20250327` - Low-level PDF text extraction
 - `pymupdf>=1.25.5` - PDF manipulation and visualization
+- `rich>=13.0.0` - Enhanced CLI output and progress bars
+- `pydantic>=2.0.0` - Configuration management and validation
+- `pytest>=8.4.1` - Testing framework
 
 ## Common Commands
 
@@ -29,6 +34,38 @@ pdf-plumb analyze output_dir/filename_lines.json
 
 # Complete extraction and analysis pipeline
 pdf-plumb process input.pdf -o output_dir --visualize-spacing
+```
+
+### Configuration
+The project uses centralized Pydantic configuration with environment variable support:
+
+```bash
+# Copy example configuration
+cp .env.example .env
+
+# Edit configuration as needed
+# All settings have PDF_PLUMB_ prefix for environment variables
+```
+
+**Document type profiles** are available for different PDF types:
+- `technical` - Technical specifications
+- `academic` - Academic papers  
+- `manual` - User manuals
+- `dense` - Densely-packed documents
+
+### Testing
+The project includes a comprehensive pytest testing framework:
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run specific test categories
+uv run pytest -m unit        # Unit tests only
+uv run pytest -m integration # Integration tests only
+
+# Run with coverage
+uv run pytest --cov=src/pdf_plumb
 ```
 
 ### Development Scripts
