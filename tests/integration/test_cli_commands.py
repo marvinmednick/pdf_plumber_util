@@ -1,16 +1,16 @@
-"""Integration tests for Click CLI commands."""
+"""Integration tests for CLI commands."""
 
 import pytest
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 from click.testing import CliRunner
 
-from src.pdf_plumb.cli_click import cli
+from src.pdf_plumb.cli import cli
 
 
 @pytest.mark.integration
-class TestClickCLICommands:
-    """Test Click CLI command integration."""
+class TestCLICommands:
+    """Test CLI command integration."""
     
     def test_cli_help(self):
         """Test CLI help output."""
@@ -78,7 +78,7 @@ class TestClickCLICommands:
         assert "--visualize-spacing" in result.output
         assert "--show-output" in result.output
     
-    @patch('src.pdf_plumb.cli_click.PDFExtractor')
+    @patch('src.pdf_plumb.cli.PDFExtractor')
     def test_extract_command_basic(self, mock_extractor, temp_output_dir):
         """Test basic extract command functionality."""
         # Mock the extractor
@@ -111,7 +111,7 @@ class TestClickCLICommands:
         mock_instance.extract_from_pdf.assert_called_once_with(str(test_pdf))
         mock_instance.save_results.assert_called_once()
     
-    @patch('src.pdf_plumb.cli_click.DocumentAnalyzer')
+    @patch('src.pdf_plumb.cli.DocumentAnalyzer')
     def test_analyze_command_basic(self, mock_analyzer, sample_lines_file, temp_output_dir):
         """Test basic analyze command functionality."""
         # Mock the analyzer

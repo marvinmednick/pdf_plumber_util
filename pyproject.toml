@@ -24,7 +24,7 @@ dev = [
 ]
 
 [project.scripts]
-pdf-plumb = "pdf_plumb.cli:main"
+pdf-plumb = "pdf_plumb.cli:cli"
 
 [build-system]
 requires = ["hatchling"]

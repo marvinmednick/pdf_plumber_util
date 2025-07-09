@@ -1,180 +1,175 @@
-"""Main CLI entry point for PDF Plumb."""
+"""Modern Click-based CLI for PDF Plumb."""
 
-import argparse
-import sys
-import os
+import click
 from pathlib import Path
 from typing import Optional
+
+from rich.console import Console
+from rich.panel import Panel
 
 from .core.extractor import PDFExtractor
 from .core.analyzer import DocumentAnalyzer
 from .utils.helpers import ensure_output_dir, get_base_name
 from .core.visualizer import SpacingVisualizer
-from .config import get_config, update_config
+from .config import get_config, update_config, apply_profile
+
+console = Console()
 
 
-def add_extraction_args(parser: argparse.ArgumentParser) -> None:
-    """Add common extraction arguments to a parser."""
-    config = get_config()
+@click.group(invoke_without_command=True)
+@click.option(
+    '--profile',
+    type=click.Choice(['technical', 'academic', 'manual', 'dense']),
+    help='Document type profile to use'
+)
+@click.option(
+    '--config-file',
+    type=click.Path(exists=True),
+    help='Path to configuration file'
+)
+@click.option(
+    '--version',
+    is_flag=True,
+    help='Show version information'
+)
+@click.pass_context
+def cli(ctx, profile, config_file, version):
+    """PDF Plumb - Modern PDF text extraction and analysis tool.
     
-    parser.add_argument(
-        "pdf_file",
-        type=str,
-        help="Path to the PDF file to process",
-    )
-    parser.add_argument(
-        "-o", "--output-dir",
-        type=str,
-        default=str(config.output_dir),
-        help=f"Directory to save output files (default: {config.output_dir})",
-    )
-    parser.add_argument(
-        "-b", "--basename",
-        type=str,
-        help="Base name for output files (default: PDF filename without extension)",
-    )
-    parser.add_argument(
-        "-y", "--y-tolerance",
+    A comprehensive tool for extracting and analyzing text from PDF documents
+    with advanced structure detection and visualization capabilities.
+    """
+    # Ensure context object exists
+    ctx.ensure_object(dict)
+    
+    if version:
+        console.print(Panel("PDF Plumb v0.1.0", title="Version"))
+        return
+    
+    # Apply profile if specified
+    if profile:
+        try:
+            apply_profile(profile)
+            console.print(f"✅ Applied [bold]{profile}[/bold] document profile")
+        except ValueError as e:
+            console.print(f"❌ Error applying profile: {e}")
+            raise click.Abort()
+    
+    # Store configuration in context
+    ctx.obj['config'] = get_config()
+    
+    # If no subcommand, show help
+    if ctx.invoked_subcommand is None:
+        click.echo(ctx.get_help())
+
+
+# Common options that are shared across commands
+def common_options(f):
+    """Decorator to add common options to commands."""
+    f = click.option(
+        '-o', '--output-dir',
+        type=click.Path(file_okay=False, dir_okay=True, path_type=Path),
+        default=lambda: get_config().output_dir,
+        help='Directory to save output files'
+    )(f)
+    f = click.option(
+        '-b', '--basename',
+        help='Base name for output files (default: PDF filename without extension)'
+    )(f)
+    f = click.option(
+        '-y', '--y-tolerance',
         type=float,
-        default=config.y_tolerance,
-        help=f"Y-axis tolerance for word alignment (default: {config.y_tolerance})",
-    )
-    parser.add_argument(
-        "-x", "--x-tolerance",
+        default=lambda: get_config().y_tolerance,
+        help='Y-axis tolerance for word alignment'
+    )(f)
+    f = click.option(
+        '-x', '--x-tolerance',
         type=float,
-        default=config.x_tolerance,
-        help=f"X-axis tolerance for word alignment (default: {config.x_tolerance})",
-    )
-    parser.add_argument(
-        "--debug-level",
-        type=str,
-        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
-        default=config.log_level,
-        help=f"Set the logging level (default: {config.log_level})",
-    )
-    # Add visualization arguments
-    parser.add_argument(
-        "--visualize-spacing",
-        action="store_true",
-        help="Generate a visualization PDF with lines showing vertical spacing",
-    )
-    parser.add_argument(
-        "--spacing-sizes",
-        type=str,
-        help="Comma-separated list of spacing sizes to visualize. Each item can be:\n"
-             "- A single value (e.g. '2.0')\n"
-             "- A range (e.g. '2.0-4.0')\n"
-             "- Less than or equal (e.g. '-4.0')\n"
-             "- Greater than or equal (e.g. '2.0-')",
-    )
-    parser.add_argument(
-        "--spacing-colors",
-        type=str,
-        help="Comma-separated list of colors for each spacing size (e.g. 'red,blue,green')",
-    )
-    parser.add_argument(
-        "--spacing-patterns",
-        type=str,
-        help="Comma-separated list of line patterns for each spacing size (e.g. 'solid,dashed,dotted')",
-    )
+        default=lambda: get_config().x_tolerance,
+        help='X-axis tolerance for word alignment'
+    )(f)
+    f = click.option(
+        '--debug-level',
+        type=click.Choice(['DEBUG', 'INFO', 'WARNING', 'ERROR']),
+        default=lambda: get_config().log_level,
+        help='Set the logging level'
+    )(f)
+    return f
 
 
-def parse_args():
-    """Parse command line arguments."""
-    parser = argparse.ArgumentParser(
-        description="PDF Plumb - PDF text extraction and analysis tool",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    subparsers = parser.add_subparsers(dest="command", help="Command to execute")
-
-    # Extract command
-    extract_parser = subparsers.add_parser(
-        "extract",
-        help="Extract text from PDF file",
-        description="Extract text from a PDF file using multiple methods and save results as JSON.",
-    )
-    add_extraction_args(extract_parser)
-
-    # Analyze command
-    analyze_parser = subparsers.add_parser(
-        "analyze",
-        help="Analyze extracted text data",
-        description="Analyze extracted text data to determine document structure, fonts, and spacing.",
-    )
-    analyze_parser.add_argument(
-        "lines_file",
-        type=str,
-        help="Path to the lines JSON file to analyze",
-    )
-    analyze_parser.add_argument(
-        "-f", "--output-file",
-        type=str,
-        help="Path to save the analysis output (default: <basename>_analysis.txt in output directory)",
-    )
-    analyze_parser.add_argument(
-        "--show-output",
-        action="store_true",
-        help="Show analysis output on stdout in addition to saving to file",
-    )
-
-    # Process command (extract + analyze)
-    process_parser = subparsers.add_parser(
-        "process",
-        help="Extract and analyze PDF in one step",
-        description="Extract text from PDF and analyze the results in one step.",
-    )
-    add_extraction_args(process_parser)
-    process_parser.add_argument(
-        "-f", "--output-file",
-        type=str,
-        help="Path to save the analysis output (default: <basename>_analysis.txt in output directory)",
-    )
-    process_parser.add_argument(
-        "--show-output",
-        action="store_true",
-        help="Show analysis output on stdout in addition to saving to file",
-    )
-
-    return parser.parse_args()
+def visualization_options(f):
+    """Decorator to add visualization options to commands."""
+    f = click.option(
+        '--visualize-spacing',
+        is_flag=True,
+        help='Generate a visualization PDF with lines showing vertical spacing'
+    )(f)
+    f = click.option(
+        '--spacing-sizes',
+        help='Comma-separated list of spacing sizes to visualize'
+    )(f)
+    f = click.option(
+        '--spacing-colors',
+        help='Comma-separated list of colors for each spacing size'
+    )(f)
+    f = click.option(
+        '--spacing-patterns',
+        help='Comma-separated list of line patterns for each spacing size'
+    )(f)
+    return f
 
 
-def extract_pdf(args) -> Optional[str]:
-    """Extract text from PDF file."""
+@cli.command()
+@click.argument('pdf_file', type=click.Path(exists=True, path_type=Path))
+@common_options
+@visualization_options
+def extract(pdf_file, output_dir, basename, y_tolerance, x_tolerance, debug_level,
+           visualize_spacing, spacing_sizes, spacing_colors, spacing_patterns):
+    """Extract text from PDF file using multiple methods.
+    
+    Extracts text from a PDF file using three different methods:
+    - Raw text extraction
+    - Text line extraction 
+    - Word-based extraction with manual alignment
+    
+    Results are saved as JSON files with rich metadata for analysis.
+    """
     try:
-        # Ensure output directory exists
-        output_dir = ensure_output_dir(args.output_dir)
-        
-        # Get base name for output files
-        basename = get_base_name(args.pdf_file, args.basename)
-        
-        # Initialize extractor
         # Update config with CLI arguments
         update_config(
-            y_tolerance=args.y_tolerance,
-            x_tolerance=args.x_tolerance,
-            log_level=args.debug_level
+            y_tolerance=y_tolerance,
+            x_tolerance=x_tolerance,
+            log_level=debug_level,
+            output_dir=output_dir
         )
         
+        # Ensure output directory exists
+        output_dir = ensure_output_dir(str(output_dir))
+        
+        # Get base name for output files
+        basename = get_base_name(str(pdf_file), basename)
+        
+        # Initialize extractor
         extractor = PDFExtractor()
         
-        # Extract text
-        print(f"Extracting text from {args.pdf_file}...")
-        results = extractor.extract_from_pdf(args.pdf_file)
+        # Extract text with progress indication
+        console.print(f"📄 Extracting text from [bold]{pdf_file}[/bold]...")
+        results = extractor.extract_from_pdf(str(pdf_file))
         
         # Save results
-        print(f"Saving results to {output_dir}...")
+        console.print(f"💾 Saving results to [bold]{output_dir}[/bold]...")
         extractor.save_results(results, output_dir, basename)
         
         # Handle visualization if requested
-        if args.visualize_spacing:
+        if visualize_spacing:
             visualizer = SpacingVisualizer()
             
             # Parse spacing sizes
-            spacing_sizes = visualizer.parse_spacing_sizes(args.spacing_sizes)
-            if not spacing_sizes:
-                print("No spacing sizes specified for visualization. Using all found sizes.")
+            spacing_sizes_parsed = visualizer.parse_spacing_sizes(spacing_sizes)
+            if not spacing_sizes_parsed:
+                console.print("ℹ️  No spacing sizes specified, using all found sizes")
                 # Extract all unique spacing sizes from results
-                spacing_sizes = sorted(set(
+                spacing_sizes_parsed = sorted(set(
                     line.get('spacing', 0)
                     for page in results['lines_json_by_page']
                     for line in page['lines']
@@ -182,59 +177,108 @@ def extract_pdf(args) -> Optional[str]:
                 ))
             
             # Parse colors and patterns
-            spacing_colors = visualizer.parse_colors(args.spacing_colors)
-            spacing_patterns = visualizer.parse_patterns(args.spacing_patterns)
+            spacing_colors_parsed = visualizer.parse_colors(spacing_colors)
+            spacing_patterns_parsed = visualizer.parse_patterns(spacing_patterns)
             
             # Create visualization
-            output_pdf = str(Path(output_dir) / f"{basename}_visualized.pdf")
-            print(f"Creating visualization in {output_pdf}...")
+            output_pdf = Path(output_dir) / f"{basename}_visualized.pdf"
+            console.print(f"🎨 Creating visualization in [bold]{output_pdf}[/bold]...")
             visualizer.create_visualization(
-                args.pdf_file,
-                output_pdf,
-                spacing_sizes,
-                spacing_colors,
-                spacing_patterns,
+                str(pdf_file),
+                str(output_pdf),
+                spacing_sizes_parsed,
+                spacing_colors_parsed,
+                spacing_patterns_parsed,
                 results['lines_json_by_page']
             )
-            print("Visualization complete.")
+            console.print("✅ Visualization complete")
         
-        # Return path to lines file for analysis
-        return str(Path(output_dir) / f"{basename}_lines.json")
-    
+        # Success message
+        lines_file = Path(output_dir) / f"{basename}_lines.json"
+        console.print(f"✅ Extraction complete! Lines file: [bold]{lines_file}[/bold]")
+        
     except Exception as e:
-        print(f"Error during extraction: {e}", file=sys.stderr)
-        return None
+        console.print(f"❌ Error during extraction: {e}")
+        raise click.Abort()
 
 
-def analyze_lines(lines_file: str, output_file: Optional[str] = None, show_output: bool = False) -> None:
-    """Analyze extracted text data."""
+@cli.command()
+@click.argument('lines_file', type=click.Path(exists=True, path_type=Path))
+@click.option(
+    '-f', '--output-file',
+    type=click.Path(path_type=Path),
+    help='Path to save the analysis output'
+)
+@click.option(
+    '--show-output',
+    is_flag=True,
+    help='Show analysis output on stdout in addition to saving to file'
+)
+def analyze(lines_file, output_file, show_output):
+    """Analyze extracted text data to determine document structure.
+    
+    Analyzes extracted text data to identify:
+    - Font usage and distribution
+    - Text size analysis
+    - Line spacing patterns
+    - Header and footer boundaries
+    - Document structure
+    """
     try:
         # Initialize analyzer
         analyzer = DocumentAnalyzer()
         
         # Analyze document
-        print(f"Analyzing {lines_file}...")
-        results = analyzer.analyze_document(lines_file)
+        console.print(f"🔍 Analyzing [bold]{lines_file}[/bold]...")
+        results = analyzer.analyze_document(str(lines_file))
         
         if results:
             # Print analysis results
-            analyzer.print_analysis(results, output_file, show_output)
+            analyzer.print_analysis(results, str(output_file) if output_file else None, show_output)
+            
+            if output_file:
+                console.print(f"✅ Analysis complete! Results saved to [bold]{output_file}[/bold]")
+            else:
+                console.print("✅ Analysis complete!")
         else:
-            print("No analysis results to display.", file=sys.stderr)
+            console.print("❌ No analysis results to display")
+            raise click.Abort()
     
     except Exception as e:
-        print(f"Error during analysis: {e}", file=sys.stderr)
+        console.print(f"❌ Error during analysis: {e}")
+        raise click.Abort()
 
 
-def process_pdf(args) -> None:
-    """Process a PDF file through the extraction and analysis pipeline."""
+@cli.command()
+@click.argument('pdf_file', type=click.Path(exists=True, path_type=Path))
+@common_options
+@visualization_options
+@click.option(
+    '-f', '--output-file',
+    type=click.Path(path_type=Path),
+    help='Path to save the analysis output'
+)
+@click.option(
+    '--show-output',
+    is_flag=True,
+    help='Show analysis output on stdout in addition to saving to file'
+)
+def process(pdf_file, output_dir, basename, y_tolerance, x_tolerance, debug_level,
+           visualize_spacing, spacing_sizes, spacing_colors, spacing_patterns,
+           output_file, show_output):
+    """Extract and analyze PDF in one step.
+    
+    Combines extraction and analysis into a single command for convenience.
+    First extracts text using multiple methods, then analyzes the results
+    to determine document structure and characteristics.
+    """
     try:
         # Update config with CLI arguments
         update_config(
-            y_tolerance=args.y_tolerance,
-            x_tolerance=args.x_tolerance,
-            log_level=args.debug_level,
-            output_dir=Path(args.output_dir)
+            y_tolerance=y_tolerance,
+            x_tolerance=x_tolerance,
+            log_level=debug_level,
+            output_dir=output_dir
         )
         
         # Initialize components
@@ -243,117 +287,48 @@ def process_pdf(args) -> None:
         visualizer = SpacingVisualizer()
         
         # Extract text and metadata
-        print(f"\nExtracting text from {args.pdf_file}...")
-        results = extractor.extract_from_pdf(args.pdf_file)
+        console.print(f"📄 Extracting text from [bold]{pdf_file}[/bold]...")
+        results = extractor.extract_from_pdf(str(pdf_file))
         
         # Save intermediate results
-        base_name = get_base_name(args.pdf_file)
-        extractor.save_results(results, args.output_dir, base_name)
+        base_name = get_base_name(str(pdf_file), basename)
+        output_dir_path = ensure_output_dir(str(output_dir))
+        extractor.save_results(results, output_dir_path, base_name)
         
         # Analyze document structure
-        print("\nAnalyzing document structure...")
+        console.print("🔍 Analyzing document structure...")
         analysis_results = analyzer.analyze_document_data(results['lines_json_by_page'], base_name)
         
         # Print analysis results
-        output_file = args.output_file or os.path.join(args.output_dir, f"{base_name}_analysis.txt")
-        analyzer.print_analysis(analysis_results, output_file=output_file, show_output=args.show_output)
+        output_file_path = output_file or Path(output_dir_path) / f"{base_name}_analysis.txt"
+        analyzer.print_analysis(analysis_results, str(output_file_path), show_output)
         
         # Handle visualization if requested
-        if args.visualize_spacing:
-            # Parse spacing sizes
-            spacing_sizes = visualizer.parse_spacing_sizes(args.spacing_sizes)
-            if not spacing_sizes:
-                print("No spacing sizes specified for visualization. Using all found sizes.")
-                # Extract all unique spacing sizes from results
-                spacing_sizes = sorted(set(
-                    line.get('spacing', 0)
-                    for page in results['lines_json_by_page']
-                    for line in page['lines']
-                    if line.get('spacing') is not None
-                ))
+        if visualize_spacing:
+            # Parse spacing options
+            spacing_sizes_parsed = visualizer.parse_spacing_sizes(spacing_sizes)
+            spacing_colors_parsed = visualizer.parse_colors(spacing_colors)
+            spacing_patterns_parsed = visualizer.parse_patterns(spacing_patterns)
             
-            # Parse colors and patterns
-            spacing_colors = visualizer.parse_colors(args.spacing_colors)
-            spacing_patterns = visualizer.parse_patterns(args.spacing_patterns)
-            
-            # Create main visualization (like extract command)
-            output_pdf = os.path.join(args.output_dir, f"{base_name}_visualized.pdf")
-            print(f"Creating visualization in {output_pdf}...")
+            # Create main visualization
+            output_pdf = Path(output_dir_path) / f"{base_name}_visualized.pdf"
+            console.print(f"🎨 Creating visualization in [bold]{output_pdf}[/bold]...")
             visualizer.create_visualization(
-                args.pdf_file,
-                output_pdf,
-                spacing_sizes,
-                spacing_colors,
-                spacing_patterns,
+                str(pdf_file),
+                str(output_pdf),
+                spacing_sizes_parsed,
+                spacing_colors_parsed,
+                spacing_patterns_parsed,
                 results['lines_json_by_page']
             )
-            print("Visualization complete.")
-            
-            # Create line spacing visualization
-            print("\nCreating line spacing visualization...")
-            visualizer.create_visualization(
-                input_pdf=args.pdf_file,
-                output_pdf=os.path.join(args.output_dir, f"{base_name}_spacing.pdf"),
-                spacing_ranges=spacing_sizes,
-                spacing_colors=spacing_colors,
-                spacing_patterns=spacing_patterns,
-                lines_data=results['lines_json_by_page']
-            )
-            
-            # Create block spacing visualization
-            print("\nCreating block spacing visualization...")
-            visualizer.create_block_visualization(
-                input_pdf=args.pdf_file,
-                output_pdf=os.path.join(args.output_dir, f"{base_name}_block_spacing.pdf"),
-                spacing_ranges=spacing_sizes,
-                spacing_colors=spacing_colors,
-                spacing_patterns=spacing_patterns,
-                blocks_data=analysis_results['blocks']
-            )
+            console.print("✅ Visualization complete")
         
-        print(f"\nProcessing complete. Results saved to {args.output_dir}")
+        console.print("✅ Processing complete!")
         
     except Exception as e:
-        print(f"Error processing PDF: {e}")
-        if args.debug_level == 'DEBUG':
-            import traceback
-            traceback.print_exc()
-        sys.exit(1)
+        console.print(f"❌ Error during processing: {e}")
+        raise click.Abort()
 
 
-def main():
-    """Main entry point with CLI selection."""
-    # Check for new CLI flag
-    if "--click" in sys.argv:
-        sys.argv.remove("--click")
-        from .cli_click import cli
-        cli()
-        return
-    
-    # Check for legacy CLI flag (explicit)
-    if "--legacy" in sys.argv:
-        sys.argv.remove("--legacy")
-    
-    # Default to legacy argparse CLI for now
-    args = parse_args()
-    
-    if args.command == "extract":
-        extract_pdf(args)
-    
-    elif args.command == "analyze":
-        # If no output file specified, use default path
-        if not args.output_file:
-            basename = get_base_name(args.lines_file)
-            args.output_file = str(Path("output") / f"{basename}_analysis.txt")
-        analyze_lines(args.lines_file, args.output_file, args.show_output)
-    
-    elif args.command == "process":
-        process_pdf(args)
-    
-    else:
-        print("Please specify a command: extract, analyze, or process")
-        sys.exit(1)
-
-
-if __name__ == "__main__":
-    main() 
+if __name__ == '__main__':
+    cli()
