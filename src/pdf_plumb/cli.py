@@ -15,6 +15,8 @@ from .config import get_config, update_config
 
 def add_extraction_args(parser: argparse.ArgumentParser) -> None:
     """Add common extraction arguments to a parser."""
+    config = get_config()
+    
     parser.add_argument(
         "pdf_file",
         type=str,
@@ -31,7 +33,6 @@ def add_extraction_args(parser: argparse.ArgumentParser) -> None:
         type=str,
         help="Base name for output files (default: PDF filename without extension)",
     )
-    config = get_config()
     parser.add_argument(
         "-y", "--y-tolerance",
         type=float,
@@ -321,7 +322,19 @@ def process_pdf(args) -> None:
 
 
 def main():
-    """Main entry point."""
+    """Main entry point with CLI selection."""
+    # Check for new CLI flag
+    if "--click" in sys.argv:
+        sys.argv.remove("--click")
+        from .cli_click import cli
+        cli()
+        return
+    
+    # Check for legacy CLI flag (explicit)
+    if "--legacy" in sys.argv:
+        sys.argv.remove("--legacy")
+    
+    # Default to legacy argparse CLI for now
     args = parse_args()
     
     if args.command == "extract":
