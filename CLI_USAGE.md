@@ -1,11 +1,15 @@
 # PDF Plumb CLI Usage Guide
 
+## 🎉 Modern Click CLI - Phase 2.1 Migration Complete
+
+**Major Update**: PDF Plumb now uses a modern Click-based CLI with Rich console output, replacing the legacy argparse implementation. The new CLI provides enhanced user experience with better help text, progress bars, and document type profiles.
+
 ## Installation & Setup
 
 ### Method 1: Direct uv execution (Recommended for development)
 ```bash
 # No installation needed - run directly from source
-uv run -m pdf_plumb.cli --help
+uv run pdf-plumb --help
 ```
 
 ### Method 2: Install package (For system-wide usage)
@@ -19,20 +23,55 @@ pdf-plumb --help
 
 ## Command Overview
 
-PDF Plumb provides three main commands:
-- **`extract`** - Extract text from PDF files
-- **`analyze`** - Analyze existing extracted data
+PDF Plumb provides three main commands with modern Click interface:
+- **`extract`** - Extract text from PDF files using multiple methods
+- **`analyze`** - Analyze existing extracted data to determine document structure
 - **`process`** - Full pipeline (extract + analyze + visualize)
+
+## New Features in Click CLI
+
+### Document Type Profiles
+```bash
+# Apply pre-configured settings for different document types
+pdf-plumb --profile technical extract document.pdf
+pdf-plumb --profile academic process paper.pdf
+pdf-plumb --profile manual extract manual.pdf
+pdf-plumb --profile dense process dense_doc.pdf
+```
+
+### Rich Console Output
+- **Progress bars** during PDF processing
+- **Emojis and panels** for better visual feedback
+- **Color-coded status messages** (✅ success, ❌ error, ℹ️ info)
+- **Formatted help text** with better organization
+
+### Enhanced Help System
+```bash
+# Main help with rich formatting
+pdf-plumb --help
+
+# Command-specific help
+pdf-plumb extract --help
+pdf-plumb analyze --help
+pdf-plumb process --help
+```
 
 ## Command Reference
 
 ### 1. Extract Command
 
-Extract text from a PDF file using multiple methods and save structured data.
+Extract text from a PDF file using three different methods and save structured data.
+
+**The Three Extraction Methods:**
+1. **Raw Text Extraction** - Basic pdfplumber text extraction (`extract_text()`)
+2. **Line-based Extraction** - Maintains line structure (`extract_text_lines()`)
+3. **Word-based Manual Alignment** - Most sophisticated method with custom word grouping (`extract_words_manual()`)
+
+All methods are run simultaneously and results are compared for validation.
 
 **Direct uv execution:**
 ```bash
-uv run -m pdf_plumb.cli extract input.pdf [options]
+uv run pdf-plumb extract input.pdf [options]
 ```
 
 **Installed package:**
@@ -43,38 +82,45 @@ pdf-plumb extract input.pdf [options]
 #### Basic Usage
 ```bash
 # Simple extraction
-uv run -m pdf_plumb.cli extract document.pdf
+uv run pdf-plumb extract document.pdf
 
 # Custom output directory
-uv run -m pdf_plumb.cli extract document.pdf -o my_output
+uv run pdf-plumb extract document.pdf -o my_output
 
 # Custom base name for output files
-uv run -m pdf_plumb.cli extract document.pdf -b my_document
+uv run pdf-plumb extract document.pdf -b my_document
+
+# With document profile
+uv run pdf-plumb --profile technical extract document.pdf
 ```
 
 #### Advanced Options
 ```bash
 # Adjust tolerance settings for text alignment
-uv run -m pdf_plumb.cli extract document.pdf -y 4.0 -x 2.5
+uv run pdf-plumb extract document.pdf -y 4.0 -x 2.5
 
 # Enable spacing visualization
-uv run -m pdf_plumb.cli extract document.pdf --visualize-spacing
+uv run pdf-plumb extract document.pdf --visualize-spacing
 
 # Custom visualization with specific spacing ranges
-uv run -m pdf_plumb.cli extract document.pdf --visualize-spacing \
+uv run pdf-plumb extract document.pdf --visualize-spacing \
   --spacing-sizes "12.0,14.0-16.0,18.0-" \
   --spacing-colors "red,blue,green" \
   --spacing-patterns "solid,dashed,dotted"
 
-# Debug mode
-uv run -m pdf_plumb.cli extract document.pdf --debug-level DEBUG
+# Debug mode with rich console output
+uv run pdf-plumb extract document.pdf --debug-level DEBUG
+
+# Combine profile with custom settings
+uv run pdf-plumb --profile technical extract document.pdf \
+  --visualize-spacing -y 2.5 --debug-level INFO
 ```
 
 #### Output Files
-- `{basename}_lines.json` - Processed line data with gaps and fonts
-- `{basename}_words.json` - Raw word-level data
-- `{basename}_compare.json` - Comparison between extraction methods
-- `{basename}_info.json` - Metadata and statistics
+- `{basename}_lines.json` - Processed line data with gaps and fonts (from word-based method)
+- `{basename}_words.json` - Raw word-level data (from word-based method)
+- `{basename}_compare.json` - Side-by-side comparison of all three extraction methods
+- `{basename}_info.json` - Metadata and extraction statistics
 - `{basename}_visualized.pdf` - Visualization overlay (if requested)
 
 ### 2. Analyze Command
@@ -83,7 +129,7 @@ Analyze existing extracted text data to identify document structure.
 
 **Direct uv execution:**
 ```bash
-uv run -m pdf_plumb.cli analyze lines_file.json [options]
+uv run pdf-plumb analyze lines_file.json [options]
 ```
 
 **Installed package:**
@@ -93,14 +139,14 @@ pdf-plumb analyze lines_file.json [options]
 
 #### Basic Usage
 ```bash
-# Analyze extracted data
-uv run -m pdf_plumb.cli analyze output/document_lines.json
+# Analyze extracted data with rich console output
+uv run pdf-plumb analyze output/document_lines.json
 
 # Show results on screen instead of saving to file
-uv run -m pdf_plumb.cli analyze output/document_lines.json --show-output
+uv run pdf-plumb analyze output/document_lines.json --show-output
 
 # Custom output file
-uv run -m pdf_plumb.cli analyze output/document_lines.json -f my_analysis.txt
+uv run pdf-plumb analyze output/document_lines.json -f my_analysis.txt
 ```
 
 #### Output Files
@@ -113,7 +159,7 @@ Complete pipeline: extract text, analyze structure, and create visualizations.
 
 **Direct uv execution:**
 ```bash
-uv run -m pdf_plumb.cli process input.pdf [options]
+uv run pdf-plumb process input.pdf [options]
 ```
 
 **Installed package:**
@@ -123,20 +169,23 @@ pdf-plumb process input.pdf [options]
 
 #### Basic Usage
 ```bash
-# Full processing pipeline
-uv run -m pdf_plumb.cli process document.pdf
+# Full processing pipeline with rich console output
+uv run pdf-plumb process document.pdf
 
-# Show analysis results on screen
-uv run -m pdf_plumb.cli process document.pdf --show-output
+# Show analysis results on screen with progress bars
+uv run pdf-plumb process document.pdf --show-output
 
 # Custom output directory and analysis file
-uv run -m pdf_plumb.cli process document.pdf -o results -f detailed_analysis.txt
+uv run pdf-plumb process document.pdf -o results -f detailed_analysis.txt
+
+# With document profile for optimal settings
+uv run pdf-plumb --profile technical process document.pdf --show-output
 ```
 
 #### Advanced Processing
 ```bash
 # Full processing with custom tolerances and visualization
-uv run -m pdf_plumb.cli process document.pdf \
+uv run pdf-plumb process document.pdf \
   -y 3.5 -x 3.0 \
   --visualize-spacing \
   --spacing-sizes "10.0-12.0,14.0-16.0,18.0-" \
@@ -146,8 +195,12 @@ uv run -m pdf_plumb.cli process document.pdf \
   --debug-level INFO
 
 # Your example command (actual usage from history)
-uv run -m pdf_plumb.cli process -x 2.5 data/h264_pg305_10pgs.pdf \
+uv run pdf-plumb process -x 2.5 data/h264_pg305_10pgs.pdf \
   --visualize-spacing --spacing-sizes "1.75-20" --show-output
+
+# Combine profile with custom settings
+uv run pdf-plumb --profile technical process document.pdf \
+  -x 2.5 --visualize-spacing --show-output
 ```
 
 #### Output Files

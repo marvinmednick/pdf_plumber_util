@@ -1,157 +1,143 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with this repository.
 
-## Project Overview
+## Repository Context
 
-PDF Plumb is a modern Python PDF text extraction and analysis tool that provides comprehensive PDF document analysis capabilities. The tool uses multiple extraction strategies and advanced text processing to identify document structure, fonts, spacing patterns, headers/footers, and generates detailed visualizations.
+PDF Plumb is a Python PDF text extraction and analysis tool for technical documents. Uses multiple extraction methods to identify document structure, fonts, spacing patterns, and generates visualizations.
 
-**Current Status**: Phase 1 template migration complete - modern Python project with centralized configuration, comprehensive testing, and enhanced user experience.
-
-## Development Environment
-
-This project uses Python 3.12+ and is managed with uv (modern Python package management).
-
-**Key dependencies:**
-- `pdfplumber>=0.11.6` - Primary PDF processing library
-- `pdfminer-six>=20250327` - Low-level PDF text extraction
-- `pymupdf>=1.25.5` - PDF manipulation and visualization
-- `rich>=13.0.0` - Enhanced CLI output and progress bars
-- `pydantic>=2.0.0` - Configuration management and validation
-- `pytest>=8.4.1` - Testing framework
+**Current Phase**: Phase 2.2 Enhanced Error Handling (after completed CLI migration)
 
 ## Common Commands
 
-### CLI Usage
-The main CLI is accessible via the `pdf-plumb` command after installation:
-
 ```bash
-# Extract text from PDF
-pdf-plumb extract input.pdf -o output_dir
+# Development
+uv run pdf-plumb --help                    # Modern Click CLI
+uv run pdf-plumb process test.pdf --show-output
+uv run pdf-plumb --profile technical extract test.pdf
 
-# Analyze existing extracted data
-pdf-plumb analyze output_dir/filename_lines.json
+# Testing
+uv run pytest                             # All tests (28 passing)
+uv run pytest -m unit                     # Unit tests only
+uv run pytest -m integration              # Integration tests only
+uv run pytest -v                          # Verbose output
 
-# Complete extraction and analysis pipeline
-pdf-plumb process input.pdf -o output_dir --visualize-spacing
+# Code quality (when available)
+uv run ruff check                          # Linting
+uv run black .                             # Code formatting
 ```
 
-### Configuration
-The project uses centralized Pydantic configuration with environment variable support:
+## Architecture Overview
 
-```bash
-# Copy example configuration
-cp .env.example .env
+**Technology Stack**: Click + Rich + Pydantic + UV (Python 3.12+)
+- **Click**: Modern CLI framework (Phase 2.1 migration complete)
+- **Rich**: Console formatting, progress bars, panels, emojis
+- **Pydantic**: Configuration management with document type profiles
+- **Three extraction methods**: Raw text, lines, word-based manual alignment
 
-# Edit configuration as needed
-# All settings have PDF_PLUMB_ prefix for environment variables
+**Directory Structure**:
+```
+src/pdf_plumb/
+├── cli.py               # Modern Click CLI entry point
+├── config.py            # Pydantic configuration with profiles
+├── core/
+│   ├── extractor.py     # Three PDF extraction methods
+│   ├── analyzer.py      # Document structure analysis
+│   └── visualizer.py    # PDF spacing visualization
+├── utils/               # Shared utilities and helpers
+tests/
+├── unit/                # Unit tests for individual functions
+├── integration/         # CLI command integration tests
+└── conftest.py          # Shared test fixtures
 ```
 
-**Document type profiles** are available for different PDF types:
-- `technical` - Technical specifications
-- `academic` - Academic papers  
-- `manual` - User manuals
-- `dense` - Densely-packed documents
+**Key Files to Read First**:
+- `src/pdf_plumb/cli.py` - Click CLI with Rich console integration
+- `src/pdf_plumb/config.py` - Pydantic configuration and profiles
+- `src/pdf_plumb/core/extractor.py` - Three extraction methods implementation
+- `CLI_USAGE.md` - Complete user command reference
 
-### Testing
-The project includes a comprehensive pytest testing framework:
+## Development Patterns
 
-```bash
-# Run all tests
-uv run pytest
+### Adding New CLI Commands
+1. Add command function to `src/pdf_plumb/cli.py` using Click decorators
+2. Use common decorators: `@common_options`, `@visualization_options`
+3. Implement Rich console output: `console.print(f"✅ Success message")`
+4. Add integration tests in `tests/integration/test_cli_commands.py`
+5. Update CLI_USAGE.md with examples
 
-# Run specific test categories
-uv run pytest -m unit        # Unit tests only
-uv run pytest -m integration # Integration tests only
-
-# Run with coverage
-uv run pytest --cov=src/pdf_plumb
+### Error Handling (Phase 2.2 Current Focus)
+**Current Pattern** (to improve):
+```python
+except Exception as e:
+    console.print(f"❌ Error during processing: {e}")
+    raise click.Abort()
 ```
 
-### Development Scripts
-Several standalone scripts are available in the root directory:
+**Target Pattern** (Phase 2.2):
+```python
+from .core.exceptions import PDFExtractionError, AnalysisError
 
-```bash
-# Legacy extraction script (plumb3.py)
-python plumb3.py input.pdf --output-dir extract
-
-# Font analysis
-python get_fonts.py
-
-# Line analysis
-python get_lines.py
-
-# Vector analysis
-python get_vectors.py
+try:
+    # operation
+except PDFExtractionError as e:
+    console.print(f"❌ PDF Extraction failed: {e.message}")
+    console.print(f"💡 Suggestion: {e.suggestion}")
+    raise click.Abort()
 ```
 
-### Testing
-No formal test framework is currently configured. Test by running CLI commands on sample PDFs and examining output files.
+### Configuration Management
+- All settings in `src/pdf_plumb/config.py` using Pydantic BaseSettings
+- Document type profiles: `--profile technical|academic|manual|dense`
+- Environment variables with `PDF_PLUMB_` prefix
+- Test configuration: `apply_profile()` function
 
-## Code Architecture
+### Testing Strategy
+- **Unit tests** (`tests/unit/`): Fast tests for core functions with mocks
+- **Integration tests** (`tests/integration/`): Full CLI command testing with CliRunner
+- **Real PDF testing**: Validated CLI migration with actual H.264 spec document
+- **Markers**: Use `@pytest.mark.unit` and `@pytest.mark.integration`
 
-### Core Components
+## Documentation Strategy
 
-**Main CLI Entry Point**: `src/pdf_plumb/cli.py`
-- Provides three main commands: `extract`, `analyze`, `process`
-- Handles argument parsing, tolerance settings, visualization options
-- Coordinates between extractor, analyzer, and visualizer components
+### Core Documentation (Always Present)
+- README.md, STATUS.md, CLI_USAGE.md, ARCHITECTURE.md, CLAUDE.md
 
-**PDF Processing Pipeline**: `src/pdf_plumb/core/`
-- `extractor.py` - PDFExtractor class handles multi-method text extraction
-- `analyzer.py` - DocumentAnalyzer and PDFAnalyzer classes perform document structure analysis  
-- `visualizer.py` - SpacingVisualizer creates PDF visualizations with spacing overlays
+### Optional Documentation (Create When Needed)
+- `docs/performance.md` - Create when performance profiling conducted
+- `docs/troubleshooting.md` - Create when common issues identified
+- `docs/api.md` - Create if API endpoints added
 
-**Support Utilities**: `src/pdf_plumb/utils/`
-- `file_handler.py` - Centralized file I/O operations
-- `helpers.py` - Utility functions for text normalization, path handling
-- `constants.py` - Configuration constants (page dimensions, tolerances, etc.)
+**Principle**: Only create documentation when specific need arises. File existence indicates actual work/analysis conducted.
 
-### Data Flow
+## Performance Considerations
 
-1. **Extraction** (`PDFExtractor`):
-   - Uses three methods: `extract_text()`, `extract_text_lines()`, `extract_words()` 
-   - Groups words into lines based on y-tolerance
-   - Creates text segments by font/size changes
-   - Calculates gaps between lines and predominant fonts/sizes
-   - Outputs: `*_lines.json`, `*_words.json`, `*_compare.json`, `*_info.json`
+Consider adding `docs/performance.md` when:
+- PDF processing time >30 seconds for typical documents
+- Memory usage >1GB during operation  
+- Processing large PDFs (>100MB files, >100 pages)
+- Performance requirements explicitly defined
 
-2. **Analysis** (`DocumentAnalyzer`):
-   - Analyzes font usage, size distribution, spacing patterns
-   - Identifies header/footer boundaries using traditional and contextual methods
-   - Performs contextual spacing analysis based on font sizes
-   - Creates block-level groupings of lines
-   - Outputs: `*_analysis.txt`, `*_blocks.json`
+**Standard profiling tools**: cProfile, memory_profiler, line_profiler, py-spy
 
-3. **Visualization** (`SpacingVisualizer`):
-   - Overlays colored lines on original PDF to show spacing patterns
-   - Supports custom spacing ranges, colors, and line patterns
-   - Creates legend pages explaining visualization
-   - Outputs: `*_visualized.pdf`, `*_spacing.pdf`, `*_block_spacing.pdf`
+## Phase 2.2 Implementation Notes
 
-### Key Algorithms
+**Current Development Priority**: Enhanced Error Handling
+1. Create `src/pdf_plumb/core/exceptions.py` with structured exception classes
+2. Add error context and recovery mechanisms to core modules
+3. Update CLI commands to use structured errors with Rich formatting
+4. Implement retry mechanisms for transient PDF processing failures
 
-**Contextual Spacing Analysis**: Groups lines by predominant font size and analyzes spacing patterns within each context. This allows more accurate classification of line spacing vs paragraph spacing vs section spacing.
+**Known Issues to Address**:
+- Generic `Exception` handling throughout codebase
+- Limited error context for debugging PDF processing issues
+- Basic `print()` error messages in legacy code sections
 
-**Block Formation**: Combines consecutive lines with the same predominant size whose gaps fall within contextual line spacing ranges into logical blocks.
+## Template-Specific Notes
 
-**Header/Footer Detection**: Uses both traditional Y-coordinate analysis and contextual gap analysis to identify document boundaries.
-
-## Important Implementation Notes
-
-- All spacing values are rounded to nearest 0.5pt for consistency
-- Lines with no text content are filtered out during processing  
-- Gap calculations handle edge cases like overlapping lines
-- File operations are centralized through FileHandler for consistent output structure
-- Multiple extraction methods are compared to identify potential text processing issues
-
-## Output Files Structure
-
-Generated files follow naming pattern: `{basename}_{type}.json`
-- `_lines.json` - Processed line data with segments, gaps, fonts
-- `_words.json` - Raw word-level extraction data  
-- `_compare.json` - Comparison between extraction methods
-- `_info.json` - Metadata and extraction statistics
-- `_analysis.txt` - Human-readable analysis report
-- `_blocks.json` - Block-level document structure
-- `_visualized.pdf` - PDF with spacing visualization overlays
+This project structure supports PDF analysis development by:
+- **Multi-method extraction validation** - Three extraction methods for accuracy
+- **Rich console experience** - Professional CLI with progress bars and emojis
+- **Document type profiles** - Pre-configured settings for different PDF types  
+- **Comprehensive testing** - Real PDF validation ensures reliability
+- **Modern Python practices** - Click + Rich + Pydantic for maintainability
