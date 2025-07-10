@@ -6,7 +6,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 PDF Plumb is a Python PDF text extraction and analysis tool for technical documents. Uses multiple extraction methods to identify document structure, fonts, spacing patterns, and generates visualizations.
 
-**Current Phase**: Phase 2.2 Enhanced Error Handling (after completed CLI migration)
+**Current Phase**: Phase 2.3 Performance Optimization (after completed Enhanced Error Handling)
 
 ## Common Commands
 
@@ -66,25 +66,27 @@ tests/
 4. Add integration tests in `tests/integration/test_cli_commands.py`
 5. Update CLI_USAGE.md with examples
 
-### Error Handling (Phase 2.2 Current Focus)
-**Current Pattern** (to improve):
-```python
-except Exception as e:
-    console.print(f"❌ Error during processing: {e}")
-    raise click.Abort()
-```
-
-**Target Pattern** (Phase 2.2):
+### Error Handling (Phase 2.2 Complete)
+**Implemented Pattern**:
 ```python
 from .core.exceptions import PDFExtractionError, AnalysisError
 
 try:
     # operation
 except PDFExtractionError as e:
-    console.print(f"❌ PDF Extraction failed: {e.message}")
-    console.print(f"💡 Suggestion: {e.suggestion}")
+    console.print(f"❌ [red]Extraction Failed:[/red] {e.message}")
+    if e.suggestion:
+        console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+    if e.context:
+        console.print(f"🔍 [blue]Context:[/blue] {e.context}")
     raise click.Abort()
 ```
+
+**Features**:
+- **Structured Exception Hierarchy**: 15+ specialized exception classes
+- **Rich Console Integration**: Color-coded errors with emojis
+- **Context & Suggestions**: Automatic helpful guidance for error resolution
+- **Retry Mechanisms**: Automatic retry logic for transient failures
 
 ### Configuration Management
 - All settings in `src/pdf_plumb/config.py` using Pydantic BaseSettings
@@ -120,18 +122,20 @@ Consider adding `docs/performance.md` when:
 
 **Standard profiling tools**: cProfile, memory_profiler, line_profiler, py-spy
 
-## Phase 2.2 Implementation Notes
+## Phase 2.3 Implementation Notes
 
-**Current Development Priority**: Enhanced Error Handling
-1. Create `src/pdf_plumb/core/exceptions.py` with structured exception classes
-2. Add error context and recovery mechanisms to core modules
-3. Update CLI commands to use structured errors with Rich formatting
-4. Implement retry mechanisms for transient PDF processing failures
+**Current Development Priority**: Performance Optimization
+1. Profile PDF processing performance with large documents (>100MB, >100 pages)
+2. Implement memory optimization for page-by-page processing
+3. Add caching mechanisms for commonly accessed data
+4. Optimize data structure usage and text processing algorithms
 
-**Known Issues to Address**:
-- Generic `Exception` handling throughout codebase
-- Limited error context for debugging PDF processing issues
-- Basic `print()` error messages in legacy code sections
+**Phase 2.2 Achievements** ✅:
+- ✅ Structured exception hierarchy with 15+ specialized classes
+- ✅ Rich console error formatting with colors and emojis
+- ✅ Error context and recovery suggestions system
+- ✅ Retry mechanisms for transient failures
+- ✅ Comprehensive error handling test coverage (21 tests)
 
 ## Template-Specific Notes
 

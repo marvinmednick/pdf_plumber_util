@@ -20,6 +20,7 @@ text alignment, font analysis, and spacing calculations.
 """
 
 import json
+import os
 from typing import Dict, List, Optional
 import pdfplumber
 from rich.progress import Progress, TaskID
@@ -27,6 +28,13 @@ from ..utils.helpers import normalize_line
 from ..utils.file_handler import FileHandler
 from ..core.utils.logging import LogManager
 from ..config import get_config
+from .exceptions import (
+    PDFExtractionError,
+    PDFNotFoundError,
+    PDFCorruptedError,
+    PDFPermissionError,
+    MemoryError as PDFMemoryError
+)
 
 
 class PDFExtractor:
@@ -82,9 +90,15 @@ class PDFExtractor:
             - raw_words_by_page: Raw word data
             
         Raises:
-            FileNotFoundError: If the PDF file doesn't exist
-            Exception: For other PDF processing errors
+            PDFNotFoundError: If the PDF file doesn't exist
+            PDFCorruptedError: If the PDF file is corrupted or invalid
+            PDFPermissionError: If the PDF has permission restrictions
+            PDFExtractionError: For other PDF processing errors
         """
+        # Validate PDF file exists
+        if not os.path.exists(pdf_path):
+            raise PDFNotFoundError(pdf_path)
+        
         # --- Initialize Results Structure ---
         results = {
             "extract_text": [],
@@ -96,9 +110,10 @@ class PDFExtractor:
         }
 
         # --- Process PDF File ---
-        with pdfplumber.open(pdf_path) as pdf:
-            with Progress() as progress:
-                task = progress.add_task("Extracting PDF pages...", total=len(pdf.pages))
+        try:
+            with pdfplumber.open(pdf_path) as pdf:
+                with Progress() as progress:
+                    task = progress.add_task("Extracting PDF pages...", total=len(pdf.pages))
                 
                 for page_num, page in enumerate(pdf.pages):
                     # --- Method 1: Raw Text Extraction ---
@@ -147,10 +162,36 @@ class PDFExtractor:
                     
                     progress.advance(task)
 
-            # --- Generate Comparison Data ---
-            results["comparison"] = self._generate_comparison(results)
+                # --- Generate Comparison Data ---
+                results["comparison"] = self._generate_comparison(results)
 
-        return results
+                return results
+                
+        except PermissionError as e:
+            raise PDFPermissionError(
+                pdf_path,
+                original_error=e,
+                context={"operation": "opening_pdf"}
+            )
+        except (ValueError, TypeError) as e:
+            raise PDFCorruptedError(
+                pdf_path,
+                original_error=e,
+                context={"error_type": type(e).__name__}
+            )
+        except MemoryError as e:
+            raise PDFMemoryError(
+                f"Insufficient memory to process PDF: {pdf_path}",
+                original_error=e,
+                context={"pdf_path": pdf_path}
+            )
+        except Exception as e:
+            raise PDFExtractionError(
+                f"Failed to extract text from PDF: {str(e)}",
+                pdf_path=pdf_path,
+                extraction_method="multi_method",
+                original_error=e
+            )
 
     def _process_words(self, words: List[Dict], page_num: int, page_width: float, page_height: float) -> tuple:
         """Process words into lines and segments.

@@ -12,6 +12,17 @@ from .core.analyzer import DocumentAnalyzer
 from .utils.helpers import ensure_output_dir, get_base_name
 from .core.visualizer import SpacingVisualizer
 from .config import get_config, update_config, apply_profile
+from .core.exceptions import (
+    PDFPlumbError,
+    PDFExtractionError,
+    PDFNotFoundError,
+    PDFCorruptedError,
+    PDFPermissionError,
+    AnalysisError,
+    VisualizationError,
+    ConfigurationError,
+    FileHandlingError
+)
 
 console = Console()
 
@@ -197,8 +208,37 @@ def extract(pdf_file, output_dir, basename, y_tolerance, x_tolerance, debug_leve
         lines_file = Path(output_dir) / f"{basename}_lines.json"
         console.print(f"✅ Extraction complete! Lines file: [bold]{lines_file}[/bold]")
         
+    except PDFNotFoundError as e:
+        console.print(f"❌ [red]PDF Not Found:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
+    except PDFCorruptedError as e:
+        console.print(f"❌ [red]PDF Corrupted:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
+    except PDFPermissionError as e:
+        console.print(f"❌ [red]PDF Permission Error:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
+    except PDFExtractionError as e:
+        console.print(f"❌ [red]Extraction Failed:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        if e.context:
+            console.print(f"🔍 [blue]Context:[/blue] {e.context}")
+        raise click.Abort()
+    except VisualizationError as e:
+        console.print(f"❌ [red]Visualization Failed:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        console.print("📝 [dim]Note: Extraction completed successfully, only visualization failed[/dim]")
+        raise click.Abort()
     except Exception as e:
-        console.print(f"❌ Error during extraction: {e}")
+        console.print(f"❌ [red]Unexpected Error:[/red] {e}")
+        console.print("🐛 [dim]This may be a bug. Please report it with the PDF file details.[/dim]")
         raise click.Abort()
 
 
@@ -244,8 +284,21 @@ def analyze(lines_file, output_file, show_output):
             console.print("❌ No analysis results to display")
             raise click.Abort()
     
+    except AnalysisError as e:
+        console.print(f"❌ [red]Analysis Failed:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        if e.context:
+            console.print(f"🔍 [blue]Context:[/blue] {e.context}")
+        raise click.Abort()
+    except FileHandlingError as e:
+        console.print(f"❌ [red]File Error:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
     except Exception as e:
-        console.print(f"❌ Error during analysis: {e}")
+        console.print(f"❌ [red]Unexpected Error:[/red] {e}")
+        console.print("🐛 [dim]This may be a bug. Please report it with the lines file details.[/dim]")
         raise click.Abort()
 
 
@@ -325,8 +378,30 @@ def process(pdf_file, output_dir, basename, y_tolerance, x_tolerance, debug_leve
         
         console.print("✅ Processing complete!")
         
+    except PDFNotFoundError as e:
+        console.print(f"❌ [red]PDF Not Found:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
+    except PDFExtractionError as e:
+        console.print(f"❌ [red]Extraction Failed:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
+    except AnalysisError as e:
+        console.print(f"❌ [red]Analysis Failed:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
+    except VisualizationError as e:
+        console.print(f"❌ [red]Visualization Failed:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        console.print("📝 [dim]Note: Extraction and analysis completed successfully[/dim]")
+        raise click.Abort()
     except Exception as e:
-        console.print(f"❌ Error during processing: {e}")
+        console.print(f"❌ [red]Unexpected Error:[/red] {e}")
+        console.print("🐛 [dim]This may be a bug. Please report it with the PDF file details.[/dim]")
         raise click.Abort()
 
 

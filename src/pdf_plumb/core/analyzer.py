@@ -23,6 +23,15 @@ from typing import Dict, List, Optional, Tuple, Any
 from ..config import get_config
 from ..utils.helpers import round_to_nearest, ensure_output_dir
 from ..utils.file_handler import FileHandler
+from .exceptions import (
+    AnalysisError,
+    SpacingAnalysisError,
+    BlockFormationError,
+    HeaderFooterError,
+    FileHandlingError,
+    OutputWriteError,
+    ValidationError
+)
 from pathlib import Path
 from .utils.logging import LogManager
 
@@ -138,49 +147,67 @@ class PDFAnalyzer:
                 }
             }
         """
-        spacing_rules_by_context = {}
-        
-        for context_size, gap_data in gaps_by_context.items():
-            gap_list = gap_data['gaps']
-            total_lines = gap_data['total_lines']
+        try:
+            config = get_config()
+            spacing_rules_by_context = {}
             
-            if not gap_list:
-                continue
+            for context_size, gap_data in gaps_by_context.items():
+                gap_list = gap_data['gaps']
+                total_lines = gap_data['total_lines']
                 
-            # Get frequency distribution of gaps
-            gap_counts = Counter(gap_list)
-            most_common_gap = gap_counts.most_common(1)[0][0]
+                if not gap_list:
+                    continue
+                
+                # Get frequency distribution of gaps
+                gap_counts = Counter(gap_list)
+                most_common_gap = gap_counts.most_common(1)[0][0]
+                
+                # Define line spacing range based on most common gap
+                line_spacing_range = (
+                    most_common_gap * (1 - config.line_spacing_tolerance),
+                    most_common_gap * (1 + config.line_spacing_tolerance)
+                )
+                
+                # Define paragraph spacing range based on font size
+                para_spacing_max = context_size * config.para_spacing_multiplier
+                
+                # Collect gaps within each category
+                line_gaps = {g: c for g, c in gap_counts.items() if g <= line_spacing_range[1]}
+                para_gaps = {g: c for g, c in gap_counts.items() 
+                            if g > line_spacing_range[1] and g <= para_spacing_max}
+                section_gaps = {g: c for g, c in gap_counts.items() 
+                              if g > para_spacing_max}
+                
+                # Store rules and statistics for this context
+                spacing_rules_by_context[context_size] = {
+                    'line_spacing_range': line_spacing_range,
+                    'para_spacing_max': para_spacing_max,
+                    'most_common_gap': most_common_gap,
+                    'gap_distribution': dict(gap_counts),
+                    'line_gaps': dict(sorted(line_gaps.items())),
+                    'para_gaps': dict(sorted(para_gaps.items())),
+                    'section_gaps': dict(sorted(section_gaps.items())),
+                    'total_gaps': len(gap_list),
+                    'total_lines': total_lines
+                }
             
-            # Define line spacing range based on most common gap
-            line_spacing_range = (
-                most_common_gap * (1 - config.line_spacing_tolerance),
-                most_common_gap * (1 + config.line_spacing_tolerance)
+            return spacing_rules_by_context
+            
+        except KeyError as e:
+            raise SpacingAnalysisError(
+                f"Missing required data for contextual spacing analysis: {str(e)}",
+                context={"missing_key": str(e)}
             )
-            
-            # Define paragraph spacing range based on font size
-            para_spacing_max = context_size * config.para_spacing_multiplier
-            
-            # Collect gaps within each category
-            line_gaps = {g: c for g, c in gap_counts.items() if g <= line_spacing_range[1]}
-            para_gaps = {g: c for g, c in gap_counts.items() 
-                        if g > line_spacing_range[1] and g <= para_spacing_max}
-            section_gaps = {g: c for g, c in gap_counts.items() 
-                          if g > para_spacing_max}
-            
-            # Store rules and statistics for this context
-            spacing_rules_by_context[context_size] = {
-                'line_spacing_range': line_spacing_range,
-                'para_spacing_max': para_spacing_max,
-                'most_common_gap': most_common_gap,
-                'gap_distribution': dict(gap_counts),
-                'line_gaps': dict(sorted(line_gaps.items())),
-                'para_gaps': dict(sorted(para_gaps.items())),
-                'section_gaps': dict(sorted(section_gaps.items())),
-                'total_gaps': len(gap_list),
-                'total_lines': total_lines
-            }
-        
-        return spacing_rules_by_context
+        except (TypeError, ValueError) as e:
+            raise SpacingAnalysisError(
+                f"Invalid data format in contextual spacing analysis: {str(e)}",
+                context={"error_type": type(e).__name__}
+            )
+        except Exception as e:
+            raise SpacingAnalysisError(
+                f"Contextual spacing analysis failed: {str(e)}",
+                original_error=e
+            )
         
     def _classify_gap_contextual(
         self, 
@@ -1116,9 +1143,19 @@ class DocumentAnalyzer:
                 with open(output_file, "w", encoding="utf-8") as f:
                     f.write(output_text)
                 print(f"Analysis results saved to {output_file}")
-            except Exception as e:
-                print(f"Error saving analysis results to file: {e}")
-                return
+            except PermissionError as e:
+                raise OutputWriteError(
+                    output_file,
+                    original_error=e,
+                    context={"file_type": "analysis_results"}
+                )
+            except OSError as e:
+                raise FileHandlingError(
+                    f"Failed to write analysis results: {str(e)}",
+                    file_path=output_file,
+                    operation="write",
+                    original_error=e
+                )
 
         # Optionally show on stdout
         if show_output:
@@ -1152,15 +1189,26 @@ class DocumentAnalyzer:
         try:
             with open(lines_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
-        except FileNotFoundError:
-            print(f"Error: File not found at {lines_file}")
-            return None
-        except json.JSONDecodeError:
-            print(f"Error: Could not decode JSON from {lines_file}")
-            return None
+        except FileNotFoundError as e:
+            raise FileHandlingError(
+                f"Lines file not found: {lines_file}",
+                file_path=lines_file,
+                operation="read",
+                original_error=e
+            )
+        except json.JSONDecodeError as e:
+            raise ValidationError(
+                f"Invalid JSON format in lines file: {lines_file}",
+                validation_field="json_format",
+                context={"file_path": lines_file},
+                original_error=e
+            )
         except Exception as e:
-            print(f"An unexpected error occurred loading the file: {e}")
-            return None
+            raise AnalysisError(
+                f"Failed to load lines file: {str(e)}",
+                context={"file_path": lines_file},
+                original_error=e
+            )
 
         # Get base name from lines file (removing _lines suffix)
         base_name = Path(lines_file).stem.replace('_lines', '')
