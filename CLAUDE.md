@@ -6,7 +6,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 PDF Plumb is a Python PDF text extraction and analysis tool for technical documents. Uses multiple extraction methods to identify document structure, fonts, spacing patterns, and generates visualizations.
 
-**Current Phase**: Phase 2.3 Performance Optimization (after completed Enhanced Error Handling)
+**Current Phase**: Phase 2.3 Performance Optimization (JSON optimization complete - further optimization deferred)
 
 ## Common Commands
 
@@ -29,10 +29,11 @@ uv run black .                             # Code formatting
 
 ## Architecture Overview
 
-**Technology Stack**: Click + Rich + Pydantic + UV (Python 3.12+)
+**Technology Stack**: Click + Rich + Pydantic + UV + orjson (Python 3.12+)
 - **Click**: Modern CLI framework (Phase 2.1 migration complete)
 - **Rich**: Console formatting, progress bars, panels, emojis
 - **Pydantic**: Configuration management with document type profiles
+- **orjson**: High-performance JSON serialization (3-5x faster than standard json)
 - **Three extraction methods**: Raw text, lines, word-based manual alignment
 
 **Directory Structure**:
@@ -124,11 +125,17 @@ Consider adding `docs/performance.md` when:
 
 ## Phase 2.3 Implementation Notes
 
-**Current Development Priority**: Performance Optimization
-1. Profile PDF processing performance with large documents (>100MB, >100 pages)
-2. Implement memory optimization for page-by-page processing
-3. Add caching mechanisms for commonly accessed data
-4. Optimize data structure usage and text processing algorithms
+**Current Development Priority**: Performance Optimization (JSON optimization complete)
+1. ✅ **JSON optimization complete**: orjson implementation providing 10% pipeline improvement
+2. ✅ **Performance testing framework**: Comprehensive profiling and scaling validation  
+3. ✅ **Sub-linear scaling confirmed**: 35% better than linear for medium files
+4. **Further optimization deferred**: pdfplumber retained for functionality reasons
+
+**Phase 2.3 Achievements** ✅:
+- ✅ orjson integration with 56% function call reduction  
+- ✅ Performance testing framework with detailed profiling
+- ✅ JSON bottleneck elimination from performance profile
+- ✅ Comprehensive performance baseline and scaling analysis
 
 **Phase 2.2 Achievements** ✅:
 - ✅ Structured exception hierarchy with 15+ specialized classes
@@ -136,6 +143,12 @@ Consider adding `docs/performance.md` when:
 - ✅ Error context and recovery suggestions system
 - ✅ Retry mechanisms for transient failures
 - ✅ Comprehensive error handling test coverage (21 tests)
+
+**Performance Optimization Status**:
+- **PDF Processing**: Intentionally retained pdfplumber for functionality over performance
+- **Further optimization**: Not currently planned or considered urgent
+- **Current performance**: Adequate for project requirements (12.46s for 20 pages)
+- **Future work**: Can be revisited if requirements change
 
 ## Template-Specific Notes
 

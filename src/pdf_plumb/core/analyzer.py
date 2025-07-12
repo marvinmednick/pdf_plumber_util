@@ -17,7 +17,7 @@ The module uses both traditional and contextual methods for header/footer detect
 with the contextual method taking into account font sizes and spacing patterns.
 """
 
-import json
+from ..utils.json_utils import load, JSONDecodeError
 from collections import Counter
 from typing import Dict, List, Optional, Tuple, Any
 from ..config import get_config
@@ -1188,7 +1188,7 @@ class DocumentAnalyzer:
         # --- Load and Validate Input ---
         try:
             with open(lines_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
+                data = load(f)
         except FileNotFoundError as e:
             raise FileHandlingError(
                 f"Lines file not found: {lines_file}",
@@ -1196,7 +1196,7 @@ class DocumentAnalyzer:
                 operation="read",
                 original_error=e
             )
-        except json.JSONDecodeError as e:
+        except JSONDecodeError as e:
             raise ValidationError(
                 f"Invalid JSON format in lines file: {lines_file}",
                 validation_field="json_format",

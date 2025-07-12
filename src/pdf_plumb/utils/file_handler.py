@@ -5,7 +5,7 @@ ensuring consistent file naming, directory structure, and error handling across 
 of processing.
 """
 
-import json
+from .json_utils import dump, load, JSONDecodeError
 from pathlib import Path
 from typing import Dict, Any, Optional
 from .helpers import ensure_output_dir, get_base_name
@@ -65,7 +65,7 @@ class FileHandler:
             
             # Save data
             with open(output_file, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=2)
+                dump(data, f, indent=2)
                 
             self.logger.info(f"Saved {stage} data to {output_file}")
             return output_file
@@ -94,7 +94,7 @@ class FileHandler:
                 
             # Load data
             with open(input_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
+                data = load(f)
                 
             self.logger.info(f"Loaded {stage} data from {input_file}")
             return data
@@ -151,7 +151,7 @@ ensuring consistent file naming, directory structure, and error handling across 
 of processing.
 """
 
-import json
+from .json_utils import dump, load, JSONDecodeError
 from pathlib import Path
 from typing import Dict, Any, Optional
 from .helpers import ensure_output_dir, get_base_name
@@ -206,7 +206,7 @@ class FileHandler:
             
             # Save data
             with open(output_file, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=2)
+                dump(data, f, indent=2)
                 
             self.logger.info(f"Saved {stage} data to {output_file}")
             return output_file
@@ -235,7 +235,7 @@ class FileHandler:
                 
             # Load data
             with open(input_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
+                data = load(f)
                 
             self.logger.info(f"Loaded {stage} data from {input_file}")
             return data
