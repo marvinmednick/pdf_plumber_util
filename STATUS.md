@@ -1,10 +1,10 @@
 # PDF Plumb Project Status
 
-## Current Development Status: Modern Python Project with Advanced Prototype
+## Current Development Status: Modern Python Project with LLM Enhancement Planning
 
-**Last Updated**: July 2025 - Phase 2.3 Performance Optimization In Progress  
-**Overall Progress**: ~95% of core functionality implemented  
-**Status**: Phase 2.3 active - JSON optimization complete, ready for further performance work
+**Last Updated**: January 2025 - Phase 3.0 LLM Integration Strategy Complete  
+**Overall Progress**: ~95% core functionality, Phase 3.0 architecture designed  
+**Status**: Phase 3.0 planning complete - LLM strategy documented, token infrastructure ready, ready for implementation
 
 ## Completed Features ✅
 
@@ -149,37 +149,65 @@
 
 ## Work in Progress 🔄
 
-### 1. Header/Footer Detection Refinement
-- **Current Status**: Basic algorithms working, needs fine-tuning
-- **Implementation Location**: Both `analyzer.py` methods and `analyzer_head.py` standalone
-- **Areas for Improvement**:
-  - Threshold optimization for different document types
-  - Better handling of variable page layouts
-  - Enhanced cross-page consistency validation
-  - Integration of contextual and traditional methods
+### 1. LLM-Enhanced Document Analysis (Phase 3.0 Planning)
+- **Current Status**: Multi-pass LLM analysis strategy designed and documented
+- **Implementation Location**: 
+  - Architecture documented in `docs/llm_analysis_strategy.md` (comprehensive)
+  - Refined strategy in `docs/refined_llm_architecture.md` (production-focused)
+  - Token counting infrastructure in `src/pdf_plumb/utils/token_counter.py`
+- **Strategy Overview**:
+  - **Multi-objective analysis**: Simultaneous pattern detection with priority focus
+  - **Adaptive sampling**: Strategic page selection based on confidence levels
+  - **Anomaly-driven pattern refinement**: Real-time validation and pattern evolution
+  - **Continuous information gathering**: Cross-validation between TOC, headings, margins
+- **Technical Foundation**:
+  - ✅ **Token counting system**: Accurate analysis for GPT-4.1 (1M context) batch planning
+  - ✅ **CLI utility**: Standalone token analysis tool for planning and optimization
+  - 📋 **Data optimization**: File format and compression strategies identified
+  - 📋 **Batch sizing**: 20-page initial batches, 8-page incremental (GPT-4.1)
 
-### 2. Spacing Threshold Optimization
-- **Current Status**: Uses fixed multipliers (1.8x, 1.3x)
-- **Need**: Dynamic threshold adjustment based on document characteristics
-- **Location**: `constants.py` and contextual analysis algorithms
+### 2. Enhanced Margin Detection Strategy
+- **Current Analysis Gap**: Footer detection finds text position (806.5pt) but misses complete margin structure
+- **Enhanced Goal**: Distinguish "end of body content" vs "start of footer text" vs "page bottom"
+- **LLM Integration Opportunity**: Content-aware boundary detection using contextual block analysis
+- **Implementation Plan**: Multi-stream data fusion (position + content + patterns + cross-page consistency)
 
 ## Recent Development Work 🔨
 
-Based on the codebase, your last development session focused on:
+Current development session (Phase 3.0 Planning) focused on:
 
-### Header/Footer Detection Improvements (`analyzer_head.py`)
-- **Detailed Implementation**: 566-line standalone analyzer focused specifically on header/footer detection
-- **Advanced Logic**: 
-  - Zone-based analysis with spacing threshold evaluation
-  - Iterative boundary detection per page
-  - Cross-page aggregation and consistency checking
-  - Ambiguous gap handling between small/large thresholds
-- **Validation Approach**: Compare traditional Y-coordinate vs contextual spacing methods
+### LLM-Enhanced Analysis Strategy Design
+- **Comprehensive Strategy**: 294-line detailed multi-pass LLM analysis architecture
+- **Document Location**: `docs/llm_analysis_strategy.md` 
+- **Refined Architecture**: Production-focused approach in `docs/refined_llm_architecture.md`
+- **Key Innovation**: Multi-objective continuous information gathering vs. sequential phases
 
-### Contextual Analysis Enhancement
-- **Sophisticated Algorithm**: Font size-aware spacing analysis
-- **Implementation**: `_collect_contextual_gaps()` and `_analyze_contextual_spacing()`
-- **Innovation**: Accounts for natural spacing differences between font sizes
+### Token Counting Infrastructure (Phase 3.0 Foundation)
+- **Core Implementation**: `src/pdf_plumb/utils/token_counter.py` - modular token counting system
+- **CLI Tool**: `scripts/analyze_tokens.py` - standalone utility for batch planning
+- **Multi-Model Support**: GPT-4.1 (1M context), GPT-4o, GPT-4, with framework for Gemini/Claude
+- **Production Analysis**:
+  - **GPT-4.1 Performance**: 20-page initial batches vs GPT-4's 4-page limit (5x improvement)
+  - **File Format Analysis**: Lines vs Blocks token comparison (blocks 15% larger, better semantics)
+  - **Batch Planning**: Strategic consecutive page sampling for pattern recognition
+- **Advanced Optimization Research** (identified but not implemented - future development if needed):
+  - **Precision reduction**: 12% token savings via coordinate rounding (3 decimal places)
+  - **Field name shortening**: 22% token savings via JSON field compression
+  - **Combined potential**: 35% total reduction enabling 30+ page batches
+  - **Analysis tools**: `scripts/precision_analysis.py` and `scripts/field_analysis.py` available
+- **Documentation**: Comprehensive analysis in `docs/token_analysis_results.md`
+
+### Enhanced Margin Detection Research
+- **Problem Definition**: Current 806.5pt boundary identifies footer text start, not complete margin structure
+- **Gap Analysis**: Need to distinguish body content end vs footer text vs page boundaries
+- **LLM Integration Path**: Content-aware analysis using contextual blocks + multi-stream validation
+- **Decision Framework**: Conflict resolution between position, content, and pattern analysis streams
+
+### Previous Session Foundation (Header/Footer Detection)
+- **Traditional Implementation**: `analyzer.py` methods with zone-based Y-coordinate analysis
+- **Contextual Implementation**: Font size-aware spacing analysis with gap classification
+- **Block Formation**: Groups consecutive lines with same font size and tight spacing
+- **Cross-Page Consistency**: Aggregates patterns across pages for boundary confidence
 
 ## Technical Debt & Known Issues 🔧
 
@@ -280,15 +308,35 @@ The project appears to be in excellent shape with no major blockers. The core ex
 
 ## Recommended Next Steps 📋
 
-### Immediate (Next 1-2 weeks)
-1. **Real-world Testing**: Run on diverse technical specification documents
-2. **Threshold Optimization**: Fine-tune spacing multipliers based on test results
-3. **Begin Phase 2**: Start CLI framework migration planning
+### Phase 3.0: LLM Integration Implementation
 
-### Short Term (Next month)
-1. **Reference PDF Testing**: Create controlled test document with known properties
-2. **Click Migration**: Implement modern CLI framework
-3. **Enhanced Error Handling**: Add comprehensive error handling patterns
+#### Immediate (Next 1-2 weeks)
+1. **Header/Footer LLM Prototype**: Implement first classification area using GPT-4.1
+   - **Input**: 20-page batches from contextual blocks analysis
+   - **Goal**: Enhance margin boundary detection (body end vs footer text vs page bottom)
+   - **Success Metric**: More precise margin structure identification than current 806.5pt detection
+
+2. **Data Optimization**: Implement token reduction strategies
+   - **File Format Choice**: Lines vs Blocks analysis based on use case requirements
+   - **Data Compression**: Remove redundant information for LLM analysis
+   - **Consecutive Page Sampling**: Implement pattern recognition batching strategy
+
+#### Short Term (Next month)
+3. **Multi-Stream Validation Framework**: Implement conflict resolution between analysis streams
+   - **Position Analysis**: Current programmatic methods
+   - **Content Analysis**: LLM content-aware classification
+   - **Pattern Analysis**: Cross-page consistency validation
+   - **Decision Framework**: Weighted confidence scoring and conflict resolution
+
+4. **Incremental State Management**: Design LLM pattern persistence system
+   - **Pattern Evolution**: Track confidence changes across batches
+   - **Anomaly Detection**: Real-time pattern validation and refinement
+   - **Knowledge Accumulation**: Build document-specific pattern database
+
+#### Medium Term (Next 2-3 months)
+5. **Expand Classification Areas**: Implement Section Hierarchy and TOC analysis
+6. **Cross-Validation System**: Implement TOC ↔ Section ↔ Margin consistency checking
+7. **Production Integration**: Merge LLM analysis into main CLI workflow
 
 ## Success Metrics 📈
 
@@ -306,10 +354,10 @@ The codebase is ready for comprehensive development testing on actual technical 
 
 ## Project Maturity Assessment
 
-**Overall**: Modern Python project with advanced prototype ready for Phase 2 migration  
-**Strengths**: Sophisticated algorithms, robust implementation, modern tooling, comprehensive testing  
-**Current Phase**: Phase 1 template migration complete - centralized config, testing framework, enhanced UX  
-**Next Phase**: Phase 2 migration - CLI framework enhancement and reference document testing
+**Overall**: Modern Python project with advanced prototype ready for Phase 3.0 LLM integration  
+**Strengths**: Sophisticated algorithms, robust implementation, modern tooling, comprehensive testing, strategic LLM architecture  
+**Current Phase**: Phase 2 template migration complete - modern CLI, error handling, performance optimization  
+**Next Phase**: Phase 3.0 implementation - LLM-enhanced document analysis with multi-objective continuous learning
 
 ## Template Migration Benefits Achieved 🎆
 
