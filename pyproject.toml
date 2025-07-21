@@ -13,6 +13,7 @@ dependencies = [
     "pydantic-settings>=2.0.0",
     "click>=8.2.1",
     "orjson>=3.8.0",
+    "tiktoken>=0.9.0",
 ]
 
 [project.optional-dependencies]

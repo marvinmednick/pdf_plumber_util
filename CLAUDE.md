@@ -60,6 +60,10 @@ tests/
 
 ## Development Patterns
 
+### Architecture Documentation Standards
+- **Track documentation changes in git commits**: Architecture and feature documentation history should be maintained through git commit messages
+- **Review revisions for completeness**: When updating major documents like ARCHITECTURE.md, ensure changes are properly documented in commit messages for future reference
+
 ### Adding New CLI Commands
 1. Add command function to `src/pdf_plumb/cli.py` using Click decorators
 2. Use common decorators: `@common_options`, `@visualization_options`

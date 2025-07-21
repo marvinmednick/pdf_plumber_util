@@ -13,31 +13,65 @@ PDF Plumb is a sophisticated PDF text extraction and analysis tool designed spec
 
 3. **Header/Footer Detection**: Consistent identification of headers and footers across pages for accurate content extraction.
 
-4. **Licensing Constraints**: Moving away from PyMuPDF for core extraction due to licensing costs, while retaining it for development visualization tasks.
+4. **Content vs. Structure Distinction**: Programmatic analysis struggles to distinguish document structure elements (headers/footers) from content elements (section headings) based on position alone.
+
+5. **Pattern Recognition Complexity**: Cross-document patterns (TOC validation, section hierarchy, content relationships) require content understanding beyond spacing analysis.
+
+6. **Licensing Constraints**: Moving away from PyMuPDF for core extraction due to licensing costs, while retaining it for development visualization tasks.
 
 ## Architecture Principles
 
 ### Core Design Decisions
 - **Multi-Method Extraction**: Use multiple PDF extraction strategies and compare results
 - **Contextual Analysis**: Analyze spacing and fonts in context rather than absolute values
+- **Hybrid Intelligence**: Combine programmatic precision with LLM content understanding
+- **Multi-Stream Validation**: Cross-validate findings between position, content, and pattern analysis
 - **Modular Pipeline**: Separate extraction, analysis, and visualization into distinct phases
 - **Data Preservation**: Maintain rich metadata throughout the pipeline for debugging and analysis
+- **LLM Context Optimization**: Design processing to consider token sizes and context windows, optimizing as needed for efficient LLM integration
 
 ### Technology Stack
 - **Python 3.12+** with modern package management via `uv`
 - **pdfplumber** as primary extraction engine (license-friendly)
 - **PyMuPDF** for visualization only (development use)
 - **pdfminer-six** for low-level PDF operations
+- **Click + Rich** for modern CLI interface with progress bars and styling
+- **Pydantic** for configuration management and data validation
+- **LLM Integration**: GPT-4.1 (1M context), multi-model support framework
+- **tiktoken** for accurate token counting and batch optimization
+- **orjson** for high-performance JSON serialization
 
 ## System Architecture
 
 ### High-Level Data Flow
 
 ```
-PDF Input → Extraction → Analysis → Visualization → Reports
-     ↓          ↓           ↓           ↓           ↓
-Raw Text → Line Data → Structure → Visual PDF → Text Analysis
+PDF Input
+    ↓
+[Extraction Process]
+    ↓ produces
+Line Data + Word Data + Page Metadata
+    ↓
+[Programmatic Analysis Process]
+    ↓ produces
+Block Data + Contextual Spacing Rules + Boundary Candidates
+    ↓
+[LLM Analysis Process - Continuous Multi-Objective]
+    ↓ produces
+Priority-Focused Results + Font Style Database + Structural Element Catalog + Cross-Reference Mapping + Confidence Metrics + Anomaly Detection + Pattern Validation
+    ↓
+[Adaptive Decision Framework Process]
+    ↓ produces
+Confidence-Driven Focus Shifts + Dynamic Sampling Decisions + Pattern Evolution + Cross-Validation Results
+    ↓
+[Final Structure Assembly]
+    ↓ produces
+Document Structure + Analysis Reports
 ```
+
+**Hybrid Intelligence**: The pipeline combines programmatic precision (spacing, positioning, fonts) with content understanding (LLM-powered classification) to achieve accurate document structure identification.
+
+**Diagnostic Visualization**: At any processing stage, visualization can be applied for debugging and troubleshooting - examining extraction results, spacing patterns, block formation, classification decisions, or boundary validation.
 
 ### Core Components
 
@@ -63,13 +97,13 @@ Raw Text → Line Data → Structure → Visual PDF → Text Analysis
 
 #### 2. Document Analysis Engine (`src/pdf_plumb/core/analyzer.py`)
 
-**Purpose**: Identify document structure, spacing patterns, and boundaries
+**Purpose**: Hybrid intelligence system combining programmatic precision with adaptive content understanding
 
 **Key Classes**:
 - `DocumentAnalyzer`: High-level document analysis coordinator
 - `PDFAnalyzer`: Detailed spacing and structure analysis
 
-**Analysis Algorithms**:
+**Programmatic Analysis Foundation**
 
 ##### Contextual Spacing Analysis
 - Groups lines by predominant font size (context)
@@ -90,12 +124,39 @@ Raw Text → Line Data → Structure → Visual PDF → Text Analysis
 - **Contextual Method**: Gap analysis using contextual spacing rules
 - **Cross-page Aggregation**: Identifies consistent boundaries across document
 
+**LLM Analysis Integration (Continuous Multi-Objective)**
+
+The system performs continuous, adaptive analysis using strategic sampling and priority-driven focus. Rather than sequential phases, each page analysis simultaneously:
+
+*Detailed framework documented in `docs/refined_llm_architecture.md`*
+
+##### Multi-Objective Information Collection
+- **Primary Focus**: Current priority objective (headers/footers → section headings → TOC/lists)
+- **Secondary Collection**: Font style patterns, structural elements, cross-references
+- **Growing Knowledge Base**: Accumulates findings across analyzed pages
+- **Pattern Validation**: Real-time checking against established patterns
+- **Anomaly Detection**: Identifies deviations requiring pattern refinement
+
+##### Adaptive Decision Framework
+- **Confidence-Driven Transitions**: Shift focus based on objective confidence levels (80% → expand, 90% → shift focus)
+- **Dynamic Sampling**: Strategic page selection based on information gaps and validation needs
+- **Pattern Evolution**: Continuous refinement of structural rules based on accumulated evidence
+- **Cross-Validation**: Ongoing consistency checking between different structural elements
+
+##### Font Style Learning System
+- **Initial State**: Statistical assumptions from programmatic analysis
+- **Content-Based Refinement**: "2.1 Introduction" + 14pt Arial Bold → Level 2 section heading
+- **Iterative Improvement**: More examples → higher confidence → better identification
+- **Statistical Validation**: Track usage frequency and build confidence scores
+
 **Analysis Outputs**:
 - Font usage statistics and predominant fonts/sizes
 - Spacing distribution by context
-- Header/footer boundary candidates
-- Block-level document structure
-- Detailed analysis reports
+- Content-classified boundaries with confidence scores
+- Block-level document structure with content types
+- Cross-validated structural patterns
+- Anomaly reports and pattern refinements
+- Growing knowledge base for document-specific patterns
 
 #### 3. Visualization Engine (`src/pdf_plumb/core/visualizer.py`)
 
