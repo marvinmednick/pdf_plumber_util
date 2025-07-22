@@ -485,7 +485,7 @@ def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_sa
                 console.print("  • AZURE_OPENAI_API_VERSION")
                 raise click.Abort()
             
-            console.print(f"LLM Enabled: {'✅' if status['config']['llm_enabled'] else '⚠️ (disabled in config)'}")
+            console.print(f"LLM Enabled: ✅")
             console.print(f"Batch Size: {status['config']['batch_size']} pages")
             console.print("")
         

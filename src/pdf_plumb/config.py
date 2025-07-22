@@ -108,10 +108,6 @@ class PDFPlumbConfig(BaseSettings):
     )
     
     # LLM Analysis Settings
-    llm_enabled: bool = Field(
-        default=False,
-        description="Enable LLM-enhanced analysis"
-    )
     llm_batch_size: int = Field(
         default=16,
         description="Number of pages per LLM analysis request"

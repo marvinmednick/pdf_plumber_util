@@ -226,7 +226,6 @@ class LLMDocumentAnalyzer:
             'completed_analyses': list(self.analysis_results.keys()),
             'token_usage_summary': self._summarize_token_usage(),
             'config': {
-                'llm_enabled': self.config.llm_enabled,
                 'batch_size': self.config.llm_batch_size,
                 'sampling_groups': self.config.llm_sampling_groups,
                 'sampling_individuals': self.config.llm_sampling_individuals

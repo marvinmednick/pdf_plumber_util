@@ -403,7 +403,6 @@ PDF_PLUMB_GAP_ROUNDING=0.5
 #### LLM Analysis Settings
 ```bash
 # LLM integration
-PDF_PLUMB_LLM_ENABLED=false
 PDF_PLUMB_LLM_BATCH_SIZE=16
 PDF_PLUMB_LLM_SAMPLING_GROUPS=3
 PDF_PLUMB_LLM_SAMPLING_INDIVIDUALS=4
@@ -467,7 +466,6 @@ export PDF_PLUMB_LOG_LEVEL=DEBUG
 export PDF_PLUMB_Y_TOLERANCE=2.0
 export PDF_PLUMB_X_TOLERANCE=1.5
 export PDF_PLUMB_OUTPUT_DIR=/project/output
-export PDF_PLUMB_LLM_ENABLED=true
 
 # Azure OpenAI for LLM analysis
 export AZURE_OPENAI_ENDPOINT=https://my-resource.openai.azure.com/
