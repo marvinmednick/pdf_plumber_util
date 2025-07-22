@@ -4,11 +4,20 @@ import click
 from pathlib import Path
 from typing import Optional
 
+# Load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # dotenv not available, environment variables must be set manually
+    pass
+
 from rich.console import Console
 from rich.panel import Panel
 
 from .core.extractor import PDFExtractor
 from .core.analyzer import DocumentAnalyzer
+from .core.llm_analyzer import LLMDocumentAnalyzer
 from .utils.helpers import ensure_output_dir, get_base_name
 from .core.visualizer import SpacingVisualizer
 from .config import get_config, update_config, apply_profile
@@ -402,6 +411,195 @@ def process(pdf_file, output_dir, basename, y_tolerance, x_tolerance, debug_leve
     except Exception as e:
         console.print(f"❌ [red]Unexpected Error:[/red] {e}")
         console.print("🐛 [dim]This may be a bug. Please report it with the PDF file details.[/dim]")
+        raise click.Abort()
+
+
+@cli.command(name='llm-analyze')
+@click.argument('document_file', type=click.Path(exists=True, path_type=Path))
+@click.option(
+    '--focus',
+    type=click.Choice(['headers-footers', 'sections', 'toc', 'multi-objective']),
+    default='headers-footers',
+    help='Analysis focus area (default: headers-footers)'
+)
+@click.option(
+    '--provider',
+    type=click.Choice(['azure']),
+    default='azure',
+    help='LLM provider to use (default: azure)'
+)
+@click.option(
+    '-o', '--output-dir',
+    type=click.Path(file_okay=False, dir_okay=True, path_type=Path),
+    default=lambda: get_config().output_dir,
+    help='Directory to save analysis results'
+)
+@click.option(
+    '--estimate-cost',
+    is_flag=True,
+    help='Only estimate analysis cost without running'
+)
+@click.option(
+    '--no-save',
+    is_flag=True,
+    help='Do not save results to files'
+)
+@click.option(
+    '--show-status',
+    is_flag=True,
+    help='Show LLM provider configuration status'
+)
+def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_save, show_status):
+    """Analyze document structure using LLM.
+    
+    Performs LLM-enhanced analysis of PDF document structure, focusing on
+    specific areas like headers/footers, section hierarchy, or table of contents.
+    
+    Requires Azure OpenAI configuration via environment variables:
+    - AZURE_OPENAI_ENDPOINT
+    - AZURE_OPENAI_API_KEY  
+    - AZURE_OPENAI_DEPLOYMENT
+    - AZURE_OPENAI_API_VERSION
+    
+    DOCUMENT_FILE should be a JSON file from 'extract' or 'process' commands,
+    typically ending in '_blocks.json' or '_lines.json'.
+    """
+    try:
+        # Initialize LLM analyzer
+        console.print(f"🤖 Initializing {provider.upper()} LLM analyzer...")
+        llm_analyzer = LLMDocumentAnalyzer(provider_name=provider)
+        
+        # Show status if requested
+        if show_status:
+            status = llm_analyzer.get_analysis_status()
+            console.print("\n📊 [bold]LLM Configuration Status[/bold]")
+            console.print(f"Provider: {status['provider']}")
+            console.print(f"Configured: {'✅' if status['provider_configured'] else '❌'}")
+            
+            if not status['provider_configured']:
+                console.print("\n❌ [red]LLM provider not configured![/red]")
+                console.print("Required environment variables:")
+                console.print("  • AZURE_OPENAI_ENDPOINT")
+                console.print("  • AZURE_OPENAI_API_KEY")
+                console.print("  • AZURE_OPENAI_DEPLOYMENT")
+                console.print("  • AZURE_OPENAI_API_VERSION")
+                raise click.Abort()
+            
+            console.print(f"LLM Enabled: {'✅' if status['config']['llm_enabled'] else '⚠️ (disabled in config)'}")
+            console.print(f"Batch Size: {status['config']['batch_size']} pages")
+            console.print("")
+        
+        # Load document data
+        console.print(f"📄 Loading document: [bold]{document_file}[/bold]")
+        
+        if not document_file.exists():
+            console.print(f"❌ [red]File not found:[/red] {document_file}")
+            raise click.Abort()
+        
+        try:
+            import json
+            with open(document_file, 'r') as f:
+                document_data = json.load(f)
+        except json.JSONDecodeError as e:
+            console.print(f"❌ [red]Invalid JSON file:[/red] {e}")
+            raise click.Abort()
+        except Exception as e:
+            console.print(f"❌ [red]Failed to load document:[/red] {e}")
+            raise click.Abort()
+        
+        # Validate document structure
+        if isinstance(document_data, dict) and 'pages' in document_data:
+            pages_count = len(document_data['pages'])
+        elif isinstance(document_data, list):
+            pages_count = len(document_data)
+        else:
+            console.print("❌ [red]Invalid document format![/red] Expected list of pages or dict with 'pages' key.")
+            raise click.Abort()
+        
+        console.print(f"📄 Document loaded: {pages_count} pages")
+        
+        # Cost estimation
+        if estimate_cost:
+            console.print(f"💰 Estimating {focus} analysis cost...")
+            try:
+                cost_info = llm_analyzer.estimate_analysis_cost(document_data, focus)
+                
+                console.print("\n💰 [bold]Cost Estimation[/bold]")
+                console.print(f"Input tokens: ~{cost_info['estimated_input_tokens']:,}")
+                console.print(f"Output tokens: ~{cost_info['estimated_output_tokens']:,}")
+                console.print(f"Total tokens: ~{cost_info['estimated_input_tokens'] + cost_info['estimated_output_tokens']:,}")
+                console.print(f"Estimated cost: ${cost_info['estimated_cost_usd']:.4f} USD")
+                console.print(f"[dim]{cost_info.get('note', '')}[/dim]")
+                return
+                
+            except Exception as e:
+                console.print(f"❌ [red]Cost estimation failed:[/red] {e}")
+                raise click.Abort()
+        
+        # Perform analysis
+        console.print(f"🔍 Starting [bold]{focus}[/bold] analysis...")
+        
+        try:
+            if focus == 'headers-footers':
+                results = llm_analyzer.analyze_headers_footers(
+                    document_data,
+                    save_results=not no_save,
+                    output_dir=output_dir
+                )
+                
+                # Display results summary
+                console.print("\n✅ [bold green]Header/Footer Analysis Complete[/bold green]")
+                console.print(f"Header confidence: {results.header_confidence.value}")
+                console.print(f"Footer confidence: {results.footer_confidence.value}")
+                
+                boundaries = results.get_content_boundaries()
+                console.print(f"Content area: Y {boundaries['start_after_y']:.1f} - {boundaries['end_before_y']:.1f}")
+                
+                pages_with_headers = len(results.get_pages_with_headers())
+                pages_with_footers = len(results.get_pages_with_footers())
+                total_analyzed = len(results.sampling_summary['page_indexes_analyzed'])
+                
+                console.print(f"Headers found: {pages_with_headers}/{total_analyzed} pages")
+                console.print(f"Footers found: {pages_with_footers}/{total_analyzed} pages")
+                
+                if results.insights:
+                    console.print("\n💡 [bold]Key Insights:[/bold]")
+                    for insight in results.insights[:3]:  # Show top 3 insights
+                        console.print(f"  • {insight}")
+                
+            else:
+                console.print(f"❌ [red]Analysis type '{focus}' not yet implemented![/red]")
+                console.print("Available: headers-footers")
+                raise click.Abort()
+            
+            # Show token usage
+            status = llm_analyzer.get_analysis_status()
+            usage_summary = status['token_usage_summary']
+            if usage_summary['total_tokens'] > 0:
+                console.print(f"\n📊 Token usage: {usage_summary['total_tokens']:,} tokens")
+                console.print(f"💰 Estimated cost: ${usage_summary['estimated_total_cost_usd']:.4f} USD")
+            
+            if not no_save:
+                console.print(f"\n💾 Results saved to: [bold]{output_dir}[/bold]")
+            
+        except Exception as e:
+            console.print(f"❌ [red]LLM Analysis Failed:[/red] {e}")
+            console.print("🔧 [dim]Check your API configuration and document format[/dim]")
+            raise click.Abort()
+            
+    except ConfigurationError as e:
+        console.print(f"❌ [red]Configuration Error:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
+    except AnalysisError as e:
+        console.print(f"❌ [red]Analysis Error:[/red] {e.message}")
+        if e.suggestion:
+            console.print(f"💡 [yellow]Suggestion:[/yellow] {e.suggestion}")
+        raise click.Abort()
+    except Exception as e:
+        console.print(f"❌ [red]Unexpected Error:[/red] {e}")
+        console.print("🐛 [dim]This may be a bug. Please report it with the document file details.[/dim]")
         raise click.Abort()
 
 

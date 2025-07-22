@@ -60,14 +60,10 @@ pdf-plumb process --help
 
 ### 1. Extract Command
 
-Extract text from a PDF file using three different methods and save structured data.
+Extract text from a PDF file and save structured data for analysis.
 
-**The Three Extraction Methods:**
-1. **Raw Text Extraction** - Basic pdfplumber text extraction (`extract_text()`)
-2. **Line-based Extraction** - Maintains line structure (`extract_text_lines()`)
-3. **Word-based Manual Alignment** - Most sophisticated method with custom word grouping (`extract_words_manual()`)
-
-All methods are run simultaneously and results are compared for validation.
+**PDF Text Extraction:**
+PDF Plumb extracts text using word-based analysis with manual alignment to preserve document structure, fonts, and positioning information needed for intelligent block formation.
 
 **Direct uv execution:**
 ```bash
@@ -117,9 +113,9 @@ uv run pdf-plumb --profile technical extract document.pdf \
 ```
 
 #### Output Files
-- `{basename}_lines.json` - Processed line data with gaps and fonts (from word-based method)
-- `{basename}_words.json` - Raw word-level data (from word-based method)
-- `{basename}_compare.json` - Side-by-side comparison of all three extraction methods
+- `{basename}_lines.json` - Structured line data with gaps and fonts (main input for analysis)
+- `{basename}_words.json` - Raw word-level data (for debugging)
+- `{basename}_compare.json` - Extraction method comparison (for debugging)
 - `{basename}_info.json` - Metadata and extraction statistics
 - `{basename}_visualized.pdf` - Visualization overlay (if requested)
 
@@ -208,6 +204,127 @@ All files from extract + analyze commands plus:
 - `{basename}_spacing.pdf` - Line spacing visualization
 - `{basename}_block_spacing.pdf` - Block spacing visualization
 
+### 4. LLM Analyze Command
+
+Perform LLM-enhanced analysis of document structure using Azure OpenAI.
+
+**Direct uv execution:**
+```bash
+uv run pdf-plumb llm-analyze document_lines.json [options]
+```
+
+**Installed package:**
+```bash
+pdf-plumb llm-analyze document_lines.json [options]
+```
+
+#### Prerequisites
+
+LLM analysis requires Azure OpenAI configuration via environment variables:
+```bash
+export AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+export AZURE_OPENAI_API_KEY=your-api-key-here
+export AZURE_OPENAI_DEPLOYMENT=gpt-4
+export AZURE_OPENAI_API_VERSION=2024-02-15-preview
+```
+
+#### Basic Usage
+
+```bash
+# Header/footer analysis (default)
+uv run pdf-plumb llm-analyze output/document_lines.json
+
+# Specific analysis focus
+uv run pdf-plumb llm-analyze output/document_lines.json --focus headers-footers
+
+# Cost estimation before running
+uv run pdf-plumb llm-analyze output/document_lines.json --estimate-cost
+
+# Check configuration status
+uv run pdf-plumb llm-analyze output/document_lines.json --show-status
+```
+
+#### Advanced Usage
+
+```bash
+# Save results to custom directory
+uv run pdf-plumb llm-analyze output/document_lines.json -o llm_results/
+
+# Run analysis without saving files
+uv run pdf-plumb llm-analyze output/document_lines.json --no-save
+
+# Multiple analysis types (future)
+uv run pdf-plumb llm-analyze output/document_lines.json --focus multi-objective
+```
+
+#### LLM Analysis Options
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `document_file` | string | required | Path to JSON file from extract/process commands |
+| `--focus` | choice | headers-footers | Analysis focus (headers-footers, sections, toc, multi-objective) |
+| `--provider` | choice | azure | LLM provider to use |
+| `-o, --output-dir` | string | config default | Directory to save analysis results |
+| `--estimate-cost` | flag | false | Only estimate cost without running analysis |
+| `--no-save` | flag | false | Do not save results to files |
+| `--show-status` | flag | false | Show LLM provider configuration status |
+
+#### Expected Input
+
+The `document_file` should be a JSON file produced by the `extract` or `process` commands, typically:
+- `{basename}_lines.json` - Structured line data (recommended)
+- `{basename}_blocks.json` - Block-level data (also supported)
+
+#### Output Files
+
+When analysis completes successfully:
+```
+llm_results/
+├── llm_headers_footers_20240115_143022_results.json    # Structured analysis results
+├── llm_headers_footers_20240115_143022_prompt.txt      # Prompt sent to LLM
+└── llm_headers_footers_20240115_143022_response.txt    # Raw LLM response
+```
+
+#### Usage Examples
+
+**Example 1: Basic Header/Footer Analysis**
+```bash
+# First extract document structure
+uv run pdf-plumb extract technical_spec.pdf
+
+# Then run LLM analysis
+uv run pdf-plumb llm-analyze output/technical_spec_lines.json
+```
+
+**Example 2: Cost Estimation Workflow**
+```bash
+# Check cost before running
+uv run pdf-plumb llm-analyze output/large_document_lines.json --estimate-cost
+
+# Output example:
+# 💰 Cost Estimation
+# Input tokens: ~245,680
+# Output tokens: ~1,200  
+# Total tokens: ~246,880
+# Estimated cost: $0.7406 USD
+
+# Run if cost is acceptable
+uv run pdf-plumb llm-analyze output/large_document_lines.json
+```
+
+**Example 3: Configuration Troubleshooting**
+```bash
+# Check if Azure OpenAI is properly configured
+uv run pdf-plumb llm-analyze output/document_lines.json --show-status
+
+# Output example:
+# 📊 LLM Configuration Status
+# Provider: AZURE
+# Configured: ✅
+# LLM Enabled: ✅
+# Batch Size: 16 pages
+```
+
 ## Parameter Reference
 
 ### Common Parameters
@@ -236,6 +353,180 @@ All files from extract + analyze commands plus:
 |-----------|------|-------------|
 | `-f, --output-file` | string | Custom path for analysis output |
 | `--show-output` | flag | Display analysis results on stdout |
+
+## Configuration and Environment Variables
+
+### Configuration Priority (Highest to Lowest)
+
+PDF Plumb uses a hierarchical configuration system where settings can be specified in multiple ways:
+
+1. **CLI Arguments** (highest priority) - Override everything
+2. **Profile Settings** (via `--profile` flag) - Override environment variables and defaults  
+3. **Environment Variables** (with `PDF_PLUMB_` prefix) - Override defaults only
+4. **Default Values** (lowest priority) - Built-in fallback values
+
+### Environment Variables
+
+All configuration settings can be controlled via environment variables with the `PDF_PLUMB_` prefix:
+
+#### Core Settings
+```bash
+# Extraction tolerances (in points)
+PDF_PLUMB_Y_TOLERANCE=3.0
+PDF_PLUMB_X_TOLERANCE=3.0
+
+# Analysis settings
+PDF_PLUMB_LARGE_GAP_MULTIPLIER=1.8
+PDF_PLUMB_SMALL_GAP_MULTIPLIER=1.3
+PDF_PLUMB_ROUND_TO_NEAREST_PT=0.5
+
+# Page layout settings
+PDF_PLUMB_HEADER_ZONE_INCHES=1.25
+PDF_PLUMB_FOOTER_ZONE_INCHES=1.0
+
+# Directories (relative or absolute paths)
+PDF_PLUMB_OUTPUT_DIR=output
+PDF_PLUMB_DATA_DIR=data
+
+# Logging level
+PDF_PLUMB_LOG_LEVEL=INFO
+```
+
+#### Contextual Analysis Settings
+```bash
+# Contextual spacing analysis
+PDF_PLUMB_LINE_SPACING_TOLERANCE=0.2
+PDF_PLUMB_PARA_SPACING_MULTIPLIER=1.1
+PDF_PLUMB_GAP_ROUNDING=0.5
+```
+
+#### LLM Analysis Settings
+```bash
+# LLM integration
+PDF_PLUMB_LLM_ENABLED=false
+PDF_PLUMB_LLM_BATCH_SIZE=16
+PDF_PLUMB_LLM_SAMPLING_GROUPS=3
+PDF_PLUMB_LLM_SAMPLING_INDIVIDUALS=4
+```
+
+#### Azure OpenAI Configuration (for LLM analysis)
+```bash
+# Azure OpenAI settings (use direct names, not PDF_PLUMB_ prefix)
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_API_KEY=your-api-key-here
+AZURE_OPENAI_DEPLOYMENT=gpt-4
+AZURE_OPENAI_API_VERSION=2024-02-15-preview
+```
+
+### Document Type Profiles
+
+Instead of manually setting environment variables, you can use predefined profiles optimized for different document types:
+
+```bash
+# Apply profile for technical specifications
+pdf-plumb --profile technical process document.pdf
+
+# Apply profile for academic papers  
+pdf-plumb --profile academic process document.pdf
+
+# Apply profile for user manuals
+pdf-plumb --profile manual process document.pdf
+
+# Apply profile for densely-packed documents
+pdf-plumb --profile dense process document.pdf
+```
+
+**Available Profiles:**
+- **technical**: Optimized for technical specifications (default tolerances)
+- **academic**: Optimized for academic papers (tighter tolerances)
+- **manual**: Optimized for user manuals (looser tolerances for varied layouts)
+- **dense**: Optimized for densely-packed documents (very tight tolerances)
+
+### Configuration Examples
+
+#### Example 1: Environment Variables Only
+```bash
+# Set via environment
+export PDF_PLUMB_Y_TOLERANCE=2.5
+export PDF_PLUMB_OUTPUT_DIR=/tmp/results
+
+# Run with environment settings
+pdf-plumb process document.pdf
+```
+
+#### Example 2: Profile + CLI Override
+```bash
+# Profile sets base configuration, CLI overrides specific settings
+pdf-plumb --profile technical process document.pdf -x 2.5 -o custom_output
+```
+
+#### Example 3: Full Environment Setup
+```bash
+# Complete environment configuration
+export PDF_PLUMB_LOG_LEVEL=DEBUG
+export PDF_PLUMB_Y_TOLERANCE=2.0
+export PDF_PLUMB_X_TOLERANCE=1.5
+export PDF_PLUMB_OUTPUT_DIR=/project/output
+export PDF_PLUMB_LLM_ENABLED=true
+
+# Azure OpenAI for LLM analysis
+export AZURE_OPENAI_ENDPOINT=https://my-resource.openai.azure.com/
+export AZURE_OPENAI_API_KEY=sk-...
+export AZURE_OPENAI_DEPLOYMENT=gpt-4
+export AZURE_OPENAI_API_VERSION=2024-02-15-preview
+
+# Run with all environment settings
+pdf-plumb process document.pdf --show-output
+```
+
+### Priority Examples
+
+```bash
+# Environment variable sets default
+export PDF_PLUMB_Y_TOLERANCE=4.0
+
+# Profile overrides environment variable  
+pdf-plumb --profile dense process doc.pdf  # Uses dense profile Y_TOLERANCE=2.0
+
+# CLI argument overrides everything
+pdf-plumb --profile dense process doc.pdf -y 5.0  # Uses Y_TOLERANCE=5.0
+```
+
+## Token Analysis Utilities
+
+The following scripts are available for LLM analysis planning and optimization:
+
+### analyze_tokens.py
+```bash
+python scripts/analyze_tokens.py document_lines.json
+```
+Analyzes token requirements for LLM analysis and provides batch size recommendations.
+
+**Output**: Token statistics, batch size recommendations, cost estimates for different page counts.
+
+### precision_analysis.py  
+```bash
+python scripts/precision_analysis.py document_lines.json
+```
+Tests coordinate precision reduction for token optimization (research tool).
+
+**Output**: Token savings analysis with different precision levels (1-4 decimal places).
+
+### field_analysis.py
+```bash  
+python scripts/field_analysis.py document_lines.json
+```
+Analyzes field name compression opportunities for token savings (research tool).
+
+**Output**: Field usage statistics and potential token reduction through field name shortening.
+
+### llm_header_footer_analysis.py
+```bash
+python scripts/llm_header_footer_analysis.py document_lines.json
+```
+Standalone LLM header/footer analysis script for testing and development.
+
+**Note**: These scripts are primarily for analysis planning and research. For production LLM analysis, use the `llm-analyze` command.
 
 ## Spacing Visualization Options
 
@@ -373,7 +664,7 @@ After running `uv run -m pdf_plumb.cli process document.pdf`, expect these files
 output/
 ├── document_lines.json           # Main structured data
 ├── document_words.json           # Raw word data
-├── document_compare.json         # Method comparison
+├── document_compare.json         # Method comparison (debugging)
 ├── document_info.json            # Metadata
 ├── document_analysis.txt         # Human-readable analysis
 ├── document_blocks.json          # Block structure

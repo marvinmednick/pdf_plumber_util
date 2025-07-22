@@ -85,6 +85,46 @@ class PDFPlumbConfig(BaseSettings):
         description="Logging level (DEBUG, INFO, WARNING, ERROR)"
     )
     
+    # LLM Configuration (Azure OpenAI)
+    azure_openai_endpoint: Optional[str] = Field(
+        default=None,
+        description="Azure OpenAI endpoint URL",
+        validation_alias="AZURE_OPENAI_ENDPOINT"
+    )
+    azure_openai_api_key: Optional[str] = Field(
+        default=None,
+        description="Azure OpenAI API key",
+        validation_alias="AZURE_OPENAI_API_KEY"
+    )
+    azure_openai_deployment: Optional[str] = Field(
+        default=None,
+        description="Azure OpenAI deployment name (e.g., gpt-4)",
+        validation_alias="AZURE_OPENAI_DEPLOYMENT"
+    )
+    azure_openai_api_version: Optional[str] = Field(
+        default=None,
+        description="Azure OpenAI API version (e.g., 2024-02-15-preview)",
+        validation_alias="AZURE_OPENAI_API_VERSION"
+    )
+    
+    # LLM Analysis Settings
+    llm_enabled: bool = Field(
+        default=False,
+        description="Enable LLM-enhanced analysis"
+    )
+    llm_batch_size: int = Field(
+        default=16,
+        description="Number of pages per LLM analysis request"
+    )
+    llm_sampling_groups: int = Field(
+        default=3,
+        description="Number of consecutive page groups for sampling"
+    )
+    llm_sampling_individuals: int = Field(
+        default=4,
+        description="Number of individual pages for sampling"
+    )
+    
     # Visualization defaults
     default_spacing_colors: List[str] = Field(
         default=[

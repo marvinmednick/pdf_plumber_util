@@ -1,15 +1,15 @@
 # PDF Plumb
 
-A high-performance Python PDF text extraction and analysis tool for technical documents. Uses multiple extraction methods to identify document structure, fonts, spacing patterns, and generates visualizations.
+A Python PDF text extraction and analysis tool for technical documents. Combines intelligent document structure analysis with LLM-enhanced content understanding to identify headers, footers, sections, and document patterns.
 
 ## Features
 
-- **Multi-Method Extraction**: Raw text, lines, and word-based extraction with manual alignment
-- **Document Analysis**: Font usage, spacing patterns, header/footer detection, block formation
-- **Performance Optimized**: orjson integration for 10% faster processing
-- **Modern CLI**: Click + Rich interface with progress bars and error handling
-- **Comprehensive Testing**: 28+ tests with detailed error handling coverage
-- **Scalable Architecture**: Sub-linear performance scaling validated
+- **Intelligent Text Extraction**: Word-based extraction with contextual spacing analysis
+- **Document Structure Analysis**: Font-aware block formation and boundary detection
+- **LLM Integration**: Azure OpenAI-powered content analysis for headers/footers and sections
+- **Modern CLI**: Click + Rich interface with profiles, progress bars, and error handling
+- **Performance Optimized**: Sub-linear scaling with orjson integration
+- **Comprehensive Testing**: 28+ passing tests with detailed error handling coverage
 
 ## Quick Start
 
@@ -17,33 +17,45 @@ A high-performance Python PDF text extraction and analysis tool for technical do
 # Install dependencies
 uv sync
 
-# Extract text from PDF
-uv run pdf-plumb extract document.pdf
+# Basic document processing
+uv run pdf-plumb process document.pdf --show-output
 
-# Analyze extracted data  
+# Extract and analyze separately
+uv run pdf-plumb extract document.pdf
 uv run pdf-plumb analyze output/document_lines.json
 
-# View all options
-uv run pdf-plumb --help
+# LLM-enhanced analysis (requires Azure OpenAI setup)
+uv run pdf-plumb llm-analyze output/document_lines.json --focus headers-footers
+
+# Use document type profiles
+uv run pdf-plumb --profile technical process document.pdf
 ```
 
-## Performance
+## LLM Analysis
 
-- **20-page documents**: ~12.5 seconds
-- **100-page documents**: ~45 seconds (sub-linear scaling)
-- **Memory efficient**: Page-by-page processing
-- **JSON optimized**: 56% function call reduction with orjson
+PDF Plumb integrates with Azure OpenAI for intelligent document analysis:
+
+- **Header/Footer Detection**: Content-aware boundary identification
+- **Cost Estimation**: Token counting and cost prediction before analysis
+- **Strategic Sampling**: Efficient analysis using representative page samples
+- **Multiple Focus Areas**: Headers/footers, sections, table of contents
+
+Requires Azure OpenAI configuration. See documentation for setup details.
+
+## Documentation
+
+- **[CLI Usage Guide](CLI_USAGE.md)** - Complete command reference and examples
+- **[Architecture Overview](ARCHITECTURE.md)** - System design and components
+- **[Design Decisions](DESIGN_DECISIONS.md)** - Key architectural choices and rationale
+- **[Development Guide](CLAUDE.md)** - Documentation navigation for developers
+
+## Current Status
+
+LLM integration implemented with Azure OpenAI support, strategic sampling, and cost estimation. Core functionality stable with modern CLI interface and comprehensive testing coverage.
 
 ## Technology Stack
 
-- **Python 3.12+** with UV package management
-- **Click + Rich** for modern CLI experience
-- **Pydantic** for configuration management  
-- **orjson** for high-performance JSON serialization
-- **pdfplumber** for reliable PDF processing
+Python 3.12+ • Click + Rich • Pydantic • Azure OpenAI • pdfplumber • orjson
 
-## Status
-
-**Phase 2.3**: Performance optimization complete - JSON bottleneck eliminated. Further optimization deferred as current performance meets requirements.
-
-See [STATUS.md](STATUS.md) for detailed project status and [CLAUDE.md](CLAUDE.md) for development context.
+**Requirements**: Python 3.12+, uv package manager  
+**Optional**: Azure OpenAI account for LLM analysis features

@@ -169,10 +169,112 @@ Consider adding `docs/performance.md` when:
 - **Current performance**: Adequate for project requirements (12.46s for 20 pages)
 - **Future work**: Can be revisited if requirements change
 
+## Documentation Navigation for Development
+
+This project uses a hierarchical documentation structure designed to preserve design decisions while providing clear user guidance. When working on features or making architectural decisions, use this guide to find relevant context.
+
+### Documentation Hierarchy
+
+**Tier 1: User Entry Points**
+- `README.md` - Project overview, quick start, features list
+- `CLI_USAGE.md` - Complete command reference with examples and environment variables
+- `INSTALLATION.md` - Setup and configuration (to be created if needed)
+
+**Tier 2: Architecture & Design Context**
+- `ARCHITECTURE.md` - System design, component relationships, data flow
+- `DESIGN_DECISIONS.md` - **KEY FOR DEVELOPMENT** - Architectural choices and rationale
+- `PHASE_HISTORY.md` - Detailed development phase history and achievements
+
+**Tier 3: Implementation Deep-Dives**
+- `design/BLOCK_GROUPING.md` - Contextual spacing and block formation algorithm
+- `design/HEADER_FOOTER_DETECTION.md` - Iterative boundary detection development
+- `design/LLM_INTEGRATION.md` - LLM implementation guide and current usage
+- `design/LLM_STRATEGY.md` - Complete LLM strategic framework and advanced features
+- `design/CONTEXTUAL_SPACING.md` - Core spacing analysis algorithm (to be created)
+
+**Tier 4: Analysis & Strategy**
+- `analysis/token_analysis.md` - LLM token counting analysis and batch sizing
+- `analysis/performance_optimization.md` - Performance analysis and decisions (to be created)
+- `analysis/llm_strategy_evolution.md` - How LLM approach evolved (to be created)
+
+### When to Reference Which Documents
+
+**Before making architectural changes:**
+1. Check `DESIGN_DECISIONS.md` for existing rationale
+2. Review relevant `design/*.md` for implementation details
+3. Check `analysis/*.md` for supporting data
+
+**When implementing new features:**
+1. Start with `ARCHITECTURE.md` for system overview
+2. Review related design docs for patterns to follow
+3. Update `DESIGN_DECISIONS.md` with new choices
+
+**When adding LLM capabilities:**
+1. `design/LLM_INTEGRATION.md` - Current implementation and usage
+2. `design/LLM_STRATEGY.md` - Complete strategic framework and advanced features
+3. `analysis/token_analysis.md` - Batch sizing and cost analysis
+4. `analysis/llm_strategy_evolution.md` - How the approach evolved
+
+**When optimizing performance:**
+1. `analysis/token_analysis.md` - Token optimization and LLM performance analysis
+2. `PHASE_HISTORY.md#phase-23` - Phase 2.3 performance optimization details
+3. Relevant design docs for implementation details
+
+**When reviewing project evolution:**
+1. `PHASE_HISTORY.md` - Complete development phase history and achievements
+2. `DESIGN_DECISIONS.md` - Current architectural rationale
+3. `STATUS.md` - Current phase summary with references
+
+### Documentation Update Protocol
+
+**When adding features:**
+- Update user docs (`README.md`, `CLI_USAGE.md`) first
+- Document design decisions in `DESIGN_DECISIONS.md`
+- Create/update relevant design docs
+- Cross-reference between levels
+
+**When changing architecture:**
+- Update `ARCHITECTURE.md` with new design
+- Document rationale in `DESIGN_DECISIONS.md` 
+- Determine if need to create/update design docs
+- Add entry to `PHASE_HISTORY.md`
+
+### Documentation Guidelines
+
+**STATUS.md Guidelines:**
+- Focus on current development phase and immediate next steps
+- Keep to ~100 lines maximum
+- Avoid detailed technical explanations (use design docs for that)
+- Update when phases change, not for minor feature additions
+
+**README.md Guidelines:**
+- Brief project overview and key features (including LLM analysis)
+- Quick start instructions
+- Link to detailed documentation
+- Keep under 100 lines for accessibility
+
+**CLI_USAGE.md Guidelines:**
+- Complete command reference with examples
+- Environment variable documentation and priority rules:
+  1. CLI arguments (highest priority)
+  2. Profile settings (via `--profile` flag)
+  3. Environment variables (with `PDF_PLUMB_` prefix)
+  4. Default values (lowest priority)
+- Configuration examples and troubleshooting
+
+### Cross-Reference Patterns
+
+Use this format for linking between documentation levels:
+```markdown
+See: [design/BLOCK_GROUPING.md](design/BLOCK_GROUPING.md)
+Design rationale: [DESIGN_DECISIONS.md#spacing-analysis](DESIGN_DECISIONS.md)
+Performance analysis: [analysis/performance_optimization.md](analysis/performance_optimization.md)
+```
+
 ## Template-Specific Notes
 
 This project structure supports PDF analysis development by:
-- **Multi-method extraction validation** - Three extraction methods for accuracy
+- **Iterative validation approach** - Implement multiple methods, compare, choose best
 - **Rich console experience** - Professional CLI with progress bars and emojis
 - **Document type profiles** - Pre-configured settings for different PDF types  
 - **Comprehensive testing** - Real PDF validation ensures reliability

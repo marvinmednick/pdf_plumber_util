@@ -173,6 +173,12 @@ cython_debug/
 
 no_sync/
 
+# Performance test results (temporary)
+performance_results_*/
+
+# Temporary analysis files
+*_vs_*_analysis.md
+*_vs_*_comparison.md
 
 .vscode
 # Data files

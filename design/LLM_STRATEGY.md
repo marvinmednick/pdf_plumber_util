@@ -1,8 +1,10 @@
-# Refined LLM Analysis Architecture - High Level Framework
+# LLM Analysis Strategic Framework
 
 ## Executive Summary
 
-This document outlines the refined architecture for integrating LLM analysis with the existing PDF Plumb system to achieve higher accuracy in technical document structure analysis. The approach emphasizes strategic data sampling, contextual block-based analysis, and iterative refinement while addressing the challenges of large document processing and circular dependencies between structural elements.
+This document outlines the comprehensive strategic framework for LLM integration with PDF Plumb, including advanced multi-objective analysis, font learning systems, and anomaly detection. This is the complete architectural strategy - for current implementation status and usage, see [design/LLM_INTEGRATION.md](LLM_INTEGRATION.md).
+
+The approach emphasizes strategic data sampling, contextual block-based analysis, and iterative refinement while addressing the challenges of large document processing and circular dependencies between structural elements.
 
 ## Core Architectural Principles
 
