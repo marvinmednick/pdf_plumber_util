@@ -188,6 +188,7 @@ This project uses a hierarchical documentation structure designed to preserve de
 **Tier 3: Implementation Deep-Dives**
 - `design/BLOCK_GROUPING.md` - Contextual spacing and block formation algorithm
 - `design/HEADER_FOOTER_DETECTION.md` - Iterative boundary detection development
+- `design/STATE_MACHINE_ARCHITECTURE.md` - State machine orchestrator for multi-objective analysis workflows
 - `design/LLM_INTEGRATION.md` - LLM implementation guide and current usage
 - `design/LLM_STRATEGY.md` - Complete LLM strategic framework and advanced features
 - `design/CONTEXTUAL_SPACING.md` - Core spacing analysis algorithm (to be created)
@@ -210,10 +211,11 @@ This project uses a hierarchical documentation structure designed to preserve de
 3. Update `DESIGN_DECISIONS.md` with new choices
 
 **When adding LLM capabilities:**
-1. `design/LLM_INTEGRATION.md` - Current implementation and usage
-2. `design/LLM_STRATEGY.md` - Complete strategic framework and advanced features
-3. `analysis/token_analysis.md` - Batch sizing and cost analysis
-4. `analysis/llm_strategy_evolution.md` - How the approach evolved
+1. `design/STATE_MACHINE_ARCHITECTURE.md` - State machine framework for multi-objective workflows
+2. `design/LLM_INTEGRATION.md` - Current implementation and usage
+3. `design/LLM_STRATEGY.md` - Complete strategic framework and advanced features
+4. `analysis/token_analysis.md` - Batch sizing and cost analysis
+5. `analysis/llm_strategy_evolution.md` - How the approach evolved
 
 **When optimizing performance:**
 1. `analysis/token_analysis.md` - Token optimization and LLM performance analysis

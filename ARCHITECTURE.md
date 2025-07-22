@@ -126,30 +126,25 @@ Document Structure + Analysis Reports
 - **Contextual Method**: Gap analysis using contextual spacing rules
 - **Cross-page Aggregation**: Identifies consistent boundaries across document
 
-**LLM Analysis Integration (Continuous Multi-Objective)**
+**LLM Analysis Integration (State Machine Orchestrator)**
 
-The system performs continuous, adaptive analysis using strategic sampling and priority-driven focus. Rather than sequential phases, each page analysis simultaneously:
+The system uses a state machine architecture to orchestrate complex, multi-objective analysis workflows. States execute discrete analysis tasks and determine workflow progression based on results and context.
 
-*Detailed framework documented in `docs/refined_llm_architecture.md`*
+*State machine architecture: [design/STATE_MACHINE_ARCHITECTURE.md](design/STATE_MACHINE_ARCHITECTURE.md)*
+*Current LLM implementation: [design/LLM_INTEGRATION.md](design/LLM_INTEGRATION.md)*
 
-##### Multi-Objective Information Collection
-- **Primary Focus**: Current priority objective (headers/footers → section headings → TOC/lists)
-- **Secondary Collection**: Font style patterns, structural elements, cross-references
-- **Growing Knowledge Base**: Accumulates findings across analyzed pages
-- **Pattern Validation**: Real-time checking against established patterns
-- **Anomaly Detection**: Identifies deviations requiring pattern refinement
+##### State-Based Analysis Framework
+- **Execute Functions**: Each state performs discrete analysis tasks (programmatic logic, LLM calls, or hybrid)
+- **Transition Logic**: States determine next steps based on execution results and accumulated context
+- **Context Accumulation**: Growing knowledge base passed between states
+- **Workflow Orchestration**: Manages progression through different analysis objectives
+- **Validation & Quality**: Built-in state transition validation and error handling
 
-##### Adaptive Decision Framework
-- **Confidence-Driven Transitions**: Shift focus based on objective confidence levels (80% → expand, 90% → shift focus)
-- **Dynamic Sampling**: Strategic page selection based on information gaps and validation needs
-- **Pattern Evolution**: Continuous refinement of structural rules based on accumulated evidence
-- **Cross-Validation**: Ongoing consistency checking between different structural elements
-
-##### Font Style Learning System
-- **Initial State**: Statistical assumptions from programmatic analysis
-- **Content-Based Refinement**: "2.1 Introduction" + 14pt Arial Bold → Level 2 section heading
-- **Iterative Improvement**: More examples → higher confidence → better identification
-- **Statistical Validation**: Track usage frequency and build confidence scores
+##### Current Analysis Capabilities
+- **Headers/Footers Detection**: Content-aware boundary detection with confidence scoring
+- **Section Hierarchy**: Identification of section patterns and numbering systems  
+- **Document Element Classification**: Separation of Figure/Table titles from section headings
+- **Multi-Objective Processing**: Simultaneous pattern detection with priority focus
 
 **Analysis Outputs**:
 - Font usage statistics and predominant fonts/sizes

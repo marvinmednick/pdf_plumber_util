@@ -219,6 +219,22 @@ This document captures key architectural choices made during PDF Plumb developme
 - Enables objective comparison of approaches
 - Reduces risk of premature optimization
 
+## Current Decision Points
+
+### 1. State Machine Architecture for LLM Workflows
+
+**Decision**: Implement state machine orchestrator for multi-objective analysis workflows.
+
+**Rationale**:
+- Current iterative processing limited to single analysis focus (headers/footers)
+- Need flexible workflow management for different analysis objectives (H/F → Sections → TOC → Tables)
+- State-based approach enables conditional branching and adaptive decision-making
+- Hybrid execution model supports both programmatic logic and LLM integration
+
+**Design**: [design/STATE_MACHINE_ARCHITECTURE.md](design/STATE_MACHINE_ARCHITECTURE.md)
+
+**Status**: Architecture design complete, implementation pending
+
 ## Future Decision Points
 
 ### 1. Traditional Method Removal
@@ -233,9 +249,11 @@ This document captures key architectural choices made during PDF Plumb developme
 
 **Consideration**: Keep for debugging vs simplify codebase
 
-### 3. Machine Learning Integration
+### 3. Advanced State Machine Features
 
-**Status**: Deferred pending use case validation
+**Status**: Deferred pending core implementation
+
+**Considerations**: Parallel state execution, state persistence, dynamic state creation
 
 ## Decision Review Process
 

@@ -37,11 +37,13 @@
 
 ## Current Activity
 
-**Documentation Reorganization (January 2025)**:
-- Hierarchical documentation structure implementation
-- Design decisions documentation and rationale capture
-- Elimination of duplicate information across files
-- Clear navigation guidelines for development
+**State Machine Architecture Design (January 2025)**:
+- Designing state machine orchestrator for multi-objective analysis workflows
+- Architecture documentation and design patterns
+- Planning migration from simple iterative processing to flexible state-based system
+- Foundation for advanced LLM workflow orchestration
+
+See: [design/STATE_MACHINE_ARCHITECTURE.md](design/STATE_MACHINE_ARCHITECTURE.md)
 
 ## Performance & Quality Status
 
