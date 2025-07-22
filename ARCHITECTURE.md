@@ -37,9 +37,11 @@ PDF Plumb is a sophisticated PDF text extraction and analysis tool designed spec
 - **pdfminer-six** for low-level PDF operations
 - **Click + Rich** for modern CLI interface with progress bars and styling
 - **Pydantic** for configuration management and data validation
-- **LLM Integration**: GPT-4.1 (1M context), multi-model support framework
+- **LLM Integration**: Azure OpenAI (GPT-4.1), multi-model support framework  
 - **tiktoken** for accurate token counting and batch optimization
 - **orjson** for high-performance JSON serialization
+- **openai** for Azure OpenAI API integration
+- **python-dotenv** for environment variable management
 
 ## System Architecture
 
@@ -193,12 +195,35 @@ The system performs continuous, adaptive analysis using strategic sampling and p
 - Path handling utilities
 - Mathematical rounding operations
 
+#### 5. LLM Analysis Engine (`src/pdf_plumb/core/llm_analyzer.py`)
+
+**Purpose**: LLM-enhanced document analysis with Azure OpenAI integration
+
+**Key Classes**:
+- `LLMDocumentAnalyzer`: Main coordinator for LLM-enhanced analysis
+- `AzureOpenAIProvider`: Azure OpenAI API integration
+- `PageSampler`: Strategic page sampling for analysis
+- `ResponseParser`: LLM response parsing and validation
+
+**Analysis Capabilities**:
+- **Headers/Footers Detection**: Content-aware boundary detection with confidence scoring
+- **Section Hierarchy**: Identification of section patterns and numbering systems
+- **Table of Contents**: TOC extraction and cross-validation
+- **Multi-Objective Analysis**: Simultaneous pattern detection with priority focus
+
+**LLM Module Structure** (`src/pdf_plumb/llm/`):
+- `providers.py`: Azure OpenAI and multi-provider support
+- `sampling.py`: Strategic page sampling strategies  
+- `prompts.py`: Analysis prompt templates
+- `responses.py`: Response parsing and result structures
+
 ### CLI Interface (`src/pdf_plumb/cli.py`)
 
 **Command Structure**:
 1. **extract**: PDF → structured data files
 2. **analyze**: structured data → analysis reports  
-3. **process**: end-to-end pipeline with visualization
+3. **llm-analyze**: LLM-enhanced document structure analysis
+4. **process**: end-to-end pipeline with visualization
 
 **Key Parameters**:
 - Tolerance settings (x/y alignment)

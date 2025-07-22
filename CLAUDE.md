@@ -16,6 +16,11 @@ uv run pdf-plumb --help                    # Modern Click CLI
 uv run pdf-plumb process test.pdf --show-output
 uv run pdf-plumb --profile technical extract test.pdf
 
+# LLM Analysis (requires Azure OpenAI configuration)
+uv run pdf-plumb llm-analyze output/doc_blocks.json --show-status
+uv run pdf-plumb llm-analyze output/doc_blocks.json --focus headers-footers
+uv run pdf-plumb llm-analyze output/doc_blocks.json --estimate-cost
+
 # Testing
 uv run pytest                             # All tests (28 passing)
 uv run pytest -m unit                     # Unit tests only
@@ -29,23 +34,31 @@ uv run black .                             # Code formatting
 
 ## Architecture Overview
 
-**Technology Stack**: Click + Rich + Pydantic + UV + orjson (Python 3.12+)
+**Technology Stack**: Click + Rich + Pydantic + UV + orjson + Azure OpenAI (Python 3.12+)
 - **Click**: Modern CLI framework (Phase 2.1 migration complete)
 - **Rich**: Console formatting, progress bars, panels, emojis
 - **Pydantic**: Configuration management with document type profiles
 - **orjson**: High-performance JSON serialization (3-5x faster than standard json)
+- **Azure OpenAI**: LLM-enhanced document structure analysis (Phase 3.0)
 - **Three extraction methods**: Raw text, lines, word-based manual alignment
 
 **Directory Structure**:
 ```
 src/pdf_plumb/
-├── cli.py               # Modern Click CLI entry point
-├── config.py            # Pydantic configuration with profiles
+├── cli.py               # Modern Click CLI entry point (includes llm-analyze)
+├── config.py            # Pydantic configuration with profiles + Azure OpenAI
 ├── core/
 │   ├── extractor.py     # Three PDF extraction methods
 │   ├── analyzer.py      # Document structure analysis
+│   ├── llm_analyzer.py  # LLM-enhanced analysis coordinator
 │   └── visualizer.py    # PDF spacing visualization
+├── llm/                 # LLM integration module
+│   ├── providers.py     # Azure OpenAI provider
+│   ├── sampling.py      # Strategic page sampling
+│   ├── prompts.py       # Analysis prompt templates
+│   └── responses.py     # Response parsing
 ├── utils/               # Shared utilities and helpers
+│   └── token_counter.py # Token counting for LLM batch optimization
 tests/
 ├── unit/                # Unit tests for individual functions
 ├── integration/         # CLI command integration tests
@@ -53,9 +66,11 @@ tests/
 ```
 
 **Key Files to Read First**:
-- `src/pdf_plumb/cli.py` - Click CLI with Rich console integration
-- `src/pdf_plumb/config.py` - Pydantic configuration and profiles
+- `src/pdf_plumb/cli.py` - Click CLI with Rich console integration + LLM commands
+- `src/pdf_plumb/config.py` - Pydantic configuration and profiles + Azure OpenAI settings
 - `src/pdf_plumb/core/extractor.py` - Three extraction methods implementation
+- `src/pdf_plumb/core/llm_analyzer.py` - LLM-enhanced analysis coordinator
+- `src/pdf_plumb/llm/providers.py` - Azure OpenAI integration
 - `CLI_USAGE.md` - Complete user command reference
 
 ## Development Patterns
