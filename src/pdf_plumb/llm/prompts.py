@@ -52,6 +52,34 @@ Important: Headers/footers may be absent on some pages or vary by document secti
 - Some pages may have headers but no footers, or vice versa
 - Identify the actual TEXT content of headers/footers for each page
 
+**Document Element Identification**:
+
+**Section Headers** (document structure):
+- Look for lines with numbering patterns (1, 1.1, 1.1.1, A, A.1, etc.)
+- Bold or larger fonts often indicate section headings
+- Usually represent chapters, sections, subsections in document hierarchy
+- May be positioned differently (left-aligned, indented, or centered)
+- Often have extra spacing above/below compared to body text
+
+**Figure Titles** (captions and references):
+- Usually start with "Figure" followed by number (Figure 6-2, Figure A.1, etc.)
+- Often followed by dash or colon and descriptive text
+- May appear above or below figures/diagrams
+- Typically have consistent font styling (often italic or smaller)
+
+**Table Titles** (captions and references):
+- Usually start with "Table" followed by number (Table 1, Table A-1, etc.)
+- Often followed by dash or colon and descriptive text
+- May appear above or below tables
+- Typically have consistent font styling (often italic or smaller)
+
+**JSON Format Requirements**:
+- All y-positions must be single numeric values (e.g., 735.5, not "735-740" or ranges)
+- Use decimal notation for precision (e.g., 66.0, 14.0)
+- Font sizes should be numeric (e.g., 14.0, not "14pt")
+- No mathematical expressions in JSON values
+- All confidence levels must be exactly "High", "Medium", or "Low"
+
 **Pages Data**:
 {json.dumps(page_data, indent=2)}
 
@@ -59,8 +87,13 @@ For each page index, analyze the blocks and identify:
 1. Specific header text (or "NONE" if absent)
 2. Specific footer text (or "NONE" if absent)
 3. **If footer contains page numbering**: Note both the page index and printed page number
-4. Main content boundaries
-5. Cross-page pattern consistency
+4. **Content positioning**: First and last content y-positions (excluding headers/footers)
+5. **Document elements**: Distinguish between and identify:
+   - Section headings (document structure: 1.1, 2.3.4, A.1, etc.)
+   - Figure titles (Figure 6-2, Figure A.1, etc.)
+   - Table titles (Table 1, Table A-1, etc.)
+6. Main content boundaries
+7. Cross-page pattern consistency
 
 **Response Format**:
 ```json
@@ -74,7 +107,44 @@ For each page index, analyze the blocks and identify:
     {{
       "page_index": 1,
       "header": {{"detected": true, "text": "Document Title", "y_position": 52}},
-      "footer": {{"detected": true, "text": "Page 1", "y_position": 748, "printed_page_number": "1"}}
+      "footer": {{"detected": true, "text": "Page 1", "y_position": 748, "printed_page_number": "1"}},
+      "content_positioning": {{
+        "first_content_y": 66.0,
+        "last_content_y": 735.0
+      }},
+      "document_elements": {{
+        "section_headings": [
+          {{
+            "text": "1.1 Overview",
+            "section_number": "1.1", 
+            "section_name": "Overview",
+            "y_position": 120.0,
+            "font_name": "Arial-Bold",
+            "font_size": 14.0,
+            "hierarchy_level": 2
+          }}
+        ],
+        "figure_titles": [
+          {{
+            "text": "Figure 6-2 – Nominal vertical and horizontal sampling locations",
+            "figure_number": "6-2",
+            "figure_title": "Nominal vertical and horizontal sampling locations",
+            "y_position": 255.0,
+            "font_name": "Times-Italic",
+            "font_size": 10.0
+          }}
+        ],
+        "table_titles": [
+          {{
+            "text": "Table 1 – Overview of profile and level limits",
+            "table_number": "1",
+            "table_title": "Overview of profile and level limits",
+            "y_position": 180.0,
+            "font_name": "Times-Italic", 
+            "font_size": 10.0
+          }}
+        ]
+      }}
     }}
   ],
   "header_pattern": {{
@@ -109,8 +179,57 @@ For each page index, analyze the blocks and identify:
     "main_content_ends_before_y": 735,
     "confidence": "High|Medium|Low"
   }},
+  "content_positioning_analysis": {{
+    "positioning_consistency": "High|Medium|Low",
+    "typical_first_content_y": 66.0,
+    "typical_last_content_y": 735.0,
+    "content_height_variation": {{"min": 650.0, "max": 700.0, "avg": 675.0}},
+    "confidence": "High|Medium|Low",
+    "reasoning": "explanation of positioning patterns"
+  }},
+  "document_element_analysis": {{
+    "section_headings": {{
+      "detected": true,
+      "hierarchy_levels_found": [1, 2, 3],
+      "numbering_patterns": ["decimal", "nested"],
+      "format_pattern": "Number + Title (e.g., '1.1 Overview')",
+      "font_style_patterns": [
+        {{"level": 1, "typical_font": "Arial-Bold", "typical_size": 16.0, "count": 3}},
+        {{"level": 2, "typical_font": "Arial-Bold", "typical_size": 14.0, "count": 8}}
+      ],
+      "positioning_patterns": {{"typical_y_spacing": 24.0, "indentation_used": false}},
+      "confidence": "High|Medium|Low",
+      "reasoning": "explanation of section heading detection patterns"
+    }},
+    "figure_titles": {{
+      "detected": true,
+      "numbering_patterns": ["sequential", "hierarchical"],
+      "format_pattern": "Figure + Number + Separator + Title (e.g., 'Figure 6-2 – Description')",
+      "font_style_patterns": [
+        {{"typical_font": "Times-Italic", "typical_size": 10.0, "count": 5}}
+      ],
+      "positioning_patterns": {{"relative_to_figures": "above|below", "typical_y_spacing": 12.0}},
+      "confidence": "High|Medium|Low",
+      "reasoning": "explanation of figure title detection patterns"
+    }},
+    "table_titles": {{
+      "detected": true,
+      "numbering_patterns": ["sequential", "hierarchical"],
+      "format_pattern": "Table + Number + Separator + Title (e.g., 'Table 1 – Description')",
+      "font_style_patterns": [
+        {{"typical_font": "Times-Italic", "typical_size": 10.0, "count": 3}}
+      ],
+      "positioning_patterns": {{"relative_to_tables": "above|below", "typical_y_spacing": 12.0}},
+      "confidence": "High|Medium|Low",
+      "reasoning": "explanation of table title detection patterns"
+    }}
+  }},
   "insights": [
     "Key observations about header/footer patterns",
+    "Content positioning patterns and consistency",
+    "Section heading patterns and hierarchy structure",
+    "Figure title formatting and positioning patterns",
+    "Table title formatting and positioning patterns",
     "Notable exceptions or variations"
   ]
 }}

@@ -105,9 +105,28 @@ class LLMDocumentAnalyzer:
         # Estimate cost
         cost_estimate = self.provider.estimate_cost(prompt)
         
+        # Save prompt immediately (before LLM call) if saving is enabled
+        base_name = None
+        output_dir_path = None
+        if save_results:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            base_name = f"llm_headers_footers_{timestamp}"
+            output_dir_path = Path(output_dir or self.config.output_dir)
+            output_dir_path.mkdir(parents=True, exist_ok=True)
+            
+            prompt_file = output_dir_path / f"{base_name}_prompt.txt"
+            with open(prompt_file, 'w') as f:
+                f.write(prompt)
+        
         # Send request to LLM
         try:
             llm_response = self.provider.analyze_document_structure(prompt)
+            
+            # Save response immediately (after LLM call, before parsing)
+            if save_results:
+                response_file = output_dir_path / f"{base_name}_response.txt"
+                with open(response_file, 'w') as f:
+                    f.write(llm_response.content)
             
             # Track token usage
             self.token_usage['headers_footers'] = {
@@ -123,14 +142,14 @@ class LLMDocumentAnalyzer:
             # Store results
             self.analysis_results['headers_footers'] = analysis_result
             
-            # Save results if requested
+            # Save structured results if requested
             if save_results:
-                self._save_analysis_results(
+                self._save_structured_results_only(
                     analysis_type='headers_footers',
                     results=analysis_result,
-                    output_dir=output_dir,
+                    base_name=base_name,
+                    output_dir_path=output_dir_path,
                     sampling_info=sampling_result,
-                    prompt=prompt,
                     llm_response=llm_response
                 )
             
@@ -288,6 +307,34 @@ class LLMDocumentAnalyzer:
         response_file = output_dir / f"{base_name}_response.txt"
         with open(response_file, 'w') as f:
             f.write(llm_response.content)
+    
+    def _save_structured_results_only(
+        self,
+        analysis_type: str,
+        results: Any,
+        base_name: str,
+        output_dir_path: Path,
+        sampling_info: SamplingResult,
+        llm_response: LLMResponse
+    ) -> None:
+        """Save only the structured results JSON (prompt/response already saved)."""
+        results_file = output_dir_path / f"{base_name}_results.json"
+        results_data = {
+            'analysis_type': analysis_type,
+            'timestamp': datetime.now().isoformat(),
+            'provider': self.provider_name,
+            'sampling_info': {
+                'groups': sampling_info.groups,
+                'individuals': sampling_info.individuals,
+                'total_selected': sampling_info.total_pages_selected
+            },
+            'results': results.__dict__ if hasattr(results, '__dict__') else results,
+            'token_usage': llm_response.usage,
+            'model': llm_response.model
+        }
+        
+        with open(results_file, 'w') as f:
+            json.dump(results_data, f, indent=2)
     
     def _summarize_token_usage(self) -> Dict[str, Any]:
         """Summarize token usage across all analyses."""

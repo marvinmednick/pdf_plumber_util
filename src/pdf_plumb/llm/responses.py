@@ -26,6 +26,10 @@ class HeaderFooterAnalysisResult:
     page_numbering_analysis: Dict[str, Any]
     content_area_boundaries: Dict[str, Any]
     insights: List[str]
+    content_positioning_analysis: Optional[Dict[str, Any]] = None
+    document_element_analysis: Optional[Dict[str, Any]] = None
+    # Maintain backward compatibility 
+    section_heading_analysis: Optional[Dict[str, Any]] = None
     raw_response: Optional[str] = None
     
     @property
@@ -56,6 +60,81 @@ class HeaderFooterAnalysisResult:
     def get_pages_with_footers(self) -> List[int]:
         """Get list of page indexes that have footers.""" 
         return self.footer_pattern.get('pages_with_footers', [])
+    
+    def get_content_positioning_patterns(self) -> Optional[Dict[str, Any]]:
+        """Get content positioning analysis if available."""
+        return self.content_positioning_analysis
+    
+    def get_section_headings_by_page(self, page_index: int) -> List[Dict[str, Any]]:
+        """Get section headings found on a specific page."""
+        for page_analysis in self.per_page_analysis:
+            if page_analysis.get('page_index') == page_index:
+                # Check new structure first, fall back to old
+                elements = page_analysis.get('document_elements', {})
+                return elements.get('section_headings', page_analysis.get('section_headings', []))
+        return []
+    
+    def get_all_section_headings(self) -> List[Dict[str, Any]]:
+        """Get all section headings across all analyzed pages."""
+        all_headings = []
+        for page_analysis in self.per_page_analysis:
+            headings = page_analysis.get('section_headings', [])
+            for heading in headings:
+                # Add page context to heading data
+                heading_with_page = heading.copy()
+                heading_with_page['page_index'] = page_analysis.get('page_index')
+                all_headings.append(heading_with_page)
+        return all_headings
+    
+    def get_font_style_patterns(self) -> List[Dict[str, Any]]:
+        """Get font style patterns for section headings."""
+        if self.section_heading_analysis:
+            return self.section_heading_analysis.get('font_style_patterns', [])
+        return []
+    
+    def get_figure_titles_by_page(self, page_index: int) -> List[Dict[str, Any]]:
+        """Get figure titles found on a specific page."""
+        for page_analysis in self.per_page_analysis:
+            if page_analysis.get('page_index') == page_index:
+                elements = page_analysis.get('document_elements', {})
+                return elements.get('figure_titles', [])
+        return []
+    
+    def get_table_titles_by_page(self, page_index: int) -> List[Dict[str, Any]]:
+        """Get table titles found on a specific page."""
+        for page_analysis in self.per_page_analysis:
+            if page_analysis.get('page_index') == page_index:
+                elements = page_analysis.get('document_elements', {})
+                return elements.get('table_titles', [])
+        return []
+    
+    def get_all_figure_titles(self) -> List[Dict[str, Any]]:
+        """Get all figure titles across all analyzed pages."""
+        all_figures = []
+        for page_analysis in self.per_page_analysis:
+            elements = page_analysis.get('document_elements', {})
+            figures = elements.get('figure_titles', [])
+            for figure in figures:
+                figure_with_page = figure.copy()
+                figure_with_page['page_index'] = page_analysis.get('page_index')
+                all_figures.append(figure_with_page)
+        return all_figures
+    
+    def get_all_table_titles(self) -> List[Dict[str, Any]]:
+        """Get all table titles across all analyzed pages."""
+        all_tables = []
+        for page_analysis in self.per_page_analysis:
+            elements = page_analysis.get('document_elements', {})
+            tables = elements.get('table_titles', [])
+            for table in tables:
+                table_with_page = table.copy()
+                table_with_page['page_index'] = page_analysis.get('page_index')
+                all_tables.append(table_with_page)
+        return all_tables
+    
+    def get_document_element_patterns(self) -> Optional[Dict[str, Any]]:
+        """Get document element analysis patterns."""
+        return self.document_element_analysis
 
 
 @dataclass
@@ -138,6 +217,9 @@ class ResponseParser:
                 page_numbering_analysis=json_data['page_numbering_analysis'],
                 content_area_boundaries=json_data['content_area_boundaries'],
                 insights=json_data.get('insights', []),
+                content_positioning_analysis=json_data.get('content_positioning_analysis'),
+                document_element_analysis=json_data.get('document_element_analysis'),
+                section_heading_analysis=json_data.get('section_heading_analysis') or json_data.get('document_element_analysis', {}).get('section_headings'),
                 raw_response=response_content
             )
             
