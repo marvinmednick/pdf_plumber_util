@@ -78,7 +78,10 @@ class HeaderFooterAnalysisResult:
         """Get all section headings across all analyzed pages."""
         all_headings = []
         for page_analysis in self.per_page_analysis:
-            headings = page_analysis.get('section_headings', [])
+            # Use the new document_elements structure first, fall back to old structure
+            elements = page_analysis.get('document_elements', {})
+            headings = elements.get('section_headings', page_analysis.get('section_headings', []))
+            
             for heading in headings:
                 # Add page context to heading data
                 heading_with_page = heading.copy()

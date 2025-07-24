@@ -54,24 +54,33 @@ Important: Headers/footers may be absent on some pages or vary by document secti
 
 **Document Element Identification**:
 
-**Section Headers** (document structure):
-- Look for lines with numbering patterns (1, 1.1, 1.1.1, A, A.1, etc.)
+**CRITICAL: Avoid Double Categorization**
+- Each text element should appear in ONLY ONE category
+- Table titles (starting with "Table X-Y") belong ONLY in table_titles, NOT section_headings
+- Figure titles (starting with "Figure X-Y") belong ONLY in figure_titles, NOT section_headings
+- True section headings are structural document hierarchy, not content captions
+
+**Section Headers** (document structure ONLY):
+- Look for lines with numbering patterns (1, 1.1, 1.1.1, A, A.1, etc.) that represent document hierarchy
 - Bold or larger fonts often indicate section headings
 - Usually represent chapters, sections, subsections in document hierarchy
 - May be positioned differently (left-aligned, indented, or centered)
 - Often have extra spacing above/below compared to body text
+- **EXCLUDE**: Do NOT categorize "Table X-Y" or "Figure X-Y" titles as section headings
 
 **Figure Titles** (captions and references):
 - Usually start with "Figure" followed by number (Figure 6-2, Figure A.1, etc.)
 - Often followed by dash or colon and descriptive text
 - May appear above or below figures/diagrams
 - Typically have consistent font styling (often italic or smaller)
+- These are content captions, NOT document structure
 
 **Table Titles** (captions and references):
 - Usually start with "Table" followed by number (Table 1, Table A-1, etc.)
 - Often followed by dash or colon and descriptive text
 - May appear above or below tables
 - Typically have consistent font styling (often italic or smaller)
+- These are content captions, NOT document structure
 
 **JSON Format Requirements**:
 - All y-positions must be single numeric values (e.g., 735.5, not "735-740" or ranges)

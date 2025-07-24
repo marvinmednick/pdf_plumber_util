@@ -35,75 +35,86 @@ class PageSampler:
         self,
         total_pages: int,
         num_groups: int = 3,
-        group_size: int = 4,
-        num_individuals: int = 4,
-        min_pages_required: int = 20
-    ) -> Optional[SamplingResult]:
-        """Sample pages for header/footer pattern analysis.
+        sequence_length: int = 4,
+        num_individuals: int = 4
+    ) -> SamplingResult:
+        """Sample pages for header/footer pattern analysis using improved overlap-free algorithm.
         
-        Strategy: 3 groups of 4 consecutive pages + 4 individual pages
-        This provides good coverage while maintaining pattern recognition
-        through consecutive page analysis.
+        Strategy: Select groups first using pre-computed sets to avoid overlap,
+        then select individuals from remaining pages.
+        
+        For small documents (<= requested sample size), returns all pages in order.
         
         Args:
             total_pages: Total number of pages in document
             num_groups: Number of consecutive page groups (default: 3)
-            group_size: Size of each group (default: 4) 
+            sequence_length: Number of pages in each consecutive sequence (default: 4) 
             num_individuals: Number of individual pages (default: 4)
-            min_pages_required: Minimum pages needed for this strategy
             
         Returns:
-            SamplingResult or None if document too short
+            SamplingResult with selected pages
         """
-        if total_pages < min_pages_required:
-            return None
+        requested_sample_size = num_groups * sequence_length + num_individuals
         
-        selected_pages = set()
+        # For small documents, return all pages in order
+        if total_pages <= requested_sample_size:
+            all_pages = list(range(1, total_pages + 1))
+            return SamplingResult(
+                groups=[],
+                individuals=all_pages,
+                selected_pages=all_pages,
+                total_pages_selected=total_pages
+            )
+        
+        # Initialize sets for overlap-free selection
+        individual_pages = set(range(1, total_pages + 1))
+        group_starts = set(range(1, total_pages - sequence_length + 2))  # Valid starting positions
+        
         groups = []
         individuals = []
         
-        # Select consecutive page groups
-        max_attempts = 100
-        for group_num in range(num_groups):
-            for attempt in range(max_attempts):
-                # Ensure we can fit group_size consecutive pages
-                max_start = total_pages - group_size + 1
-                if max_start <= 0:
-                    break
-                    
-                start_page = random.randint(1, max_start)
-                group_pages = list(range(start_page, start_page + group_size))
+        # Phase 1: Select consecutive page groups
+        for _ in range(num_groups):
+            if not group_starts:
+                break  # No more valid group positions
                 
-                # Check for overlap with existing selections
-                if not any(p in selected_pages for p in group_pages):
-                    groups.append(group_pages)
-                    selected_pages.update(group_pages)
-                    break
-            else:
-                # If we couldn't find non-overlapping groups after max attempts
-                raise RuntimeError(
-                    f"Could not find non-overlapping page groups after {max_attempts} attempts. "
-                    f"Document may be too short ({total_pages} pages) for {num_groups} groups "
-                    f"of {group_size} pages each."
-                )
+            # Pick random group start
+            start_page = random.choice(list(group_starts))
+            group_pages = list(range(start_page, start_page + sequence_length))
+            groups.append(group_pages)
+            
+            # Remove overlapping group starts
+            # Any group that would share pages with this group
+            overlap_starts = set()
+            for page in group_pages:
+                # Remove starts that would include this page
+                for potential_start in range(max(1, page - sequence_length + 1), 
+                                           min(total_pages - sequence_length + 2, page + 1)):
+                    overlap_starts.add(potential_start)
+            
+            group_starts -= overlap_starts
+            
+            # Remove used pages from individual set
+            individual_pages -= set(group_pages)
         
-        # Select individual pages from remaining pages
-        available_pages = [p for p in range(1, total_pages + 1) if p not in selected_pages]
-        if len(available_pages) < num_individuals:
-            raise RuntimeError(
-                f"Not enough pages available for individual selection. "
-                f"Need {num_individuals} individual pages, but only {len(available_pages)} "
-                f"pages remain after group selection."
-            )
+        # Phase 2: Select individual pages from remaining pages
+        available_individuals = list(individual_pages)
+        num_individuals_to_select = min(num_individuals, len(available_individuals))
         
-        individuals = sorted(random.sample(available_pages, num_individuals))
-        selected_pages.update(individuals)
+        if num_individuals_to_select > 0:
+            individuals = sorted(random.sample(available_individuals, num_individuals_to_select))
+        
+        # Combine all selected pages
+        all_selected = set()
+        for group in groups:
+            all_selected.update(group)
+        all_selected.update(individuals)
         
         return SamplingResult(
             groups=groups,
             individuals=individuals,
-            selected_pages=sorted(selected_pages),
-            total_pages_selected=len(selected_pages)
+            selected_pages=sorted(all_selected),
+            total_pages_selected=len(all_selected)
         )
     
     def sample_for_section_analysis(

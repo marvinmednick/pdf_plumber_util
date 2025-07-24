@@ -120,6 +120,10 @@ class PDFPlumbConfig(BaseSettings):
         default=4,
         description="Number of individual pages for sampling"
     )
+    llm_sequence_length: int = Field(
+        default=4,
+        description="Number of pages in each consecutive sequence for sampling"
+    )
     llm_incremental_processing: bool = Field(
         default=False,
         description="Enable incremental batch processing for large documents"

@@ -74,8 +74,13 @@ class LLMDocumentAnalyzer:
         
         total_pages = len(pages_data)
         
-        # Sample pages for analysis
-        sampling_result = self.sampler.sample_for_header_footer_analysis(total_pages)
+        # Sample pages for analysis using config parameters
+        sampling_result = self.sampler.sample_for_header_footer_analysis(
+            total_pages,
+            num_groups=self.config.llm_sampling_groups,
+            sequence_length=self.config.llm_sequence_length,
+            num_individuals=self.config.llm_sampling_individuals
+        )
         if not sampling_result:
             raise AnalysisError(
                 f"Document too short ({total_pages} pages) for header/footer analysis. "
@@ -273,7 +278,12 @@ class LLMDocumentAnalyzer:
         
         # Create mock sampling for cost estimation
         if analysis_type == "headers-footers":
-            sampling_result = self.sampler.sample_for_header_footer_analysis(total_pages)
+            sampling_result = self.sampler.sample_for_header_footer_analysis(
+                total_pages,
+                num_groups=self.config.llm_sampling_groups,
+                sequence_length=self.config.llm_sequence_length,
+                num_individuals=self.config.llm_sampling_individuals
+            )
             if not sampling_result:
                 return {"error": f"Document too short ({total_pages} pages)"}
             
@@ -303,7 +313,8 @@ class LLMDocumentAnalyzer:
             'config': {
                 'batch_size': self.config.llm_batch_size,
                 'sampling_groups': self.config.llm_sampling_groups,
-                'sampling_individuals': self.config.llm_sampling_individuals
+                'sampling_individuals': self.config.llm_sampling_individuals,
+                'sequence_length': self.config.llm_sequence_length
             }
         }
     

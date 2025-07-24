@@ -75,6 +75,24 @@ tests/
 
 ## Development Patterns
 
+### Work Log Protocol (MANDATORY)
+After completing any significant task, immediately append to WORK_LOG.md using Bash:
+
+**During development:**
+```bash
+echo "---
+### $(date '+%Y-%m-%d %H:%M') - [Task description]
+- **Completed**: [Achievements with file references]
+- **Tests**: [Results and counts]
+- **Next**: [Next steps or issues]" >> WORK_LOG.md
+```
+
+**Before each commit:**
+1. Review WORK_LOG.md entries
+2. Consolidate into STATUS.md "Last Completed Work" section
+3. Update STATUS.md current state/pending issues
+4. Clear or archive WORK_LOG.md entries
+
 ### Architecture Documentation Standards
 - **Track documentation changes in git commits**: Architecture and feature documentation history should be maintained through git commit messages
 - **Review revisions for completeness**: When updating major documents like ARCHITECTURE.md, ensure changes are properly documented in commit messages for future reference
@@ -156,32 +174,22 @@ Consider adding `docs/performance.md` when:
 
 **Standard profiling tools**: cProfile, memory_profiler, line_profiler, py-spy
 
-## Phase 2.3 Implementation Notes
+## Current Development Status
 
-**Current Development Priority**: Performance Optimization (JSON optimization complete)
-1. ✅ **JSON optimization complete**: orjson implementation providing 10% pipeline improvement
-2. ✅ **Performance testing framework**: Comprehensive profiling and scaling validation  
-3. ✅ **Sub-linear scaling confirmed**: 35% better than linear for medium files
-4. **Further optimization deferred**: pdfplumber retained for functionality reasons
+**Active Phase**: Phase 2.3 Performance Optimization (JSON optimization complete - further optimization deferred)
 
-**Phase 2.3 Achievements** ✅:
-- ✅ orjson integration with 56% function call reduction  
-- ✅ Performance testing framework with detailed profiling
-- ✅ JSON bottleneck elimination from performance profile
-- ✅ Comprehensive performance baseline and scaling analysis
+**Key Recent Fixes**:
+- **LLM duplicate element detection**: Fixed table titles appearing in both section_headings and table_titles
+- **Configuration system**: LLM sampling now properly uses environment variables and config parameters
+- **Sampling algorithm**: Comprehensive test coverage for overlap-free sampling algorithm
 
-**Phase 2.2 Achievements** ✅:
-- ✅ Structured exception hierarchy with 15+ specialized classes
-- ✅ Rich console error formatting with colors and emojis
-- ✅ Error context and recovery suggestions system
-- ✅ Retry mechanisms for transient failures
-- ✅ Comprehensive error handling test coverage (21 tests)
+**Current Capabilities**:
+- **LLM-enhanced analysis**: Azure OpenAI integration for document structure analysis
+- **State machine architecture**: Multi-objective analysis workflows with orchestrator
+- **Comprehensive error handling**: Rich console formatting with context and suggestions
+- **High-performance JSON**: orjson integration for improved pipeline performance
 
-**Performance Optimization Status**:
-- **PDF Processing**: Intentionally retained pdfplumber for functionality over performance
-- **Further optimization**: Not currently planned or considered urgent
-- **Current performance**: Adequate for project requirements (12.46s for 20 pages)
-- **Future work**: Can be revisited if requirements change
+For detailed phase history and achievements, see: [docs/phase-history.md](docs/phase-history.md)
 
 ## Documentation Navigation for Development
 
@@ -256,6 +264,15 @@ This project uses a hierarchical documentation structure designed to preserve de
 - Add entry to `PHASE_HISTORY.md`
 
 ### Documentation Guidelines
+
+**CLAUDE.md Guidelines:**
+- **Current development guidance only** - No historical phase details or achievements
+- **Architecture and patterns** - Focus on current system design and development practices
+- **Development instructions** - Commands, workflows, and coding standards in use now
+- **NO specific test counts or metrics** - These change frequently and create maintenance burden
+- **NO detailed phase histories** - Use `docs/phase-history.md` for historical information
+- **Reference other docs** - Point to appropriate tier documentation for detailed information
+- **Keep concise** - Avoid duplicating information available in specialized documents
 
 **STATUS.md Guidelines:**
 - Focus on current development phase and immediate next steps
