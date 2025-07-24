@@ -13,7 +13,26 @@ class TestCLICommands:
     """Test CLI command integration."""
     
     def test_cli_help(self):
-        """Test CLI help output."""
+        """Test the main CLI help command displays complete command overview and available subcommands.
+        
+        Test setup:
+        - Uses CliRunner to invoke CLI with --help flag
+        - No additional arguments or configuration needed
+        - Tests basic CLI framework functionality without dependencies
+        
+        What it verifies:
+        - CLI exits successfully (exit_code == 0) without errors
+        - Main description "PDF Plumb - Modern PDF text extraction and analysis tool" appears
+        - All primary subcommands are listed: extract, analyze, process
+        - Help text is properly formatted and accessible
+        
+        Test limitation:
+        - Only tests help text content, not actual command functionality
+        - Doesn't verify help text formatting or completeness
+        - Basic string matching rather than comprehensive help validation
+        
+        Key insight: Validates that CLI framework is properly configured and main commands are registered.
+        """
         runner = CliRunner()
         result = runner.invoke(cli, ['--help'])
         
@@ -24,7 +43,24 @@ class TestCLICommands:
         assert "process" in result.output
     
     def test_cli_version(self):
-        """Test version flag."""
+        """Test the --version flag returns correct version information.
+        
+        Test setup:
+        - Uses CliRunner to invoke CLI with --version flag
+        - Tests version display functionality independent of other commands
+        
+        What it verifies:
+        - Version command executes successfully (exit_code == 0)
+        - Version string "PDF Plumb v0.1.0" appears in output
+        - Version information is properly accessible via standard --version flag
+        
+        Test limitation:
+        - Hardcoded version string check may become outdated
+        - Doesn't validate version format or semantic versioning
+        - Only tests string presence, not version accuracy
+        
+        Key insight: Ensures version information is properly configured in CLI framework.
+        """
         runner = CliRunner()
         result = runner.invoke(cli, ['--version'])
         
@@ -32,7 +68,26 @@ class TestCLICommands:
         assert "PDF Plumb v0.1.0" in result.output
     
     def test_profile_application(self):
-        """Test profile application."""
+        """Test the --profile flag successfully applies predefined document type configurations.
+        
+        Test setup:
+        - Uses CliRunner to invoke CLI with --profile technical flag
+        - Tests profile system without requiring PDF files or additional commands
+        - Uses 'technical' profile which should be predefined in configuration
+        
+        What it verifies:
+        - Profile application executes successfully (exit_code == 0)
+        - Success message "Applied technical document profile" appears in output
+        - Profile system is accessible and properly configured
+        - Technical profile exists and can be applied
+        
+        Test limitation:
+        - Only tests success message, not actual profile configuration changes
+        - Doesn't verify that profile settings are actually applied
+        - Limited to testing one profile type (technical)
+        
+        Key insight: Validates that document type profile system is working and technical profile is properly configured.
+        """
         runner = CliRunner()
         result = runner.invoke(cli, ['--profile', 'technical'])
         
@@ -40,7 +95,26 @@ class TestCLICommands:
         assert "Applied technical document profile" in result.output
     
     def test_invalid_profile(self):
-        """Test invalid profile handling."""
+        """Test CLI error handling when an invalid profile name is provided.
+        
+        Test setup:
+        - Uses CliRunner to invoke CLI with --profile invalid flag
+        - Tests error handling for profile names that don't exist in configuration
+        - Uses 'invalid' as a profile name that should not be defined
+        
+        What it verifies:
+        - CLI exits with error code (exit_code != 0) for invalid profile
+        - Error message "Invalid value for '--profile'" appears in output
+        - Profile validation properly rejects undefined profile names
+        - Click framework error handling works for invalid choices
+        
+        Test limitation:
+        - Only tests one invalid profile name ('invalid')
+        - Doesn't test other types of profile validation errors
+        - Relies on Click's built-in choice validation rather than custom logic
+        
+        Key insight: Ensures profile system has proper validation and provides clear error messages for invalid choices.
+        """
         runner = CliRunner()
         result = runner.invoke(cli, ['--profile', 'invalid'])
         
@@ -48,7 +122,7 @@ class TestCLICommands:
         assert "Invalid value for '--profile'" in result.output
     
     def test_extract_help(self):
-        """Test extract command help."""
+        """Test extract subcommand help displays all available options and parameters."""
         runner = CliRunner()
         result = runner.invoke(cli, ['extract', '--help'])
         
@@ -59,7 +133,7 @@ class TestCLICommands:
         assert "--visualize-spacing" in result.output
     
     def test_analyze_help(self):
-        """Test analyze command help."""
+        """Test analyze subcommand help displays description and key options."""
         runner = CliRunner()
         result = runner.invoke(cli, ['analyze', '--help'])
         
@@ -69,7 +143,7 @@ class TestCLICommands:
         assert "--show-output" in result.output
     
     def test_process_help(self):
-        """Test process command help."""
+        """Test process subcommand help shows combined extraction and analysis options."""
         runner = CliRunner()
         result = runner.invoke(cli, ['process', '--help'])
         
@@ -132,7 +206,27 @@ class TestCLICommands:
     
     @patch('src.pdf_plumb.cli.DocumentAnalyzer')
     def test_analyze_command_basic(self, mock_analyzer, sample_lines_file, temp_output_dir):
-        """Test basic analyze command functionality."""
+        """Test the CLI analyze command's ability to orchestrate document analysis through the command interface.
+        
+        Test setup:
+        - Mocks DocumentAnalyzer to return structured test data (fonts, sizes, spacing)
+        - Uses sample_lines_file fixture containing JSON line data for analysis
+        - Creates temporary output file path for analysis results
+        - Uses CliRunner to invoke analyze command with file and output options
+        
+        What it verifies:
+        - CLI command executes successfully (exit_code == 0)
+        - Progress messages appear in output ("Analyzing", "Analysis complete")
+        - DocumentAnalyzer.analyze_document() called with correct file path
+        - DocumentAnalyzer.print_analysis() called exactly once
+        
+        Test limitation:
+        - Uses mocked analyzer, doesn't test actual document analysis logic
+        - Sample file may not represent real extracted line data structure
+        - Doesn't validate output file contents or analysis accuracy
+        
+        Key insight: Confirms CLI command orchestration works correctly but doesn't validate core analysis functionality.
+        """
         # Mock the analyzer
         mock_instance = MagicMock()
         mock_analyzer.return_value = mock_instance
@@ -160,7 +254,26 @@ class TestCLICommands:
         mock_instance.print_analysis.assert_called_once()
     
     def test_missing_pdf_file(self):
-        """Test error handling for missing PDF file."""
+        """Test CLI error handling when extract command is given a nonexistent PDF file path.
+        
+        Test setup:
+        - Uses CliRunner to invoke extract command with nonexistent.pdf file path
+        - File path intentionally doesn't exist to trigger error condition
+        - Tests Click framework's built-in file existence validation
+        
+        What it verifies:
+        - CLI exits with Click's standard error code 2 for invalid arguments
+        - Error message contains "does not exist" indicating file validation failed
+        - File existence validation occurs before attempting PDF processing
+        - Clear error messaging for common user mistake (wrong file path)
+        
+        Test limitation:
+        - Only tests one type of file error (nonexistent file)
+        - Doesn't test other file issues like permissions or invalid format
+        - Relies on Click's built-in validation rather than custom error handling
+        
+        Key insight: Ensures CLI provides clear feedback when users specify incorrect file paths.
+        """
         runner = CliRunner()
         result = runner.invoke(cli, ['extract', 'nonexistent.pdf'])
         
@@ -168,7 +281,26 @@ class TestCLICommands:
         assert "does not exist" in result.output
     
     def test_extract_with_profile(self):
-        """Test extract command with profile."""
+        """Test combining global --profile flag with extract subcommand help to verify profile application.
+        
+        Test setup:
+        - Uses CliRunner to invoke CLI with --profile technical followed by extract --help
+        - Tests interaction between global profile option and subcommand
+        - Uses help command to avoid needing actual PDF files for testing
+        
+        What it verifies:
+        - Profile application works when combined with subcommands (exit_code == 0)
+        - Profile success message "Applied technical document profile" appears
+        - Global options are processed before subcommand execution
+        - Profile system integrates properly with CLI command structure
+        
+        Test limitation:
+        - Only tests profile application message, not actual configuration changes
+        - Uses help subcommand rather than testing profile effects on extraction
+        - Limited to testing one profile type with one subcommand
+        
+        Key insight: Validates that global profile options work correctly with all subcommands.
+        """
         runner = CliRunner()
         result = runner.invoke(cli, [
             '--profile', 'technical',
