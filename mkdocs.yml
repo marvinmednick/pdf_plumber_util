@@ -1,0 +1,45 @@
+site_name: PDF Plumb Documentation
+site_description: PDF text extraction and analysis tool for technical documents
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: cyan
+  features:
+    - content.code.annotate
+    - navigation.indexes
+    - search.highlight
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            heading_level: 2
+            filters: ["!^_"]
+
+nav:
+  - Home: ../README.md
+  - CLI Usage: ../CLI_USAGE.md
+  - Architecture: ../ARCHITECTURE.md
+  - Status: ../STATUS.md
+  - Guidelines:
+    - Test Docstrings: test_docstring_guidelines.md
+  - API Reference:
+    - Tests:
+      - Unit Tests: api/tests/unit.md
+      - Integration Tests: api/tests/integration.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

@@ -449,7 +449,12 @@ def process(pdf_file, output_dir, basename, y_tolerance, x_tolerance, debug_leve
     is_flag=True,
     help='Show LLM provider configuration status'
 )
-def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_save, show_status):
+@click.option(
+    '--incremental',
+    is_flag=True,
+    help='Use incremental batch processing for large documents'
+)
+def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_save, show_status, incremental):
     """Analyze document structure using LLM.
     
     Performs LLM-enhanced analysis of PDF document structure, focusing on
@@ -541,11 +546,18 @@ def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_sa
         
         try:
             if focus == 'headers-footers':
-                results = llm_analyzer.analyze_headers_footers(
-                    document_data,
-                    save_results=not no_save,
-                    output_dir=output_dir
-                )
+                if incremental:
+                    results = llm_analyzer.analyze_headers_footers_incremental(
+                        document_data,
+                        save_results=not no_save,
+                        output_dir=output_dir
+                    )
+                else:
+                    results = llm_analyzer.analyze_headers_footers(
+                        document_data,
+                        save_results=not no_save,
+                        output_dir=output_dir
+                    )
                 
                 # Display results summary
                 console.print("\n✅ [bold green]Header/Footer Analysis Complete[/bold green]")

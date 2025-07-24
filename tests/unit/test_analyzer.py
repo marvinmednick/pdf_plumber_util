@@ -13,7 +13,26 @@ class TestPDFAnalyzer:
         self.analyzer = PDFAnalyzer()
     
     def test_collect_contextual_gaps(self, sample_lines_data):
-        """Test contextual gap collection."""
+        """Test the _collect_contextual_gaps() method's ability to organize text line gaps by font size context.
+        
+        Test setup:
+        - Uses fixture data containing 2 lines: a 14pt header and a 12pt body text line
+        - Manually adds a third line with 12pt font size and 6.0pt gap 
+        - This ensures there are consecutive lines with the same font size (12pt)
+
+        What it verifies:
+        - The method returns a dictionary (gaps organized by font size)
+        - The method can handle lines with matching predominant font sizes
+        - The method produces valid output structure even when input data varies
+
+        Test limitation:
+        - Only verifies basic structure (isinstance(gaps, dict))
+        - Assertion len(gaps) >= 0 is essentially always true (can't fail)
+        - Doesn't verify the actual gap values or font size groupings
+
+        Key insight: This test ensures the contextual gap collection mechanism works but doesn't 
+        validate the specific logic of how gaps are grouped by font size context.
+        """
         all_lines = []
         for page in sample_lines_data:
             all_lines.extend(page['lines'])
@@ -35,7 +54,26 @@ class TestPDFAnalyzer:
         assert len(gaps) >= 0  # May be 0 if no same-size consecutive lines
     
     def test_classify_gap_contextual(self, sample_spacing_rules):
-        """Test contextual gap classification."""
+        """Test the _classify_gap_contextual() method's ability to categorize gaps based on font size context.
+        
+        Test setup:
+        - Uses predefined spacing rules for 12pt font context
+        - Tests boundary conditions for Line/Paragraph/Section classification
+        - Each test targets a different classification category
+
+        What it verifies:
+        - Small gaps (6.0pt) correctly classified as "Line" spacing
+        - Medium gaps (12.0pt) correctly classified as "Paragraph" spacing
+        - Large gaps (18.0pt) correctly classified as "Section" spacing
+        - Method properly applies contextual rules for font size
+
+        Test limitation:
+        - Only tests one font size context (12pt)
+        - Doesn't test edge cases or invalid inputs
+        - Assumes spacing rules fixture is correctly structured
+
+        Key insight: Validates that the core gap classification logic works for standard spacing scenarios.
+        """
         # Test line spacing classification
         result = self.analyzer._classify_gap_contextual(6.0, 12.0, sample_spacing_rules)
         assert result == "Line"

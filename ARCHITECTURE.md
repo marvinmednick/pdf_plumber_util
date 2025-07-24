@@ -128,17 +128,25 @@ Document Structure + Analysis Reports
 
 **LLM Analysis Integration (State Machine Orchestrator)**
 
-The system uses a state machine architecture to orchestrate complex, multi-objective analysis workflows. States execute discrete analysis tasks and determine workflow progression based on results and context.
+The system implements a complete state machine architecture to orchestrate complex, multi-objective analysis workflows. This production-ready infrastructure provides robust workflow management for advanced document analysis pipelines.
 
 *State machine architecture: [design/STATE_MACHINE_ARCHITECTURE.md](design/STATE_MACHINE_ARCHITECTURE.md)*
 *Current LLM implementation: [design/LLM_INTEGRATION.md](design/LLM_INTEGRATION.md)*
 
+##### State Machine Infrastructure (`src/pdf_plumb/workflow/`)
+- **AnalysisState Base Class**: Abstract base with validation, transition management, and self-transition protection
+- **State Registry**: Dynamic state registration system with validation and lookup capabilities
+- **State Map Generator**: Automated workflow mapping with transition validation and entry/terminal state detection
+- **Analysis Orchestrator**: Complete workflow execution engine with context management and error handling
+- **Workflow Validation**: Comprehensive state transition validation preventing infinite loops and broken references
+
 ##### State-Based Analysis Framework
 - **Execute Functions**: Each state performs discrete analysis tasks (programmatic logic, LLM calls, or hybrid)
 - **Transition Logic**: States determine next steps based on execution results and accumulated context
-- **Context Accumulation**: Growing knowledge base passed between states
-- **Workflow Orchestration**: Manages progression through different analysis objectives
-- **Validation & Quality**: Built-in state transition validation and error handling
+- **Context Accumulation**: Growing knowledge base passed between states with metadata tracking
+- **Workflow Orchestration**: Manages progression through different analysis objectives with MAX_TOTAL_STATES limit (50)
+- **Error Recovery**: Built-in error handling with context preservation and retry mechanisms
+- **Debug Support**: Optional context snapshots and detailed execution tracking for workflow debugging
 
 ##### Current Analysis Capabilities
 - **Headers/Footers Detection**: Content-aware boundary detection with confidence scoring

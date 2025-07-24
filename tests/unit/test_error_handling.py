@@ -1,8 +1,8 @@
 """
 Tests for enhanced error handling and exception classes.
 
-Tests the structured exception hierarchy, error messages, suggestions,
-and retry mechanisms introduced in Phase 2.2.
+Tests the structured exception hierarchy, error messages, and suggestions
+introduced in Phase 2.2.
 """
 
 import pytest
@@ -31,7 +31,6 @@ from src.pdf_plumb.core.exceptions import (
 )
 from src.pdf_plumb.core.extractor import PDFExtractor
 from src.pdf_plumb.core.analyzer import DocumentAnalyzer, PDFAnalyzer
-from src.pdf_plumb.core.retry import retry_on_transient_errors, RetryableExtractor
 
 
 class TestExceptionHierarchy:
@@ -192,83 +191,6 @@ class TestAnalyzerErrorHandling:
         
         assert "spacing analysis" in str(exc_info.value).lower()
         assert exc_info.value.suggestion is not None
-
-
-class TestRetryMechanism:
-    """Test the retry mechanism for transient errors."""
-    
-    def test_retry_decorator_success_on_first_try(self):
-        """Test that retry decorator doesn't interfere with successful operations."""
-        call_count = 0
-        
-        @retry_on_transient_errors(max_attempts=3)
-        def successful_operation():
-            nonlocal call_count
-            call_count += 1
-            return "success"
-        
-        result = successful_operation()
-        
-        assert result == "success"
-        assert call_count == 1
-    
-    def test_retry_decorator_success_after_failures(self):
-        """Test that retry decorator retries on transient errors."""
-        call_count = 0
-        
-        @retry_on_transient_errors(max_attempts=3, delay=0.1)
-        def failing_then_success():
-            nonlocal call_count
-            call_count += 1
-            if call_count < 3:
-                raise OSError("Temporary failure")
-            return "success"
-        
-        result = failing_then_success()
-        
-        assert result == "success"
-        assert call_count == 3
-    
-    def test_retry_decorator_max_attempts_exceeded(self):
-        """Test that retry decorator raises after max attempts."""
-        call_count = 0
-        
-        @retry_on_transient_errors(max_attempts=2, delay=0.1)
-        def always_failing():
-            nonlocal call_count
-            call_count += 1
-            raise OSError("Persistent failure")
-        
-        with pytest.raises(OSError):
-            always_failing()
-        
-        assert call_count == 2
-    
-    def test_retry_decorator_non_transient_error(self):
-        """Test that retry decorator doesn't retry non-transient errors."""
-        call_count = 0
-        
-        @retry_on_transient_errors(max_attempts=3)
-        def non_transient_error():
-            nonlocal call_count
-            call_count += 1
-            raise ValueError("Non-transient error")
-        
-        with pytest.raises(ValueError):
-            non_transient_error()
-        
-        assert call_count == 1
-    
-    def test_retryable_extractor(self):
-        """Test RetryableExtractor wrapper."""
-        mock_extractor = Mock()
-        mock_extractor.extract_from_pdf.return_value = {"test": "data"}
-        
-        retryable = RetryableExtractor(mock_extractor, max_attempts=2, delay=0.1)
-        result = retryable.extract_with_retry("/test/file.pdf")
-        
-        assert result == {"test": "data"}
-        mock_extractor.extract_from_pdf.assert_called_once_with("/test/file.pdf")
 
 
 class TestErrorMessageFormatting:

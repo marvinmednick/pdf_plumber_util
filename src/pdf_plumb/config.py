@@ -120,6 +120,33 @@ class PDFPlumbConfig(BaseSettings):
         default=4,
         description="Number of individual pages for sampling"
     )
+    llm_incremental_processing: bool = Field(
+        default=False,
+        description="Enable incremental batch processing for large documents"
+    )
+    llm_initial_batch_size: int = Field(
+        default=8,
+        description="Number of pages for initial context-building batch"
+    )
+    llm_increment_batch_size: int = Field(
+        default=6,
+        description="Number of pages per incremental batch"
+    )
+    llm_min_document_size_for_incremental: int = Field(
+        default=30,
+        description="Minimum document size (pages) to trigger incremental processing"
+    )
+    
+    # Workflow State Machine Settings
+    # Removed workflow_max_iterations - using fixed MAX_TOTAL_STATES constant instead
+    workflow_timeout_seconds: int = Field(
+        default=1800,  # 30 minutes
+        description="Maximum time allowed for workflow execution"
+    )
+    workflow_save_context: bool = Field(
+        default=False,
+        description="Save workflow context snapshots for debugging"
+    )
     
     # Visualization defaults
     default_spacing_colors: List[str] = Field(
@@ -153,10 +180,8 @@ def get_config() -> PDFPlumbConfig:
 def update_config(**kwargs) -> PDFPlumbConfig:
     """Update configuration with new values."""
     global config
-    # Create new config with updated values
-    current_values = config.model_dump()
-    current_values.update(kwargs)
-    config = PDFPlumbConfig(**current_values)
+    # Use model_copy with update to avoid field alias issues
+    config = config.model_copy(update=kwargs)
     return config
 
 

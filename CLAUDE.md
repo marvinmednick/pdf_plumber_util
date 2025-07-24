@@ -22,7 +22,7 @@ uv run pdf-plumb llm-analyze output/doc_blocks.json --focus headers-footers
 uv run pdf-plumb llm-analyze output/doc_blocks.json --estimate-cost
 
 # Testing
-uv run pytest                             # All tests (28 passing)
+uv run pytest                             # All tests
 uv run pytest -m unit                     # Unit tests only
 uv run pytest -m integration              # Integration tests only
 uv run pytest -v                          # Verbose output
@@ -119,6 +119,20 @@ except PDFExtractionError as e:
 - **Integration tests** (`tests/integration/`): Full CLI command testing with CliRunner
 - **Real PDF testing**: Validated CLI migration with actual H.264 spec document
 - **Markers**: Use `@pytest.mark.unit` and `@pytest.mark.integration`
+
+### Test Docstring Standards
+Test docstrings should explain **what is tested and how** for code review purposes.
+
+**Structure:**
+- **Purpose**: What method/capability is being tested
+- **Test setup**: Key data and conditions created
+- **What it verifies**: Specific assertions and validations
+- **Test limitations**: What isn't covered or weak assertions
+- **Key insight**: One-sentence summary of what the test proves
+
+**Be specific**: Use exact values (14pt font, 6.0pt gap) not generic terms ("various sizes", "edge cases").
+
+**Full guidelines**: See [docs/test_docstring_guidelines.md](docs/test_docstring_guidelines.md) for detailed standards and examples
 
 ## Documentation Strategy
 

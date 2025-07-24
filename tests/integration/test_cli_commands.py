@@ -80,7 +80,26 @@ class TestCLICommands:
     
     @patch('src.pdf_plumb.cli.PDFExtractor')
     def test_extract_command_basic(self, mock_extractor, temp_output_dir):
-        """Test basic extract command functionality."""
+        """Test the CLI extract command's ability to orchestrate PDF extraction through the command interface.
+        
+        Test setup:
+        - Mocks PDFExtractor to return structured test data (lines, words, comparison)
+        - Creates temporary PDF file with dummy content for CLI testing
+        - Uses CliRunner to invoke extract command with output directory and basename options
+
+        What it verifies:
+        - CLI command executes successfully (exit_code == 0)
+        - Success messages appear in command output ("Extracting text", "Extraction complete")
+        - PDFExtractor.extract_from_pdf() called with correct file path
+        - PDFExtractor.save_results() called exactly once
+
+        Test limitation:
+        - Uses mocked extractor, doesn't test actual PDF processing logic
+        - Temporary PDF contains dummy text, not real PDF structure
+        - Doesn't validate output file contents or data accuracy
+
+        Key insight: Confirms CLI command orchestration works correctly but doesn't validate core PDF extraction functionality.
+        """
         # Mock the extractor
         mock_instance = MagicMock()
         mock_extractor.return_value = mock_instance
