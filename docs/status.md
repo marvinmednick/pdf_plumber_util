@@ -1,78 +1,70 @@
 # PDF Plumb Project Status
 
-## Current Development Status: Production-Ready with LLM Integration
+## Current State
 
-**Last Updated**: January 2025  
-**Current Focus**: Documentation organization and maintenance
+**System Status**: Word-based extraction, contextual block formation, spacing gap analysis, LLM-based header/footer detection, LLM section heading and table/figure analysis, state machine architecture for multi-pass analysis  
+**Active Work**: Documentation system refinement and remaining issue resolution
 
-## Development Phases
+## Last Completed Work
 
-- **Phase 1**: Foundation Modernization (Complete) - See [phase-history.md](phase-history.md#phase-1-foundation-modernization)
-- **Phase 2.1**: CLI Framework Migration (Complete) - See [phase-history.md](phase-history.md#phase-21-cli-framework-migration)  
-- **Phase 2.2**: Enhanced Error Handling (Complete) - See [phase-history.md](phase-history.md#phase-22-enhanced-error-handling)
-- **Phase 2.3**: Performance Optimization (Complete) - See [phase-history.md](phase-history.md#phase-23-performance-optimization)
-- **Phase 3.0**: LLM Integration (Complete) - See [phase-history.md](phase-history.md#phase-30-llm-integration)
+**Documentation Reorganization**:
+- Implemented mkdocs-gen-files for dynamic README/CLAUDE.md transformation
+- Fixed phase history anchor tags by moving "✅ COMPLETE" status to separate lines
+- Resolved mkdocs build warnings for missing readme.md and development.md files
+- All documentation now builds successfully with proper link transformation
 
-## Current System Status
+**State Machine Architecture**:
+- Complete state machine orchestrator implementation with AnalysisState base class
+- Fixed MAX_TOTAL_STATES constant (50) to prevent infinite loops
+- Removed unused retry functionality to simplify codebase (87 tests now passing)
 
-**Core Functionality**: Production-ready and stable
-- ✅ Word-based extraction with contextual spacing analysis
-- ✅ Intelligent block formation and document structure detection
-- ✅ Modern Click + Rich CLI with document type profiles
-- ✅ Comprehensive error handling with retry mechanisms
-- ✅ Performance optimized with sub-linear scaling
+## Current Functionality
 
-**LLM Integration**: Fully operational
-- ✅ Azure OpenAI integration with GPT-4.1 support
-- ✅ `llm-analyze` CLI command with cost estimation
-- ✅ Strategic page sampling for efficient analysis
-- ✅ Header/footer content-aware detection
-- ✅ Token counting and batch optimization
+**PDF Processing**:
+- Word-based text extraction with tolerance-based alignment
+- Contextual spacing analysis for line and paragraph gap classification
+- Intelligent block formation using spacing patterns
+- Multiple extraction methods (raw text, lines, word-based) for validation
 
-**Architecture**: Modern and extensible
-- ✅ Hybrid approach combining programmatic precision with LLM content understanding
-- ✅ Contextual spacing analysis as preferred method
-- ✅ Flexible configuration with profiles, environment variables, CLI overrides
-- ✅ Clean dependency management with license-friendly core libraries
-- ✅ State machine workflow orchestrator for complex analysis workflows
+**LLM Analysis** (Azure OpenAI GPT-4.1):
+- Strategic page sampling (3 groups + 4 individual pages) for cost efficiency
+- Header/footer content-aware detection with confidence scoring
+- Section heading identification with numbering pattern analysis
+- Table and figure title detection separated from section headings
+- Token counting and cost estimation
 
-## Current Activity
+**Architecture**:
+- State machine framework for multi-pass analysis workflows
+- Click + Rich CLI with document type profiles (technical, academic, manual, dense)
+- Pydantic configuration with environment variable support
+- orjson for high-performance JSON serialization
 
-**State Machine Architecture Implementation (Complete - January 2025)**:
-- ✅ Implemented complete state machine orchestrator for analysis workflows
-- ✅ Created AnalysisState base class with transition validation and self-transition protection
-- ✅ Built workflow state map generator and validator for robust workflow management
-- ✅ Developed context management system with accumulated knowledge tracking
-- ✅ Fixed MAX_TOTAL_STATES constant (50) to prevent infinite loops
-- ✅ All 92 tests passing with comprehensive state machine validation
+## Pending Issues
 
-See: [design/STATE_MACHINE_ARCHITECTURE.md](design/STATE_MACHINE_ARCHITECTURE.md)
+**High Priority**:
+- Fix duplicate element detection issue: Table titles appearing in both section_headings and table_titles in LLM analysis results
 
-**Current Status**: System stable, no active development. Ready for advanced workflow implementation when needed.
+**Low Priority**:
+- Minor mkdocs warnings for external links (missing anchors)
 
-## Performance & Quality Status
+## System Status
 
+**Tests**: 87/87 passing (`uv run pytest`)  
 **Performance**: 12.5s for 20-page documents, sub-linear scaling validated  
-**Testing**: 92 passing tests with comprehensive error handling and state machine coverage  
-**Code Quality**: Well-structured, documented, maintainable codebase  
-**Usability**: Professional CLI experience with Rich console integration
+**Build**: Clean (`uv run mkdocs build` succeeds)  
+**Documentation**: Dynamic file generation working
 
-## Known Technical Debt (Low Priority)
+## Development Context
 
-- Traditional header/footer method removal (contextual method validated as preferred)
+**Completed Phases**: See [phase-history.md](phase-history.md)
+- Foundation Modernization
+- CLI Framework Migration  
+- Enhanced Error Handling
+- Performance Optimization
+- LLM Integration
+
+## Known Technical Debt
+
+- Traditional header/footer detection method (contextual method is preferred)
 - PyMuPDF dependency isolation (visualization only, development use)
-- Extraction method comparison cleanup (consider removing from production pipeline)
-
-## Next Phase Planning
-
-**Status**: No immediate development planned  
-**Trigger Conditions**: New requirements, user feedback, or performance needs  
-**Potential Areas**: API interface, additional LLM providers, advanced visualization features
-
-## Quick Links
-
-- **User Guide**: [cli-usage.md](cli-usage.md) - Complete command reference
-- **Architecture**: [architecture.md](architecture.md) - System design overview
-- **Design Decisions**: [design-decisions.md](design-decisions.md) - Key architectural choices
-- **Development**: [CLAUDE.md](../CLAUDE.md) - Documentation navigation
-- **Phase History**: [phase-history.md](phase-history.md) - Detailed development history
+- Extraction method comparison in production pipeline (consider removal)

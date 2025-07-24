@@ -701,3 +701,32 @@ ls -la extract/
 | Direct uv | `uv run -m pdf_plumb.cli` | Development, testing |
 | Installed package | `pdf-plumb` | Production, system-wide usage |
 | Legacy scripts | `python plumb3.py` | Backward compatibility |
+
+## Documentation Development
+
+### Running Documentation Server
+
+To view the complete documentation locally with live updates:
+
+```bash
+# Start documentation server (default port 8000)
+uv run mkdocs serve
+
+# Start on custom port
+uv run mkdocs serve --dev-addr 127.0.0.1:8001
+```
+
+The documentation includes API reference with automatic docstring generation via mkdocstrings. Navigate to the displayed URL to browse the full documentation site.
+
+### Dynamic File Generation
+
+The documentation system uses **mkdocs-gen-files** to dynamically generate docs-friendly versions of project files during build:
+
+- **README.md** → **readme.md** (with transformed links for docs context)
+- **CLAUDE.md** → **development.md** (with transformed internal documentation links)
+
+**Generation Scripts**:
+- `scripts/docs/generate_readme.py` - Transforms README.md links (`docs/cli-usage.md` → `cli-usage.md`)
+- `scripts/docs/generate_development.py` - Transforms CLAUDE.md links for docs navigation
+
+This approach preserves original files for repository viewers while providing correct links in the documentation site. The transformation happens automatically during `mkdocs build` and `mkdocs serve`.

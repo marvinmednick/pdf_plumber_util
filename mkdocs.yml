@@ -14,7 +14,10 @@ theme:
 
 plugins:
   - search
-  - include-markdown
+  - gen-files:
+      scripts:
+        - scripts/docs/generate_readme.py
+        - scripts/docs/generate_development.py
   - mkdocstrings:
       handlers:
         python:
