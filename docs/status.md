@@ -7,11 +7,11 @@
 
 ## Development Phases
 
-- **Phase 1**: Foundation Modernization (Complete) - See [PHASE_HISTORY.md](PHASE_HISTORY.md#phase-1-foundation-modernization)
-- **Phase 2.1**: CLI Framework Migration (Complete) - See [PHASE_HISTORY.md](PHASE_HISTORY.md#phase-21-cli-framework-migration)  
-- **Phase 2.2**: Enhanced Error Handling (Complete) - See [PHASE_HISTORY.md](PHASE_HISTORY.md#phase-22-enhanced-error-handling)
-- **Phase 2.3**: Performance Optimization (Complete) - See [PHASE_HISTORY.md](PHASE_HISTORY.md#phase-23-performance-optimization)
-- **Phase 3.0**: LLM Integration (Complete) - See [PHASE_HISTORY.md](PHASE_HISTORY.md#phase-30-llm-integration)
+- **Phase 1**: Foundation Modernization (Complete) - See [phase-history.md](phase-history.md#phase-1-foundation-modernization)
+- **Phase 2.1**: CLI Framework Migration (Complete) - See [phase-history.md](phase-history.md#phase-21-cli-framework-migration)  
+- **Phase 2.2**: Enhanced Error Handling (Complete) - See [phase-history.md](phase-history.md#phase-22-enhanced-error-handling)
+- **Phase 2.3**: Performance Optimization (Complete) - See [phase-history.md](phase-history.md#phase-23-performance-optimization)
+- **Phase 3.0**: LLM Integration (Complete) - See [phase-history.md](phase-history.md#phase-30-llm-integration)
 
 ## Current System Status
 
@@ -71,8 +71,8 @@ See: [design/STATE_MACHINE_ARCHITECTURE.md](design/STATE_MACHINE_ARCHITECTURE.md
 
 ## Quick Links
 
-- **User Guide**: [CLI_USAGE.md](CLI_USAGE.md) - Complete command reference
-- **Architecture**: [ARCHITECTURE.md](ARCHITECTURE.md) - System design overview
-- **Design Decisions**: [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md) - Key architectural choices
-- **Development**: [CLAUDE.md](CLAUDE.md) - Documentation navigation
-- **Phase History**: [PHASE_HISTORY.md](PHASE_HISTORY.md) - Detailed development history
+- **User Guide**: [cli-usage.md](cli-usage.md) - Complete command reference
+- **Architecture**: [architecture.md](architecture.md) - System design overview
+- **Design Decisions**: [design-decisions.md](design-decisions.md) - Key architectural choices
+- **Development**: [CLAUDE.md](../CLAUDE.md) - Documentation navigation
+- **Phase History**: [phase-history.md](phase-history.md) - Detailed development history

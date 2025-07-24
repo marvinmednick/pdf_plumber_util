@@ -195,51 +195,51 @@ This project uses a hierarchical documentation structure designed to preserve de
 - `INSTALLATION.md` - Setup and configuration (to be created if needed)
 
 **Tier 2: Architecture & Design Context**
-- `ARCHITECTURE.md` - System design, component relationships, data flow
-- `DESIGN_DECISIONS.md` - **KEY FOR DEVELOPMENT** - Architectural choices and rationale
-- `PHASE_HISTORY.md` - Detailed development phase history and achievements
+- `docs/architecture.md` - System design, component relationships, data flow
+- `docs/design-decisions.md` - **KEY FOR DEVELOPMENT** - Architectural choices and rationale
+- `docs/phase-history.md` - Detailed development phase history and achievements
 
 **Tier 3: Implementation Deep-Dives**
-- `design/BLOCK_GROUPING.md` - Contextual spacing and block formation algorithm
-- `design/HEADER_FOOTER_DETECTION.md` - Iterative boundary detection development
-- `design/STATE_MACHINE_ARCHITECTURE.md` - State machine orchestrator for multi-objective analysis workflows
-- `design/LLM_INTEGRATION.md` - LLM implementation guide and current usage
-- `design/LLM_STRATEGY.md` - Complete LLM strategic framework and advanced features
-- `design/CONTEXTUAL_SPACING.md` - Core spacing analysis algorithm (to be created)
+- `docs/design/BLOCK_GROUPING.md` - Contextual spacing and block formation algorithm
+- `docs/design/HEADER_FOOTER_DETECTION.md` - Iterative boundary detection development
+- `docs/design/STATE_MACHINE_ARCHITECTURE.md` - State machine orchestrator for multi-objective analysis workflows
+- `docs/design/LLM_INTEGRATION.md` - LLM implementation guide and current usage
+- `docs/design/LLM_STRATEGY.md` - Complete LLM strategic framework and advanced features
+- `docs/design/CONTEXTUAL_SPACING.md` - Core spacing analysis algorithm (to be created)
 
 **Tier 4: Analysis & Strategy**
-- `analysis/token_analysis.md` - LLM token counting analysis and batch sizing
-- `analysis/performance_optimization.md` - Performance analysis and decisions (to be created)
-- `analysis/llm_strategy_evolution.md` - How LLM approach evolved (to be created)
+- `docs/analysis/token_analysis.md` - LLM token counting analysis and batch sizing
+- `docs/analysis/performance_optimization.md` - Performance analysis and decisions (to be created)
+- `docs/analysis/llm_strategy_evolution.md` - How LLM approach evolved (to be created)
 
 ### When to Reference Which Documents
 
 **Before making architectural changes:**
-1. Check `DESIGN_DECISIONS.md` for existing rationale
-2. Review relevant `design/*.md` for implementation details
-3. Check `analysis/*.md` for supporting data
+1. Check `docs/design-decisions.md` for existing rationale
+2. Review relevant `docs/design/*.md` for implementation details
+3. Check `docs/analysis/*.md` for supporting data
 
 **When implementing new features:**
-1. Start with `ARCHITECTURE.md` for system overview
+1. Start with `docs/architecture.md` for system overview
 2. Review related design docs for patterns to follow
-3. Update `DESIGN_DECISIONS.md` with new choices
+3. Update `docs/design-decisions.md` with new choices
 
 **When adding LLM capabilities:**
-1. `design/STATE_MACHINE_ARCHITECTURE.md` - State machine framework for multi-objective workflows
-2. `design/LLM_INTEGRATION.md` - Current implementation and usage
-3. `design/LLM_STRATEGY.md` - Complete strategic framework and advanced features
-4. `analysis/token_analysis.md` - Batch sizing and cost analysis
-5. `analysis/llm_strategy_evolution.md` - How the approach evolved
+1. `docs/design/STATE_MACHINE_ARCHITECTURE.md` - State machine framework for multi-objective workflows
+2. `docs/design/LLM_INTEGRATION.md` - Current implementation and usage
+3. `docs/design/LLM_STRATEGY.md` - Complete strategic framework and advanced features
+4. `docs/analysis/token_analysis.md` - Batch sizing and cost analysis
+5. `docs/analysis/llm_strategy_evolution.md` - How the approach evolved
 
 **When optimizing performance:**
-1. `analysis/token_analysis.md` - Token optimization and LLM performance analysis
-2. `PHASE_HISTORY.md#phase-23` - Phase 2.3 performance optimization details
+1. `docs/analysis/token_analysis.md` - Token optimization and LLM performance analysis
+2. `docs/phase-history.md#phase-23` - Phase 2.3 performance optimization details
 3. Relevant design docs for implementation details
 
 **When reviewing project evolution:**
-1. `PHASE_HISTORY.md` - Complete development phase history and achievements
-2. `DESIGN_DECISIONS.md` - Current architectural rationale
-3. `STATUS.md` - Current phase summary with references
+1. `docs/phase-history.md` - Complete development phase history and achievements
+2. `docs/design-decisions.md` - Current architectural rationale
+3. `docs/status.md` - Current phase summary with references
 
 ### Documentation Update Protocol
 
@@ -282,9 +282,9 @@ This project uses a hierarchical documentation structure designed to preserve de
 
 Use this format for linking between documentation levels:
 ```markdown
-See: [design/BLOCK_GROUPING.md](design/BLOCK_GROUPING.md)
-Design rationale: [DESIGN_DECISIONS.md#spacing-analysis](DESIGN_DECISIONS.md)
-Performance analysis: [analysis/performance_optimization.md](analysis/performance_optimization.md)
+See: [docs/design/BLOCK_GROUPING.md](docs/design/BLOCK_GROUPING.md)
+Design rationale: [docs/design-decisions.md#spacing-analysis](docs/design-decisions.md)
+Performance analysis: [docs/analysis/performance_optimization.md](docs/analysis/performance_optimization.md)
 ```
 
 ## Template-Specific Notes

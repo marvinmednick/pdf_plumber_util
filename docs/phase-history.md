@@ -22,8 +22,8 @@ This document provides detailed information about each development phase of PDF 
 - Document type profiles for different PDF formatting styles
 
 **Cross-References**: 
-- Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
-- Configuration: [CLI_USAGE.md](CLI_USAGE.md#configuration-and-environment-variables)
+- Architecture: [architecture.md](architecture.md)
+- Configuration: [cli-usage.md](cli-usage.md#configuration-and-environment-variables)
 
 ## Phase 2.1: CLI Framework Migration ✅ COMPLETE
 
@@ -51,7 +51,7 @@ This document provides detailed information about each development phase of PDF 
 - Verified compatibility through comprehensive testing
 
 **Cross-References**:
-- Command Reference: [CLI_USAGE.md](CLI_USAGE.md)
+- Command Reference: [cli-usage.md](cli-usage.md)
 - Implementation: `src/pdf_plumb/cli.py`
 
 ## Phase 2.2: Enhanced Error Handling ✅ COMPLETE

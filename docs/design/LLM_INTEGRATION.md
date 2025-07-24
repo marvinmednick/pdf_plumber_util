@@ -213,8 +213,8 @@ Following PDF Plumb's established pattern:
 - **Strategic Framework**: [design/LLM_STRATEGY.md](LLM_STRATEGY.md) - Complete multi-objective analysis framework and advanced features
 - **Token Analysis**: [analysis/token_analysis.md](../analysis/token_analysis.md)
 - **Strategy Evolution**: [analysis/llm_strategy_evolution.md](../analysis/llm_strategy_evolution.md)
-- **Design Decisions**: [DESIGN_DECISIONS.md](../DESIGN_DECISIONS.md#llm-integration-architecture)
+- **Design Decisions**: [design-decisions.md](../design-decisions.md#llm-integration-architecture)
 - **Implementation**: `src/pdf_plumb/core/llm_analyzer.py`
-- **CLI Documentation**: [CLI_USAGE.md](../CLI_USAGE.md) (llm-analyze section to be added)
+- **CLI Documentation**: [cli-usage.md](../cli-usage.md) (llm-analyze section to be added)
 
 This document focuses on the current implementation. For comprehensive strategic framework including font learning systems, anomaly detection, and advanced optimization strategies, see [design/LLM_STRATEGY.md](LLM_STRATEGY.md).

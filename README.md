@@ -44,9 +44,9 @@ Requires Azure OpenAI configuration. See documentation for setup details.
 
 ## Documentation
 
-- **[CLI Usage Guide](CLI_USAGE.md)** - Complete command reference and examples
-- **[Architecture Overview](ARCHITECTURE.md)** - System design and components
-- **[Design Decisions](DESIGN_DECISIONS.md)** - Key architectural choices and rationale
+- **[CLI Usage Guide](docs/cli-usage.md)** - Complete command reference and examples
+- **[Architecture Overview](docs/architecture.md)** - System design and components
+- **[Design Decisions](docs/design-decisions.md)** - Key architectural choices and rationale
 - **[Development Guide](CLAUDE.md)** - Documentation navigation for developers
 
 ## Current Status

@@ -14,6 +14,7 @@ theme:
 
 plugins:
   - search
+  - include-markdown
   - mkdocstrings:
       handlers:
         python:
@@ -24,12 +25,26 @@ plugins:
             filters: ["!^_"]
 
 nav:
-  - Home: ../README.md
-  - CLI Usage: ../CLI_USAGE.md
-  - Architecture: ../ARCHITECTURE.md
-  - Status: ../STATUS.md
+  - Home: index.md
+  - Project README: readme.md
+  - Development Guide: development.md
+  - CLI Usage: cli-usage.md
+  - Architecture: architecture.md
+  - Status: status.md
+  - Design Decisions: design-decisions.md
+  - Phase History: phase-history.md
   - Guidelines:
     - Test Docstrings: test_docstring_guidelines.md
+  - Design:
+    - Block Grouping: design/BLOCK_GROUPING.md
+    - Header Footer Detection: design/HEADER_FOOTER_DETECTION.md
+    - State Machine Architecture: design/STATE_MACHINE_ARCHITECTURE.md
+    - LLM Integration: design/LLM_INTEGRATION.md
+    - LLM Strategy: design/LLM_STRATEGY.md
+  - Analysis:
+    - Token Analysis: analysis/token_analysis.md
+    - LLM Strategy Evolution: analysis/llm_strategy_evolution.md
+    - Performance Analysis: analysis/performance_analysis.md
   - API Reference:
     - Tests:
       - Unit Tests: api/tests/unit.md
