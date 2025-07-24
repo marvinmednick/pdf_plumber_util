@@ -260,7 +260,28 @@ class TestWorkflowIntegration:
         assert knowledge['workflow_completed'] == True
     
     def test_conditional_skip_workflow(self, integration_registry, skip_test_data, temp_output_dir):
-        """Test A -> C workflow with B skipped."""
+        """Test the orchestrator's ability to handle conditional state skipping based on execution results.
+        
+        Test setup:
+        - Uses skip_test_data which triggers state_a to request skipping state_b
+        - State A detects skip condition and transitions directly to state_c
+        - This tests workflow branching where intermediate states can be bypassed
+        - Uses same three-state setup but with different execution path
+        
+        What it verifies:
+        - Workflow completes normally despite skipping intermediate state
+        - Only 2 states execute instead of the full 3-state sequence
+        - Execution path correctly shows state_a → state_c (no state_b)
+        - State_b results are not present in workflow_results
+        - Skip condition detection works (skip_requested=True in state_a results)
+        
+        Test limitation:
+        - Uses artificial skip condition rather than realistic PDF analysis branching
+        - Doesn't test complex multi-branch scenarios or nested conditions
+        - Skip logic is hardcoded in test states, not configurable
+        
+        Key insight: Validates that workflows can dynamically branch and skip states based on intermediate analysis results.
+        """
         orchestrator = AnalysisOrchestrator(validate_on_init=False)
         
         results = orchestrator.run_workflow(
@@ -288,7 +309,7 @@ class TestWorkflowIntegration:
         assert state_a_results['results']['skip_requested'] == True
     
     def test_invalid_transition_error(self, integration_registry, basic_test_data):
-        """Test workflow with invalid state transition."""
+        """Test the orchestrator's error handling when a state requests transition to nonexistent target state."""
         orchestrator = AnalysisOrchestrator(validate_on_init=False)
         
         with pytest.raises(WorkflowExecutionError, match="Target state.*not found"):
@@ -298,7 +319,27 @@ class TestWorkflowIntegration:
             )
     
     def test_max_states_limit_with_cycle(self, integration_registry, basic_test_data):
-        """Test workflow hitting maximum total states with multi-state cycle."""
+        """Test the orchestrator's cycle detection using MAX_TOTAL_STATES limit in integration environment.
+        
+        Test setup:
+        - Creates temporary CycleStateA and CycleStateB that infinitely transition between each other
+        - Registers these states in the integration test registry
+        - Attempts to run workflow starting from cycle_a state
+        - This simulates real-world infinite loop scenarios that could hang the system
+        
+        What it verifies:
+        - Orchestrator detects when MAX_TOTAL_STATES (50) limit is exceeded
+        - WorkflowExecutionError is raised before system hangs
+        - Cycle detection works in full integration environment (not just unit tests)
+        - Error handling prevents infinite execution that would consume resources
+        
+        Test limitation:
+        - Uses artificially simple 2-state cycle rather than complex real-world cycles
+        - Requires temporary modification of registry for test scenario
+        - Doesn't test near-limit scenarios or complex cycle patterns
+        
+        Key insight: Ensures the orchestrator has robust cycle protection that works in realistic deployment scenarios.
+        """
         # Create a temporary A->B->A cycle for testing
         from pdf_plumb.workflow.registry import STATE_REGISTRY
         
@@ -334,7 +375,7 @@ class TestWorkflowIntegration:
             STATE_REGISTRY.pop('cycle_b', None)
     
     def test_invalid_initial_state(self, integration_registry, basic_test_data):
-        """Test workflow with invalid initial state."""
+        """Test orchestrator error handling when requested initial state doesn't exist in registry."""
         orchestrator = AnalysisOrchestrator(validate_on_init=False)
         
         with pytest.raises(WorkflowExecutionError, match="Initial state 'invalid' not found"):
@@ -344,7 +385,7 @@ class TestWorkflowIntegration:
             )
     
     def test_state_map_generation(self, integration_registry):
-        """Test state map generation for integration workflow."""
+        """Test WorkflowStateMap.generate_state_map() produces complete representation of registered integration states."""
         state_map = WorkflowStateMap.generate_state_map()
         
         # Verify all integration states present
@@ -372,7 +413,7 @@ class TestWorkflowIntegration:
         assert 'state_c' in terminal_states
     
     def test_workflow_paths_discovery(self, integration_registry):
-        """Test discovering all possible workflow paths."""
+        """Test WorkflowStateMap.find_workflow_paths() discovers all possible execution routes including conditional branches."""
         paths = WorkflowStateMap.find_workflow_paths(start_state='state_a')
         
         # Should find multiple paths due to branching logic
@@ -387,7 +428,28 @@ class TestWorkflowIntegration:
         assert len(skip_paths) > 0
     
     def test_context_and_metadata_tracking(self, integration_registry, basic_test_data):
-        """Test that context and metadata are properly tracked."""
+        """Test the orchestrator's ability to track detailed execution metadata and timing information throughout workflow execution.
+        
+        Test setup:
+        - Uses basic_test_data to run complete linear workflow (state_a → state_b → state_c)
+        - Orchestrator automatically captures timing and execution metadata
+        - Each iteration (state execution) is tracked with individual timing
+        - Tests comprehensive metadata collection in realistic execution environment
+        
+        What it verifies:
+        - Workflow metadata contains all required timing fields (start_time, end_time, duration)
+        - Execution metadata includes iteration count and termination reason
+        - Per-iteration metadata tracks individual state execution details
+        - Duration calculations are valid (duration_seconds >= 0)
+        - Initial state and termination reason are correctly recorded
+        
+        Test limitation:
+        - Uses simple test states with predictable execution patterns
+        - Doesn't test metadata tracking under error conditions
+        - Timing validation is basic (only checks non-negative values)
+        
+        Key insight: Validates that the orchestrator provides comprehensive execution tracking for debugging and performance analysis.
+        """
         orchestrator = AnalysisOrchestrator(validate_on_init=False)
         
         results = orchestrator.run_workflow(
