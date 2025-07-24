@@ -3,21 +3,27 @@
 ## Current State
 
 **System Status**: Word-based extraction, contextual block formation, spacing gap analysis, LLM-based header/footer detection, LLM section heading and table/figure analysis, state machine architecture for multi-pass analysis  
-**Active Work**: Test docstring improvements complete - focus on duplicate element detection issue
+**Active Work**: Major fixes complete - LLM duplicate element detection resolved, configuration system enhanced
 
 ## Last Completed Work
 
-**Test Documentation System**:
-- Enhanced test docstrings across 4 test files following established guidelines (docs/test_docstring_guidelines.md)
-- Added comprehensive 5-section format for complex tests (setup, verification, limitations, key insights)
-- Improved 35+ test methods with detailed explanations and specific validation details
-- All test files now have consistent, maintainable documentation standards
+**LLM Duplicate Element Detection Fix**:
+- Fixed critical issue where table titles appeared in both section_headings and table_titles
+- Updated LLM prompt with explicit guidance preventing double categorization
+- Verified fix with real API call using controlled test fixture (pages 97-99)
+- Table 7-2, 7-3, 7-4 now appear ONLY in table_titles category as expected
 
-**Work Log System Implementation**:
-- Created WORK_LOG.md for tracking development progress during active sessions
-- Added mandatory work log protocol to CLAUDE.md with bash append commands
-- Established commit-time consolidation process to maintain STATUS.md accuracy
-- Provides context continuity for effective Claude Code collaboration
+**Configuration System Enhancement**:
+- LLM sampling now properly uses environment variables from .env and config.py
+- Added llm_sequence_length configuration parameter for clearer naming
+- Renamed group_size → sequence_length throughout sampling system
+- All sampling calls now use configured values instead of hardcoded defaults
+
+**Testing Infrastructure Expansion**:
+- Created comprehensive pytest tests for overlap-free sampling algorithm (22 new tests)
+- Added test fixture generation script for controlled LLM testing scenarios
+- All 109 tests passing with robust coverage of sampling edge cases
+- Enhanced test documentation following established guidelines
 
 **Documentation Reorganization**:
 - Implemented mkdocs-gen-files for dynamic README/CLAUDE.md transformation
