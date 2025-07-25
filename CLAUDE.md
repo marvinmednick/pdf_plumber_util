@@ -71,9 +71,31 @@ tests/
 - `src/pdf_plumb/core/extractor.py` - Three extraction methods implementation
 - `src/pdf_plumb/core/llm_analyzer.py` - LLM-enhanced analysis coordinator
 - `src/pdf_plumb/llm/providers.py` - Azure OpenAI integration
-- `CLI_USAGE.md` - Complete user command reference
+- `docs/cli-usage.md` - Complete user command reference
 
 ## Development Patterns
+
+### Session Startup Guidance (For Claude Code Context)
+
+When starting a new development session, Claude Code should review these documents in order to understand both immediate work state and codebase architecture:
+
+**Immediate Work Context:**
+1. **WORK_LOG.md** - Current work in progress and immediate next steps
+2. **docs/status.md** - Overall project status and recent completed work
+3. **Recent git commits** - `git log --oneline -5` to understand latest changes
+
+**Codebase Architecture Context:**
+4. **docs/architecture.md** - System overview, data flow, and component relationships
+5. **docs/design-decisions.md** - Critical architectural choices and rationale for consistency
+
+**Core Code Context:**
+6. **Key implementation files** - Review as needed based on work area:
+   - `src/pdf_plumb/cli.py` - Entry points and command structure
+   - `src/pdf_plumb/config.py` - Configuration and profiles system
+   - `src/pdf_plumb/core/extractor.py` - Core PDF processing logic
+   - `src/pdf_plumb/core/analyzer.py` - Document analysis algorithms
+
+This ensures Claude Code understands immediate work context, architectural patterns to maintain, and implementation details for informed code decisions.
 
 ### Work Log Protocol (MANDATORY)
 After completing any significant task, immediately append to WORK_LOG.md using Bash:
@@ -89,20 +111,27 @@ echo "---
 
 **Before each commit:**
 1. Review WORK_LOG.md entries
-2. Consolidate into STATUS.md "Last Completed Work" section
-3. Update STATUS.md current state/pending issues
-4. Clear or archive WORK_LOG.md entries
+2. Consolidate into docs/status.md "Last Completed Work" section
+3. Update docs/status.md current state/pending issues
+4. Clear WORK_LOG.md entries and create empty file for next session:
+   ```bash
+   echo "# Work Log
+
+This file tracks development progress during active work sessions. It gets cleared after each commit.
+
+---" > WORK_LOG.md
+   ```
 
 ### Architecture Documentation Standards
 - **Track documentation changes in git commits**: Architecture and feature documentation history should be maintained through git commit messages
-- **Review revisions for completeness**: When updating major documents like ARCHITECTURE.md, ensure changes are properly documented in commit messages for future reference
+- **Review revisions for completeness**: When updating major documents like docs/architecture.md, ensure changes are properly documented in commit messages for future reference
 
 ### Adding New CLI Commands
 1. Add command function to `src/pdf_plumb/cli.py` using Click decorators
 2. Use common decorators: `@common_options`, `@visualization_options`
 3. Implement Rich console output: `console.print(f"✅ Success message")`
 4. Add integration tests in `tests/integration/test_cli_commands.py`
-5. Update CLI_USAGE.md with examples
+5. Update docs/cli-usage.md with examples
 
 ### Error Handling (Phase 2.2 Complete)
 **Implemented Pattern**:
@@ -155,7 +184,7 @@ Test docstrings should explain **what is tested and how** for code review purpos
 ## Documentation Strategy
 
 ### Core Documentation (Always Present)
-- README.md, STATUS.md, CLI_USAGE.md, ARCHITECTURE.md, CLAUDE.md
+- README.md, docs/status.md, docs/cli-usage.md, docs/architecture.md, CLAUDE.md, WORK_LOG.md
 
 ### Optional Documentation (Create When Needed)
 - `docs/performance.md` - Create when performance profiling conducted
@@ -199,7 +228,7 @@ This project uses a hierarchical documentation structure designed to preserve de
 
 **Tier 1: User Entry Points**
 - `README.md` - Project overview, quick start, features list
-- `CLI_USAGE.md` - Complete command reference with examples and environment variables
+- `docs/cli-usage.md` - Complete command reference with examples and environment variables
 - `INSTALLATION.md` - Setup and configuration (to be created if needed)
 
 **Tier 2: Architecture & Design Context**
@@ -252,16 +281,16 @@ This project uses a hierarchical documentation structure designed to preserve de
 ### Documentation Update Protocol
 
 **When adding features:**
-- Update user docs (`README.md`, `CLI_USAGE.md`) first
-- Document design decisions in `DESIGN_DECISIONS.md`
+- Update user docs (`README.md`, `docs/cli-usage.md`) first
+- Document design decisions in `docs/design-decisions.md`
 - Create/update relevant design docs
 - Cross-reference between levels
 
 **When changing architecture:**
-- Update `ARCHITECTURE.md` with new design
-- Document rationale in `DESIGN_DECISIONS.md` 
+- Update `docs/architecture.md` with new design
+- Document rationale in `docs/design-decisions.md` 
 - Determine if need to create/update design docs
-- Add entry to `PHASE_HISTORY.md`
+- Add entry to `docs/phase-history.md`
 
 ### Documentation Guidelines
 
@@ -274,7 +303,7 @@ This project uses a hierarchical documentation structure designed to preserve de
 - **Reference other docs** - Point to appropriate tier documentation for detailed information
 - **Keep concise** - Avoid duplicating information available in specialized documents
 
-**STATUS.md Guidelines:**
+**docs/status.md Guidelines:**
 - Focus on current development phase and immediate next steps
 - Keep to ~100 lines maximum
 - Avoid detailed technical explanations (use design docs for that)
@@ -286,7 +315,7 @@ This project uses a hierarchical documentation structure designed to preserve de
 - Link to detailed documentation
 - Keep under 100 lines for accessibility
 
-**CLI_USAGE.md Guidelines:**
+**docs/cli-usage.md Guidelines:**
 - Complete command reference with examples
 - Environment variable documentation and priority rules:
   1. CLI arguments (highest priority)

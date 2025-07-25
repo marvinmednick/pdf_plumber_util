@@ -3,9 +3,16 @@
 ## Current State
 
 **System Status**: Word-based extraction, contextual block formation, spacing gap analysis, LLM-based header/footer detection, LLM section heading and table/figure analysis, state machine architecture for multi-pass analysis  
-**Active Work**: Major fixes complete - LLM duplicate element detection resolved, configuration system enhanced
+**Active Work**: Documentation organization complete - Fixed document references, added Claude Code session guidance
 
 ## Last Completed Work
+
+**Documentation Organization and Claude Code Session Guidance**:
+- Fixed all incorrect document references in CLAUDE.md (CLI_USAGE.md → docs/cli-usage.md, STATUS.md → docs/status.md, etc.)
+- Added WORK_LOG.md to core documentation list
+- Created comprehensive Session Startup Guidance section for Claude Code context
+- Updated Work Log Protocol to include creating empty WORK_LOG.md after commits
+- Established proper workflow for documentation maintenance and session continuity
 
 **LLM Duplicate Element Detection Fix**:
 - Fixed critical issue where table titles appeared in both section_headings and table_titles
