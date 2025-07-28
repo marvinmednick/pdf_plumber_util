@@ -454,7 +454,17 @@ def process(pdf_file, output_dir, basename, y_tolerance, x_tolerance, debug_leve
     is_flag=True,
     help='Use incremental batch processing for large documents'
 )
-def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_save, show_status, incremental):
+@click.option(
+    '--use-direct-analyzer',
+    is_flag=True,
+    help='Use direct LLM analyzer instead of state machine workflow (legacy)'
+)
+@click.option(
+    '--sampling-seed',
+    type=int,
+    help='Random seed for reproducible page sampling (for testing)'
+)
+def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_save, show_status, incremental, use_direct_analyzer, sampling_seed):
     """Analyze document structure using LLM.
     
     Performs LLM-enhanced analysis of PDF document structure, focusing on
@@ -472,7 +482,7 @@ def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_sa
     try:
         # Initialize LLM analyzer
         console.print(f"🤖 Initializing {provider.upper()} LLM analyzer...")
-        llm_analyzer = LLMDocumentAnalyzer(provider_name=provider)
+        llm_analyzer = LLMDocumentAnalyzer(provider_name=provider, sampling_seed=sampling_seed)
         
         # Show status if requested
         if show_status:
@@ -542,22 +552,69 @@ def llm_analyze(document_file, focus, provider, output_dir, estimate_cost, no_sa
                 raise click.Abort()
         
         # Perform analysis
-        console.print(f"🔍 Starting [bold]{focus}[/bold] analysis...")
+        if use_direct_analyzer:
+            console.print(f"🔍 Starting [bold]{focus}[/bold] analysis using [yellow]direct analyzer (legacy)[/yellow]...")
+        else:
+            console.print(f"🔧 Starting [bold]{focus}[/bold] analysis using [cyan]state machine workflow[/cyan]...")
         
         try:
             if focus == 'headers-footers':
-                if incremental:
-                    results = llm_analyzer.analyze_headers_footers_incremental(
-                        document_data,
-                        save_results=not no_save,
+                if not use_direct_analyzer:
+                    # Use state machine workflow
+                    from .workflow.orchestrator import AnalysisOrchestrator
+                    from .workflow.states.header_footer import HeaderFooterAnalysisState
+                    
+                    # Create state with seed if provided
+                    if sampling_seed is not None:
+                        # Create a custom state class with the seed
+                        class SeededHeaderFooterAnalysisState(HeaderFooterAnalysisState):
+                            def __init__(self):
+                                super().__init__(
+                                    provider_name=provider,
+                                    sampling_seed=sampling_seed
+                                )
+                        
+                        # Temporarily register the seeded state
+                        from .workflow.registry import STATE_REGISTRY
+                        original_state = STATE_REGISTRY['header_footer_analysis']
+                        STATE_REGISTRY['header_footer_analysis'] = SeededHeaderFooterAnalysisState
+                    
+                    orchestrator = AnalysisOrchestrator(validate_on_init=True)
+                    
+                    # Run workflow with header_footer_analysis state
+                    workflow_results = orchestrator.run_workflow(
+                        document_data=document_data,
+                        initial_state='header_footer_analysis',
+                        save_context=not no_save,
                         output_dir=output_dir
                     )
+                    
+                    # Restore original state registration
+                    if sampling_seed is not None:
+                        STATE_REGISTRY['header_footer_analysis'] = original_state
+                    
+                    # Extract results from workflow (correct nested structure)
+                    workflow_data = workflow_results.get('workflow_results', {})
+                    state_result = workflow_data.get('header_footer_analysis', {})
+                    results = state_result.get('raw_result')  # Get the HeaderFooterAnalysisResult object
+                    
+                    if not results:
+                        raise Exception("State machine did not return expected results")
+                        
                 else:
-                    results = llm_analyzer.analyze_headers_footers(
-                        document_data,
-                        save_results=not no_save,
-                        output_dir=output_dir
-                    )
+                    # Use direct analyzer (legacy implementation)
+                    if incremental:
+                        results = llm_analyzer.analyze_headers_footers_incremental(
+                            document_data,
+                            save_results=not no_save,
+                            output_dir=output_dir
+                        )
+                    else:
+                        results = llm_analyzer.analyze_headers_footers(
+                            document_data,
+                            save_results=not no_save,
+                            output_dir=output_dir
+                        )
                 
                 # Display results summary
                 console.print("\n✅ [bold green]Header/Footer Analysis Complete[/bold green]")

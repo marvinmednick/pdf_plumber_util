@@ -219,21 +219,38 @@ This document captures key architectural choices made during PDF Plumb developme
 - Enables objective comparison of approaches
 - Reduces risk of premature optimization
 
-## Current Decision Points
+### 9. State Machine Architecture with Loop Prevention
 
-### 1. State Machine Architecture for LLM Workflows
-
-**Decision**: Implement state machine orchestrator for multi-objective analysis workflows.
+**Decision**: Implement state machine orchestrator for multi-objective analysis workflows with strict loop prevention.
 
 **Rationale**:
-- Current iterative processing limited to single analysis focus (headers/footers)
-- Need flexible workflow management for different analysis objectives (H/F → Sections → TOC → Tables)
-- State-based approach enables conditional branching and adaptive decision-making
-- Hybrid execution model supports both programmatic logic and LLM integration
+- **Workflow Complexity**: Need flexible workflow management for different analysis objectives (H/F → Sections → TOC → Tables)
+- **Conditional Branching**: State-based approach enables adaptive decision-making based on analysis results
+- **Hybrid Execution**: Supports both programmatic logic and LLM integration within unified workflow framework
+- **Over-Engineered Retry**: Previous retry system in `core/retry.py` was overly complex for actual use cases
+
+**Implementation Details**:
+- **State Machine Orchestrator**: Complete workflow management system in `src/pdf_plumb/workflow/`
+- **Self-Transition Prohibition**: States cannot transition to themselves (validated at registration)
+- **Fixed State Limit**: `MAX_TOTAL_STATES = 50` prevents infinite loops
+- **Removed Complex Retry**: Eliminated `src/pdf_plumb/core/retry.py` and related 5 test cases
+- **Explicit Workflow Design**: Any retry logic must be designed into state machine transitions
+
+**Alternatives Considered**:
+- **Iterative processing with retry** → Rejected: Limited to single analysis focus, complex error handling
+- **Configurable retry policies** → Rejected: Added complexity without clear benefit
+- **State-level retry logic** → Rejected: Creates potential for infinite loops and unclear failure modes
+- **Unlimited state execution** → Rejected: Risk of infinite loops in workflow design
+
+**Benefits**:
+- **Flexible Workflows**: Multi-objective analysis with conditional branching
+- **Simplified Error Handling**: Direct error reporting instead of automatic retry attempts
+- **Predictable Execution**: Clear upper bounds on execution time and resource usage
+- **Easier Debugging**: Clearer execution paths and failure modes
 
 **Design**: [design/STATE_MACHINE_ARCHITECTURE.md](design/STATE_MACHINE_ARCHITECTURE.md)
 
-**Status**: Architecture design complete, implementation pending
+**Implementation**: Completed (commit 4d0e513)
 
 ## Future Decision Points
 

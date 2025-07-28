@@ -5,7 +5,7 @@ from .state import AnalysisState
 
 # Import state implementations
 from .states.example import ExampleState, Example2State
-# from .states.header_footer import HeaderFooterDetectionState, HeaderFooterRefinementState
+from .states.header_footer import HeaderFooterAnalysisState
 # from .states.sections import SectionAnalysisState
 # from .states.toc import TOCDetectionState
 # from .states.tables import TableFigureAnalysisState
@@ -16,8 +16,10 @@ STATE_REGISTRY: Dict[str, Type[AnalysisState]] = {
     'example_1': ExampleState,
     'example_2': Example2State,
     
-    # TODO: Uncomment and populate as real state implementations are created
-    # 'header_footer_detection': HeaderFooterDetectionState,
+    # LLM analysis states
+    'header_footer_analysis': HeaderFooterAnalysisState,
+    
+    # TODO: Uncomment and populate as additional state implementations are created
     # 'header_footer_refinement': HeaderFooterRefinementState,
     # 'section_analysis': SectionAnalysisState,
     # 'toc_detection': TOCDetectionState,

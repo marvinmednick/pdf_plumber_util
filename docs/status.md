@@ -3,9 +3,28 @@
 ## Current State
 
 **System Status**: Word-based extraction, contextual block formation, spacing gap analysis, LLM-based header/footer detection, LLM section heading and table/figure analysis, state machine architecture for multi-pass analysis  
-**Active Work**: Documentation organization complete - Fixed document references, added Claude Code session guidance
+**Active Work**: State machine integration and documentation improvements complete
 
 ## Last Completed Work
+
+**State Machine Integration (Phase 2.4)**:
+- State machine workflow is now the default for LLM analysis (`llm-analyze` command)
+- Added `--use-direct-analyzer` flag for legacy direct analyzer access  
+- Fixed CLI result extraction issue for state machine workflow
+- Added reproducible sampling with `--sampling-seed` parameter for testing
+- Verified identical LLM requests between state machine and direct analyzer implementations
+- Created comprehensive `HeaderFooterAnalysisState` (222 lines) with provider configuration and cost estimation
+- Enhanced `LLMDocumentAnalyzer` with sampling seed support for reproducible testing
+- Updated state registry and workflow infrastructure
+- Created test comparison framework (`test_state_comparison.py`, 254 lines)
+- Updated design documentation with loop prevention details and implementation status
+- **TODO**: Remove direct analyzer path after validation period
+
+**Work Log Protocol Enhancement**:
+- Strengthened CLAUDE.md work log protocol with mandatory immediate documentation requirements
+- Enhanced documentation scope to ensure complete coverage of implementation work
+
+## Previous Completed Work
 
 **Documentation Organization and Claude Code Session Guidance**:
 - Fixed all incorrect document references in CLAUDE.md (CLI_USAGE.md → docs/cli-usage.md, STATUS.md → docs/status.md, etc.)

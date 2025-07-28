@@ -20,20 +20,23 @@ class LLMDocumentAnalyzer:
     def __init__(
         self,
         provider_name: str = "azure",
-        config_overrides: Optional[Dict[str, Any]] = None
+        config_overrides: Optional[Dict[str, Any]] = None,
+        sampling_seed: Optional[int] = None
     ):
         """Initialize LLM document analyzer.
         
         Args:
             provider_name: LLM provider to use ("azure")
             config_overrides: Optional provider configuration overrides
+            sampling_seed: Optional seed for reproducible page sampling
         """
         self.provider_name = provider_name
         self.config_overrides = config_overrides or {}
+        self.sampling_seed = sampling_seed
         
         # Initialize components
         self.provider: LLMProvider = get_llm_provider(provider_name, **self.config_overrides)
-        self.sampler = PageSampler()
+        self.sampler = PageSampler(seed=sampling_seed)
         self.parser = ResponseParser()
         self.config = get_config()
         

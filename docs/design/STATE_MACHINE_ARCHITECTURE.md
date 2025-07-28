@@ -265,6 +265,75 @@ class AnalysisOrchestrator:
 - **Workflow-Level**: Orchestrator logs workflow context and re-raises
 - **Transition-Level**: Invalid transitions caught by validation
 
+## Loop Prevention and Transition Restrictions
+
+### Self-Transition Prohibition
+
+**Rule**: States cannot transition to themselves.
+
+**Implementation**: The `validate_transitions()` method in `AnalysisState` explicitly checks for and rejects self-transitions:
+
+```python
+@classmethod
+def validate_transitions(cls) -> None:
+    for transition_key, transition in cls.POSSIBLE_TRANSITIONS.items():
+        if transition.target_state == state_name:
+            raise ValueError(
+                f"Self-transition not allowed: {cls.__name__} cannot transition to itself"
+            )
+```
+
+**Rationale**: 
+- Prevents infinite loops at the state level
+- Forces explicit workflow design decisions
+- Simplifies loop detection and prevention
+- Any retry logic must be handled by the orchestrator, not individual states
+
+### Orchestrator-Level Loop Prevention
+
+**Maximum State Limit**: The orchestrator enforces a hard limit of `MAX_TOTAL_STATES = 50` total state executions per workflow.
+
+**Implementation**: 
+```python
+while current_state_name and iteration_count < MAX_TOTAL_STATES:
+    # Execute state
+    iteration_count += 1
+
+if current_state_name and iteration_count >= MAX_TOTAL_STATES:
+    raise WorkflowExecutionError(f"Workflow exceeded maximum total states ({MAX_TOTAL_STATES})")
+```
+
+**Design Philosophy**:
+- **Fixed Limit**: No configuration - uses a generous but reasonable upper bound (50 states)
+- **Fail-Fast**: Workflows that hit the limit indicate design problems, not configuration issues
+- **Explicit Loops**: Any intentional looping (e.g., retry patterns) must be designed into the state machine workflow map
+
+### Workflow Design Implications
+
+**For Retry Patterns**: Instead of state self-transitions, design explicit retry workflows:
+```
+data_validation → error_handling → data_validation_retry → analysis
+```
+
+**For Iterative Processing**: Use multiple related states rather than loops:
+```
+initial_analysis → refinement_analysis → validation_analysis → complete
+```
+
+**For Conditional Processing**: Use branching patterns with clear termination:
+```
+assessment → branch_a OR branch_b → consolidation → complete
+```
+
+### Transition Validation
+
+The orchestrator validates every state transition:
+1. **Existence Check**: Target state must be registered in the state registry
+2. **Declaration Check**: Target state must be declared in source state's `POSSIBLE_TRANSITIONS`
+3. **Self-Transition Check**: Target state cannot be the same as source state
+
+**Validation Failure**: Any validation failure raises `WorkflowExecutionError` with context about the invalid transition.
+
 ## Implementation Strategy
 
 ### Phase 1: Core Infrastructure

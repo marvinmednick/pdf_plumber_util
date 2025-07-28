@@ -97,10 +97,13 @@ When starting a new development session, Claude Code should review these documen
 
 This ensures Claude Code understands immediate work context, architectural patterns to maintain, and implementation details for informed code decisions.
 
-### Work Log Protocol (MANDATORY)
-After completing any significant task, immediately append to WORK_LOG.md using Bash:
+### Work Log Protocol (MANDATORY - IMMEDIATE EXECUTION REQUIRED)
 
-**During development:**
+**CRITICAL REQUIREMENT**: After completing ANY task involving code changes, file creation, or significant analysis, you MUST IMMEDIATELY append to WORK_LOG.md using Bash. This is not optional.
+
+**AUTOMATIC EXECUTION RULE**: Do not ask the user or wait for permission. Execute the work log update immediately after completing work.
+
+**During development - IMMEDIATE ACTION:**
 ```bash
 echo "---
 ### $(date '+%Y-%m-%d %H:%M') - [Task description]
@@ -108,6 +111,14 @@ echo "---
 - **Tests**: [Results and counts]
 - **Next**: [Next steps or issues]" >> WORK_LOG.md
 ```
+
+**MANDATORY DOCUMENTATION SCOPE**: Document ALL implementation work including:
+- File creation/modification with line counts for substantial changes
+- New functions, classes, or significant logic changes
+- Configuration updates and registry modifications
+- Test infrastructure creation or updates
+- Documentation updates (including to design docs)
+- Any architectural or workflow changes
 
 **Before each commit:**
 1. Review WORK_LOG.md entries
