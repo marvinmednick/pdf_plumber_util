@@ -95,7 +95,7 @@ class TestCLITOCAnalysis:
                 "total_pages": 20,
                 "sampled_pages": 16,
                 "sampling_strategy": "strategic_sampling",
-                "selected_page_indexes": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+                "page_indexes_analyzed": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
             },
             per_page_analysis=per_page_analysis,
             header_pattern={

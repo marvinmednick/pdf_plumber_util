@@ -242,15 +242,19 @@ class AdditionalSectionHeadingState(AnalysisState):
             # Look for sampling information in previous results
             if 'raw_result' in state_result and hasattr(state_result['raw_result'], 'sampling_summary'):
                 sampling_summary = state_result['raw_result'].sampling_summary
-                if 'selected_page_indexes' in sampling_summary:
-                    used_pages.update(sampling_summary['selected_page_indexes'])
+                # Check for page indexes under different field names (compatibility)
+                page_indexes = sampling_summary.get('page_indexes_analyzed') or sampling_summary.get('selected_page_indexes', [])
+                if page_indexes:
+                    used_pages.update(page_indexes)
             
             # Also check results structure for page information
             results = state_result.get('results', {})
             if 'sampling_summary' in results:
                 sampling_info = results['sampling_summary']
-                if 'selected_page_indexes' in sampling_info:
-                    used_pages.update(sampling_info['selected_page_indexes'])
+                # Check for page indexes under different field names (compatibility)
+                page_indexes = sampling_info.get('page_indexes_analyzed') or sampling_info.get('selected_page_indexes', [])
+                if page_indexes:
+                    used_pages.update(page_indexes)
         
         # Return unused pages as sorted list
         unused_pages = sorted(all_pages - used_pages)

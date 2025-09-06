@@ -139,3 +139,20 @@ This file tracks development progress during active work sessions. It gets clear
 - **Achievement**: Complete transformation from failing class-level mocks to successful boundary-focused mocks
 - **Methodology**: @patch('provider.api_call') + realistic JSON responses proven universally successful
 - **Next**: TOC detection functionality fully tested and validated - ready for production use
+---
+### 2025-09-06 12:13 - COMMIT STATUS UPDATE
+- **Previous Work Committed**: TOC detection enhancement and testing framework (commit 98909a5)
+  - Complete 6-objective analysis implementation with 11/11 tests passing
+  - Comprehensive testing infrastructure and boundary-focused mocking methodology  
+  - 27,050+ lines added across 14 files including fixtures, agents, and documentation
+- **Status Update**: docs/status.md NOT YET UPDATED (pending consolidation)
+---
+### 2025-09-06 12:13 - Implementation Issues Fixed
+- **Completed**: Fixed 2 critical implementation issues identified in previous session
+- **save_json Import Fix**: Added save_json function to src/pdf_plumb/utils/json_utils.py (12 lines) with high-performance orjson backend support
+- **Field Name Consistency**: Fixed page_indexes_analyzed vs selected_page_indexes inconsistency across codebase
+  - Updated 4 test files to use correct field name matching LLM prompt templates
+  - Added backward compatibility in src/pdf_plumb/workflow/states/additional_section_headings.py  
+  - Ensured CLI access patterns match prompt response structure
+- **Tests**: All 11/11 TOC tests + 23/23 additional section heading tests passing
+- **Next**: Commit implementation fixes, then update docs/status.md with consolidated work

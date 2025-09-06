@@ -88,6 +88,19 @@ def load(fp: TextIO) -> Any:
 JSONDecodeError = _stdlib_json.JSONDecodeError
 
 
+def save_json(data: Any, filepath: Union[str, Path], indent: Union[int, None] = 2) -> None:
+    """Save data to JSON file with performance optimization.
+    
+    Args:
+        data: Data to serialize and save
+        filepath: Path where to save the JSON file
+        indent: Indentation level (None for compact, int for pretty-printed)
+    """
+    filepath = Path(filepath)
+    with open(filepath, 'w', encoding='utf-8') as f:
+        dump(data, f, indent=indent)
+
+
 def get_json_backend() -> str:
     """Get the name of the JSON backend being used.
     

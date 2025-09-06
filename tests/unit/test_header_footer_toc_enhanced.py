@@ -215,7 +215,7 @@ class TestHeaderFooterTOCEnhanced:
         mock_llm_response = """
 {
   "sampling_summary": {
-    "selected_page_indexes": [0],
+    "page_indexes_analyzed": [0],
     "sampling_strategy": "comprehensive",
     "total_pages_analyzed": 1
   },
@@ -411,7 +411,7 @@ class TestHeaderFooterTOCEnhanced:
         mock_llm_response = """
 {
   "sampling_summary": {
-    "selected_page_indexes": [0],
+    "page_indexes_analyzed": [0],
     "sampling_strategy": "comprehensive",
     "total_pages_analyzed": 1
   },
@@ -746,7 +746,7 @@ class TestHeaderFooterTOCEnhanced:
         mock_llm_response = """
 {
   "sampling_summary": {
-    "selected_page_indexes": [0, 1, 2],
+    "page_indexes_analyzed": [0, 1, 2],
     "sampling_strategy": "comprehensive",
     "total_pages_analyzed": 3
   },
@@ -932,7 +932,7 @@ class TestHeaderFooterTOCEnhanced:
         mock_llm_response = """
 {
   "sampling_summary": {
-    "selected_page_indexes": [0],
+    "page_indexes_analyzed": [0],
     "sampling_strategy": "comprehensive",
     "total_pages_analyzed": 1
   },
