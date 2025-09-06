@@ -2,10 +2,33 @@
 
 ## Current State
 
-**System Status**: Word-based extraction, contextual block formation, spacing gap analysis, LLM-based header/footer detection, LLM section heading and table/figure analysis, state machine architecture for multi-pass analysis  
-**Active Work**: State machine integration and documentation improvements complete
+**System Status**: Word-based extraction, contextual block formation, spacing gap analysis, LLM-based header/footer detection with TOC detection, LLM section heading and table/figure analysis, state machine architecture for multi-pass analysis  
+**Active Work**: Workflow automation commands complete
 
 ## Last Completed Work
+
+**Workflow Automation Commands (Phase 2.6)**:
+- Created 3 custom Claude Code commands for development checkpoint automation
+- Implemented two-commit checkpoint pattern with auto-generated content from file analysis
+- Added /update-worklog command for automatic work log entry generation with timestamp
+- Added /commit-work command as main workflow automation with implementation + status commits
+- Added /complete-checkpoint command for status consolidation in edge case scenarios
+- Features include user guidance parameters for commit message framing and emphasis control
+- Integration with established work log format and project status structure
+- Commands support both standard development workflow and experimental edge cases
+- **Files**: 3 command definition files totaling 9,459 bytes of workflow automation
+
+**TOC Detection Integration (Phase 2.5)**:
+- Enhanced HeaderFooterAnalysisState to 6-objective analysis including comprehensive TOC detection
+- Implemented hierarchical TOC structure analysis with page references and multi-level nesting
+- Added double categorization prevention (TOC entries separate from section headings)
+- Created comprehensive testing framework with 11/11 unit tests using boundary-focused mocking methodology
+- Developed complete test infrastructure: unit, integration, golden document tests with H.264 spec fixtures
+- Fixed critical implementation issues: save_json import error and page_indexes_analyzed field consistency
+- Added specialized testing agents for strategy design, implementation, and result validation
+- Token cost analysis shows 47.9% savings by expanding existing prompts vs separate TOC requests
+- **Test Results**: 11/11 TOC tests + 23/23 additional section heading tests passing
+- **Architecture**: Boundary-focused mocking pattern proven successful for LLM response testing
 
 **State Machine Integration (Phase 2.4)**:
 - State machine workflow is now the default for LLM analysis (`llm-analyze` command)
@@ -73,8 +96,10 @@
 **LLM Analysis** (Azure OpenAI GPT-4.1):
 - Strategic page sampling (3 groups + 4 individual pages) for cost efficiency
 - Header/footer content-aware detection with confidence scoring
+- Table of Contents (TOC) detection with hierarchical structure analysis
 - Section heading identification with numbering pattern analysis
 - Table and figure title detection separated from section headings
+- Double categorization prevention for overlapping content types
 - Token counting and cost estimation
 
 **Architecture**:
@@ -84,9 +109,6 @@
 - orjson for high-performance JSON serialization
 
 ## Pending Issues
-
-**High Priority**:
-- Fix duplicate element detection issue: Table titles appearing in both section_headings and table_titles in LLM analysis results
 
 **Low Priority**:
 - Minor mkdocs warnings for external links (missing anchors)
