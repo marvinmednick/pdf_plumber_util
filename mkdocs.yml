@@ -52,6 +52,7 @@ nav:
     - Tests:
       - Unit Tests: api/tests/unit.md
       - Integration Tests: api/tests/integration.md
+      - Golden Tests: api/tests/golden.md
 
 markdown_extensions:
   - attr_list

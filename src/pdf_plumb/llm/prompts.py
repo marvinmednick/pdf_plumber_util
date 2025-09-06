@@ -426,6 +426,257 @@ SECONDARY COLLECTION (simultaneous information gathering):
         return f"SYSTEM: {system_prompt}\n\nUSER: {user_prompt}"
     
     @staticmethod
+    def additional_section_heading_analysis(
+        total_pages: int,
+        analyzed_pages: List[int],
+        page_data: List[Dict[str, Any]],
+        previous_patterns: Optional[Dict[str, Any]] = None,
+        page_width: float = 612,
+        page_height: float = 792
+    ) -> str:
+        """Generate additional section heading analysis prompt for unused pages."""
+        
+        system_prompt = """You are a document structure analyst specializing in identifying additional section heading levels and patterns not found in previous analysis. Your task is to analyze previously unused pages to discover new heading formats, numbering patterns, and document structure elements.
+
+Focus on identifying NEW patterns that complement existing analysis, including:
+- Additional section heading levels, fonts, and numbering formats
+- New table headings, figure headings, or equation headings  
+- Previously undetected font styles and formatting patterns
+- Table of Contents (TOC) detection and analysis
+- TOC start locations and content organization
+- Validation of header/footer consistency with previous findings
+
+Important: These pages were specifically selected because they were NOT analyzed in previous document analysis passes."""
+
+        previous_context = ""
+        if previous_patterns:
+            previous_context = f"""
+**Previous Analysis Context** (for reference and validation):
+{json.dumps(previous_patterns, indent=2)}
+
+Use this context to:
+1. Identify NEW patterns not previously found
+2. Validate consistency of header/footer patterns
+3. Discover additional hierarchy levels or formatting variations
+4. Find supplementary content types (equations, appendices, etc.)
+"""
+
+        user_prompt = f"""Analyze these {len(analyzed_pages)} previously unused pages from a {total_pages}-page technical document to identify ADDITIONAL section heading patterns and document structure elements:
+
+{previous_context}
+
+**Unused Pages Being Analyzed**: {', '.join(map(str, analyzed_pages))}
+**Document Info**:
+- Total pages: {total_pages}
+- Page dimensions: {page_width} x {page_height} pts
+
+**Analysis Objectives**:
+1. **NEW Section Heading Levels**: Identify section heading formats not found in previous analysis
+2. **Additional Content Types**: Find equation headings, appendix sections, or other structured content
+3. **Font Style Variations**: Discover new font combinations or formatting patterns
+4. **Table of Contents Detection**: Identify TOC sections, list of figures, tables, equations
+5. **TOC Start Detection**: Determine if and where TOC sections begin on each page
+6. **Header/Footer Consistency**: Validate that header/footer patterns match previous findings
+7. **Numbering Pattern Extensions**: Find continuation or variation of numbering schemes
+
+**Critical Instructions**:
+- Focus on ADDITIONAL patterns that complement existing analysis
+- Identify section headings by structure (numbered hierarchy) NOT content captions
+- Distinguish section headings from figure/table titles based on document hierarchy role
+- Each text element should appear in only ONE category
+
+**Document Element Categories**:
+
+**Section Headers** (NEW hierarchical patterns only):
+- Look for numbered hierarchy patterns not previously identified
+- Focus on levels, fonts, or numbering schemes not found before  
+- May include appendix sections (Appendix A, A.1, etc.)
+- Could include specialized sections (Abstract, Bibliography, Index)
+
+**Additional Content Types**:
+- Equation headings/labels (Equation 1, Eq. 2.1, etc.)
+- Appendix headings and sub-sections
+- Bibliography/Reference section formatting
+- Index or glossary patterns
+
+**Table of Contents Detection**:
+- Main table of contents (document structure listing)
+- List of figures (figure captions and page numbers)
+- List of tables (table captions and page numbers)  
+- List of equations (equation references and page numbers)
+- TOC section headers ("Contents", "Table of Contents", "List of Figures", etc.)
+- TOC entry formatting patterns (dots, page numbers, indentation)
+
+**TOC Start Detection**:
+- Identify if any TOC section begins on the analyzed page
+- Note the exact y-position where the TOC section starts
+- Determine TOC type (main contents, figures, tables, equations)
+- Identify TOC formatting patterns and structure
+
+**Pages Data**:
+{json.dumps(page_data, indent=2)}
+
+**Response Format**:
+```json
+{{
+  "sampling_summary": {{
+    "pages_analyzed": {analyzed_pages},
+    "analysis_type": "additional_section_heading_analysis",
+    "total_pages_in_document": {total_pages},
+    "additional_patterns_found": true,
+    "new_section_levels_found": 2,
+    "new_content_types_found": ["equations", "appendix"],
+    "header_footer_consistency": "consistent|inconsistent|partial"
+  }},
+  "per_page_analysis": [
+    {{
+      "page_index": 25,
+      "header": {{"detected": true, "text": "Document Title", "y_position": 52, "consistency_check": "matches_previous_pattern"}},
+      "footer": {{"detected": true, "text": "Page 25", "y_position": 748, "consistency_check": "matches_previous_pattern"}},
+      "new_document_elements": {{
+        "section_headings": [
+          {{
+            "text": "A.2.1 Detailed Specifications",
+            "section_number": "A.2.1", 
+            "section_name": "Detailed Specifications",
+            "y_position": 120.0,
+            "font_name": "Arial-Bold",
+            "font_size": 12.0,
+            "hierarchy_level": 3,
+            "pattern_type": "appendix_subsection",
+            "new_pattern": true
+          }}
+        ],
+        "equation_headings": [
+          {{
+            "text": "Equation 3.2",
+            "equation_number": "3.2",
+            "y_position": 200.0,
+            "font_name": "Times-Italic",
+            "font_size": 10.0,
+            "new_pattern": true
+          }}
+        ],
+        "figure_titles": [],
+        "table_titles": [],
+        "toc_detection": {{
+          "toc_sections_found": [
+            {{
+              "toc_type": "main_contents|list_of_figures|list_of_tables|list_of_equations",
+              "section_header": "Table of Contents",
+              "starts_on_page": true,
+              "start_y_position": 150.0,
+              "entry_count": 15,
+              "formatting_pattern": "numbered_sections_with_page_numbers",
+              "typical_entry_format": "1.1 Introduction ..................... 5"
+            }}
+          ]
+        }}
+      }}
+    }}
+  ],
+  "new_patterns_identified": {{
+    "section_heading_patterns": {{
+      "appendix_sections": {{
+        "detected": true,
+        "numbering_pattern": "A.1, A.2, A.2.1",
+        "font_patterns": [
+          {{"level": "appendix_main", "typical_font": "Arial-Bold", "typical_size": 14.0}},
+          {{"level": "appendix_sub", "typical_font": "Arial-Bold", "typical_size": 12.0}}
+        ],
+        "confidence": "High|Medium|Low"
+      }},
+      "specialized_sections": {{
+        "detected": true,
+        "types_found": ["bibliography", "index"],
+        "font_patterns": [
+          {{"type": "bibliography", "typical_font": "Arial-Bold", "typical_size": 14.0}}
+        ],
+        "confidence": "High|Medium|Low"
+      }}
+    }},
+    "equation_patterns": {{
+      "detected": true,
+      "numbering_patterns": ["sequential", "hierarchical"],
+      "format_pattern": "Equation + Number (e.g., 'Equation 3.2')",
+      "font_style_patterns": [
+        {{"typical_font": "Times-Italic", "typical_size": 10.0}}
+      ],
+      "confidence": "High|Medium|Low"
+    }},
+    "toc_patterns": {{
+      "toc_sections_detected": true,
+      "toc_types_found": ["main_contents", "list_of_figures"],
+      "toc_formatting_patterns": [
+        {{"type": "main_contents", "entry_format": "numbered_with_dots_and_pages", "typical_font": "Times-Roman", "typical_size": 10.0}},
+        {{"type": "list_of_figures", "entry_format": "figure_titles_with_pages", "typical_font": "Times-Roman", "typical_size": 10.0}}
+      ],
+      "toc_start_pages": [
+        {{"page": 5, "toc_type": "main_contents", "start_y_position": 120.0}},
+        {{"page": 8, "toc_type": "list_of_figures", "start_y_position": 100.0}}
+      ],
+      "confidence": "High|Medium|Low"
+    }},
+    "content_type_extensions": {{
+      "appendix_content": {{"pages": [25, 26], "sections_found": 3}},
+      "reference_content": {{"pages": [28], "sections_found": 1}},
+      "equation_content": {{"pages": [10, 15], "equations_found": 4}},
+      "toc_content": {{"pages": [5, 8], "toc_sections_found": 2}}
+    }}
+  }},
+  "consistency_validation": {{
+    "header_pattern_validation": {{
+      "consistent_with_previous": true,
+      "variations_found": [],
+      "confidence": "High|Medium|Low"
+    }},
+    "footer_pattern_validation": {{
+      "consistent_with_previous": true,
+      "variations_found": [],
+      "confidence": "High|Medium|Low"
+    }},
+    "page_margin_validation": {{
+      "content_boundaries_consistent": true,
+      "margin_variations": [],
+      "confidence": "High|Medium|Low"
+    }}
+  }},
+  "insights": [
+    "Key observations about additional patterns found",
+    "Validation results for header/footer consistency", 
+    "New content types and their formatting patterns",
+    "TOC sections detected and their formatting patterns",
+    "TOC start locations and organizational structure",
+    "Extensions to existing numbering or hierarchy schemes",
+    "Notable exceptions or specialized formatting"
+  ],
+  "header_pattern": {{
+    "detected": false,
+    "pattern_type": "N/A - focus on additional content analysis",
+    "confidence": "N/A"
+  }},
+  "footer_pattern": {{
+    "detected": false,
+    "pattern_type": "N/A - focus on additional content analysis", 
+    "confidence": "N/A"
+  }},
+  "page_numbering_analysis": {{
+    "pattern": "consistent_with_previous|variations_found|not_applicable",
+    "confidence": "High|Medium|Low"
+  }},
+  "content_area_boundaries": {{
+    "main_content_starts_after_y": 50.0,
+    "main_content_ends_before_y": 750.0,
+    "confidence": "High|Medium|Low"
+  }}
+}}
+```
+
+Focus on discovering NEW patterns while validating consistency with previous analysis."""
+
+        return f"SYSTEM: {system_prompt}\n\nUSER: {user_prompt}"
+    
+    @staticmethod
     def get_prompt_for_analysis_type(
         analysis_type: str,
         **kwargs
@@ -433,7 +684,7 @@ SECONDARY COLLECTION (simultaneous information gathering):
         """Get prompt template for specific analysis type.
         
         Args:
-            analysis_type: Type of analysis ("headers-footers", "sections", "toc", "multi-objective")
+            analysis_type: Type of analysis ("headers-footers", "sections", "toc", "multi-objective", "additional-sections")
             **kwargs: Arguments specific to the analysis type
             
         Returns:
@@ -443,7 +694,8 @@ SECONDARY COLLECTION (simultaneous information gathering):
             "headers-footers": PromptTemplates.header_footer_analysis,
             "sections": PromptTemplates.section_hierarchy_analysis,
             "toc": PromptTemplates.toc_analysis,
-            "multi-objective": PromptTemplates.multi_objective_analysis
+            "multi-objective": PromptTemplates.multi_objective_analysis,
+            "additional-sections": PromptTemplates.additional_section_heading_analysis
         }
         
         if analysis_type not in prompt_generators:

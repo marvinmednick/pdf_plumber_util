@@ -9,7 +9,7 @@ A Python PDF text extraction and analysis tool for technical documents. Combines
 - **LLM Integration**: Azure OpenAI-powered content analysis for headers/footers and sections
 - **Modern CLI**: Click + Rich interface with profiles, progress bars, and error handling
 - **Performance Optimized**: Sub-linear scaling with orjson integration
-- **Comprehensive Testing**: 28+ passing tests with detailed error handling coverage
+- **Comprehensive Testing**: Robust test suite with unit, integration, and golden document tests
 
 ## Quick Start
 

@@ -6,6 +6,7 @@ from .state import AnalysisState
 # Import state implementations
 from .states.example import ExampleState, Example2State
 from .states.header_footer import HeaderFooterAnalysisState
+from .states.additional_section_headings import AdditionalSectionHeadingState
 # from .states.sections import SectionAnalysisState
 # from .states.toc import TOCDetectionState
 # from .states.tables import TableFigureAnalysisState
@@ -18,6 +19,7 @@ STATE_REGISTRY: Dict[str, Type[AnalysisState]] = {
     
     # LLM analysis states
     'header_footer_analysis': HeaderFooterAnalysisState,
+    'additional_section_headings': AdditionalSectionHeadingState,
     
     # TODO: Uncomment and populate as additional state implementations are created
     # 'header_footer_refinement': HeaderFooterRefinementState,

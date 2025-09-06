@@ -25,6 +25,7 @@ uv run pdf-plumb llm-analyze output/doc_blocks.json --estimate-cost
 uv run pytest                             # All tests
 uv run pytest -m unit                     # Unit tests only
 uv run pytest -m integration              # Integration tests only
+uv run pytest -m golden                   # Golden document tests (requires API credentials)
 uv run pytest -v                          # Verbose output
 
 # Code quality (when available)
@@ -62,6 +63,8 @@ src/pdf_plumb/
 tests/
 ├── unit/                # Unit tests for individual functions
 ├── integration/         # CLI command integration tests
+├── golden/              # Golden document tests with real LLM API calls
+├── fixtures/            # Test fixtures and prepared document data
 └── conftest.py          # Shared test fixtures
 ```
 
@@ -175,8 +178,9 @@ except PDFExtractionError as e:
 ### Testing Strategy
 - **Unit tests** (`tests/unit/`): Fast tests for core functions with mocks
 - **Integration tests** (`tests/integration/`): Full CLI command testing with CliRunner
+- **Golden tests** (`tests/golden/`): Real LLM API calls for regression testing and validation (fail if no API credentials)
 - **Real PDF testing**: Validated CLI migration with actual H.264 spec document
-- **Markers**: Use `@pytest.mark.unit` and `@pytest.mark.integration`
+- **Markers**: Use `@pytest.mark.unit`, `@pytest.mark.integration`, `@pytest.mark.golden`
 
 ### Test Docstring Standards
 Test docstrings should explain **what is tested and how** for code review purposes.
@@ -325,6 +329,7 @@ This project uses a hierarchical documentation structure designed to preserve de
 - Quick start instructions
 - Link to detailed documentation
 - Keep under 100 lines for accessibility
+- **NO test counts or metrics** - These change frequently and create maintenance burden
 
 **docs/cli-usage.md Guidelines:**
 - Complete command reference with examples

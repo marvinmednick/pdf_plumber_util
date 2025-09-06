@@ -90,6 +90,7 @@
 
 **Low Priority**:
 - Minor mkdocs warnings for external links (missing anchors)
+- Remove unused PDF extraction methods and analysis paths (legacy testing artifacts)
 
 ## System Status
 

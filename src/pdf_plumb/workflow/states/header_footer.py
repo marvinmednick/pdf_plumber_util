@@ -19,10 +19,15 @@ class HeaderFooterAnalysisState(AnalysisState):
     - Content boundary analysis
     - Page numbering analysis
     
-    Terminates workflow after completion (single-state workflow).
+    Transitions to additional section heading analysis for unused pages.
     """
     
     POSSIBLE_TRANSITIONS = {
+        'additional_sections': StateTransition(
+            target_state='additional_section_headings',
+            condition='proceed_to_additional_analysis',
+            description='Proceed to additional section heading analysis'
+        ),
         'complete': StateTransition(
             target_state=None,
             condition='analysis_complete',
@@ -118,17 +123,18 @@ class HeaderFooterAnalysisState(AnalysisState):
             raise AnalysisError(f"Header/footer analysis failed: {e}")
     
     def determine_next_state(self, execution_result: Dict[str, Any], context: Dict[str, Any]) -> Optional[str]:
-        """Determine next state - analysis is complete so terminate workflow.
+        """Determine next state - proceed to additional section heading analysis.
         
         Args:
             execution_result: Results from execute() method
             context: Current workflow context
             
         Returns:
-            None to terminate workflow
+            'additional_section_headings' to continue analysis, or None to terminate
         """
-        # Single-state workflow: always terminate after completion
-        return None
+        # Check if additional analysis should be performed
+        # For now, always proceed to additional section heading analysis
+        return 'additional_section_headings'
     
     def estimate_cost(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Estimate the cost of running this analysis.
@@ -214,9 +220,3 @@ class HeaderFooterAnalysisState(AnalysisState):
         
         if not pages_data:
             raise AnalysisError("Document data cannot be empty")
-        
-        if len(pages_data) < 20:
-            raise AnalysisError(
-                f"Document too short ({len(pages_data)} pages) for header/footer analysis. "
-                "Minimum 20 pages required."
-            )
