@@ -58,6 +58,7 @@ Important: Headers/footers may be absent on some pages or vary by document secti
 - Each text element should appear in ONLY ONE category
 - Table titles (starting with "Table X-Y") belong ONLY in table_titles, NOT section_headings
 - Figure titles (starting with "Figure X-Y") belong ONLY in figure_titles, NOT section_headings
+- TOC entries belong ONLY in table_of_contents, NOT section_headings
 - True section headings are structural document hierarchy, not content captions
 
 **Section Headers** (document structure ONLY):
@@ -82,6 +83,16 @@ Important: Headers/footers may be absent on some pages or vary by document secti
 - Typically have consistent font styling (often italic or smaller)
 - These are content captions, NOT document structure
 
+**Table of Contents (TOC)** (document organization listings):
+- Look for pages containing structured lists of document sections with page numbers
+- TOC entries typically show document hierarchy through numbering (1, 1.1, 1.1.1, A, A.1, etc.)
+- Often includes leader patterns (dots, dashes) connecting titles to page numbers
+- May include specialized TOC sections (List of Figures, List of Tables, List of Equations)
+- TOC section headers like "Contents", "Table of Contents", "List of Figures"
+- Hierarchical indentation patterns showing document structure
+- Page number references (right-aligned or after leader patterns)
+- Format patterns like "1.1 Introduction ..................... 5"
+
 **JSON Format Requirements**:
 - All y-positions must be single numeric values (e.g., 735.5, not "735-740" or ranges)
 - Use decimal notation for precision (e.g., 66.0, 14.0)
@@ -101,8 +112,13 @@ For each page index, analyze the blocks and identify:
    - Section headings (document structure: 1.1, 2.3.4, A.1, etc.)
    - Figure titles (Figure 6-2, Figure A.1, etc.)
    - Table titles (Table 1, Table A-1, etc.)
-6. Main content boundaries
-7. Cross-page pattern consistency
+   - Table of Contents (TOC) entries and structure
+6. **TOC detection**: Identify table of contents patterns:
+   - TOC page locations and boundaries
+   - TOC entry hierarchical structure
+   - Page number references and formatting patterns
+7. Main content boundaries
+8. Cross-page pattern consistency
 
 **Response Format**:
 ```json
@@ -151,6 +167,20 @@ For each page index, analyze the blocks and identify:
             "y_position": 180.0,
             "font_name": "Times-Italic", 
             "font_size": 10.0
+          }}
+        ],
+        "table_of_contents": [
+          {{
+            "text": "1.1 Introduction ..................... 5",
+            "toc_entry_title": "Introduction",
+            "section_number": "1.1",
+            "page_reference": "5",
+            "y_position": 150.0,
+            "font_name": "Times-Roman",
+            "font_size": 10.0,
+            "hierarchy_level": 2,
+            "leader_pattern": "dots",
+            "toc_type": "main_contents"
           }}
         ]
       }}
@@ -231,6 +261,40 @@ For each page index, analyze the blocks and identify:
       "positioning_patterns": {{"relative_to_tables": "above|below", "typical_y_spacing": 12.0}},
       "confidence": "High|Medium|Low",
       "reasoning": "explanation of table title detection patterns"
+    }},
+    "table_of_contents": {{
+      "detected": true,
+      "toc_pages": [3, 4],
+      "toc_types": ["main_contents", "list_of_figures"],
+      "entry_format_patterns": [
+        {{"type": "main_contents", "pattern": "Number + Title + Leaders + Page (e.g., '1.1 Introduction ......... 5')", "count": 15}},
+        {{"type": "list_of_figures", "pattern": "Figure + Number + Title + Page (e.g., 'Figure 2-1 System Overview 23')", "count": 8}}
+      ],
+      "hierarchical_structure": {{
+        "levels_detected": 3,
+        "level_patterns": [
+          {{"level": 1, "typical_font": "Times-Roman", "typical_size": 12.0, "indentation": 0}},
+          {{"level": 2, "typical_font": "Times-Roman", "typical_size": 10.0, "indentation": 20}},
+          {{"level": 3, "typical_font": "Times-Roman", "typical_size": 10.0, "indentation": 40}}
+        ],
+        "numbering_scheme": "decimal"
+      }},
+      "leader_patterns": [
+        {{"type": "dots", "pattern": "..................", "pages": [3, 4]}},
+        {{"type": "none", "pattern": "justified_spacing", "pages": [5]}}
+      ],
+      "page_reference_patterns": {{
+        "alignment": "right_aligned",
+        "format": "arabic_numbers",
+        "consistency": "High"
+      }},
+      "content_validation": {{
+        "cross_reference_check": "High|Medium|Low",
+        "section_mapping_accuracy": "High|Medium|Low",
+        "page_number_validation": "High|Medium|Low"
+      }},
+      "confidence": "High|Medium|Low",
+      "reasoning": "explanation of TOC detection patterns and validation results"
     }}
   }},
   "insights": [
@@ -239,6 +303,8 @@ For each page index, analyze the blocks and identify:
     "Section heading patterns and hierarchy structure",
     "Figure title formatting and positioning patterns",
     "Table title formatting and positioning patterns",
+    "Table of Contents structure and organization patterns",
+    "TOC hierarchical mapping and cross-reference validation",
     "Notable exceptions or variations"
   ]
 }}

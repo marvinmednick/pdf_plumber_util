@@ -44,12 +44,36 @@ class HeaderFooterAnalysisResult:
         conf_str = self.footer_pattern.get('confidence', 'Low')
         return ConfidenceLevel(conf_str)
     
-    def get_content_boundaries(self) -> Dict[str, float]:
+    def get_content_boundaries(self) -> Dict[str, Any]:
         """Get validated content area boundaries."""
         boundaries = self.content_area_boundaries
+        
+        # Handle None boundaries gracefully
+        if boundaries is None:
+            return {
+                'start_after_y': 0.0,
+                'end_before_y': 792.0,
+                'confidence': 'Low'
+            }
+        
+        # Get values with proper defaults and None handling
+        start_y_val = boundaries.get('main_content_starts_after_y')
+        end_y_val = boundaries.get('main_content_ends_before_y')
+        
+        # Convert to float with None handling
+        try:
+            start_y = float(start_y_val) if start_y_val is not None else 0.0
+        except (ValueError, TypeError):
+            start_y = 0.0
+            
+        try:
+            end_y = float(end_y_val) if end_y_val is not None else 792.0
+        except (ValueError, TypeError):
+            end_y = 792.0
+        
         return {
-            'start_after_y': float(boundaries.get('main_content_starts_after_y', 0)),
-            'end_before_y': float(boundaries.get('main_content_ends_before_y', 792)),
+            'start_after_y': start_y,
+            'end_before_y': end_y,
             'confidence': boundaries.get('confidence', 'Low')
         }
     
@@ -138,6 +162,46 @@ class HeaderFooterAnalysisResult:
     def get_document_element_patterns(self) -> Optional[Dict[str, Any]]:
         """Get document element analysis patterns."""
         return self.document_element_analysis
+    
+    def get_toc_entries_by_page(self, page_index: int) -> List[Dict[str, Any]]:
+        """Get table of contents entries found on a specific page."""
+        for page_analysis in self.per_page_analysis:
+            if page_analysis.get('page_index') == page_index:
+                elements = page_analysis.get('document_elements', {})
+                return elements.get('table_of_contents', [])
+        return []
+    
+    def get_all_toc_entries(self) -> List[Dict[str, Any]]:
+        """Get all table of contents entries across all analyzed pages."""
+        all_toc_entries = []
+        for page_analysis in self.per_page_analysis:
+            elements = page_analysis.get('document_elements', {})
+            toc_entries = elements.get('table_of_contents', [])
+            for entry in toc_entries:
+                entry_with_page = entry.copy()
+                entry_with_page['page_index'] = page_analysis.get('page_index')
+                all_toc_entries.append(entry_with_page)
+        return all_toc_entries
+    
+    def get_toc_analysis_patterns(self) -> Optional[Dict[str, Any]]:
+        """Get table of contents analysis patterns."""
+        if self.document_element_analysis:
+            return self.document_element_analysis.get('table_of_contents')
+        return None
+    
+    def get_toc_pages(self) -> List[int]:
+        """Get list of pages that contain table of contents."""
+        toc_patterns = self.get_toc_analysis_patterns()
+        if toc_patterns:
+            return toc_patterns.get('toc_pages', [])
+        return []
+    
+    def has_toc_detected(self) -> bool:
+        """Check if table of contents was detected in the document."""
+        toc_patterns = self.get_toc_analysis_patterns()
+        if toc_patterns:
+            return toc_patterns.get('detected', False)
+        return False
 
 
 @dataclass

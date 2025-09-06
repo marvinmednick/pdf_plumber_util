@@ -39,9 +39,9 @@ class AdditionalSectionHeadingState(AnalysisState):
             description='Additional section heading analysis complete - workflow terminated'
         ),
         'next_analysis': StateTransition(
-            target_state='toc_detection',  # Example next state
+            target_state=None,  # No next state - workflow complete after additional analysis
             condition='additional_patterns_found',
-            description='Additional patterns found - proceed to next analysis phase'
+            description='Additional patterns found but no further states available - workflow complete'
         )
     }
     

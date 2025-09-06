@@ -106,3 +106,159 @@ def sample_spacing_rules():
             'total_lines': 8
         }
     }
+
+
+# TOC Testing Infrastructure
+
+@pytest.fixture
+def toc_test_fixtures():
+    """Provide access to TOC test fixtures and utilities."""
+    from .fixtures.toc_fixtures import TOCTestFixtures
+    return TOCTestFixtures
+
+
+@pytest.fixture
+def minimal_toc_fixture(toc_test_fixtures):
+    """Single page with basic TOC structure for unit testing."""
+    return toc_test_fixtures.create_comprehensive_toc_fixture(
+        pages_with_toc=[1],
+        pages_without_toc=[],
+        fixture_name="minimal_toc_single_page"
+    )
+
+
+@pytest.fixture
+def mixed_content_toc_fixture(toc_test_fixtures):
+    """Mixed content fixture with both TOC and non-TOC pages."""
+    return toc_test_fixtures.create_comprehensive_toc_fixture(
+        pages_with_toc=[2, 3],
+        pages_without_toc=[1, 4],
+        fixture_name="mixed_toc_and_regular_content"
+    )
+
+
+@pytest.fixture
+def hierarchical_toc_fixture(toc_test_fixtures):
+    """Multi-page hierarchical TOC structure for comprehensive testing."""
+    return toc_test_fixtures.create_comprehensive_toc_fixture(
+        pages_with_toc=[1, 2, 3],
+        pages_without_toc=[],
+        fixture_name="hierarchical_multi_page_toc"
+    )
+
+
+@pytest.fixture
+def h264_toc_fixture_path():
+    """Path to the H.264 TOC golden document fixture."""
+    return Path(__file__).parent / "fixtures" / "test_h264_toc_pages.json"
+
+
+@pytest.fixture
+def h264_no_toc_fixture_path():
+    """Path to the H.264 no-TOC golden document fixture."""
+    return Path(__file__).parent / "fixtures" / "test_table_titles_not_section_headings.json"
+
+
+@pytest.fixture
+def mock_toc_enhanced_llm_response():
+    """Mock LLM response for TOC-enhanced HeaderFooterAnalysisState testing."""
+    return {
+        "per_page_analysis": [
+            {
+                "page_index": 0,
+                "document_elements": {
+                    "section_headings": [
+                        {
+                            "text": "Table of Contents",
+                            "confidence": "High",
+                            "bbox": {"x0": 72, "top": 100, "x1": 300, "bottom": 116}
+                        }
+                    ],
+                    "figure_titles": [],
+                    "table_titles": [],
+                    "table_of_contents": [
+                        {
+                            "text": "1. Introduction",
+                            "page_number": "5",
+                            "level": 1,
+                            "bbox": {"x0": 72, "top": 130, "x1": 250, "bottom": 146}
+                        },
+                        {
+                            "text": "1.1 Overview",
+                            "page_number": "5",
+                            "level": 2,
+                            "bbox": {"x0": 92, "top": 150, "x1": 200, "bottom": 166}
+                        },
+                        {
+                            "text": "2. Methods",
+                            "page_number": "12",
+                            "level": 1,
+                            "bbox": {"x0": 72, "top": 170, "x1": 180, "bottom": 186}
+                        }
+                    ]
+                }
+            }
+        ],
+        "document_element_analysis": {
+            "table_of_contents": {
+                "detected": True,
+                "toc_pages": [0],
+                "structure_type": "hierarchical",
+                "patterns": [
+                    "Numbered sections (1., 1.1, 2.)",
+                    "Page number references with dot leaders",
+                    "Hierarchical indentation structure"
+                ]
+            }
+        }
+    }
+
+
+@pytest.fixture
+def mock_no_toc_llm_response():
+    """Mock LLM response for documents without TOC content."""
+    return {
+        "per_page_analysis": [
+            {
+                "page_index": 0,
+                "document_elements": {
+                    "section_headings": [
+                        {
+                            "text": "Chapter 5: Implementation",
+                            "confidence": "High",
+                            "bbox": {"x0": 72, "top": 100, "x1": 350, "bottom": 116}
+                        }
+                    ],
+                    "figure_titles": [],
+                    "table_titles": [
+                        {
+                            "text": "Table 5-1: Configuration Parameters",
+                            "confidence": "High",
+                            "bbox": {"x0": 72, "top": 200, "x1": 400, "bottom": 216}
+                        }
+                    ],
+                    "table_of_contents": []  # No TOC entries
+                }
+            }
+        ],
+        "document_element_analysis": {
+            "table_of_contents": {
+                "detected": False,
+                "toc_pages": [],
+                "structure_type": "none",
+                "patterns": []
+            }
+        }
+    }
+
+
+@pytest.fixture
+def toc_analysis_context():
+    """Standard context structure for TOC analysis testing."""
+    return {
+        'save_results': False,
+        'output_dir': None,
+        'config': None,
+        'workflow_results': {},
+        'accumulated_knowledge': {}
+    }
