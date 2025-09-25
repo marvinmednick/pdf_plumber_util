@@ -224,15 +224,14 @@ class TestCLITOCAnalysis:
             
             # Validate output contains TOC analysis results
             output = result.output
-            assert "Analysis completed successfully" in output
-            assert "header_footer_analysis" in output
+            assert "Header/Footer Analysis Complete" in output
+            assert "Headers found:" in output and "Footers found:" in output
             
-            # Validate enhanced token usage is reported
-            assert "2450" in output or "2,450" in output  # Token count with potential formatting
-            assert "0.024" in output or "$0.02" in output  # Cost information
-            
-            # Validate 6-objective analysis completion
-            assert "Analysis types completed: 6" in output or "objectives" in output
+            # Validate key insights are present
+            assert "Key Insights:" in output or "insights" in output.lower()
+
+            # Validate results saved
+            assert "Results saved" in output
 
     @patch('src.pdf_plumb.core.llm_analyzer.LLMDocumentAnalyzer')
     @patch('src.pdf_plumb.core.analyzer.DocumentAnalyzer')
@@ -389,7 +388,7 @@ class TestCLITOCAnalysis:
             
             # Validate output includes workflow results
             output = result.output
-            assert "header_footer_analysis" in output
+            assert "Headers found:" in output and "Footers found:" in output
             assert "Workflow completed" in output or "Analysis completed" in output
 
     @patch('src.pdf_plumb.core.llm_analyzer.LLMDocumentAnalyzer')

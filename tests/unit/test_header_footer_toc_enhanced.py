@@ -333,7 +333,7 @@ class TestHeaderFooterTOCEnhanced:
         result = self.state.execute(self.base_context)
         
         # Validate core execution results
-        assert result['analysis_type'] == 'header_footer_analysis'
+        assert result['analysis_type'] == 'comprehensive_pattern_analysis'
         assert 'results' in result
         assert 'metadata' in result
         assert 'knowledge' in result
@@ -507,7 +507,7 @@ class TestHeaderFooterTOCEnhanced:
         result = self.state.execute(self.base_context)
         
         # Validate core execution still works
-        assert result['analysis_type'] == 'header_footer_analysis'
+        assert result['analysis_type'] == 'comprehensive_pattern_analysis'
         assert result['metadata']['confidence']['header'] == 'Medium'
         
         # Test TOC methods return empty results
