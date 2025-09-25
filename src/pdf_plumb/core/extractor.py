@@ -240,8 +240,9 @@ class PDFExtractor:
             text_segments = self._create_text_segments(line_sorted)
             line_bbox = self._calculate_line_bbox(line_sorted)
 
-            # --- Get Line Text ---
-            line_text = "".join(segment["text"] for segment in text_segments)
+            # --- Get Line Text with Proportional Spacing ---
+            line_text_data = self._build_line_with_proportional_spacing(text_segments)
+            line_text = line_text_data["text"]  # Normalized text (single spaces)
 
             # --- Analyze Font and Size Distribution ---
             size_widths = {}  # Map of size -> total width
@@ -283,6 +284,8 @@ class PDFExtractor:
             line_obj = {
                 "line_number": line_number,
                 "text": line_text,
+                "text_proportional": line_text_data["text_proportional"],
+                "proportional_spacing_info": line_text_data["proportional_spacing_info"],
                 "bbox": line_bbox,
                 "text_segments": text_segments,
                 "predominant_size": predominant_size,
@@ -528,4 +531,78 @@ class PDFExtractor:
             }
         }
         
-        self.file_handler.save_json({"metadata": metadata, "statistics": statistics}, base_name, "info") 
+        self.file_handler.save_json({"metadata": metadata, "statistics": statistics}, base_name, "info")
+
+    def _build_line_with_proportional_spacing(self, text_segments: List[Dict]) -> Dict:
+        """Build line text with proportional spacing based on segment positions.
+
+        Creates both normalized text (single spaces) and proportional text (multiple spaces)
+        while preserving spacing information for downstream analysis.
+
+        Args:
+            text_segments: List of text segments with text and bbox information
+
+        Returns:
+            Dictionary containing:
+            - text: Normalized text with single spaces between segments
+            - text_proportional: Text with proportional spacing based on gaps
+            - proportional_spacing_info: List of spacing metadata
+        """
+        # Filter out empty segments for text construction
+        non_empty_segments = [s for s in text_segments if s["text"].strip()]
+
+        if not non_empty_segments:
+            return {
+                "text": "",
+                "text_proportional": "",
+                "proportional_spacing_info": []
+            }
+
+        if len(non_empty_segments) == 1:
+            return {
+                "text": non_empty_segments[0]["text"],
+                "text_proportional": non_empty_segments[0]["text"],
+                "proportional_spacing_info": []
+            }
+
+        # Build normalized text (single spaces between segments)
+        normalized_parts = [s["text"] for s in non_empty_segments]
+        normalized_text = " ".join(normalized_parts)
+
+        # Calculate proportional spacing
+        spacing_info = []
+        proportional_parts = [non_empty_segments[0]["text"]]
+        char_index = len(non_empty_segments[0]["text"])
+
+        for i in range(1, len(non_empty_segments)):
+            prev_segment = non_empty_segments[i-1]
+            curr_segment = non_empty_segments[i]
+
+            # Calculate total gap between segments (includes any empty segments in between)
+            raw_gap = curr_segment["bbox"]["x0"] - prev_segment["bbox"]["x1"]
+
+            # Convert gap to number of spaces using adaptive threshold
+            font_size = prev_segment.get("rounded_size") or prev_segment.get("reported_size", 10)
+            estimated_space_width = font_size * 0.3  # Typical space width ratio
+            proportional_spaces = max(1, round(raw_gap / estimated_space_width))
+
+            # Record spacing information
+            spacing_info.append({
+                "normalized_text_index": char_index,  # Position of single space in normalized text
+                "raw_gap_pt": round(raw_gap, 2),
+                "estimated_space_width_pt": round(estimated_space_width, 2),
+                "proportional_spaces": proportional_spaces
+            })
+
+            # Build proportional text
+            proportional_parts.append(" " * proportional_spaces)
+            proportional_parts.append(curr_segment["text"])
+
+            # Update character index (add 1 for the single space in normalized text)
+            char_index += 1 + len(curr_segment["text"])
+
+        return {
+            "text": normalized_text,
+            "text_proportional": "".join(proportional_parts),
+            "proportional_spacing_info": spacing_info
+        } 

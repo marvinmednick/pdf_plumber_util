@@ -1,0 +1,358 @@
+{
+  "fixture_info": {
+    "name": "spacing_reconstruction_tests",
+    "description": "Comprehensive text segment spacing reconstruction test cases",
+    "version": "1.0",
+    "created_for": "Validating proportional spacing algorithm and edge case handling"
+  },
+  "test_cases": [
+    {
+      "case_id": "h264_known_spacing_issue",
+      "description": "Real H.264 case where empty segment causes missing space in section number",
+      "source": "h264_pg305_10pgs_blocks.json - line with '9.3.4.6Byte stuffing process'",
+      "input": {
+        "text_segments": [
+          {
+            "font": "TimesNewRomanPS-BoldMT",
+            "reported_size": 9.959999999999923,
+            "rounded_size": 10.0,
+            "direction": "upright",
+            "text": "9.3.4.6",
+            "bbox": {
+              "x0": 54.48,
+              "top": 55.911359999999945,
+              "x1": 81.9696,
+              "bottom": 65.87135999999987
+            }
+          },
+          {
+            "font": "Arial-BoldMT",
+            "reported_size": 9.959999999999923,
+            "rounded_size": 10.0,
+            "direction": "upright",
+            "text": "",
+            "bbox": {
+              "x0": 81.984,
+              "top": 55.85159999999996,
+              "x1": 84.75287999999999,
+              "bottom": 65.81159999999988
+            }
+          },
+          {
+            "font": "TimesNewRomanPS-BoldMT",
+            "reported_size": 9.959999999999923,
+            "rounded_size": 10.0,
+            "direction": "upright",
+            "text": "Byte stuffing process (informative)",
+            "bbox": {
+              "x0": 94.224,
+              "top": 55.911359999999945,
+              "x1": 244.70000000000002,
+              "bottom": 65.87135999999987
+            }
+          }
+        ]
+      },
+      "expected": {
+        "text": "9.3.4.6 Byte stuffing process (informative)",
+        "text_proportional": "9.3.4.6    Byte stuffing process (informative)",
+        "proportional_spacing_info": [
+          {
+            "normalized_text_index": 7,
+            "raw_gap_pt": 12.25,
+            "estimated_space_width_pt": 3.0,
+            "proportional_spaces": 4
+          }
+        ]
+      },
+      "validation_points": [
+        "Should have single space in normalized text between '9.3.4.6' and 'Byte'",
+        "Should have 4 spaces in proportional text (12.25pt / 3.0pt ≈ 4 spaces)",
+        "Empty segment should be ignored for text but used for gap calculation",
+        "Gap calculation: 94.224 - 81.9696 = 12.25pt total spacing"
+      ]
+    },
+    {
+      "case_id": "space_only_segment_single",
+      "description": "Segment containing single space character - should be treated as empty",
+      "source": "synthetic test case",
+      "input": {
+        "text_segments": [
+          {
+            "font": "Arial",
+            "rounded_size": 12.0,
+            "text": "Section",
+            "bbox": {"x0": 10, "x1": 50, "top": 100, "bottom": 112}
+          },
+          {
+            "font": "Arial",
+            "rounded_size": 12.0,
+            "text": " ",
+            "bbox": {"x0": 55, "x1": 58, "top": 100, "bottom": 112}
+          },
+          {
+            "font": "Arial",
+            "rounded_size": 12.0,
+            "text": "Title",
+            "bbox": {"x0": 70, "x1": 95, "top": 100, "bottom": 112}
+          }
+        ]
+      },
+      "expected": {
+        "text": "Section Title",
+        "text_proportional": "Section      Title",
+        "proportional_spacing_info": [
+          {
+            "normalized_text_index": 7,
+            "raw_gap_pt": 20.0,
+            "estimated_space_width_pt": 3.6,
+            "proportional_spaces": 6
+          }
+        ]
+      },
+      "validation_points": [
+        "Space-only segment should be treated as empty (current design decision)",
+        "Gap calculation should use positional data: 70 - 50 = 20pt",
+        "Should not double-count: segment space + positional gap"
+      ]
+    },
+    {
+      "case_id": "space_only_segment_multiple",
+      "description": "Segment with multiple space characters",
+      "source": "synthetic test case",
+      "input": {
+        "text_segments": [
+          {
+            "font": "Times",
+            "rounded_size": 10.0,
+            "text": "Table",
+            "bbox": {"x0": 20, "x1": 45, "top": 200, "bottom": 210}
+          },
+          {
+            "font": "Times",
+            "rounded_size": 10.0,
+            "text": "   ",
+            "bbox": {"x0": 50, "x1": 65, "top": 200, "bottom": 210}
+          },
+          {
+            "font": "Times",
+            "rounded_size": 10.0,
+            "text": "7-2:",
+            "bbox": {"x0": 80, "x1": 95, "top": 200, "bottom": 210}
+          }
+        ]
+      },
+      "expected": {
+        "text": "Table 7-2:",
+        "text_proportional": "Table          7-2:",
+        "proportional_spacing_info": [
+          {
+            "normalized_text_index": 5,
+            "raw_gap_pt": 35.0,
+            "estimated_space_width_pt": 3.0,
+            "proportional_spaces": 12
+          }
+        ]
+      },
+      "validation_points": [
+        "Multiple space segment treated as empty",
+        "Large gap should result in many proportional spaces",
+        "Gap: 80 - 45 = 35pt → ~12 spaces for 10pt font"
+      ]
+    },
+    {
+      "case_id": "multiple_consecutive_empty_segments",
+      "description": "Multiple consecutive empty segments between text",
+      "source": "synthetic test case",
+      "input": {
+        "text_segments": [
+          {
+            "font": "Arial",
+            "rounded_size": 11.0,
+            "text": "A.2.1",
+            "bbox": {"x0": 30, "x1": 55, "top": 150, "bottom": 161}
+          },
+          {
+            "font": "Arial",
+            "rounded_size": 11.0,
+            "text": "",
+            "bbox": {"x0": 60, "x1": 63, "top": 150, "bottom": 161}
+          },
+          {
+            "font": "Arial",
+            "rounded_size": 11.0,
+            "text": "",
+            "bbox": {"x0": 63, "x1": 67, "top": 150, "bottom": 161}
+          },
+          {
+            "font": "Arial",
+            "rounded_size": 11.0,
+            "text": "Profile",
+            "bbox": {"x0": 85, "x1": 115, "top": 150, "bottom": 161}
+          }
+        ]
+      },
+      "expected": {
+        "text": "A.2.1 Profile",
+        "text_proportional": "A.2.1        Profile",
+        "proportional_spacing_info": [
+          {
+            "normalized_text_index": 5,
+            "raw_gap_pt": 30.0,
+            "estimated_space_width_pt": 3.3,
+            "proportional_spaces": 9
+          }
+        ]
+      },
+      "validation_points": [
+        "Multiple empty segments should be handled seamlessly",
+        "Gap calculation spans all empty segments: 85 - 55 = 30pt",
+        "Should not create multiple spacing entries for consecutive empties"
+      ]
+    },
+    {
+      "case_id": "single_segment_line",
+      "description": "Line with only one text segment",
+      "source": "synthetic test case",
+      "input": {
+        "text_segments": [
+          {
+            "font": "Times-Bold",
+            "rounded_size": 14.0,
+            "text": "Introduction",
+            "bbox": {"x0": 100, "x1": 180, "top": 50, "bottom": 64}
+          }
+        ]
+      },
+      "expected": {
+        "text": "Introduction",
+        "text_proportional": "Introduction",
+        "proportional_spacing_info": []
+      },
+      "validation_points": [
+        "Single segment should work without spacing calculations",
+        "No proportional spacing info needed",
+        "Both text versions should be identical"
+      ]
+    },
+    {
+      "case_id": "all_empty_segments",
+      "description": "Line with only empty segments",
+      "source": "synthetic test case",
+      "input": {
+        "text_segments": [
+          {
+            "font": "Arial",
+            "rounded_size": 10.0,
+            "text": "",
+            "bbox": {"x0": 50, "x1": 55, "top": 100, "bottom": 110}
+          },
+          {
+            "font": "Arial",
+            "rounded_size": 10.0,
+            "text": "   ",
+            "bbox": {"x0": 60, "x1": 70, "top": 100, "bottom": 110}
+          }
+        ]
+      },
+      "expected": {
+        "text": "",
+        "text_proportional": "",
+        "proportional_spacing_info": []
+      },
+      "validation_points": [
+        "All empty/space-only segments should result in empty line",
+        "Should handle gracefully without errors",
+        "No spacing calculations needed"
+      ]
+    },
+    {
+      "case_id": "overlapping_segments_negative_gap",
+      "description": "Segments with overlapping bounding boxes (negative gap)",
+      "source": "synthetic test case",
+      "input": {
+        "text_segments": [
+          {
+            "font": "Arial",
+            "rounded_size": 12.0,
+            "text": "over",
+            "bbox": {"x0": 20, "x1": 45, "top": 80, "bottom": 92}
+          },
+          {
+            "font": "Arial",
+            "rounded_size": 12.0,
+            "text": "lapping",
+            "bbox": {"x0": 42, "x1": 75, "top": 80, "bottom": 92}
+          }
+        ]
+      },
+      "expected": {
+        "text": "over lapping",
+        "text_proportional": "over lapping",
+        "proportional_spacing_info": [
+          {
+            "normalized_text_index": 4,
+            "raw_gap_pt": -3.0,
+            "estimated_space_width_pt": 3.6,
+            "proportional_spaces": 1
+          }
+        ]
+      },
+      "validation_points": [
+        "Negative gaps should be handled gracefully",
+        "Should still insert at least 1 space in normalized text",
+        "Overlapping text should not break spacing algorithm"
+      ]
+    },
+    {
+      "case_id": "mixed_font_sizes",
+      "description": "Segments with different font sizes in same line",
+      "source": "synthetic test case",
+      "input": {
+        "text_segments": [
+          {
+            "font": "Times",
+            "rounded_size": 12.0,
+            "text": "Normal",
+            "bbox": {"x0": 10, "x1": 45, "top": 60, "bottom": 72}
+          },
+          {
+            "font": "Times-Bold",
+            "rounded_size": 14.0,
+            "text": "BOLD",
+            "bbox": {"x0": 60, "x1": 85, "top": 58, "bottom": 72}
+          },
+          {
+            "font": "Times-Italic",
+            "rounded_size": 10.0,
+            "text": "italic",
+            "bbox": {"x0": 100, "x1": 120, "top": 62, "bottom": 72}
+          }
+        ]
+      },
+      "expected": {
+        "text": "Normal BOLD italic",
+        "text_proportional": "Normal    BOLD    italic",
+        "proportional_spacing_info": [
+          {
+            "normalized_text_index": 6,
+            "raw_gap_pt": 15.0,
+            "estimated_space_width_pt": 3.6,
+            "proportional_spaces": 4
+          },
+          {
+            "normalized_text_index": 11,
+            "raw_gap_pt": 15.0,
+            "estimated_space_width_pt": 4.2,
+            "proportional_spaces": 4
+          }
+        ]
+      },
+      "validation_points": [
+        "Should use font size of previous segment for space width estimation",
+        "Each gap calculated independently with appropriate font context",
+        "Mixed font sizes should not break spacing algorithm"
+      ]
+    }
+  ]
+}

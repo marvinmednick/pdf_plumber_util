@@ -1,10 +1,165 @@
-# Block Grouping Algorithms
+# Text Processing and Block Grouping
 
 ## Overview
 
-Block grouping is a core innovation of PDF Plumb that addresses the fundamental challenge of organizing extracted text lines into logical document blocks (paragraphs, sections, etc.). Unlike simple line-by-line processing, block grouping creates meaningful document structure that preserves the semantic organization of technical specifications.
+PDF Plumb implements a two-stage text processing pipeline that addresses fundamental challenges in PDF document analysis:
 
-## Problem Statement
+1. **Text Segment Processing**: Reconstructing proper word spacing from PDF extraction artifacts
+2. **Block Grouping**: Organizing text lines into logical document structure
+
+This dual approach ensures both accurate text representation and meaningful document organization for technical specifications.
+
+## Part I: Text Segment Processing and Spacing Reconstruction
+
+### Problem Statement: Missing Word Boundaries
+
+PDF extraction often produces text segments without proper spacing, causing issues like:
+- `"9.3.4.6Byte stuffing process"` instead of `"9.3.4.6 Byte stuffing process"`
+- `"A.1Requirements"` instead of `"A.1 Requirements"`
+- `"Table7-2Description"` instead of `"Table 7-2 Description"`
+
+This occurs because PDF files store text as positioned segments, and word boundaries are represented by spatial gaps rather than explicit spaces. During extraction, these gaps are lost when segments are concatenated.
+
+### Root Cause Analysis
+
+**PDF Text Structure**:
+```
+Segment 1: "9.3.4.6"     (x: 54.48 → 81.97)
+Segment 2: ""            (x: 81.98 → 84.75)  ← Empty spacing segment
+Segment 3: "Byte..."     (x: 94.22 → 244.7)
+```
+
+**Current Line Construction** (problematic):
+```python
+line_text = "".join(segment["text"] for segment in segments)
+# Result: "9.3.4.6" + "" + "Byte..." = "9.3.4.6Byte..."
+```
+
+**Gap Information Lost**: The 12.25pt gap between segments (94.22 - 81.97) represents word spacing but is ignored during text assembly.
+
+### Spacing Reconstruction Solution
+
+#### Algorithm Overview
+
+The spacing reconstruction algorithm addresses this by:
+
+1. **Filtering Empty Segments**: Both empty (`""`) and space-only (`"   "`) segments are filtered out for text construction
+2. **Gap Calculation**: Measure spatial gaps between non-empty segments using bounding box coordinates
+3. **Adaptive Spacing**: Convert gaps to appropriate number of spaces based on font size context
+4. **Dual Text Output**: Generate both normalized (single spaces) and proportional (multiple spaces) versions
+
+#### Implementation Details
+
+```python
+def _build_line_with_proportional_spacing(self, text_segments):
+    # Filter out empty/space-only segments
+    non_empty_segments = [s for s in text_segments if s["text"].strip()]
+
+    # Calculate gaps and convert to spaces
+    for i in range(1, len(non_empty_segments)):
+        prev_segment = non_empty_segments[i-1]
+        curr_segment = non_empty_segments[i]
+
+        # Measure physical gap
+        raw_gap = curr_segment["bbox"]["x0"] - prev_segment["bbox"]["x1"]
+
+        # Convert to space count using font-relative estimation
+        font_size = prev_segment.get("rounded_size", 10)
+        estimated_space_width = font_size * 0.3  # Typical space-to-font ratio
+        proportional_spaces = max(1, round(raw_gap / estimated_space_width))
+```
+
+#### Space-Only Segment Handling
+
+**Design Decision**: Space-only segments (`{"text": "   "}`) are treated identical to empty segments (`{"text": ""}`).
+
+**Rationale**:
+- Space-only segments represent visual spacing on the rendered page
+- Their spatial extent is already captured in bounding box data
+- Using segment content would double-count spacing (text spaces + positional gap)
+- Consistent with PDF rendering where spacing is positional, not textual
+
+**Example**:
+```json
+{
+  "segments": [
+    {"text": "Section", "bbox": {"x0": 10, "x1": 50}},
+    {"text": "   ", "bbox": {"x0": 55, "x1": 70}},  // Ignored for text
+    {"text": "Title", "bbox": {"x0": 85, "x1": 110}}
+  ],
+  "result": {
+    "gap_calculation": "85 - 50 = 35pt",  // Uses positional data
+    "spacing_decision": "~10 spaces for visual accuracy"
+  }
+}
+```
+
+#### Output Structure
+
+The algorithm produces three complementary outputs:
+
+```python
+{
+  "text": "9.3.4.6 Byte stuffing process",           # Normalized (LLM-friendly)
+  "text_proportional": "9.3.4.6    Byte stuffing process",  # Layout-preserved
+  "proportional_spacing_info": [                             # Analysis metadata
+    {
+      "normalized_text_index": 7,      # Position in normalized text
+      "raw_gap_pt": 12.25,            # Measured gap in points
+      "estimated_space_width_pt": 3.0, # Font-based space estimation
+      "proportional_spaces": 4         # Spaces used in proportional text
+    }
+  ]
+}
+```
+
+#### Usage Scenarios
+
+**For LLM Analysis**: Use `text` (normalized with single spaces)
+- Consistent word boundaries for pattern matching
+- Optimized for natural language processing
+
+**For Layout Analysis**: Use `text_proportional` (multiple spaces preserved)
+- Column detection and table analysis
+- Visual layout reconstruction
+
+**For Metadata Analysis**: Use `proportional_spacing_info`
+- Gap size distribution analysis
+- Font-spacing relationship studies
+- Layout anomaly detection
+
+### Edge Case Handling
+
+#### Multiple Consecutive Empty Segments
+```json
+{
+  "segments": ["Text1", "", "", "Text2"],
+  "behavior": "Gap spans all empties: Text2.x0 - Text1.x1",
+  "result": "Single spacing entry, not multiple"
+}
+```
+
+#### Overlapping Segments (Negative Gaps)
+```json
+{
+  "gap": -3.0,
+  "behavior": "Still insert minimum 1 space in normalized text",
+  "rationale": "Maintains word boundaries despite layout artifacts"
+}
+```
+
+#### Mixed Font Sizes
+```json
+{
+  "segments": [
+    {"font_size": 12, "text": "Normal"},
+    {"font_size": 16, "text": "Large"}
+  ],
+  "behavior": "Each gap uses previous segment's font size for space estimation"
+}
+```
+
+## Part II: Block Grouping Algorithms
 
 ### Challenges in PDF Text Extraction
 1. **Line-Based Limitations**: PDF text extraction typically produces individual text lines without logical grouping

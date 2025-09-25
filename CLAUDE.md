@@ -6,8 +6,6 @@ This file provides guidance to Claude Code when working with this repository.
 
 PDF Plumb is a Python PDF text extraction and analysis tool for technical documents. Uses multiple extraction methods to identify document structure, fonts, spacing patterns, and generates visualizations.
 
-**Current Phase**: Phase 2.3 Performance Optimization (JSON optimization complete - further optimization deferred)
-
 ## Common Commands
 
 ```bash
@@ -102,9 +100,13 @@ This ensures Claude Code understands immediate work context, architectural patte
 
 ### Work Log Protocol (MANDATORY - IMMEDIATE EXECUTION REQUIRED)
 
-**CRITICAL REQUIREMENT**: After completing ANY task involving code changes, file creation, or significant analysis, you MUST IMMEDIATELY append to WORK_LOG.md using Bash. This is not optional.
+**CRITICAL REQUIREMENT**: After completing ANY of the following work types, you MUST IMMEDIATELY append to WORK_LOG.md using Bash. This is not optional:
+- **Code implementation**: Functions, classes, configuration changes, testing infrastructure
+- **Design documentation**: Architecture docs, design decisions, methodology creation/updates
+- **Analysis work**: Significant research, problem-solving, architectural planning
+- **File creation/modification**: Any substantial document or code file changes
 
-**AUTOMATIC EXECUTION RULE**: Do not ask the user or wait for permission. Execute the work log update immediately after completing work.
+**AUTOMATIC EXECUTION RULE**: Do not ask the user or wait for permission. Execute the work log update immediately after completing work. If user calls `/update-worklog` command, this indicates automatic updates may have been missed - review recent work for compliance gaps.
 
 **During development - IMMEDIATE ACTION:**
 ```bash
@@ -115,19 +117,32 @@ echo "---
 - **Next**: [Next steps or issues]" >> WORK_LOG.md
 ```
 
-**MANDATORY DOCUMENTATION SCOPE**: Document ALL implementation work including:
-- File creation/modification with line counts for substantial changes
-- New functions, classes, or significant logic changes
-- Configuration updates and registry modifications
-- Test infrastructure creation or updates
-- Documentation updates (including to design docs)
-- Any architectural or workflow changes
+**MANDATORY DOCUMENTATION SCOPE**: Document ALL significant work including:
+- **Implementation work**: File creation/modification with line counts for substantial changes
+- **Code changes**: New functions, classes, or significant logic changes
+- **Configuration work**: Updates and registry modifications
+- **Testing work**: Test infrastructure creation or updates
+- **Design work**: Architecture documentation creation/updates (including design docs)
+- **Analysis work**: Significant research, problem-solving, or design decisions
+
+**Immediate Status Updates** (don't wait for commit):
+- **Phase changes**: Implementation ↔ Design, or major scope changes
+- **Major design completion**: Architecture documents, design methodology completion
+- **Significant capability additions**: New features, major analysis capabilities
+- **Active work scope changes**: What you're working on has fundamentally changed
+
+**Status.md Archival Management**:
+- **Size Monitoring**: Check docs/status.md line count during updates
+- **Archival Trigger**: When approaching 200 lines, archive older entries
+- **Archive Process**: Move oldest "Last Completed Work" entries to docs/phase-history.md
+- **Maintain Balance**: Keep recent work visible, preserve historical record
 
 **Before each commit:**
 1. Review WORK_LOG.md entries
 2. Consolidate into docs/status.md "Last Completed Work" section
-3. Update docs/status.md current state/pending issues
-4. Clear WORK_LOG.md entries and create empty file for next session:
+3. Archive older status entries to phase-history.md if approaching 200 lines
+4. Update docs/status.md current phase/active work if not already current
+5. Clear WORK_LOG.md entries and create empty file for next session:
    ```bash
    echo "# Work Log
 
@@ -135,6 +150,26 @@ This file tracks development progress during active work sessions. It gets clear
 
 ---" > WORK_LOG.md
    ```
+
+### Custom Update Commands with Self-Auditing
+
+#### **/update-worklog Command**
+**Purpose**: Manual backup for missed automatic WORK_LOG.md updates
+**Self-Auditing Behavior**:
+1. Execute work log update with recent completed work
+2. **Self-Reminder**: "Manual `/update-worklog` call indicates automatic WORK_LOG updates may have been missed. Per protocol, work log updates should happen IMMEDIATELY after completing any significant work."
+3. **Compliance Review**: Analyze recent conversation exchanges to identify work that should have triggered automatic updates
+4. **Self-Correction**: Acknowledge any missed automatic updates and commit to better compliance
+
+#### **/update-status Command**
+**Purpose**: Immediate docs/status.md updates for phase changes or major milestones
+**Self-Auditing Behavior**:
+1. Execute status.md updates (Active Work, Current State, or Last Completed Work as appropriate)
+2. **Self-Reminder**: "Manual `/update-status` call indicates automatic status updates may have been missed. Per protocol, status.md should be updated immediately for phase changes and major design completions."
+3. **Compliance Review**: Analyze recent work to identify phase changes, design completions, or capability additions that warranted status updates
+4. **Self-Correction**: Acknowledge any missed automatic status updates and improve future compliance
+
+**Command Integration**: Both commands serve as **compliance auditing tools** that help Claude identify and correct gaps in automatic update adherence while executing the needed updates.
 
 ### Architecture Documentation Standards
 - **Track documentation changes in git commits**: Architecture and feature documentation history should be maintained through git commit messages
@@ -218,22 +253,10 @@ Consider adding `docs/performance.md` when:
 
 **Standard profiling tools**: cProfile, memory_profiler, line_profiler, py-spy
 
-## Current Development Status
+## Project Status References
 
-**Active Phase**: Phase 2.3 Performance Optimization (JSON optimization complete - further optimization deferred)
-
-**Key Recent Fixes**:
-- **LLM duplicate element detection**: Fixed table titles appearing in both section_headings and table_titles
-- **Configuration system**: LLM sampling now properly uses environment variables and config parameters
-- **Sampling algorithm**: Comprehensive test coverage for overlap-free sampling algorithm
-
-**Current Capabilities**:
-- **LLM-enhanced analysis**: Azure OpenAI integration for document structure analysis
-- **State machine architecture**: Multi-objective analysis workflows with orchestrator
-- **Comprehensive error handling**: Rich console formatting with context and suggestions
-- **High-performance JSON**: orjson integration for improved pipeline performance
-
-For detailed phase history and achievements, see: [docs/phase-history.md](docs/phase-history.md)
+**For current project status**: See [docs/status.md](docs/status.md) - current phase, active work, recent completions
+**For development history**: See [docs/phase-history.md](docs/phase-history.md) - detailed phase achievements and evolution
 
 ## Documentation Navigation for Development
 
@@ -252,12 +275,13 @@ This project uses a hierarchical documentation structure designed to preserve de
 - `docs/phase-history.md` - Detailed development phase history and achievements
 
 **Tier 3: Implementation Deep-Dives**
-- `docs/design/BLOCK_GROUPING.md` - Contextual spacing and block formation algorithm
+- `docs/design/TEXT_PROCESSING_AND_BLOCK_GROUPING.md` - Text segment spacing reconstruction and block formation algorithms
 - `docs/design/HEADER_FOOTER_DETECTION.md` - Iterative boundary detection development
 - `docs/design/STATE_MACHINE_ARCHITECTURE.md` - State machine orchestrator for multi-objective analysis workflows
 - `docs/design/LLM_INTEGRATION.md` - LLM implementation guide and current usage
 - `docs/design/LLM_STRATEGY.md` - Complete LLM strategic framework and advanced features
 - `docs/design/CONTEXTUAL_SPACING.md` - Core spacing analysis algorithm (to be created)
+- `docs/design/PATTERN_DETECTION_ARCHITECTURE.md` - Comprehensive Phase 1 pattern detection methodology
 
 **Tier 4: Analysis & Strategy**
 - `docs/analysis/token_analysis.md` - LLM token counting analysis and batch sizing
@@ -310,17 +334,18 @@ This project uses a hierarchical documentation structure designed to preserve de
 ### Documentation Guidelines
 
 **CLAUDE.md Guidelines:**
-- **Current development guidance only** - No historical phase details or achievements
-- **Architecture and patterns** - Focus on current system design and development practices
-- **Development instructions** - Commands, workflows, and coding standards in use now
-- **NO specific test counts or metrics** - These change frequently and create maintenance burden
-- **NO detailed phase histories** - Use `docs/phase-history.md` for historical information
-- **Reference other docs** - Point to appropriate tier documentation for detailed information
+- **Development guidance only** - Commands, architecture patterns, coding standards, workflows
+- **NO project status** - No current phases, recent work, active tasks, or project state (use docs/status.md)
+- **NO historical information** - No completed work, achievements, or phase details (use docs/phase-history.md)
+- **NO specific metrics** - No test counts, performance numbers, or changing statistics
+- **Architecture and patterns** - Focus on current system design patterns to follow
+- **Reference other docs** - Point to appropriate documentation for detailed information
 - **Keep concise** - Avoid duplicating information available in specialized documents
 
 **docs/status.md Guidelines:**
 - Focus on current development phase and immediate next steps
-- Keep to ~100 lines maximum
+- Keep to ~200 lines maximum with automatic archival management
+- Archive older "Last Completed Work" entries to docs/phase-history.md when approaching limit
 - Avoid detailed technical explanations (use design docs for that)
 - Update when phases change, not for minor feature additions
 
@@ -344,7 +369,7 @@ This project uses a hierarchical documentation structure designed to preserve de
 
 Use this format for linking between documentation levels:
 ```markdown
-See: [docs/design/BLOCK_GROUPING.md](docs/design/BLOCK_GROUPING.md)
+See: [docs/design/TEXT_PROCESSING_AND_BLOCK_GROUPING.md](docs/design/TEXT_PROCESSING_AND_BLOCK_GROUPING.md)
 Design rationale: [docs/design-decisions.md#spacing-analysis](docs/design-decisions.md)
 Performance analysis: [docs/analysis/performance_optimization.md](docs/analysis/performance_optimization.md)
 ```
