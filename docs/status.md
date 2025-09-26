@@ -3,9 +3,20 @@
 ## Current State
 
 **System Status**: Word-based extraction with proportional spacing reconstruction, contextual block formation, spacing gap analysis, LLM-based header/footer detection with TOC detection, LLM section heading and table/figure analysis, state machine architecture for multi-pass analysis, comprehensive pattern detection system with 30+ patterns and improved text spacing accuracy
-**Active Work**: Development pipeline ready - spacing reconstruction complete, pattern detection accuracy improved, comprehensive test coverage established
+**Active Work**: Investigating LLM TOC extraction performance degradation - single-page analysis achieves 101.9% accuracy while multi-page drops to 30.2%, testing array-based line representation hypothesis
 
 ## Last Completed Work
+
+**LLM TOC Extraction Performance Investigation**:
+- Investigated multi-page LLM TOC extraction degradation: single-page 101.9% accuracy vs multi-page 30.2% accuracy
+- Systematic testing revealed issue not with spacing correction or format optimization but with block grouping structure
+- Key findings: Multiple TOC entries grouped into single blocks with newline separators ("entry1\nentry2\nentry3")
+- LLM processes grouped entries as single TOC item instead of parsing individual lines within blocks
+- Tested corrected blocks data, streamlined 5-field format, and various data optimizations with minimal improvement
+- Root cause hypothesis: Array-based line representation needed instead of concatenated text with newlines
+- Created comprehensive debug infrastructure with LLM input data logging for troubleshooting analysis
+- **Files**: src/pdf_plumb/llm/sampling.py enhanced with debug capabilities, output/h264_100pages_blocks.json regenerated
+- **Status**: Multi-page degradation cause identified, solution approach defined but not yet implemented
 
 **PDF Text Spacing Reconstruction (Phase 3.1)**:
 - Implemented comprehensive spacing reconstruction system fixing critical "9.3.4.6Byte" → "9.3.4.6 Byte" pattern detection issues
@@ -170,6 +181,15 @@
 - Enhanced Error Handling
 - Performance Optimization
 - LLM Integration
+
+## Known Test Issues
+
+**Deferred Issues** (require further investigation):
+- `test_llm_golden_document.py`: LLM golden tests fail due to API configuration or credential issues
+- `test_cli_toc_analysis.py`: Remaining CLI integration tests with LLM dependencies
+- `test_cli_workflow_integration.py`: State machine workflow analysis failures in certain scenarios
+
+**Note**: Known issues are highlighted during each status update to ensure visibility and eventual resolution. Target: Investigate API configuration and LLM integration setup.
 
 ## Known Technical Debt
 

@@ -231,6 +231,70 @@ Test docstrings should explain **what is tested and how** for code review purpos
 
 **Full guidelines**: See [docs/test_docstring_guidelines.md](docs/test_docstring_guidelines.md) for detailed standards and examples
 
+### Test Failure Management Protocol
+
+**CRITICAL REQUIREMENT**: Test suite must be kept in passing state at all times. Any test failures detected must be addressed immediately, regardless of whether they were caused by current changes.
+
+#### Immediate Action Required for Test Failures
+
+**When test failures are discovered:**
+1. **Stop current work**: Address test failures before continuing with new development
+2. **Investigate root cause**: Determine if failures are from current changes or pre-existing issues
+3. **Fix immediately**: Resolve failures through code fixes or test updates as appropriate
+4. **Document in work log**: Record what was broken, why, and how it was fixed
+
+**Response by failure type:**
+- **Caused by current changes**: Fix the code or update tests to match intended new behavior
+- **Pre-existing issues**: Fix compatibility issues, update assertions to match current reality
+- **Environmental issues**: Update test expectations or add appropriate test markers
+- **API/Integration issues**: Fix integration or mark tests appropriately
+
+#### Known Issues Management
+
+**For issues that cannot be immediately resolved:**
+
+**In docs/status.md - Add "Known Test Issues" section:**
+```markdown
+## Known Test Issues
+
+**Deferred Issues** (require further investigation):
+- `test_llm_golden_document`: Requires API credentials configuration (Issue #XXX)
+- `test_workflow_integration`: State machine timeout in CI environment (Issue #XXX)
+
+**Note**: Known issues are highlighted during each status update to ensure visibility and eventual resolution.
+```
+
+**Status Update Protocol:**
+- **ALWAYS highlight known issues** when updating docs/status.md
+- **Update issue status** (resolved, still deferred, escalated)
+- **Add target resolution timeframe** when possible
+- **Archive resolved issues** to phase-history.md
+
+#### Test Suite Health Monitoring
+
+**Before each commit:**
+1. Run full test suite: `uv run pytest`
+2. If failures found: Apply immediate action protocol above
+3. Update status.md with current test health metrics
+4. Only commit when tests are passing or known issues are properly documented
+
+**Test health reporting format:**
+```
+**Tests**: 158/164 passing (96.3%)
+**Known Issues**: 6 LLM integration tests (documented in Known Test Issues)
+**Last Clean Run**: 2025-XX-XX (commit #xxxxxxx)
+```
+
+#### Integration with Status Updates
+
+**MANDATORY**: Every status update must include test suite health:
+- **Current pass rate** with breakdown by category
+- **Any new failures** discovered and their resolution
+- **Updates on known issues** (progress, escalation, or deferral)
+- **Action items** for improving test reliability
+
+This protocol ensures technical debt visibility and maintains development velocity while preserving code quality.
+
 ## Documentation Strategy
 
 ### Core Documentation (Always Present)
@@ -382,3 +446,4 @@ This project structure supports PDF analysis development by:
 - **Document type profiles** - Pre-configured settings for different PDF types  
 - **Comprehensive testing** - Real PDF validation ensures reliability
 - **Modern Python practices** - Click + Rich + Pydantic for maintainability
+- NEVER EXPOSE ENVIROMENT VARIABLES WITH API KEYS in a chat as that is a security risk.  If necessary have user import them for use

@@ -1,0 +1,12 @@
+{
+  "total_pages": 3,
+  "analysis_type": "comprehensive_pattern_analysis",
+  "provider": "azure",
+  "provider_configured": true,
+  "total_tokens": 16739,
+  "has_toc_detected": false,
+  "toc_entries_count": 0,
+  "toc_pages_count": 0,
+  "table_titles_count": 6,
+  "section_headings_count": 0
+}

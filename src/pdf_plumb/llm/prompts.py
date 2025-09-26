@@ -52,6 +52,13 @@ Important: Headers/footers may be absent on some pages or vary by document secti
 - Some pages may have headers but no footers, or vice versa
 - Identify the actual TEXT content of headers/footers for each page
 
+**CRITICAL: Complete Analysis Required**:
+- Provide COMPLETE analysis of ALL document elements on each page
+- Do NOT abbreviate, summarize, or truncate any section of your response
+- Do NOT use comments like "// ... (entries omitted)" - include ALL entries
+- Each page must have FULL analysis with ALL detected elements listed
+- This is for production document processing - completeness is essential
+
 **Document Element Identification**:
 
 **CRITICAL: Avoid Double Categorization**
@@ -99,6 +106,9 @@ Important: Headers/footers may be absent on some pages or vary by document secti
 - Font sizes should be numeric (e.g., 14.0, not "14pt")
 - No mathematical expressions in JSON values
 - All confidence levels must be exactly "High", "Medium", or "Low"
+- ABSOLUTELY NO JavaScript-style comments in JSON (no "//" comments)
+- Include ALL detected elements - do not omit any for brevity
+- Complete response is required for production document analysis
 
 **Pages Data**:
 {json.dumps(page_data, indent=2)}

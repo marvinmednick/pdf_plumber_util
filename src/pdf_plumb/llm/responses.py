@@ -396,8 +396,60 @@ class ResponseParser:
         try:
             return json.loads(json_str)
         except json.JSONDecodeError as e:
+            # Try cleaning up common LLM JSON issues before failing
+            cleaned_json = self._clean_llm_json(json_str)
+            if cleaned_json != json_str:
+                try:
+                    return json.loads(cleaned_json)
+                except json.JSONDecodeError:
+                    pass  # Fall through to original error handling
+
             raise AnalysisError(f"Invalid JSON in LLM response: {e}")
-    
+
+    def _clean_llm_json(self, json_str: str) -> str:
+        """Clean common LLM JSON issues like comments and trailing commas."""
+        import re
+
+        # Check for truncation indicators first
+        truncation_indicators = [
+            r'//.*?(?:omitted|truncated|brevity|abbreviated)',
+            r'/\*.*?(?:omitted|truncated|brevity|abbreviated).*?\*/',
+            r'\.\.\..*?(?:omitted|truncated|brevity|abbreviated)',
+        ]
+
+        for pattern in truncation_indicators:
+            if re.search(pattern, json_str, re.IGNORECASE | re.DOTALL):
+                raise AnalysisError(
+                    "LLM response appears truncated with abbreviation comments. "
+                    "This indicates incomplete analysis. The response contains "
+                    "markers suggesting content was omitted for brevity."
+                )
+
+        # Remove JavaScript-style single line comments (// ...)
+        # This handles cases where LLM adds comments to abbreviate long responses
+        original_json = json_str
+        json_str = re.sub(r'//.*?(?=\n|$)', '', json_str)
+
+        # Remove multi-line comments (/* ... */)
+        json_str = re.sub(r'/\*.*?\*/', '', json_str, flags=re.DOTALL)
+
+        # Remove trailing commas before } and ]
+        json_str = re.sub(r',\s*([}\]])', r'\1', json_str)
+
+        # Clean up any extra whitespace that might have been left
+        json_str = re.sub(r'\n\s*\n', '\n', json_str)
+
+        # If we had to remove comments, this indicates a configuration or prompting issue
+        if json_str != original_json:
+            raise AnalysisError(
+                "LLM response contained JavaScript-style comments that had to be cleaned. "
+                "This indicates either: (1) prompting issues where LLM ignored instructions, "
+                "or (2) token limits causing abbreviation. The response was processed but "
+                "should be investigated to ensure completeness."
+            )
+
+        return json_str
+
     def validate_confidence_levels(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Validate and normalize confidence levels in response data."""
         confidence_fields = ['confidence']  # Add more fields as needed

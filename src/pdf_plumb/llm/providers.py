@@ -109,7 +109,7 @@ class AzureOpenAIProvider(LLMProvider):
         prompt: str, 
         deployment: Optional[str] = None,
         temperature: float = 0.1,
-        max_tokens: Optional[int] = None,
+        max_tokens: Optional[int] = 16384,  # Set high default for complete responses
         **kwargs
     ) -> LLMResponse:
         """Analyze document structure using Azure OpenAI.
@@ -118,7 +118,7 @@ class AzureOpenAIProvider(LLMProvider):
             prompt: The analysis prompt
             deployment: Azure OpenAI deployment name (overrides config)
             temperature: Sampling temperature (default: 0.1 for consistent analysis)
-            max_tokens: Maximum response tokens
+            max_tokens: Maximum response tokens (default: 16384 for complete analysis)
             **kwargs: Additional OpenAI API parameters
             
         Returns:
@@ -142,19 +142,26 @@ class AzureOpenAIProvider(LLMProvider):
                 parts = prompt.split("USER:", 1)
                 system_content = parts[0].replace("SYSTEM:", "").strip()
                 user_content = parts[1].strip()
-                
+
                 messages = [
                     {"role": "system", "content": system_content},
                     {"role": "user", "content": user_content}
                 ]
             else:
                 messages = [{"role": "user", "content": prompt}]
-            
+
+            # Validate max_tokens for completeness
+            if max_tokens and max_tokens < 8192:
+                # Warn about potential truncation issues
+                print(f"⚠️  Warning: max_tokens={max_tokens} may be too low for complete document analysis")
+
             response = self._client.chat.completions.create(
                 model=deployment_name,
                 messages=messages,
                 temperature=temperature,
                 max_tokens=max_tokens,
+                top_p=0.1,  # Further constrain randomness
+                seed=42,    # Attempt deterministic responses
                 **kwargs
             )
             

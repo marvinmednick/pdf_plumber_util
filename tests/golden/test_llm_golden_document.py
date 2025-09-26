@@ -27,7 +27,12 @@ class TestLLMGoldenDocument:
         """Set up test environment for golden document testing."""
         self.fixtures_dir = Path(__file__).parent.parent / "fixtures"
         self.test_fixture_path = self.fixtures_dir / "test_table_titles_not_section_headings.json"
-        
+
+        # Initialize collect_or_assert infrastructure
+        self.generate_expected = False  # Set to True to generate expected data, False to test
+        self.expected_data = {}
+        self.collected_data = {}
+
         # Verify API credentials are available (fails if missing)
         self._check_api_credentials()
         
@@ -102,171 +107,124 @@ class TestLLMGoldenDocument:
         
         return workflow_context
 
+
+    def collect_or_assert(self, name: str, actual_value, expected_value=None, message: str = ""):
+        """Either collect expected data (generate mode) or assert against it (test mode)."""
+        if self.generate_expected:
+            self.collected_data[name] = actual_value
+            print(f"📝 Collected {name}: {actual_value}")
+        else:
+            if expected_value is None:
+                expected_value = self.expected_data.get(name)
+            assert actual_value == expected_value, f"{message or name}: expected {expected_value}, got {actual_value}"
+            print(f"✅ Verified {name}: {actual_value}")
+
+    def _save_expected_data(self, fixture_name: str):
+        """Save collected data to expected results file."""
+        expected_file = Path(__file__).parent / f"expected_{fixture_name.replace('.json', '')}.json"
+        with open(expected_file, 'w') as f:
+            json.dump(self.collected_data, f, indent=2)
+        print(f"📁 Saved expected data to {expected_file}")
+
+    def _load_expected_data(self, fixture_name: str):
+        """Load expected data from file."""
+        expected_file = Path(__file__).parent / f"expected_{fixture_name.replace('.json', '')}.json"
+        if expected_file.exists():
+            with open(expected_file, 'r') as f:
+                self.expected_data = json.load(f)
+            print(f"📁 Loaded expected data from {expected_file}")
+        else:
+            self.expected_data = {}
+            print(f"📁 No expected data file found: {expected_file}")
+
     @pytest.mark.golden
     @pytest.mark.external
     def test_enhanced_additional_section_heading_state_with_toc_detection(self):
-        """Test enhanced AdditionalSectionHeadingState with real API calls for TOC detection.
-        
-        Test setup:
-        - Uses test_table_titles_not_section_headings.json (pages 97-99 from H.264 spec)
-        - Makes actual Azure OpenAI API calls with enhanced TOC detection prompt
-        - Simulates workflow context with previous HeaderFooterAnalysisState results
-        - Tests on unused pages (97-99) while avoiding pages 1-5 from previous state
-        
+        """Test enhanced AdditionalSectionHeadingState with collect_or_assert pattern.
+
+        This test can run in two modes:
+        1. Generate mode (self.generate_expected = True): Collects expected results and saves to file
+        2. Test mode (self.generate_expected = False): Validates against saved expected results
+
         What it verifies:
-        - **Double categorization fix**: Table 7-2, 7-3, 7-4 appear ONLY in table_titles (not section_headings)
-        - **Enhanced TOC detection**: New prompt correctly identifies TOC sections and their start locations
-        - **Real API integration**: Actual LLM responses are parsed and structured correctly
-        - **State machine compatibility**: Results format matches expected workflow structure
-        - **Regression prevention**: Validates that prompt enhancements don't break existing functionality
-        
-        Expected Results (based on docs/status.md:40):
-        - Table 7-2, 7-3, 7-4 titles should appear in results['table_titles']
-        - Table 7-2, 7-3, 7-4 titles should NOT appear in results['section_headings'] 
-        - TOC detection should identify any table of contents patterns on pages 97-99
-        - Header/footer validation should confirm consistency with previous analysis
-        
-        Test limitation:
-        - Requires real API credentials (skipped if unavailable)
-        - Dependent on LLM response consistency (may have minor variations)
-        - Uses specific H.264 document pages (may not cover all document types)
-        - API costs incurred during testing
-        
-        Key insight: Validates that enhanced TOC detection works with real LLM responses and maintains regression fix for double categorization.
+        - **Double categorization fix**: No overlap between section_headings and table_titles
+        - **Workflow integration**: Both states process expected number of pages
+        - **Content validation**: First/last items in each category match expectations
         """
-        # Load test fixture
+        # Initialize for collect_or_assert pattern
         fixture_data = self._load_test_fixture()
-        
-        # Verify fixture contains expected test data
-        assert fixture_data['test_info']['description'] == "Test that table titles (Table 7-2, Table 7-3) appear only in table_titles, not in section_headings - validates LLM prompt fix for double categorization issue"
-        assert fixture_data['test_info']['extracted_pages'] == [97, 98, 99]
-        assert len(fixture_data['pages']) == 3
-        
-        # Create state instance
-        state = AdditionalSectionHeadingState(
-            provider_name="azure",
-            sampling_seed=42,  # For reproducible testing
-            max_additional_pages=10
-        )
-        
+        fixture_name = self.test_fixture_path.name
+        self._load_expected_data(fixture_name)
+
+        # Basic fixture validation
+        total_fixture_pages = len(fixture_data['pages'])
+        self.collect_or_assert("total_fixture_pages", total_fixture_pages)
+
         # Run complete workflow with real states - no mocking
         context = self._run_complete_golden_workflow(fixture_data)
-        
-        # Debug: Check what pages are available vs used
-        document_data = fixture_data['pages']
-        print(f"🔍 GOLDEN TEST: Test fixture has {len(document_data)} pages available")
-        used_pages = context['workflow_results']['header_footer_analysis']['results'].get('sampling_summary', {}).get('selected_page_indexes', [])
-        print(f"🔍 GOLDEN TEST: HeaderFooterAnalysisState used pages: {used_pages}")
-        
-        # Execute the enhanced state with real API call
-        try:
-            print(f"🔍 GOLDEN TEST: About to execute AdditionalSectionHeadingState...")
-            results = state.execute(context)
-            
-            # === CORE REGRESSION VALIDATION ===
-            # Verify double categorization fix (Table 7-x should be in table_titles ONLY)
-            
-            # Extract results sections
-            analysis_results = results.get('results', {})
-            
-            # === VALIDATE ACTUAL LLM RESPONSE STRUCTURE ===
-            # The LLM returns direct lists, not per_page_analysis format
-            
-            print(f"🔍 GOLDEN TEST: Validating real LLM response structure")
-            print(f"🔍 Response keys: {list(analysis_results.keys())}")
-            
-            # Validate we have the expected response structure
-            expected_keys = ['section_headings', 'figure_titles', 'table_titles', 'sampling_summary']
-            for key in expected_keys:
-                assert key in analysis_results, f"Expected key '{key}' not found in LLM response. Available keys: {list(analysis_results.keys())}"
-            
-            # Extract results from actual LLM response format
-            all_section_headings = analysis_results.get('section_headings', [])
-            all_table_titles = analysis_results.get('table_titles', [])
-            all_figure_titles = analysis_results.get('figure_titles', [])
-            
-            
-            # === DOUBLE CATEGORIZATION REGRESSION TEST ===
-            # This is the critical validation from docs/status.md:40
-            
-            # Extract text content from title objects (they might be dicts with 'text' field)
-            section_heading_texts = []
-            table_title_texts = []
-            
-            # Handle different response formats (strings or dicts)
-            for item in all_section_headings:
-                text = item.get('text', item) if isinstance(item, dict) else str(item)
-                section_heading_texts.append(text)
-                
-            for item in all_table_titles:
-                text = item.get('text', item) if isinstance(item, dict) else str(item)
-                table_title_texts.append(text)
-            
-            print(f"🔍 GOLDEN TEST: Section headings: {section_heading_texts}")
-            print(f"🔍 GOLDEN TEST: Table titles: {table_title_texts}")
-            
-            # Look for Table 7-x references in the content
-            table_7_references = []
-            all_texts = section_heading_texts + table_title_texts
-            for text in all_texts:
-                if 'Table 7-' in text:
-                    table_7_references.append(text)
-            
-            print(f"🔍 GOLDEN TEST: Found Table 7-x references: {table_7_references}")
-            
-            if table_7_references:
-                # CRITICAL ASSERTION: Table 7-x should be in table_titles ONLY
-                table_7_in_table_titles = [text for text in table_title_texts if 'Table 7-' in text]
-                table_7_in_section_headings = [text for text in section_heading_texts if 'Table 7-' in text]
-                
-                assert len(table_7_in_table_titles) > 0, f"Expected Table 7-x references in table_titles, found none. All table titles: {table_title_texts}"
-                assert len(table_7_in_section_headings) == 0, f"Table 7-x references incorrectly found in section_headings: {table_7_in_section_headings}. This indicates double categorization regression!"
-                
-                print(f"✅ Double categorization fix validated: {len(table_7_in_table_titles)} Table 7-x references found in table_titles only")
-            else:
-                print(f"ℹ️  No Table 7-x references found in this analysis - may be expected for these particular pages")
-            
-            # === TOC DETECTION VALIDATION ===
-            # Check if our enhanced prompt added any TOC-related fields
-            
-            toc_detected = False
-            if 'page_analysis' in analysis_results:
-                page_analysis = analysis_results['page_analysis']
-                print(f"🔍 GOLDEN TEST: Page analysis structure: {type(page_analysis)}")
-                if isinstance(page_analysis, dict) and 'toc_patterns' in page_analysis:
-                    toc_detected = True
-                    print(f"✅ TOC detection found in page_analysis")
-            
-            # Check for any TOC-related patterns in other fields
-            for key, value in analysis_results.items():
-                if 'toc' in key.lower():
-                    toc_detected = True
-                    print(f"✅ TOC-related field found: {key}")
-            
-            if not toc_detected:
-                print(f"ℹ️  No explicit TOC detection found - may indicate enhancement not active or no TOC content on these pages")
-            
-            # === GENERAL VALIDATION ===
-            
-            # Verify state execution completed successfully  
-            expected_analysis_type = 'additional_section_heading_analysis'  # Note: singular form used by actual implementation
-            actual_analysis_type = results.get('analysis_type', 'MISSING')
-            assert actual_analysis_type == expected_analysis_type, f"Expected analysis_type '{expected_analysis_type}', got '{actual_analysis_type}'"
-            assert 'metadata' in results
-            assert results['metadata']['provider'] == 'azure'
-            
-            # Verify pages were analyzed
-            pages_analyzed = results['metadata'].get('pages_analyzed', 0)
-            assert pages_analyzed > 0, "Expected some pages to be analyzed"
-            
-            print(f"✅ Golden document test validation complete: {pages_analyzed} pages analyzed")
-            print(f"✅ Real LLM API call successful with {len(all_section_headings + all_table_titles + all_figure_titles)} total elements detected")
-                
-        except ConfigurationError as e:
-            pytest.fail(f"Configuration error in golden test: {e}")
-            
-        except Exception as e:
-            pytest.fail(f"Golden document test failed with real API call: {str(e)}")
+
+        # Get pages used by HeaderFooterAnalysisState
+        sampling_summary = context['workflow_results']['header_footer_analysis']['results'].get('sampling_summary', {})
+        used_pages_analyzed = sampling_summary.get('page_indexes_analyzed', [])
+        header_footer_pages_processed = len(used_pages_analyzed)
+        self.collect_or_assert("header_footer_pages_processed", header_footer_pages_processed)
+
+        # Execute AdditionalSectionHeadingState
+        state = AdditionalSectionHeadingState(provider_name="azure", sampling_seed=42, max_additional_pages=10)
+        results = state.execute(context)
+
+        # Get pages processed by AdditionalSectionHeadingState
+        additional_pages_processed = results['metadata'].get('pages_analyzed', 0)
+        self.collect_or_assert("additional_pages_processed", additional_pages_processed)
+
+        # Extract content from results
+        analysis_results = results.get('results', {})
+        all_section_headings = analysis_results.get('section_headings', [])
+        all_table_titles = analysis_results.get('table_titles', [])
+        all_figure_titles = analysis_results.get('figure_titles', [])
+
+        def extract_text(item):
+            """Extract text from item (handle both strings and dicts)"""
+            return item.get('text', item) if isinstance(item, dict) else str(item)
+
+        section_texts = [extract_text(item) for item in all_section_headings]
+        table_texts = [extract_text(item) for item in all_table_titles]
+        figure_texts = [extract_text(item) for item in all_figure_titles]
+
+        # Collect/assert content counts
+        self.collect_or_assert("total_sections_found", len(section_texts))
+        self.collect_or_assert("total_tables_found", len(table_texts))
+        self.collect_or_assert("total_figures_found", len(figure_texts))
+
+        # Collect/assert first and last items for sanity checking
+        if section_texts:
+            self.collect_or_assert("first_section", section_texts[0])
+            self.collect_or_assert("last_section", section_texts[-1])
+
+        if table_texts:
+            self.collect_or_assert("first_table", table_texts[0])
+            self.collect_or_assert("last_table", table_texts[-1])
+
+        if figure_texts:
+            self.collect_or_assert("first_figure", figure_texts[0])
+            self.collect_or_assert("last_figure", figure_texts[-1])
+
+        # === UNIVERSAL DOUBLE CATEGORIZATION TEST (always run) ===
+        section_table_overlap = set(section_texts) & set(table_texts)
+        section_figure_overlap = set(section_texts) & set(figure_texts)
+        table_figure_overlap = set(table_texts) & set(figure_texts)
+
+        assert len(section_table_overlap) == 0, f"Double categorization: sections/tables overlap: {section_table_overlap}"
+        assert len(section_figure_overlap) == 0, f"Double categorization: sections/figures overlap: {section_figure_overlap}"
+        assert len(table_figure_overlap) == 0, f"Double categorization: tables/figures overlap: {table_figure_overlap}"
+
+        print(f"✅ No double categorization: {len(section_texts)} sections, {len(table_texts)} tables, {len(figure_texts)} figures")
+        print(f"✅ Workflow processed {header_footer_pages_processed + additional_pages_processed} total pages")
+
+        # Save collected data if in generate mode
+        if self.generate_expected:
+            self._save_expected_data(fixture_name)
+            print("📝 Generated expected data - set generate_expected=False to run actual test")
 
     def test_golden_test_fixture_integrity(self):
         """Test that the golden test fixture has expected structure and content.

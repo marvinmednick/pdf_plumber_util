@@ -1,0 +1,12 @@
+{
+  "total_pages": 3,
+  "header_confidence": "High",
+  "footer_confidence": "High",
+  "table_titles_count": 6,
+  "section_headings_count": 0,
+  "total_elements": 6,
+  "total_tokens": 16716,
+  "provider_configured": true,
+  "pages_analyzed": 3,
+  "has_toc_detected": false
+}

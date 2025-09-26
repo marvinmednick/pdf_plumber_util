@@ -83,7 +83,7 @@ class AdditionalSectionHeadingState(AnalysisState):
         
         # Get unused pages from previous analysis
         unused_pages = self._get_unused_pages(context)
-        
+
         # If no unused pages, skip analysis
         if not unused_pages:
             return self._create_empty_results("No unused pages available for additional analysis")
@@ -216,10 +216,10 @@ class AdditionalSectionHeadingState(AnalysisState):
     
     def _get_unused_pages(self, context: Dict[str, Any]) -> List[int]:
         """Get list of pages not used in previous analysis states.
-        
+
         Args:
             context: Workflow context containing previous results
-            
+
         Returns:
             List of unused page numbers (1-indexed)
         """
@@ -231,13 +231,13 @@ class AdditionalSectionHeadingState(AnalysisState):
             total_pages = len(document_data)
         else:
             return []
-        
+
         all_pages = set(range(1, total_pages + 1))
         used_pages = set()
-        
+
         # Collect used pages from previous workflow results
         workflow_results = context.get('workflow_results', {})
-        
+
         for state_name, state_result in workflow_results.items():
             # Look for sampling information in previous results
             if 'raw_result' in state_result and hasattr(state_result['raw_result'], 'sampling_summary'):
@@ -246,7 +246,7 @@ class AdditionalSectionHeadingState(AnalysisState):
                 page_indexes = sampling_summary.get('page_indexes_analyzed') or sampling_summary.get('selected_page_indexes', [])
                 if page_indexes:
                     used_pages.update(page_indexes)
-            
+
             # Also check results structure for page information
             results = state_result.get('results', {})
             if 'sampling_summary' in results:
@@ -255,7 +255,7 @@ class AdditionalSectionHeadingState(AnalysisState):
                 page_indexes = sampling_info.get('page_indexes_analyzed') or sampling_info.get('selected_page_indexes', [])
                 if page_indexes:
                     used_pages.update(page_indexes)
-        
+
         # Return unused pages as sorted list
         unused_pages = sorted(all_pages - used_pages)
         return unused_pages

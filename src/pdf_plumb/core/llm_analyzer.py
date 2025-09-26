@@ -91,7 +91,13 @@ class LLMDocumentAnalyzer:
             )
         
         # Extract streamlined page data
-        page_data_for_llm = self.sampler.extract_page_data(pages_data, sampling_result)
+        output_dir_path = Path(output_dir or self.config.output_dir) if save_results else None
+        page_data_for_llm = self.sampler.extract_page_data(
+            pages_data,
+            sampling_result,
+            save_debug_data=save_results,
+            output_dir=output_dir_path
+        )
         
         # Get document metadata
         page_width = pages_data[0].get('page_width', pages_data[0].get('width', 612))
@@ -290,7 +296,7 @@ class LLMDocumentAnalyzer:
             if not sampling_result:
                 return {"error": f"Document too short ({total_pages} pages)"}
             
-            page_data_for_llm = self.sampler.extract_page_data(pages_data, sampling_result)
+            page_data_for_llm = self.sampler.extract_page_data(pages_data, sampling_result, save_debug_data=False)
             
             # Generate prompt for estimation
             prompt = PromptTemplates.header_footer_analysis(
