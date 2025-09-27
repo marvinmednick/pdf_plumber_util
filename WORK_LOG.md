@@ -204,3 +204,29 @@ This file tracks development progress during active work sessions. It gets clear
   - Current: {"text": "line1\nline2\nline3"}
   - Proposed: {"lines": ["line1", "line2", "line3"]}
 - **Status**: Root cause of multi-page degradation still unidentified
+---
+### 2025-09-26 17:17 - Block Format Array-Based Line Implementation
+- **Completed**: Changed block format from concatenated text to array-based lines for improved LLM parsing
+- **Core Changes**: 
+  - src/pdf_plumb/core/analyzer.py: Added text_lines array field with backward compatibility (6 lines modified)
+  - src/pdf_plumb/llm/sampling.py: Updated LLM format to use text_lines array with fallback (15 lines modified)
+  - tests/fixtures/toc_fixtures.py: Updated test fixtures for new format (1 line added)
+- **Test Updates**: Updated sampling tests with multi-line block examples and text_lines assertions (25 lines modified)
+- **Problem Solved**: Multi-line TOC entries now sent as arrays ['entry1', 'entry2', 'entry3'] instead of concatenated 'entry1\nentry2\nentry3'
+- **Tests**: 135/135 unit tests + 11/11 integration tests passing (100% success)
+- **Next**: Test LLM TOC extraction performance with new array-based format
+---
+### 2025-09-26 18:00 - TOC Performance Test Infrastructure and Improvements Implementation
+- **Completed**: Created comprehensive test infrastructure for TOC extraction performance measurement
+- **Test Infrastructure**: 
+  - tests/performance/test_toc_extraction_performance.py: Automated single vs multi-page comparison (203 lines)
+  - run_performance_tests.py: Executable script for easy test running
+  - Performance test markers and pytest integration with skip logic for missing credentials
+- **Prompt Enhancement**: Added detailed page layout description to LLM prompts with positioning examples
+  - src/pdf_plumb/llm/prompts.py: Added 'Understanding Page Layout Data' section (24 lines)
+  - Explains text_lines arrays, positioning coordinates, and multi-line block handling
+- **Results**: Single-page test achieved 100% accuracy (55/55 TOC entries found)
+  - Previous baseline: 101.9% (55/54 entries - overcounting issue)
+  - New array format + enhanced prompt: 100.0% (55/55 entries - accurate counting)
+- **Infrastructure Value**: Tests can now be run repeatedly with './run_performance_tests.py'
+- **Next**: Multi-page testing needs completion to measure degradation fix effectiveness

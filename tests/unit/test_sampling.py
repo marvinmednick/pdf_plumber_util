@@ -585,12 +585,13 @@ class TestPageDataExtraction:
         """
         sampler = PageSampler()
         
-        # Mock document data
+        # Mock document data with multi-line blocks (the actual problem case)
         pages_data = [
             {
                 'blocks': [
                     {
-                        'text': 'Header text',
+                        'text_lines': ['Header text'],
+                        'text': 'Header text',  # backward compatibility
                         'bbox': {'x0': 100, 'top': 50, 'x1': 200, 'bottom': 70},
                         'predominant_font': 'Arial-Bold',
                         'predominant_size': 12,
@@ -598,7 +599,8 @@ class TestPageDataExtraction:
                         'gap_after': 5
                     },
                     {
-                        'text': 'Body text',
+                        'text_lines': ['TOC Entry 1', 'TOC Entry 2', 'TOC Entry 3'],
+                        'text': 'TOC Entry 1\nTOC Entry 2\nTOC Entry 3',  # backward compatibility
                         'bbox': {'x0': 100, 'top': 80, 'x1': 300, 'bottom': 100},
                         'predominant_font': 'Arial',
                         'predominant_size': 10,
@@ -610,7 +612,8 @@ class TestPageDataExtraction:
             {
                 'blocks': [
                     {
-                        'text': 'More content',
+                        'text_lines': ['Section 1.1', 'Section 1.2'],
+                        'text': 'Section 1.1\nSection 1.2',  # backward compatibility
                         'bbox': {'x0': 100, 'top': 50, 'x1': 250, 'bottom': 70},
                         'predominant_font': 'Arial',
                         'predominant_size': 10,
@@ -622,7 +625,8 @@ class TestPageDataExtraction:
             {
                 'blocks': [
                     {
-                        'text': 'Final page',
+                        'text_lines': ['Final page content'],
+                        'text': 'Final page content',  # backward compatibility
                         'bbox': {'x0': 100, 'top': 60, 'x1': 180, 'bottom': 80},
                         'predominant_font': 'Arial',
                         'predominant_size': 10,
@@ -650,12 +654,20 @@ class TestPageDataExtraction:
         assert page1['block_count'] == 2
         assert len(page1['blocks']) == 2
         
-        # Check block data structure
+        # Check block data structure - test the new text_lines format
         block1 = page1['blocks'][0]
-        assert block1['text'] == 'Header text'
-        assert block1['font'] == 'Arial-Bold'
-        assert block1['size'] == 12
-        assert 'bbox' in block1
+        assert block1['text_lines'] == ['Header text']
+        assert block1['font_name'] == 'Arial-Bold'
+        assert block1['font_size'] == 12
+        assert block1['y0'] == 50
+        assert block1['x0'] == 100
+
+        # Test multi-line block (the core problem we're solving)
+        block2 = page1['blocks'][1]
+        assert block2['text_lines'] == ['TOC Entry 1', 'TOC Entry 2', 'TOC Entry 3']
+        assert len(block2['text_lines']) == 3
+        assert block2['font_name'] == 'Arial'
+        assert block2['font_size'] == 10
     
     def test_extract_page_data_empty_blocks_filtered(self):
         """Test that blocks with empty text are filtered out during extraction.
@@ -679,7 +691,8 @@ class TestPageDataExtraction:
             {
                 'blocks': [
                     {
-                        'text': 'Real content',
+                        'text_lines': ['Real content'],
+                        'text': 'Real content',  # backward compatibility
                         'bbox': {'x0': 100, 'top': 50, 'x1': 200, 'bottom': 70},
                         'predominant_font': 'Arial',
                         'predominant_size': 10,
@@ -687,7 +700,8 @@ class TestPageDataExtraction:
                         'gap_after': 0
                     },
                     {
-                        'text': '',  # Empty block should be filtered
+                        'text_lines': [],  # Empty block should be filtered
+                        'text': '',  # backward compatibility
                         'bbox': {'x0': 100, 'top': 80, 'x1': 200, 'bottom': 100},
                         'predominant_font': 'Arial',
                         'predominant_size': 10,
@@ -695,7 +709,8 @@ class TestPageDataExtraction:
                         'gap_after': 0
                     },
                     {
-                        'text': '   ',  # Whitespace-only should be stripped to empty and filtered
+                        'text_lines': [],  # Whitespace-only should be filtered
+                        'text': '   ',  # backward compatibility
                         'bbox': {'x0': 100, 'top': 110, 'x1': 200, 'bottom': 130},
                         'predominant_font': 'Arial',
                         'predominant_size': 10,
@@ -719,7 +734,7 @@ class TestPageDataExtraction:
         page = extracted_data[0]
         assert page['block_count'] == 1  # Only non-empty block counted
         assert len(page['blocks']) == 1
-        assert page['blocks'][0]['text'] == 'Real content'
+        assert page['blocks'][0]['text_lines'] == ['Real content']
     
     def test_extract_page_data_index_bounds_checking(self):
         """Test that page data extraction handles index bounds correctly.

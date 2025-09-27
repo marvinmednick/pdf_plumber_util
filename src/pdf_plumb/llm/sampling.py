@@ -289,7 +289,8 @@ class PageSampler:
         """Extract streamlined block data for LLM analysis.
 
         Creates an optimized format that reduces context usage while preserving
-        essential information for document structure analysis.
+        essential information for document structure analysis. Uses text_lines
+        array instead of concatenated text to improve LLM parsing accuracy.
         """
         streamlined_blocks = []
 
@@ -300,8 +301,17 @@ class PageSampler:
             blocks = page_data.get('lines', [])
 
         for block in blocks:
-            text = block.get('text', '').strip()
-            if not text:
+            # Prefer text_lines array over concatenated text
+            text_lines = block.get('text_lines', [])
+            if not text_lines:
+                # Fallback to old format for backward compatibility
+                text = block.get('text', '').strip()
+                if not text:
+                    continue
+                text_lines = [line.strip() for line in text.split('\n') if line.strip()]
+
+            # Skip empty blocks
+            if not text_lines:
                 continue
 
             # Extract essential positioning (simplified)
@@ -325,9 +335,9 @@ class PageSampler:
             font_name = block.get('predominant_font', block.get('font_name', block.get('font', '')))
             font_size = block.get('predominant_size', block.get('font_size', block.get('size', 0)))
 
-            # Create optimized block structure
+            # Create optimized block structure with line array
             streamlined_block = {
-                'text': text,
+                'text_lines': text_lines,
                 'y0': y_position,
                 'x0': x_position,
                 'font_name': font_name,
@@ -387,3 +397,77 @@ class PageSampler:
 
         print(f"🔧 Debug: LLM input data saved to {debug_file}")
         print(f"📊 Debug: {debug_data['debug_info']['total_pages']} pages, {debug_data['debug_info']['total_blocks']} blocks")
+
+        # Also save a clean format for manual review
+        self._save_optimized_format_for_review(page_data_for_llm, timestamp, output_dir)
+
+    def _save_optimized_format_for_review(
+        self,
+        page_data_for_llm: List[Dict[str, Any]],
+        timestamp: str,
+        output_dir: Path
+    ) -> None:
+        """Save clean LLM optimized format for manual review and verification.
+
+        Creates a human-readable file showing exactly what text the LLM sees,
+        organized for easy manual TOC counting and accuracy verification.
+        """
+        review_file = output_dir / f"llm_optimized_format_{timestamp}.txt"
+
+        with open(review_file, 'w') as f:
+            f.write("LLM OPTIMIZED FORMAT - MANUAL REVIEW\n")
+            f.write("="*50 + "\n")
+            f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"Total Pages: {len(page_data_for_llm)}\n")
+            f.write("="*50 + "\n\n")
+
+            for page_data in page_data_for_llm:
+                page_index = page_data['page_index']
+                blocks = page_data['blocks']
+
+                f.write(f"PAGE {page_index}\n")
+                f.write("-" * 20 + "\n")
+
+                toc_entries_on_page = 0
+
+                for i, block in enumerate(blocks):
+                    text_lines = block.get('text_lines', [])
+                    y0 = block.get('y0', 0)
+                    x0 = block.get('x0', 0)
+                    font_size = block.get('font_size', 0)
+
+                    f.write(f"\nBlock {i+1}: y={y0:.1f}, x={x0:.1f}, size={font_size}\n")
+
+                    block_toc_count = 0
+                    for line_num, line in enumerate(text_lines):
+                        # Mark potential TOC entries
+                        is_toc = '...' in line and line.strip().split()[-1].isdigit()
+                        marker = " [TOC]" if is_toc else ""
+
+                        f.write(f"  {line_num+1}. {line}{marker}\n")
+
+                        if is_toc:
+                            block_toc_count += 1
+                            toc_entries_on_page += 1
+
+                    if block_toc_count > 0:
+                        f.write(f"     → {block_toc_count} TOC entries in this block\n")
+
+                f.write(f"\nPAGE {page_index} SUMMARY: {toc_entries_on_page} TOC entries\n")
+                f.write("="*50 + "\n\n")
+
+            # Overall summary
+            total_toc = sum(
+                sum(1 for block in page['blocks']
+                    for line in block.get('text_lines', [])
+                    if '...' in line and line.strip().split()[-1].isdigit())
+                for page in page_data_for_llm
+            )
+
+            f.write(f"OVERALL SUMMARY\n")
+            f.write("-"*20 + "\n")
+            f.write(f"Total TOC entries found: {total_toc}\n")
+            f.write(f"Expected for manual verification\n")
+
+        print(f"📋 Review: LLM optimized format saved to {review_file}")
+        print(f"👀 Use this file to manually verify TOC entry accuracy")

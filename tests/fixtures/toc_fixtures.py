@@ -104,7 +104,8 @@ class TOCTestFixtures:
             "page": page_number,
             "blocks": [{
                 "lines": lines,
-                "text": "\n".join(line["text"] for line in lines),
+                "text_lines": [line["text"] for line in lines],
+                "text": "\n".join(line["text"] for line in lines),  # backward compatibility
                 "predominant_size": 10.0,
                 "gap_before": 0.0,
                 "gap_after": 0.0,

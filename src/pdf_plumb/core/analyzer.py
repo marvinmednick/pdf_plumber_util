@@ -710,7 +710,8 @@ class PDFAnalyzer:
                         'blocks': [
                             {
                                 'lines': [line_objects],
-                                'text': combined_text,
+                                'text_lines': [line_text_strings],
+                                'text': combined_text,  # backward compatibility
                                 'predominant_size': size,
                                 'gap_before': gap,
                                 'gap_after': gap,
@@ -767,7 +768,8 @@ class PDFAnalyzer:
                     # Start new block
                     current_block = {
                         'lines': [line],
-                        'text': line.get("text", ""),
+                        'text_lines': [line.get("text", "")],
+                        'text': line.get("text", ""),  # Keep for backward compatibility
                         'predominant_size': size,
                         'gap_before': gap,
                         'gap_after': 0,  # Will be updated when block is complete
@@ -784,7 +786,8 @@ class PDFAnalyzer:
                 else:
                     # Add line to current block
                     current_block['lines'].append(line)
-                    current_block['text'] += "\n" + line.get("text", "")
+                    current_block['text_lines'].append(line.get("text", ""))
+                    current_block['text'] += "\n" + line.get("text", "")  # Keep for backward compatibility
                     # Update block bbox to encompass all lines
                     current_block['bbox']['x0'] = min(current_block['bbox']['x0'], line['bbox']['x0'])
                     current_block['bbox']['x1'] = max(current_block['bbox']['x1'], line['bbox']['x1'])

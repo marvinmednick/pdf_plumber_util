@@ -57,6 +57,7 @@ markers = [
     "unit: Unit tests for individual functions",
     "integration: Integration tests for full commands",
     "golden: Golden document tests using real LLM API calls",
+    "performance: Performance tests measuring LLM accuracy and speed",
     "slow: Tests that take more than a few seconds",
     "external: Tests that require external APIs"
 ]

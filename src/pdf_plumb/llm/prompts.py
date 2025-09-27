@@ -110,6 +110,70 @@ Important: Headers/footers may be absent on some pages or vary by document secti
 - Include ALL detected elements - do not omit any for brevity
 - Complete response is required for production document analysis
 
+**Understanding Page Layout Data**:
+The data below represents text blocks extracted from PDF pages. Each page contains blocks of text positioned at specific coordinates on the page.
+
+**Block Structure**: Each block represents spatially grouped text that appeared close together on the PDF page.
+- `text_lines`: Array of individual text lines within the block (NEW FORMAT: each line is separate)
+- `y0`: Vertical position from top of page (smaller = higher on page)
+- `x0`: Horizontal position from left edge (larger = more indented/right-aligned)
+- `font_name`: Font family (e.g., "TimesNewRomanPSMT", "Arial-Bold")
+- `font_size`: Font size in points (e.g., 12.0, 14.0)
+
+**Layout Example**:
+```
+Page with multiple text blocks showing positioning:
+Block 1: y0=50, x0=100  → "Document Title" (top of page, left-aligned)
+Block 2: y0=80, x0=120  → ["Section 1.1", "Section 1.2"] (indented by 20pt)
+Block 3: y0=120, x0=100 → "Body text continues here" (back to left margin)
+Block 4: y0=750, x0=250 → "Page 15" (bottom center - likely footer)
+```
+
+**Key Layout Insights**:
+- **Vertical Position (y0)**: Text near top of page (y0 < 100) often headers; near bottom (y0 > 700) often footers
+- **Horizontal Position (x0)**: Indentation indicates hierarchy (TOC entries, sub-sections, list items)
+- **Multi-line Blocks**: When `text_lines` has multiple entries, these are individual content items that were spatially grouped (e.g., consecutive TOC entries, list items)
+  → IMPORTANT: Each entry in `text_lines` should be analyzed separately - they are distinct content elements
+- **Font Analysis**: Size and style changes indicate document structure (headings, captions, body text)
+
+**CRITICAL: Multi-line Block Processing Example**:
+Input block:
+```json
+{{
+  "text_lines": [
+    "1.1 Introduction ........................... 5",
+    "1.2 Overview .............................. 8",
+    "1.3 Methodology ........................... 12"
+  ],
+  "y0": 150, "x0": 64, "font_size": 10.0
+}}
+```
+Expected output - THREE separate TOC entries:
+```json
+{{
+  "table_of_contents": [
+    {{
+      "text": "1.1 Introduction ........................... 5",
+      "toc_entry_title": "Introduction",
+      "section_number": "1.1",
+      "page_reference": "5"
+    }},
+    {{
+      "text": "1.2 Overview .............................. 8",
+      "toc_entry_title": "Overview",
+      "section_number": "1.2",
+      "page_reference": "8"
+    }},
+    {{
+      "text": "1.3 Methodology ........................... 12",
+      "toc_entry_title": "Methodology",
+      "section_number": "1.3",
+      "page_reference": "12"
+    }}
+  ]
+}}
+```
+
 **Pages Data**:
 {json.dumps(page_data, indent=2)}
 
