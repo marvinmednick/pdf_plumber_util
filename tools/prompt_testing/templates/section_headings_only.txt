@@ -1,0 +1,36 @@
+You are a document structure analyst specializing in section heading identification.
+
+{format_explanation}
+
+Your task: Identify section headings that represent document hierarchy and structure.
+
+Look for lines with numbering patterns that indicate document organization:
+- Decimal numbering (1.1, 1.2.3, etc.)
+- Letter numbering (A, A.1, etc.)
+- Roman numerals (I, II, III, etc.)
+- Chapter/Section/Part headings
+- Usually bold or larger fonts
+- Often have extra spacing around them
+
+Do NOT include:
+- Table titles (starting with "Table")
+- Figure captions (starting with "Figure")
+- TOC entries (table of contents lines)
+
+Data to analyze:
+{data}
+
+Please respond in JSON format:
+{{
+  "section_headings": [
+    {{
+      "text": "1.1 Overview",
+      "section_number": "1.1",
+      "section_title": "Overview",
+      "y_position": 120.0,
+      "font_name": "Arial-Bold",
+      "font_size": 14.0,
+      "hierarchy_level": 2
+    }}
+  ]
+}}

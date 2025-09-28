@@ -505,3 +505,63 @@ completion_thresholds:
 - **Cleaner Error Handling**: Simplified failure scenarios and recovery logic
 
 This architecture provides a robust foundation for intelligent document structure analysis while optimizing for cost, performance, and analysis quality through the strategic use of a single comprehensive LLM call for all pattern validation phases.
+
+## Empirical Pattern Discovery Methodology (Implementation Evolution)
+
+### **Background: Prompt Complexity Investigation**
+
+During implementation, systematic analysis revealed critical scaling issues with the original comprehensive LLM approach:
+
+- **Multi-objective overload**: 845-line prompt attempting 6 simultaneous analysis tasks created computational complexity explosion
+- **Template matching bias**: Prescriptive format examples hindered genuine pattern discovery
+- **Request size bottleneck**: 77% larger data + 39% larger prompt caused API timeouts at just 2 pages
+- **Architectural mismatch**: Current multi-objective extraction approach conflicted with designed iterative pattern methodology
+
+### **Evolved Approach: Extract → Analyze → Scale**
+
+Based on findings, the Pattern Detection Architecture has evolved to emphasize **empirical pattern discovery** through systematic prompt optimization:
+
+#### **Phase 1: Systematic Prompt Prototyping**
+**Objective**: Identify optimal prompt architecture through systematic testing
+
+**Prototype Matrix**:
+1. **Single-objective, single-page**: "Find TOC entries on this page"
+2. **Single-objective, multi-page**: "Find TOC entries on these 2 pages"
+3. **Multi-objective, single-page**: "Find TOC entries and section headings on this page"
+4. **Multi-objective, multi-page**: "Find TOC entries and section headings on these 2 pages"
+
+**Data Format Independence**: Generic data structure explanation independent of search objectives, using template system with placeholders for `{data}`, `{objective}`, `{format_explanation}`.
+
+#### **Phase 2: Empirical Pattern Discovery**
+**Objective**: Build concrete pattern understanding from actual extraction results
+
+**Stage 2A - Direct Extraction**: Apply optimal prompt architecture to extract specific content types across multiple pages
+**Stage 2B - Pattern Analysis**: "Here are TOC entries found across pages 1-3: [results]. What specific patterns do you see?"
+**Stage 2C - Pattern Validation**: Cross-validate discovered patterns against original data for consistency
+
+#### **Phase 3: Hybrid Automation Architecture**
+**Objective**: Scale using pattern-driven extraction strategies
+
+**Implementation Options**:
+- **Programmatic extraction**: Convert well-defined patterns to regex for simple cases
+- **Guided LLM extraction**: Use discovered patterns to focus LLM analysis for complex cases
+- **Hybrid approach**: Combine programmatic efficiency with LLM intelligence based on pattern complexity
+
+### **Integration with Original Design**
+
+The empirical methodology **extends** rather than replaces the original Pattern Detection Architecture:
+
+- **Preserves core principles**: Programmatic preprocessing + LLM validation + iterative refinement
+- **Addresses scaling issues**: Systematic prompt optimization prevents complexity explosion
+- **Maintains pattern focus**: Empirical discovery validates actual patterns vs theoretical assumptions
+- **Enables hybrid automation**: Graduated approach from LLM discovery to programmatic application
+
+### **Test Infrastructure Requirements**
+
+**Test Utility Design**:
+- **Template system**: Reusable prompt components with variable substitution
+- **Batch execution**: Matrix testing of prompt variants × data combinations
+- **Performance tracking**: Request size, timing, accuracy metrics for systematic comparison
+- **Results analysis**: Side-by-side comparison of prompt effectiveness
+
+This evolved methodology ensures the Pattern Detection Architecture scales effectively through systematic prompt optimization while maintaining the intelligent pattern discovery and validation principles of the original design.

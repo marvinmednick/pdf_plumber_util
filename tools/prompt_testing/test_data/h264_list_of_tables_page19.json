@@ -1,0 +1,2496 @@
+{
+  "pages": [
+    {
+      "page": 19,
+      "blocks": [
+        {
+          "lines": [
+            {
+              "line_number": 2,
+              "text": "Figure D-11 \u2013 Rearrangement of a temporal interleaving frame arrangement  (frame_packing_arrangement_type",
+              "text_proportional": "Figure D-11 \u2013 Rearrangement of a temporal interleaving frame arrangement  (frame_packing_arrangement_type",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 55.671359999999936,
+                "x1": 509.71000000000004,
+                "bottom": 65.63135999999986
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure D-11 \u2013 Rearrangement of a temporal interleaving frame arrangement  (frame_packing_arrangement_type",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 55.671359999999936,
+                    "x1": 509.71000000000004,
+                    "bottom": 65.63135999999986
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 13.56000000000006,
+              "gap_after": 1.0886400000001686
+            },
+            {
+              "line_number": 3,
+              "text": "equal to 5) ............................................................................................................................................................... 391",
+              "text_proportional": "equal to 5) ............................................................................................................................................................... 391",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 74.544,
+                "top": 66.72000000000003,
+                "x1": 538.51504,
+                "bottom": 77.75999999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "equal to 5) ............................................................................................................................................................... 391",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 67.19136000000003,
+                    "x1": 536.08,
+                    "bottom": 77.15135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 66.72000000000003,
+                    "x1": 538.51504,
+                    "bottom": 77.75999999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 1.0886400000001686,
+              "gap_after": 7.6913600000000315
+            }
+          ],
+          "text": "Figure D-11 \u2013 Rearrangement of a temporal interleaving frame arrangement  (frame_packing_arrangement_type\nequal to 5) ............................................................................................................................................................... 391",
+          "predominant_size": 10.0,
+          "gap_before": 13.56000000000006,
+          "gap_after": 7.6913600000000315,
+          "size_coverage": 0.6666666666666666,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 55.671359999999936,
+            "bottom": 77.75999999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 4,
+              "text": "Figure D-12 \u2013 Rearrangement and upconversion of tile format packing arrangement",
+              "text_proportional": "Figure D-12 \u2013 Rearrangement and upconversion of tile format packing arrangement",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 85.45136000000002,
+                "x1": 395.08,
+                "bottom": 95.41135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure D-12 \u2013 Rearrangement and upconversion of tile format packing arrangement",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 85.45136000000002,
+                    "x1": 395.08,
+                    "bottom": 95.41135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 7.6913600000000315,
+              "gap_after": 1.2086400000000594
+            },
+            {
+              "line_number": 5,
+              "text": "(frame_packing_arrangement_type equal to 7) ...................................................................................................... 391",
+              "text_proportional": "(frame_packing_arrangement_type equal to 7) ...................................................................................................... 391",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 74.544,
+                "top": 96.62,
+                "x1": 538.51504,
+                "bottom": 107.65999999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "(frame_packing_arrangement_type equal to 7) ...................................................................................................... 391",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 97.09136000000001,
+                    "x1": 536.08,
+                    "bottom": 107.05135999999993
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 96.62,
+                    "x1": 538.51504,
+                    "bottom": 107.65999999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 1.2086400000000594,
+              "gap_after": 7.67136000000005
+            }
+          ],
+          "text": "Figure D-12 \u2013 Rearrangement and upconversion of tile format packing arrangement\n(frame_packing_arrangement_type equal to 7) ...................................................................................................... 391",
+          "predominant_size": 10.0,
+          "gap_before": 7.6913600000000315,
+          "gap_after": 7.67136000000005,
+          "size_coverage": 0.6666666666666666,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 85.45136000000002,
+            "bottom": 107.65999999999997
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 6,
+              "text": "Figure E-1 \u2013 Location of chroma samples for top and bottom fields for chroma_format_idc equal to 1 (4:2:0 chroma",
+              "text_proportional": "Figure E-1 \u2013 Location of chroma samples for top and bottom fields for chroma_format_idc equal to 1 (4:2:0 chroma",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 115.33136000000002,
+                "x1": 521.72452,
+                "bottom": 125.29135999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure E-1 \u2013 Location of chroma samples for top and bottom fields for chroma_format_idc equal to 1 (4:2:0 chroma",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 115.33136000000002,
+                    "x1": 521.72452,
+                    "bottom": 125.29135999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 7.67136000000005,
+              "gap_after": 1.088640000000055
+            },
+            {
+              "line_number": 7,
+              "text": "format) as a function of chroma_sample_loc_type_top_field and chroma_sample_loc_type_bottom_field ......... 430",
+              "text_proportional": "format) as a function of chroma_sample_loc_type_top_field and chroma_sample_loc_type_bottom_field ......... 430",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 74.544,
+                "top": 126.38,
+                "x1": 538.51504,
+                "bottom": 137.41999999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "format) as a function of chroma_sample_loc_type_top_field and chroma_sample_loc_type_bottom_field ......... 430",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 126.85136,
+                    "x1": 536.08,
+                    "bottom": 136.81135999999992
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 126.38,
+                    "x1": 538.51504,
+                    "bottom": 137.41999999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 1.088640000000055,
+              "gap_after": 8.231999999999971
+            }
+          ],
+          "text": "Figure E-1 \u2013 Location of chroma samples for top and bottom fields for chroma_format_idc equal to 1 (4:2:0 chroma\nformat) as a function of chroma_sample_loc_type_top_field and chroma_sample_loc_type_bottom_field ......... 430",
+          "predominant_size": 10.0,
+          "gap_before": 7.67136000000005,
+          "gap_after": 28.751999999999953,
+          "size_coverage": 0.6666666666666666,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 115.33136000000002,
+            "bottom": 137.41999999999996
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 9,
+              "text": "List of Tables",
+              "text_proportional": "List of Tables",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 262.73,
+                "top": 166.1719999999999,
+                "x1": 335.71,
+                "bottom": 178.1719999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 12.0,
+                  "rounded_size": 12.0,
+                  "direction": "upright",
+                  "text": "List of Tables",
+                  "bbox": {
+                    "x0": 262.73,
+                    "top": 166.1719999999999,
+                    "x1": 335.71,
+                    "bottom": 178.1719999999999
+                  }
+                }
+              ],
+              "predominant_size": 12.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.519999999999982,
+              "gap_after": 7.608000000000061
+            }
+          ],
+          "text": "List of Tables",
+          "predominant_size": 12.0,
+          "gap_before": 28.751999999999953,
+          "gap_after": 7.608000000000061,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 262.73,
+            "x1": 335.71,
+            "top": 166.1719999999999,
+            "bottom": 178.1719999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 10,
+              "text": "Table 5-1 \u2013 Operation precedence from highest (at top of table) to lowest (at bottom of table) ...................................... 19",
+              "text_proportional": "Table 5-1 \u2013 Operation precedence from highest (at top of table) to lowest (at bottom of table) ...................................... 19",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 185.77999999999997,
+                "x1": 538.51504,
+                "bottom": 196.81999999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 5-1 \u2013 Operation precedence from highest (at top of table) to lowest (at bottom of table) ...................................... 19",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 186.25135999999998,
+                    "x1": 536.0799999999999,
+                    "bottom": 196.2113599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 185.77999999999997,
+                    "x1": 538.51504,
+                    "bottom": 196.81999999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.608000000000061,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Table 5-1 \u2013 Operation precedence from highest (at top of table) to lowest (at bottom of table) ...................................... 19",
+          "predominant_size": 10.0,
+          "gap_before": 7.608000000000061,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 185.77999999999997,
+            "bottom": 196.81999999999994
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 11,
+              "text": "Table 6-1 \u2013 SubWidthC, and SubHeightC values derived from  chroma_format_idc and separate_colour_plane_flag .. 22",
+              "text_proportional": "Table 6-1 \u2013 SubWidthC, and SubHeightC values derived from  chroma_format_idc and separate_colour_plane_flag .. 22",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 204.14,
+                "x1": 538.51504,
+                "bottom": 215.17999999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 6-1 \u2013 SubWidthC, and SubHeightC values derived from  chroma_format_idc and separate_colour_plane_flag .. 22",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 204.61136,
+                    "x1": 536.0799999999999,
+                    "bottom": 214.5713599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 204.14,
+                    "x1": 538.51504,
+                    "bottom": 215.17999999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 6-1 \u2013 SubWidthC, and SubHeightC values derived from  chroma_format_idc and separate_colour_plane_flag .. 22",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 204.14,
+            "bottom": 215.17999999999995
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 12,
+              "text": "Table 6-2 \u2013 Specification of input and output assignments for clauses 6.4.11.1 to 6.4.11.7 ............................................ 32",
+              "text_proportional": "Table 6-2 \u2013 Specification of input and output assignments for clauses 6.4.11.1 to 6.4.11.7 ............................................ 32",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 222.38,
+                "x1": 538.51504,
+                "bottom": 233.41999999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 6-2 \u2013 Specification of input and output assignments for clauses 6.4.11.1 to 6.4.11.7 ............................................ 32",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 222.85136,
+                    "x1": 536.0799999999999,
+                    "bottom": 232.81135999999992
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 222.38,
+                    "x1": 538.51504,
+                    "bottom": 233.41999999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Table 6-2 \u2013 Specification of input and output assignments for clauses 6.4.11.1 to 6.4.11.7 ............................................ 32",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 222.38,
+            "bottom": 233.41999999999996
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 13,
+              "text": "Table 6-3 \u2013 Specification of mbAddrN ............................................................................................................................ 37",
+              "text_proportional": "Table 6-3 \u2013 Specification of mbAddrN ............................................................................................................................ 37",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 240.74,
+                "x1": 538.51504,
+                "bottom": 251.77999999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 6-3 \u2013 Specification of mbAddrN ............................................................................................................................ 37",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 241.21136,
+                    "x1": 536.0799999999999,
+                    "bottom": 251.17135999999994
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 240.74,
+                    "x1": 538.51504,
+                    "bottom": 251.77999999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 6-3 \u2013 Specification of mbAddrN ............................................................................................................................ 37",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 240.74,
+            "bottom": 251.77999999999997
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 14,
+              "text": "Table 6-4 \u2013 Specification of mbAddrN and yM ............................................................................................................... 38",
+              "text_proportional": "Table 6-4 \u2013 Specification of mbAddrN and yM ............................................................................................................... 38",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 258.98,
+                "x1": 538.51504,
+                "bottom": 270.02
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 6-4 \u2013 Specification of mbAddrN and yM ............................................................................................................... 38",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 259.45136,
+                    "x1": 536.0799999999999,
+                    "bottom": 269.41135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 258.98,
+                    "x1": 538.51504,
+                    "bottom": 270.02
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.350000000000023
+            }
+          ],
+          "text": "Table 6-4 \u2013 Specification of mbAddrN and yM ............................................................................................................... 38",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.350000000000023,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 258.98,
+            "bottom": 270.02
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 15,
+              "text": "Table 7-1 \u2013 NAL unit type codes, syntax element categories, and NAL unit type classes ............................................... 65",
+              "text_proportional": "Table 7-1 \u2013 NAL unit type codes, syntax element categories, and NAL unit type classes ............................................... 65",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 277.37,
+                "x1": 538.51504,
+                "bottom": 288.40999999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-1 \u2013 NAL unit type codes, syntax element categories, and NAL unit type classes ............................................... 65",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 277.84136,
+                    "x1": 536.0799999999999,
+                    "bottom": 287.80135999999993
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 277.37,
+                    "x1": 538.51504,
+                    "bottom": 288.40999999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.350000000000023,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 7-1 \u2013 NAL unit type codes, syntax element categories, and NAL unit type classes ............................................... 65",
+          "predominant_size": 10.0,
+          "gap_before": 7.350000000000023,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 277.37,
+            "bottom": 288.40999999999997
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 16,
+              "text": "Table 7-2 \u2013 Assignment of mnemonic names to scaling list indices and specification of fall-back rule .......................... 76",
+              "text_proportional": "Table 7-2 \u2013 Assignment of mnemonic names to scaling list indices and specification of fall-back rule .......................... 76",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 295.61,
+                "x1": 538.51504,
+                "bottom": 306.65
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-2 \u2013 Assignment of mnemonic names to scaling list indices and specification of fall-back rule .......................... 76",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 296.08136,
+                    "x1": 536.0799999999999,
+                    "bottom": 306.04135999999994
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 295.61,
+                    "x1": 538.51504,
+                    "bottom": 306.65
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Table 7-2 \u2013 Assignment of mnemonic names to scaling list indices and specification of fall-back rule .......................... 76",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 295.61,
+            "bottom": 306.65
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 17,
+              "text": "Table 7-3 \u2013 Specification of default scaling lists Default_4x4_Intra and Default_4x4_Inter .......................................... 76",
+              "text_proportional": "Table 7-3 \u2013 Specification of default scaling lists Default_4x4_Intra and Default_4x4_Inter .......................................... 76",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 313.97,
+                "x1": 538.51504,
+                "bottom": 325.01
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-3 \u2013 Specification of default scaling lists Default_4x4_Intra and Default_4x4_Inter .......................................... 76",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 314.44136000000003,
+                    "x1": 536.0799999999999,
+                    "bottom": 324.40135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 313.97,
+                    "x1": 538.51504,
+                    "bottom": 325.01
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.199999999999989
+            }
+          ],
+          "text": "Table 7-3 \u2013 Specification of default scaling lists Default_4x4_Intra and Default_4x4_Inter .......................................... 76",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.199999999999989,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 313.97,
+            "bottom": 325.01
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 18,
+              "text": "Table 7-4 \u2013 Specification of default scaling lists Default_8x8_Intra and Default_8x8_Inter .......................................... 77",
+              "text_proportional": "Table 7-4 \u2013 Specification of default scaling lists Default_8x8_Intra and Default_8x8_Inter .......................................... 77",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 332.21,
+                "x1": 538.51504,
+                "bottom": 343.24999999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-4 \u2013 Specification of default scaling lists Default_8x8_Intra and Default_8x8_Inter .......................................... 77",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 332.6813599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 342.64135999999996
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 332.21,
+                    "x1": 538.51504,
+                    "bottom": 343.24999999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.199999999999989,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Table 7-4 \u2013 Specification of default scaling lists Default_8x8_Intra and Default_8x8_Inter .......................................... 77",
+          "predominant_size": 10.0,
+          "gap_before": 7.199999999999989,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 332.21,
+            "bottom": 343.24999999999994
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 19,
+              "text": "Table 7-5 \u2013 Meaning of primary_pic_type ....................................................................................................................... 84",
+              "text_proportional": "Table 7-5 \u2013 Meaning of primary_pic_type ....................................................................................................................... 84",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 350.57,
+                "x1": 538.51504,
+                "bottom": 361.60999999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-5 \u2013 Meaning of primary_pic_type ....................................................................................................................... 84",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 351.04135999999994,
+                    "x1": 536.0799999999999,
+                    "bottom": 361.00136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 350.57,
+                    "x1": 538.51504,
+                    "bottom": 361.60999999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 7-5 \u2013 Meaning of primary_pic_type ....................................................................................................................... 84",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 350.57,
+            "bottom": 361.60999999999996
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 20,
+              "text": "Table 7-6 \u2013 Name association to slice_type ..................................................................................................................... 87",
+              "text_proportional": "Table 7-6 \u2013 Name association to slice_type ..................................................................................................................... 87",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 368.81,
+                "x1": 538.51504,
+                "bottom": 379.84999999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-6 \u2013 Name association to slice_type ..................................................................................................................... 87",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 369.28135999999995,
+                    "x1": 536.0799999999999,
+                    "bottom": 379.24136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 368.81,
+                    "x1": 538.51504,
+                    "bottom": 379.84999999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.319999999999993
+            }
+          ],
+          "text": "Table 7-6 \u2013 Name association to slice_type ..................................................................................................................... 87",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.319999999999993,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 368.81,
+            "bottom": 379.84999999999997
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 21,
+              "text": "Table 7-7 \u2013 modification_of_pic_nums_idc operations for modification of reference picture lists ................................. 93",
+              "text_proportional": "Table 7-7 \u2013 modification_of_pic_nums_idc operations for modification of reference picture lists ................................. 93",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 387.16999999999996,
+                "x1": 538.51504,
+                "bottom": 398.2099999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-7 \u2013 modification_of_pic_nums_idc operations for modification of reference picture lists ................................. 93",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 387.6413599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 397.60135999999994
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 387.16999999999996,
+                    "x1": 538.51504,
+                    "bottom": 398.2099999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.319999999999993,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 7-7 \u2013 modification_of_pic_nums_idc operations for modification of reference picture lists ................................. 93",
+          "predominant_size": 10.0,
+          "gap_before": 7.319999999999993,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 387.16999999999996,
+            "bottom": 398.2099999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 22,
+              "text": "Table 7-8 \u2013 Interpretation of adaptive_ref_pic_marking_mode_flag ............................................................................... 94",
+              "text_proportional": "Table 7-8 \u2013 Interpretation of adaptive_ref_pic_marking_mode_flag ............................................................................... 94",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 405.40999999999997,
+                "x1": 538.51504,
+                "bottom": 416.44999999999993
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-8 \u2013 Interpretation of adaptive_ref_pic_marking_mode_flag ............................................................................... 94",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 405.8813599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 415.84135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 405.40999999999997,
+                    "x1": 538.51504,
+                    "bottom": 416.44999999999993
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Table 7-8 \u2013 Interpretation of adaptive_ref_pic_marking_mode_flag ............................................................................... 94",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 405.40999999999997,
+            "bottom": 416.44999999999993
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 23,
+              "text": "Table 7-9 \u2013 Memory management control operation (memory_management_control_operation) values ....................... 96",
+              "text_proportional": "Table 7-9 \u2013 Memory management control operation (memory_management_control_operation) values ....................... 96",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 423.77,
+                "x1": 538.51504,
+                "bottom": 434.80999999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-9 \u2013 Memory management control operation (memory_management_control_operation) values ....................... 96",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 424.24135999999993,
+                    "x1": 536.0799999999999,
+                    "bottom": 434.20135999999997
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 423.77,
+                    "x1": 538.51504,
+                    "bottom": 434.80999999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 7-9 \u2013 Memory management control operation (memory_management_control_operation) values ....................... 96",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 423.77,
+            "bottom": 434.80999999999995
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 24,
+              "text": "Table 7-10 \u2013 Allowed collective macroblock types for slice_type ................................................................................... 98",
+              "text_proportional": "Table 7-10 \u2013 Allowed collective macroblock types for slice_type ................................................................................... 98",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 442.01,
+                "x1": 538.51504,
+                "bottom": 453.04999999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-10 \u2013 Allowed collective macroblock types for slice_type ................................................................................... 98",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 442.48135999999994,
+                    "x1": 536.0799999999999,
+                    "bottom": 452.44136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 442.01,
+                    "x1": 538.51504,
+                    "bottom": 453.04999999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.340000000000032
+            }
+          ],
+          "text": "Table 7-10 \u2013 Allowed collective macroblock types for slice_type ................................................................................... 98",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.340000000000032,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 442.01,
+            "bottom": 453.04999999999995
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 25,
+              "text": "Table 7-11 \u2013 Macroblock types for I slices .................................................................................................................... 100",
+              "text_proportional": "Table 7-11 \u2013 Macroblock types for I slices .................................................................................................................... 100",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 460.39,
+                "x1": 538.51504,
+                "bottom": 471.42999999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-11 \u2013 Macroblock types for I slices .................................................................................................................... 100",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 460.86135999999993,
+                    "x1": 536.08,
+                    "bottom": 470.82135999999997
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 460.39,
+                    "x1": 538.51504,
+                    "bottom": 471.42999999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.340000000000032,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 7-11 \u2013 Macroblock types for I slices .................................................................................................................... 100",
+          "predominant_size": 10.0,
+          "gap_before": 7.340000000000032,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 460.39,
+            "bottom": 471.42999999999995
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 26,
+              "text": "Table 7-12 \u2013 Macroblock type with value 0 for SI slices ............................................................................................... 101",
+              "text_proportional": "Table 7-12 \u2013 Macroblock type with value 0 for SI slices ............................................................................................... 101",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 478.63,
+                "x1": 538.51504,
+                "bottom": 489.66999999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-12 \u2013 Macroblock type with value 0 for SI slices ............................................................................................... 101",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 479.10135999999994,
+                    "x1": 536.08,
+                    "bottom": 489.06136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 478.63,
+                    "x1": 538.51504,
+                    "bottom": 489.66999999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.319999999999993
+            }
+          ],
+          "text": "Table 7-12 \u2013 Macroblock type with value 0 for SI slices ............................................................................................... 101",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.319999999999993,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 478.63,
+            "bottom": 489.66999999999996
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 27,
+              "text": "Table 7-13 \u2013 Macroblock type values 0 to 4 for P and SP slices .................................................................................... 102",
+              "text_proportional": "Table 7-13 \u2013 Macroblock type values 0 to 4 for P and SP slices .................................................................................... 102",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 496.98999999999995,
+                "x1": 538.51504,
+                "bottom": 508.0299999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-13 \u2013 Macroblock type values 0 to 4 for P and SP slices .................................................................................... 102",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 497.4613599999999,
+                    "x1": 536.08,
+                    "bottom": 507.42135999999994
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 496.98999999999995,
+                    "x1": 538.51504,
+                    "bottom": 508.0299999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.319999999999993,
+              "gap_after": 7.200000000000102
+            }
+          ],
+          "text": "Table 7-13 \u2013 Macroblock type values 0 to 4 for P and SP slices .................................................................................... 102",
+          "predominant_size": 10.0,
+          "gap_before": 7.319999999999993,
+          "gap_after": 7.200000000000102,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 496.98999999999995,
+            "bottom": 508.0299999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 28,
+              "text": "Table 7-14 \u2013 Macroblock type values 0 to 22 for B slices ............................................................................................. 103",
+              "text_proportional": "Table 7-14 \u2013 Macroblock type values 0 to 22 for B slices ............................................................................................. 103",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 515.23,
+                "x1": 538.51504,
+                "bottom": 526.27
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-14 \u2013 Macroblock type values 0 to 22 for B slices ............................................................................................. 103",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 515.7013599999999,
+                    "x1": 536.08,
+                    "bottom": 525.66136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 515.23,
+                    "x1": 538.51504,
+                    "bottom": 526.27
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.200000000000102,
+              "gap_after": 7.319999999999936
+            }
+          ],
+          "text": "Table 7-14 \u2013 Macroblock type values 0 to 22 for B slices ............................................................................................. 103",
+          "predominant_size": 10.0,
+          "gap_before": 7.200000000000102,
+          "gap_after": 7.319999999999936,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 515.23,
+            "bottom": 526.27
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 29,
+              "text": "Table 7-15 \u2013 Specification of CodedBlockPatternChroma values ................................................................................. 105",
+              "text_proportional": "Table 7-15 \u2013 Specification of CodedBlockPatternChroma values ................................................................................. 105",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 533.5899999999999,
+                "x1": 538.51504,
+                "bottom": 544.6299999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-15 \u2013 Specification of CodedBlockPatternChroma values ................................................................................. 105",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 534.0613599999999,
+                    "x1": 536.08,
+                    "bottom": 544.02136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 533.5899999999999,
+                    "x1": 538.51504,
+                    "bottom": 544.6299999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.319999999999936,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 7-15 \u2013 Specification of CodedBlockPatternChroma values ................................................................................. 105",
+          "predominant_size": 10.0,
+          "gap_before": 7.319999999999936,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 533.5899999999999,
+            "bottom": 544.6299999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 30,
+              "text": "Table 7-16 \u2013 Relationship between intra_chroma_pred_mode and spatial prediction modes ........................................ 106",
+              "text_proportional": "Table 7-16 \u2013 Relationship between intra_chroma_pred_mode and spatial prediction modes ........................................ 106",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 551.8299999999999,
+                "x1": 538.51504,
+                "bottom": 562.8699999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-16 \u2013 Relationship between intra_chroma_pred_mode and spatial prediction modes ........................................ 106",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 552.3013599999999,
+                    "x1": 536.08,
+                    "bottom": 562.26136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 551.8299999999999,
+                    "x1": 538.51504,
+                    "bottom": 562.8699999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.320000000000164
+            }
+          ],
+          "text": "Table 7-16 \u2013 Relationship between intra_chroma_pred_mode and spatial prediction modes ........................................ 106",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.320000000000164,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 551.8299999999999,
+            "bottom": 562.8699999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 31,
+              "text": "Table 7-17 \u2013 Sub-macroblock types in P macroblocks................................................................................................... 107",
+              "text_proportional": "Table 7-17 \u2013 Sub-macroblock types in P macroblocks................................................................................................... 107",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 570.19,
+                "x1": 538.51504,
+                "bottom": 581.23
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-17 \u2013 Sub-macroblock types in P macroblocks................................................................................................... 107",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 570.66136,
+                    "x1": 536.08,
+                    "bottom": 580.62136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 570.19,
+                    "x1": 538.51504,
+                    "bottom": 581.23
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.320000000000164,
+              "gap_after": 7.199999999999932
+            }
+          ],
+          "text": "Table 7-17 \u2013 Sub-macroblock types in P macroblocks................................................................................................... 107",
+          "predominant_size": 10.0,
+          "gap_before": 7.320000000000164,
+          "gap_after": 7.199999999999932,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 570.19,
+            "bottom": 581.23
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 32,
+              "text": "Table 7-18 \u2013 Sub-macroblock types in B macroblocks .................................................................................................. 108",
+              "text_proportional": "Table 7-18 \u2013 Sub-macroblock types in B macroblocks .................................................................................................. 108",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 588.43,
+                "x1": 538.51504,
+                "bottom": 599.4699999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 7-18 \u2013 Sub-macroblock types in B macroblocks .................................................................................................. 108",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 588.90136,
+                    "x1": 536.08,
+                    "bottom": 598.86136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 588.43,
+                    "x1": 538.51504,
+                    "bottom": 599.4699999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.199999999999932,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Table 7-18 \u2013 Sub-macroblock types in B macroblocks .................................................................................................. 108",
+          "predominant_size": 10.0,
+          "gap_before": 7.199999999999932,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 588.43,
+            "bottom": 599.4699999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 33,
+              "text": "Table 8-1 \u2013 Refined slice group map type ...................................................................................................................... 117",
+              "text_proportional": "Table 8-1 \u2013 Refined slice group map type ...................................................................................................................... 117",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 606.79,
+                "x1": 538.51504,
+                "bottom": 617.8299999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-1 \u2013 Refined slice group map type ...................................................................................................................... 117",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 607.26136,
+                    "x1": 536.08,
+                    "bottom": 617.22136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 606.79,
+                    "x1": 538.51504,
+                    "bottom": 617.8299999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 8-1 \u2013 Refined slice group map type ...................................................................................................................... 117",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 606.79,
+            "bottom": 617.8299999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 34,
+              "text": "Table 8-2 \u2013 Specification of Intra4x4PredMode[ luma4x4BlkIdx ] and associated names ............................................ 132",
+              "text_proportional": "Table 8-2 \u2013 Specification of Intra4x4PredMode[ luma4x4BlkIdx ] and associated names ............................................ 132",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 625.03,
+                "x1": 538.51504,
+                "bottom": 636.0699999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-2 \u2013 Specification of Intra4x4PredMode[ luma4x4BlkIdx ] and associated names ............................................ 132",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 625.50136,
+                    "x1": 536.08,
+                    "bottom": 635.46136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 625.03,
+                    "x1": 538.51504,
+                    "bottom": 636.0699999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.350000000000023
+            }
+          ],
+          "text": "Table 8-2 \u2013 Specification of Intra4x4PredMode[ luma4x4BlkIdx ] and associated names ............................................ 132",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.350000000000023,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 625.03,
+            "bottom": 636.0699999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 35,
+              "text": "Table 8-3 \u2013 Specification of Intra8x8PredMode[ luma8x8BlkIdx ] and associated names ............................................ 138",
+              "text_proportional": "Table 8-3 \u2013 Specification of Intra8x8PredMode[ luma8x8BlkIdx ] and associated names ............................................ 138",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 643.42,
+                "x1": 538.51504,
+                "bottom": 654.4599999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-3 \u2013 Specification of Intra8x8PredMode[ luma8x8BlkIdx ] and associated names ............................................ 138",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 643.89136,
+                    "x1": 536.08,
+                    "bottom": 653.85136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 643.42,
+                    "x1": 538.51504,
+                    "bottom": 654.4599999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.350000000000023,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 8-3 \u2013 Specification of Intra8x8PredMode[ luma8x8BlkIdx ] and associated names ............................................ 138",
+          "predominant_size": 10.0,
+          "gap_before": 7.350000000000023,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 643.42,
+            "bottom": 654.4599999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 36,
+              "text": "Table 8-4 \u2013 Specification of Intra16x16PredMode and associated names ..................................................................... 145",
+              "text_proportional": "Table 8-4 \u2013 Specification of Intra16x16PredMode and associated names ..................................................................... 145",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 661.66,
+                "x1": 538.51504,
+                "bottom": 672.6999999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-4 \u2013 Specification of Intra16x16PredMode and associated names ..................................................................... 145",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 662.13136,
+                    "x1": 536.08,
+                    "bottom": 672.0913599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 661.66,
+                    "x1": 538.51504,
+                    "bottom": 672.6999999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Table 8-4 \u2013 Specification of Intra16x16PredMode and associated names ..................................................................... 145",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 661.66,
+            "bottom": 672.6999999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 37,
+              "text": "Table 8-5 \u2013 Specification of Intra chroma prediction modes and associated names ...................................................... 147",
+              "text_proportional": "Table 8-5 \u2013 Specification of Intra chroma prediction modes and associated names ...................................................... 147",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 680.02,
+                "x1": 538.51504,
+                "bottom": 691.06
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-5 \u2013 Specification of Intra chroma prediction modes and associated names ...................................................... 147",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 680.49136,
+                    "x1": 536.08,
+                    "bottom": 690.45136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 680.02,
+                    "x1": 538.51504,
+                    "bottom": 691.06
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Table 8-5 \u2013 Specification of Intra chroma prediction modes and associated names ...................................................... 147",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 680.02,
+            "bottom": 691.06
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 38,
+              "text": "Table 8-6 \u2013 Specification of the variable colPic ............................................................................................................. 155",
+              "text_proportional": "Table 8-6 \u2013 Specification of the variable colPic ............................................................................................................. 155",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 698.26,
+                "x1": 538.51504,
+                "bottom": 709.3
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-6 \u2013 Specification of the variable colPic ............................................................................................................. 155",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 698.73136,
+                    "x1": 536.08,
+                    "bottom": 708.69136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 698.26,
+                    "x1": 538.51504,
+                    "bottom": 709.3
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.319999999999936
+            }
+          ],
+          "text": "Table 8-6 \u2013 Specification of the variable colPic ............................................................................................................. 155",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.319999999999936,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 698.26,
+            "bottom": 709.3
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 39,
+              "text": "Table 8-7 \u2013 Specification of PicCodingStruct( X ) ......................................................................................................... 155",
+              "text_proportional": "Table 8-7 \u2013 Specification of PicCodingStruct( X ) ......................................................................................................... 155",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 716.6199999999999,
+                "x1": 538.51504,
+                "bottom": 727.66
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-7 \u2013 Specification of PicCodingStruct( X ) ......................................................................................................... 155",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 717.0913599999999,
+                    "x1": 536.08,
+                    "bottom": 727.0513599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.040000000000006,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 716.6199999999999,
+                    "x1": 538.51504,
+                    "bottom": 727.66
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.319999999999936,
+              "gap_after": 7.196000000000026
+            }
+          ],
+          "text": "Table 8-7 \u2013 Specification of PicCodingStruct( X ) ......................................................................................................... 155",
+          "predominant_size": 10.0,
+          "gap_before": 7.319999999999936,
+          "gap_after": 7.196000000000026,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 716.6199999999999,
+            "bottom": 727.66
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 40,
+              "text": "Table 8-8 \u2013 Specification of mbAddrCol, yM, and vertMvScale ................................................................................... 157",
+              "text_proportional": "Table 8-8 \u2013 Specification of mbAddrCol, yM, and vertMvScale ................................................................................... 157",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 734.856,
+                "x1": 538.51504,
+                "bottom": 745.896
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-8 \u2013 Specification of mbAddrCol, yM, and vertMvScale ................................................................................... 157",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 735.32736,
+                    "x1": 536.08,
+                    "bottom": 745.2873599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.040000000000006,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 734.856,
+                    "x1": 538.51504,
+                    "bottom": 745.896
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.196000000000026,
+              "gap_after": 7.319999999999936
+            }
+          ],
+          "text": "Table 8-8 \u2013 Specification of mbAddrCol, yM, and vertMvScale ................................................................................... 157",
+          "predominant_size": 10.0,
+          "gap_before": 7.196000000000026,
+          "gap_after": 7.319999999999936,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 734.856,
+            "bottom": 745.896
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 41,
+              "text": "Table 8-9 \u2013 Assignment of prediction utilization flags .................................................................................................. 159",
+              "text_proportional": "Table 8-9 \u2013 Assignment of prediction utilization flags .................................................................................................. 159",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 753.2159999999999,
+                "x1": 538.51504,
+                "bottom": 764.256
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-9 \u2013 Assignment of prediction utilization flags .................................................................................................. 159",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 753.6873599999999,
+                    "x1": 536.08,
+                    "bottom": 763.6473599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.040000000000006,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 753.2159999999999,
+                    "x1": 538.51504,
+                    "bottom": 764.256
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.319999999999936,
+              "gap_after": 7.199999999999932
+            }
+          ],
+          "text": "Table 8-9 \u2013 Assignment of prediction utilization flags .................................................................................................. 159",
+          "predominant_size": 10.0,
+          "gap_before": 7.319999999999936,
+          "gap_after": 7.199999999999932,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 753.2159999999999,
+            "bottom": 764.256
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 42,
+              "text": "Table 8-10 \u2013 Derivation of the vertical component of the chroma vector in field coding mode .................................... 165",
+              "text_proportional": "Table 8-10 \u2013 Derivation of the vertical component of the chroma vector in field coding mode .................................... 165",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 771.4559999999999,
+                "x1": 538.51504,
+                "bottom": 782.496
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Table 8-10 \u2013 Derivation of the vertical component of the chroma vector in field coding mode .................................... 165",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 771.9273599999999,
+                    "x1": 536.08,
+                    "bottom": 781.88736
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.04,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 771.4559999999999,
+                    "x1": 538.51504,
+                    "bottom": 782.496
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.199999999999932,
+              "gap_after": 23.86464000000001
+            }
+          ],
+          "text": "Table 8-10 \u2013 Derivation of the vertical component of the chroma vector in field coding mode .................................... 165",
+          "predominant_size": 10.0,
+          "gap_before": 7.199999999999932,
+          "gap_after": 23.86464000000001,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 771.4559999999999,
+            "bottom": 782.496
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 43,
+              "text": "Rec. ITU-T H.264 (06/2019) xvii",
+              "text_proportional": "Rec. ITU-T H.264 (06/2019)       xvii",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 26,
+                  "raw_gap_pt": 22.56,
+                  "estimated_space_width_pt": 3.3,
+                  "proportional_spaces": 7
+                }
+              ],
+              "bbox": {
+                "x0": 54.48,
+                "top": 806.36064,
+                "x1": 539.26,
+                "bottom": 817.40064
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "Rec. ITU-T H.264 (06/2019)",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 806.36064,
+                    "x1": 496.78,
+                    "bottom": 817.40064
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "xvii",
+                  "bbox": {
+                    "x0": 519.34,
+                    "top": 806.36064,
+                    "x1": 539.26,
+                    "bottom": 817.40064
+                  }
+                }
+              ],
+              "predominant_size": 11.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 95.7,
+              "gap_before": 23.86464000000001,
+              "gap_after": 24.279359999999997
+            }
+          ],
+          "text": "Rec. ITU-T H.264 (06/2019) xvii",
+          "predominant_size": 11.0,
+          "gap_before": 23.86464000000001,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 539.26,
+            "top": 806.36064,
+            "bottom": 817.40064
+          }
+        }
+      ]
+    }
+  ]
+}

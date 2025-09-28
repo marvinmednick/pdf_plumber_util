@@ -1,0 +1,149 @@
+{
+  "total_scenarios": 12,
+  "results": [
+    {
+      "scenario": "Section headings on content page",
+      "template": "section_headings_only.txt",
+      "data_file": "h264_content_page_1.json",
+      "data_size_kb": 17.8583984375,
+      "success": true,
+      "execution_time": 0.8197834491729736,
+      "request_size": 3969,
+      "response_length": 28,
+      "token_count": 999,
+      "response_file": "response_01_section_headings_only_h264_content_page_1.json"
+    },
+    {
+      "scenario": "Section headings on mid-document page",
+      "template": "section_headings_only.txt",
+      "data_file": "h264_content_page_50.json",
+      "data_size_kb": 74.2138671875,
+      "success": true,
+      "execution_time": 1.5429444313049316,
+      "request_size": 9351,
+      "response_length": 684,
+      "token_count": 2508,
+      "response_file": "response_02_section_headings_only_h264_content_page_50.json"
+    },
+    {
+      "scenario": "Table titles on content page",
+      "template": "table_titles_only.txt",
+      "data_file": "h264_content_page_50.json",
+      "data_size_kb": 74.2138671875,
+      "success": true,
+      "execution_time": 1.743279218673706,
+      "request_size": 9248,
+      "response_length": 277,
+      "token_count": 2381,
+      "response_file": "response_03_table_titles_only_h264_content_page_50.json"
+    },
+    {
+      "scenario": "Table detection on List of Tables page",
+      "template": "table_titles_only.txt",
+      "data_file": "h264_list_of_tables_page19.json",
+      "data_size_kb": 102.2578125,
+      "success": true,
+      "execution_time": 38.56983995437622,
+      "request_size": 14743,
+      "response_length": 10129,
+      "token_count": 6201,
+      "response_file": "response_04_table_titles_only_h264_list_of_tables_page19.json"
+    },
+    {
+      "scenario": "Figure titles on content page",
+      "template": "figure_titles_only.txt",
+      "data_file": "h264_content_page_1.json",
+      "data_size_kb": 17.8583984375,
+      "success": true,
+      "execution_time": 1.6505303382873535,
+      "request_size": 3969,
+      "response_length": 593,
+      "token_count": 1138,
+      "response_file": "response_05_figure_titles_only_h264_content_page_1.json"
+    },
+    {
+      "scenario": "Figure detection on List of Figures page",
+      "template": "figure_titles_only.txt",
+      "data_file": "h264_list_of_figures_page17.json",
+      "data_size_kb": 134.0,
+      "success": true,
+      "execution_time": 28.84325385093689,
+      "request_size": 14436,
+      "response_length": 7598,
+      "token_count": 5497,
+      "response_file": "response_06_figure_titles_only_h264_list_of_figures_page17.json"
+    },
+    {
+      "scenario": "TOC entries on TOC page",
+      "template": "toc_entries_only.txt",
+      "data_file": "h264_page_6_only.json",
+      "data_size_kb": 199.5625,
+      "success": true,
+      "execution_time": 40.944238901138306,
+      "request_size": 16512,
+      "response_length": 14509,
+      "token_count": 7755,
+      "response_file": "response_07_toc_entries_only_h264_page_6_only.json"
+    },
+    {
+      "scenario": "List of Figures detection",
+      "template": "list_of_figures_detection.txt",
+      "data_file": "h264_list_of_figures_page17.json",
+      "data_size_kb": 134.0,
+      "success": true,
+      "execution_time": 11.41443419456482,
+      "request_size": 14713,
+      "response_length": 9841,
+      "token_count": 6127,
+      "response_file": "response_08_list_of_figures_detection_h264_list_of_figures_page17.json"
+    },
+    {
+      "scenario": "List of Tables detection",
+      "template": "list_of_tables_detection.txt",
+      "data_file": "h264_list_of_tables_page19.json",
+      "data_size_kb": 102.2578125,
+      "success": true,
+      "execution_time": 41.34034299850464,
+      "request_size": 15085,
+      "response_length": 13734,
+      "token_count": 7187,
+      "response_file": "response_09_list_of_tables_detection_h264_list_of_tables_page19.json"
+    },
+    {
+      "scenario": "2-objective on content page",
+      "template": "combo_2_headings_tables.txt",
+      "data_file": "h264_content_page_50.json",
+      "data_size_kb": 74.2138671875,
+      "success": true,
+      "execution_time": 3.7021241188049316,
+      "request_size": 9562,
+      "response_length": 696,
+      "token_count": 2564,
+      "response_file": "response_10_combo_2_headings_tables_h264_content_page_50.json"
+    },
+    {
+      "scenario": "3-objective on content page",
+      "template": "combo_3_headings_tables_figures.txt",
+      "data_file": "h264_content_page_1.json",
+      "data_size_kb": 17.8583984375,
+      "success": true,
+      "execution_time": 1.4697189331054688,
+      "request_size": 4576,
+      "response_length": 641,
+      "token_count": 1302,
+      "response_file": "response_11_combo_3_headings_tables_figures_h264_content_page_1.json"
+    },
+    {
+      "scenario": "4-objective on content page",
+      "template": "combo_4_content_analysis.txt",
+      "data_file": "h264_content_page_50.json",
+      "data_size_kb": 74.2138671875,
+      "success": true,
+      "execution_time": 11.1951265335083,
+      "request_size": 10336,
+      "response_length": 2666,
+      "token_count": 3248,
+      "response_file": "response_12_combo_4_content_analysis_h264_content_page_50.json"
+    }
+  ]
+}

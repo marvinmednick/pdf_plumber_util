@@ -1,0 +1,9 @@
+{
+  "scenario": "3-objective on content page",
+  "template": "combo_3_headings_tables_figures.txt",
+  "data_file": "h264_content_page_1.json",
+  "response_content": "{\n  \"section_headings\": [],\n  \"table_titles\": [],\n  \"figure_titles\": [\n    {\n      \"text\": \"Figure 9-11 \u2013 Flowchart of encoding a decision before termination\",\n      \"figure_number\": \"9-11\",\n      \"figure_title\": \"Flowchart of encoding a decision before termination\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    },\n    {\n      \"text\": \"Figure 9-12 \u2013 Flowchart of flushing at termination\",\n      \"figure_number\": \"9-12\",\n      \"figure_title\": \"Flowchart of flushing at termination\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    }\n  ]\n}",
+  "execution_time": 1.4697189331054688,
+  "request_size": 4576,
+  "response_length": 641
+}

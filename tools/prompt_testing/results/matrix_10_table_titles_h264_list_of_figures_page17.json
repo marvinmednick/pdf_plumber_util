@@ -1,0 +1,12 @@
+{
+  "test_number": 10,
+  "template": "table_titles_only.txt",
+  "content_type": "table_titles",
+  "data_file": "h264_list_of_figures_page17.json",
+  "page_description": "Page 17 (List of Figures)",
+  "response_content": "{\n  \"table_titles\": []\n}",
+  "execution_time": 0.6264820098876953,
+  "request_size": 14333,
+  "response_length": 24,
+  "findings_summary": "Nothing found"
+}

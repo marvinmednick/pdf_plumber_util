@@ -1,0 +1,12 @@
+{
+  "test_number": 22,
+  "template": "headers_footers_only.txt",
+  "content_type": "headers_footers",
+  "data_file": "h264_content_page_50.json",
+  "page_description": "Page 50 (Sections + Tables)",
+  "response_content": "{\n  \"headers\": [\n    {\n      \"text\": \"The functions MbPartWidth( ), MbPartHeight( ), SubMbPartWidth( ), and SubMbPartHeight( ) describing the width and height of macroblock partitions and sub-macroblock partitions are specified in Tables 7-13, 7-14, 7-17, and 7-18. MbPartWidth( ) and MbPartHeight( ) are set to appropriate values for each macroblock, depending on the macroblock type. SubMbPartWidth( ) and SubMbPartHeight( ) are set to appropriate values for each sub-macroblock of a macroblock with mb_type equal to P_8x8, P_8x8ref0, or B_8x8, depending on the sub-macroblock type.\",\n      \"y_position\": 55.67,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0,\n      \"type\": \"section_name\"\n    }\n  ],\n  \"footers\": [\n    {\n      \"text\": \"28 Rec. ITU-T H.264 (06/2019)\",\n      \"y_position\": 806.36,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 11.0,\n      \"type\": \"copyright\"\n    }\n  ],\n  \"content_boundaries\": {\n    \"main_content_starts_after_y\": 65.0,\n    \"main_content_ends_before_y\": 790.0\n  }\n}",
+  "execution_time": 3.9937305450439453,
+  "request_size": 9590,
+  "response_length": 1029,
+  "findings_summary": "1 headers, 1 footers, 1 content_boundaries"
+}

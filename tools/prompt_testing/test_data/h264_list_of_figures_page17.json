@@ -1,0 +1,3283 @@
+{
+  "pages": [
+    {
+      "page": 17,
+      "blocks": [
+        {
+          "lines": [
+            {
+              "line_number": 2,
+              "text": "J.8.4 Decoding process for depth range parameters ........................................................................................ 803",
+              "text_proportional": "J.8.4       Decoding process for depth range parameters ........................................................................................ 803",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 5,
+                  "raw_gap_pt": 20.84,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 7
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 55.319999999999936,
+                "x1": 538.51504,
+                "bottom": 66.3599999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.8.4",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 55.79135999999994,
+                    "x1": 93.1782,
+                    "bottom": 65.75135999999986
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 93.144,
+                    "top": 55.319999999999936,
+                    "x1": 95.63904000000001,
+                    "bottom": 66.3599999999999
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Decoding process for depth range parameters ........................................................................................ 803",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 55.79135999999994,
+                    "x1": 536.08,
+                    "bottom": 65.75135999999986
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 55.319999999999936,
+                    "x1": 538.51504,
+                    "bottom": 66.3599999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 13.20864000000006,
+              "gap_after": 1.8000000000000682
+            }
+          ],
+          "text": "J.8.4 Decoding process for depth range parameters ........................................................................................ 803",
+          "predominant_size": 10.0,
+          "gap_before": 13.20864000000006,
+          "gap_after": 1.8000000000000682,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 74.304,
+            "x1": 538.51504,
+            "top": 55.319999999999936,
+            "bottom": 66.3599999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 3,
+              "text": "J.9 Parsing process ............................................................................................................................................... 804",
+              "text_proportional": "J.9      Parsing process ............................................................................................................................................... 804",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 3,
+                  "raw_gap_pt": 18.32,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 6
+                }
+              ],
+              "bbox": {
+                "x0": 64.344,
+                "top": 68.15999999999997,
+                "x1": 538.51504,
+                "bottom": 79.19999999999993
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.9",
+                  "bbox": {
+                    "x0": 64.344,
+                    "top": 68.63135999999997,
+                    "x1": 75.78804,
+                    "bottom": 78.5913599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 75.744,
+                    "top": 68.15999999999997,
+                    "x1": 78.23904,
+                    "bottom": 79.19999999999993
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Parsing process ............................................................................................................................................... 804",
+                  "bbox": {
+                    "x0": 94.104,
+                    "top": 68.63135999999997,
+                    "x1": 536.08,
+                    "bottom": 78.5913599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 68.15999999999997,
+                    "x1": 538.51504,
+                    "bottom": 79.19999999999993
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 1.8000000000000682,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 4,
+              "text": "J.9.1 Alternative CABAC parsing process for slice data and macroblock layer in depth extension ............... 804",
+              "text_proportional": "J.9.1       Alternative CABAC parsing process for slice data and macroblock layer in depth extension ............... 804",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 5,
+                  "raw_gap_pt": 20.84,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 7
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 79.67999999999995,
+                "x1": 538.51504,
+                "bottom": 90.71999999999991
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.9.1",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 80.15135999999995,
+                    "x1": 93.1782,
+                    "bottom": 90.11135999999988
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 93.144,
+                    "top": 79.67999999999995,
+                    "x1": 95.63904000000001,
+                    "bottom": 90.71999999999991
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Alternative CABAC parsing process for slice data and macroblock layer in depth extension ............... 804",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 80.15135999999995,
+                    "x1": 536.08,
+                    "bottom": 90.11135999999988
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 79.67999999999995,
+                    "x1": 538.51504,
+                    "bottom": 90.71999999999991
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 0.5000000000001137
+            },
+            {
+              "line_number": 5,
+              "text": "J.9.1.1 Initialization process ............................................................................................................................... 804",
+              "text_proportional": "J.9.1.1    Initialization process ............................................................................................................................... 804",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 7,
+                  "raw_gap_pt": 13.3,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 91.22000000000003,
+                "x1": 538.51504,
+                "bottom": 102.25999999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.9.1.1",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 91.69136000000003,
+                    "x1": 100.71792,
+                    "bottom": 101.65135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 100.7,
+                    "top": 91.22000000000003,
+                    "x1": 103.19504,
+                    "bottom": 102.25999999999999
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Initialization process ............................................................................................................................... 804",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 91.69136000000003,
+                    "x1": 536.08,
+                    "bottom": 101.65135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 91.22000000000003,
+                    "x1": 538.51504,
+                    "bottom": 102.25999999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.5000000000001137,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 6,
+              "text": "J.9.1.2 Binarization process ................................................................................................................................ 805",
+              "text_proportional": "J.9.1.2    Binarization process ................................................................................................................................ 805",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 7,
+                  "raw_gap_pt": 13.3,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 102.74000000000001,
+                "x1": 538.51504,
+                "bottom": 113.77999999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.9.1.2",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 103.21136000000001,
+                    "x1": 100.71792,
+                    "bottom": 113.17135999999994
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 100.7,
+                    "top": 102.74000000000001,
+                    "x1": 103.19504,
+                    "bottom": 113.77999999999997
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Binarization process ................................................................................................................................ 805",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 103.21136000000001,
+                    "x1": 536.08,
+                    "bottom": 113.17135999999994
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 102.74000000000001,
+                    "x1": 538.51504,
+                    "bottom": 113.77999999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 7,
+              "text": "J.9.1.3 Decoding process flow ............................................................................................................................ 806",
+              "text_proportional": "J.9.1.3    Decoding process flow ............................................................................................................................ 806",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 7,
+                  "raw_gap_pt": 13.3,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 114.25999999999999,
+                "x1": 538.51504,
+                "bottom": 125.29999999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.9.1.3",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 114.73136,
+                    "x1": 100.71792,
+                    "bottom": 124.69135999999992
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 100.7,
+                    "top": 114.25999999999999,
+                    "x1": 103.19504,
+                    "bottom": 125.29999999999995
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Decoding process flow ............................................................................................................................ 806",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 114.73136,
+                    "x1": 536.08,
+                    "bottom": 124.69135999999992
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 114.25999999999999,
+                    "x1": 538.51504,
+                    "bottom": 125.29999999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 1.9200000000000728
+            }
+          ],
+          "text": "J.9 Parsing process ............................................................................................................................................... 804\nJ.9.1 Alternative CABAC parsing process for slice data and macroblock layer in depth extension ............... 804\nJ.9.1.1 Initialization process ............................................................................................................................... 804\nJ.9.1.2 Binarization process ................................................................................................................................ 805\nJ.9.1.3 Decoding process flow ............................................................................................................................ 806",
+          "predominant_size": 10.0,
+          "gap_before": 1.8000000000000682,
+          "gap_after": 1.9200000000000728,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 64.344,
+            "x1": 538.51504,
+            "top": 68.15999999999997,
+            "bottom": 125.29999999999995
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 8,
+              "text": "J.10 Profiles and levels ........................................................................................................................................... 808",
+              "text_proportional": "J.10    Profiles and levels ........................................................................................................................................... 808",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 4,
+                  "raw_gap_pt": 13.29,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 64.344,
+                "top": 127.22000000000003,
+                "x1": 538.51504,
+                "bottom": 138.26
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.10",
+                  "bbox": {
+                    "x0": 64.344,
+                    "top": 127.69136000000003,
+                    "x1": 80.81784,
+                    "bottom": 137.65135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 80.784,
+                    "top": 127.22000000000003,
+                    "x1": 83.27904000000001,
+                    "bottom": 138.26
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Profiles and levels ........................................................................................................................................... 808",
+                  "bbox": {
+                    "x0": 94.104,
+                    "top": 127.69136000000003,
+                    "x1": 536.08,
+                    "bottom": 137.65135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 127.22000000000003,
+                    "x1": 538.51504,
+                    "bottom": 138.26
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 1.9200000000000728,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 9,
+              "text": "J.10.1 Profiles .................................................................................................................................................... 808",
+              "text_proportional": "J.10.1     Profiles .................................................................................................................................................... 808",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 6,
+                  "raw_gap_pt": 15.81,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 5
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 138.74,
+                "x1": 538.51504,
+                "bottom": 149.77999999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.10.1",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 139.21136,
+                    "x1": 98.20800000000001,
+                    "bottom": 149.17135999999994
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 98.184,
+                    "top": 138.74,
+                    "x1": 100.67904,
+                    "bottom": 149.77999999999997
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Profiles .................................................................................................................................................... 808",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 139.21136,
+                    "x1": 536.08,
+                    "bottom": 149.17135999999994
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 138.74,
+                    "x1": 538.51504,
+                    "bottom": 149.77999999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 0.36000000000001364
+            },
+            {
+              "line_number": 10,
+              "text": "J.10.1.1 Enhanced Multiview Depth High profile ................................................................................................ 808",
+              "text_proportional": "J.10.1.1   Enhanced Multiview Depth High profile ................................................................................................ 808",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 8,
+                  "raw_gap_pt": 8.27,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 3
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 150.14,
+                "x1": 538.51504,
+                "bottom": 161.17999999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.10.1.1",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 150.61136,
+                    "x1": 105.74772,
+                    "bottom": 160.5713599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 105.74,
+                    "top": 150.14,
+                    "x1": 108.23504,
+                    "bottom": 161.17999999999995
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Enhanced Multiview Depth High profile ................................................................................................ 808",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 150.61136,
+                    "x1": 536.08,
+                    "bottom": 160.5713599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 150.14,
+                    "x1": 538.51504,
+                    "bottom": 161.17999999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.36000000000001364,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 11,
+              "text": "J.10.2 Levels ...................................................................................................................................................... 809",
+              "text_proportional": "J.10.2     Levels ...................................................................................................................................................... 809",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 6,
+                  "raw_gap_pt": 15.81,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 5
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 161.65999999999997,
+                "x1": 538.51504,
+                "bottom": 172.69999999999993
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.10.2",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 162.13135999999997,
+                    "x1": 98.20800000000001,
+                    "bottom": 172.0913599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 98.184,
+                    "top": 161.65999999999997,
+                    "x1": 100.67904,
+                    "bottom": 172.69999999999993
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Levels ...................................................................................................................................................... 809",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 162.13135999999997,
+                    "x1": 536.08,
+                    "bottom": 172.0913599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 161.65999999999997,
+                    "x1": 538.51504,
+                    "bottom": 172.69999999999993
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 12,
+              "text": "J.10.2.1 Level limits for Enhanced Multiview Depth High profile ...................................................................... 809",
+              "text_proportional": "J.10.2.1   Level limits for Enhanced Multiview Depth High profile ...................................................................... 809",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 8,
+                  "raw_gap_pt": 8.27,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 3
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 173.17999999999995,
+                "x1": 538.51504,
+                "bottom": 184.2199999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.10.2.1",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 173.65135999999995,
+                    "x1": 105.74772,
+                    "bottom": 183.61135999999988
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 105.74,
+                    "top": 173.17999999999995,
+                    "x1": 108.23504,
+                    "bottom": 184.2199999999999
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Level limits for Enhanced Multiview Depth High profile ...................................................................... 809",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 173.65135999999995,
+                    "x1": 536.08,
+                    "bottom": 183.61135999999988
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 173.17999999999995,
+                    "x1": 538.51504,
+                    "bottom": 184.2199999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 13,
+              "text": "J.10.2.2 Profile specific level limits ..................................................................................................................... 809",
+              "text_proportional": "J.10.2.2   Profile specific level limits ..................................................................................................................... 809",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 8,
+                  "raw_gap_pt": 8.22,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 3
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 184.69999999999993,
+                "x1": 538.51504,
+                "bottom": 195.7399999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.10.2.2",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 185.17135999999994,
+                    "x1": 105.804,
+                    "bottom": 195.13135999999986
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 105.74,
+                    "top": 184.69999999999993,
+                    "x1": 108.23504,
+                    "bottom": 195.7399999999999
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Profile specific level limits ..................................................................................................................... 809",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 185.17135999999994,
+                    "x1": 536.08,
+                    "bottom": 195.13135999999986
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 184.69999999999993,
+                    "x1": 538.51504,
+                    "bottom": 195.7399999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 1.9200000000000728
+            }
+          ],
+          "text": "J.10 Profiles and levels ........................................................................................................................................... 808\nJ.10.1 Profiles .................................................................................................................................................... 808\nJ.10.1.1 Enhanced Multiview Depth High profile ................................................................................................ 808\nJ.10.2 Levels ...................................................................................................................................................... 809\nJ.10.2.1 Level limits for Enhanced Multiview Depth High profile ...................................................................... 809\nJ.10.2.2 Profile specific level limits ..................................................................................................................... 809",
+          "predominant_size": 10.0,
+          "gap_before": 1.9200000000000728,
+          "gap_after": 1.9200000000000728,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 64.344,
+            "x1": 538.51504,
+            "top": 127.22000000000003,
+            "bottom": 195.7399999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 14,
+              "text": "J.11 Byte stream format .......................................................................................................................................... 809",
+              "text_proportional": "J.11    Byte stream format .......................................................................................................................................... 809",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 4,
+                  "raw_gap_pt": 13.29,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 64.344,
+                "top": 197.65999999999997,
+                "x1": 538.51504,
+                "bottom": 208.69999999999993
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.11",
+                  "bbox": {
+                    "x0": 64.344,
+                    "top": 198.13135999999997,
+                    "x1": 80.81784,
+                    "bottom": 208.0913599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 80.784,
+                    "top": 197.65999999999997,
+                    "x1": 83.27904000000001,
+                    "bottom": 208.69999999999993
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Byte stream format .......................................................................................................................................... 809",
+                  "bbox": {
+                    "x0": 94.104,
+                    "top": 198.13135999999997,
+                    "x1": 536.08,
+                    "bottom": 208.0913599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 197.65999999999997,
+                    "x1": 538.51504,
+                    "bottom": 208.69999999999993
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 1.9200000000000728,
+              "gap_after": 1.9200000000000728
+            }
+          ],
+          "text": "J.11 Byte stream format .......................................................................................................................................... 809",
+          "predominant_size": 10.0,
+          "gap_before": 1.9200000000000728,
+          "gap_after": 1.9200000000000728,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 64.344,
+            "x1": 538.51504,
+            "top": 197.65999999999997,
+            "bottom": 208.69999999999993
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 15,
+              "text": "J.12 3D-AVC hypothetical reference decoder ........................................................................................................ 809",
+              "text_proportional": "J.12    3D-AVC hypothetical reference decoder ........................................................................................................ 809",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 4,
+                  "raw_gap_pt": 13.29,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 64.344,
+                "top": 210.62,
+                "x1": 538.51504,
+                "bottom": 221.65999999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.12",
+                  "bbox": {
+                    "x0": 64.344,
+                    "top": 211.09136,
+                    "x1": 80.81784,
+                    "bottom": 221.05135999999993
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 80.784,
+                    "top": 210.62,
+                    "x1": 83.27904000000001,
+                    "bottom": 221.65999999999997
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "3D-AVC hypothetical reference decoder ........................................................................................................ 809",
+                  "bbox": {
+                    "x0": 94.104,
+                    "top": 211.09136,
+                    "x1": 536.08,
+                    "bottom": 221.05135999999993
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 210.62,
+                    "x1": 538.51504,
+                    "bottom": 221.65999999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 1.9200000000000728,
+              "gap_after": 1.919999999999959
+            }
+          ],
+          "text": "J.12 3D-AVC hypothetical reference decoder ........................................................................................................ 809",
+          "predominant_size": 10.0,
+          "gap_before": 1.9200000000000728,
+          "gap_after": 1.919999999999959,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 64.344,
+            "x1": 538.51504,
+            "top": 210.62,
+            "bottom": 221.65999999999997
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 16,
+              "text": "J.13 3D-AVC SEI messages ................................................................................................................................... 810",
+              "text_proportional": "J.13    3D-AVC SEI messages ................................................................................................................................... 810",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 4,
+                  "raw_gap_pt": 13.29,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 64.344,
+                "top": 223.57999999999993,
+                "x1": 538.51504,
+                "bottom": 234.6199999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.13",
+                  "bbox": {
+                    "x0": 64.344,
+                    "top": 224.05135999999993,
+                    "x1": 80.81784,
+                    "bottom": 234.01135999999985
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 80.784,
+                    "top": 223.57999999999993,
+                    "x1": 83.27904000000001,
+                    "bottom": 234.6199999999999
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "3D-AVC SEI messages ................................................................................................................................... 810",
+                  "bbox": {
+                    "x0": 94.104,
+                    "top": 224.05135999999993,
+                    "x1": 536.08,
+                    "bottom": 234.01135999999985
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 223.57999999999993,
+                    "x1": 538.51504,
+                    "bottom": 234.6199999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 1.919999999999959,
+              "gap_after": 0.36000000000012733
+            },
+            {
+              "line_number": 17,
+              "text": "J.13.1 SEI message syntax................................................................................................................................. 810",
+              "text_proportional": "J.13.1     SEI message syntax................................................................................................................................. 810",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 6,
+                  "raw_gap_pt": 15.81,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 5
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 234.98000000000002,
+                "x1": 538.51504,
+                "bottom": 246.01999999999998
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.13.1",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 235.45136000000002,
+                    "x1": 98.20800000000001,
+                    "bottom": 245.41135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 98.184,
+                    "top": 234.98000000000002,
+                    "x1": 100.67904,
+                    "bottom": 246.01999999999998
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "SEI message syntax................................................................................................................................. 810",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 235.45136000000002,
+                    "x1": 536.08,
+                    "bottom": 245.41135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 234.98000000000002,
+                    "x1": 538.51504,
+                    "bottom": 246.01999999999998
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.36000000000012733,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 18,
+              "text": "J.13.1.1 Constrained depth parameter set identifier SEI message syntax ............................................................. 810",
+              "text_proportional": "J.13.1.1   Constrained depth parameter set identifier SEI message syntax ............................................................. 810",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 8,
+                  "raw_gap_pt": 8.27,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 3
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 246.5,
+                "x1": 538.51504,
+                "bottom": 257.53999999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.13.1.1",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 246.97136,
+                    "x1": 105.74772,
+                    "bottom": 256.9313599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 105.74,
+                    "top": 246.5,
+                    "x1": 108.23504,
+                    "bottom": 257.53999999999996
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Constrained depth parameter set identifier SEI message syntax ............................................................. 810",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 246.97136,
+                    "x1": 536.08,
+                    "bottom": 256.9313599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 246.5,
+                    "x1": 538.51504,
+                    "bottom": 257.53999999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 0.4800000000000182
+            },
+            {
+              "line_number": 19,
+              "text": "J.13.2 SEI message semantics ........................................................................................................................... 810",
+              "text_proportional": "J.13.2     SEI message semantics ........................................................................................................................... 810",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 6,
+                  "raw_gap_pt": 15.81,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 5
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 258.02,
+                "x1": 538.51504,
+                "bottom": 269.05999999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.13.2",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 258.49136,
+                    "x1": 98.20800000000001,
+                    "bottom": 268.4513599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 98.184,
+                    "top": 258.02,
+                    "x1": 100.67904,
+                    "bottom": 269.05999999999995
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "SEI message semantics ........................................................................................................................... 810",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 258.49136,
+                    "x1": 536.08,
+                    "bottom": 268.4513599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 258.02,
+                    "x1": 538.51504,
+                    "bottom": 269.05999999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.4800000000000182,
+              "gap_after": 0.5099999999999909
+            },
+            {
+              "line_number": 20,
+              "text": "J.13.2.1 Constrained depth parameter set identifier SEI message semantics ....................................................... 810",
+              "text_proportional": "J.13.2.1   Constrained depth parameter set identifier SEI message semantics ....................................................... 810",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 8,
+                  "raw_gap_pt": 8.27,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 3
+                }
+              ],
+              "bbox": {
+                "x0": 74.304,
+                "top": 269.56999999999994,
+                "x1": 538.51504,
+                "bottom": 280.6099999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.13.2.1",
+                  "bbox": {
+                    "x0": 74.304,
+                    "top": 270.04135999999994,
+                    "x1": 105.74772,
+                    "bottom": 280.00135999999986
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 105.74,
+                    "top": 269.56999999999994,
+                    "x1": 108.23504,
+                    "bottom": 280.6099999999999
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Constrained depth parameter set identifier SEI message semantics ....................................................... 810",
+                  "bbox": {
+                    "x0": 114.02,
+                    "top": 270.04135999999994,
+                    "x1": 536.08,
+                    "bottom": 280.00135999999986
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 269.56999999999994,
+                    "x1": 538.51504,
+                    "bottom": 280.6099999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 0.5099999999999909,
+              "gap_after": 1.9200000000000728
+            }
+          ],
+          "text": "J.13 3D-AVC SEI messages ................................................................................................................................... 810\nJ.13.1 SEI message syntax................................................................................................................................. 810\nJ.13.1.1 Constrained depth parameter set identifier SEI message syntax ............................................................. 810\nJ.13.2 SEI message semantics ........................................................................................................................... 810\nJ.13.2.1 Constrained depth parameter set identifier SEI message semantics ....................................................... 810",
+          "predominant_size": 10.0,
+          "gap_before": 1.919999999999959,
+          "gap_after": 1.9200000000000728,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 64.344,
+            "x1": 538.51504,
+            "top": 223.57999999999993,
+            "bottom": 280.6099999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 21,
+              "text": "J.14 Video usability information ............................................................................................................................ 811",
+              "text_proportional": "J.14    Video usability information ............................................................................................................................ 811",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 4,
+                  "raw_gap_pt": 13.29,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 64.344,
+                "top": 282.53,
+                "x1": 538.51504,
+                "bottom": 293.56999999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "J.14",
+                  "bbox": {
+                    "x0": 64.344,
+                    "top": 283.00136,
+                    "x1": 80.81784,
+                    "bottom": 292.9613599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 80.784,
+                    "top": 282.53,
+                    "x1": 83.27904000000001,
+                    "bottom": 293.56999999999994
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Video usability information ............................................................................................................................ 811",
+                  "bbox": {
+                    "x0": 94.104,
+                    "top": 283.00136,
+                    "x1": 536.08,
+                    "bottom": 292.9613599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 282.53,
+                    "x1": 538.51504,
+                    "bottom": 293.56999999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 98.9,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 1.9200000000000728,
+              "gap_after": 5.151360000000068
+            }
+          ],
+          "text": "J.14 Video usability information ............................................................................................................................ 811",
+          "predominant_size": 10.0,
+          "gap_before": 1.9200000000000728,
+          "gap_after": 36.91199999999998,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 64.344,
+            "x1": 538.51504,
+            "top": 282.53,
+            "bottom": 293.56999999999994
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 24,
+              "text": "List of Figures",
+              "text_proportional": "List of Figures",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 260.45,
+                "top": 330.4819999999999,
+                "x1": 338.11,
+                "bottom": 342.4819999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 12.0,
+                  "rounded_size": 12.0,
+                  "direction": "upright",
+                  "text": "List of Figures",
+                  "bbox": {
+                    "x0": 260.45,
+                    "top": 330.4819999999999,
+                    "x1": 338.11,
+                    "bottom": 342.4819999999999
+                  }
+                }
+              ],
+              "predominant_size": 12.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.840640000000064,
+              "gap_after": 7.608000000000061
+            }
+          ],
+          "text": "List of Figures",
+          "predominant_size": 12.0,
+          "gap_before": 36.91199999999998,
+          "gap_after": 7.608000000000061,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 260.45,
+            "x1": 338.11,
+            "top": 330.4819999999999,
+            "bottom": 342.4819999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 25,
+              "text": "Figure 6-1 \u2013 Nominal vertical and horizontal locations of 4:2:0 luma and chroma samples in a frame........................... 23",
+              "text_proportional": "Figure 6-1 \u2013 Nominal vertical and horizontal locations of 4:2:0 luma and chroma samples in a frame........................... 23",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 350.09,
+                "x1": 538.51504,
+                "bottom": 361.12999999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-1 \u2013 Nominal vertical and horizontal locations of 4:2:0 luma and chroma samples in a frame........................... 23",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 350.5613599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 360.52135999999996
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 350.09,
+                    "x1": 538.51504,
+                    "bottom": 361.12999999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.608000000000061,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Figure 6-1 \u2013 Nominal vertical and horizontal locations of 4:2:0 luma and chroma samples in a frame........................... 23",
+          "predominant_size": 10.0,
+          "gap_before": 7.608000000000061,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 350.09,
+            "bottom": 361.12999999999994
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 26,
+              "text": "Figure 6-2 \u2013 Nominal vertical and horizontal sampling locations of 4:2:0 samples in top and bottom fields .................. 24",
+              "text_proportional": "Figure 6-2 \u2013 Nominal vertical and horizontal sampling locations of 4:2:0 samples in top and bottom fields .................. 24",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 368.33,
+                "x1": 538.51504,
+                "bottom": 379.36999999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-2 \u2013 Nominal vertical and horizontal sampling locations of 4:2:0 samples in top and bottom fields .................. 24",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 368.80135999999993,
+                    "x1": 536.0799999999999,
+                    "bottom": 378.76135999999997
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 368.33,
+                    "x1": 538.51504,
+                    "bottom": 379.36999999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Figure 6-2 \u2013 Nominal vertical and horizontal sampling locations of 4:2:0 samples in top and bottom fields .................. 24",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 368.33,
+            "bottom": 379.36999999999995
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 27,
+              "text": "Figure 6-3 \u2013 Nominal vertical and horizontal locations of 4:2:2 luma and chroma samples in a frame........................... 24",
+              "text_proportional": "Figure 6-3 \u2013 Nominal vertical and horizontal locations of 4:2:2 luma and chroma samples in a frame........................... 24",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 386.69,
+                "x1": 538.51504,
+                "bottom": 397.72999999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-3 \u2013 Nominal vertical and horizontal locations of 4:2:2 luma and chroma samples in a frame........................... 24",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 387.16135999999995,
+                    "x1": 536.0799999999999,
+                    "bottom": 397.12136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 386.69,
+                    "x1": 538.51504,
+                    "bottom": 397.72999999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.199999999999989
+            }
+          ],
+          "text": "Figure 6-3 \u2013 Nominal vertical and horizontal locations of 4:2:2 luma and chroma samples in a frame........................... 24",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.199999999999989,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 386.69,
+            "bottom": 397.72999999999996
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 28,
+              "text": "Figure 6-4 \u2013 Nominal vertical and horizontal sampling locations of 4:2:2 samples top and bottom fields ...................... 25",
+              "text_proportional": "Figure 6-4 \u2013 Nominal vertical and horizontal sampling locations of 4:2:2 samples top and bottom fields ...................... 25",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 404.92999999999995,
+                "x1": 538.51504,
+                "bottom": 415.9699999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-4 \u2013 Nominal vertical and horizontal sampling locations of 4:2:2 samples top and bottom fields ...................... 25",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 405.4013599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 415.36135999999993
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 404.92999999999995,
+                    "x1": 538.51504,
+                    "bottom": 415.9699999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.199999999999989,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Figure 6-4 \u2013 Nominal vertical and horizontal sampling locations of 4:2:2 samples top and bottom fields ...................... 25",
+          "predominant_size": 10.0,
+          "gap_before": 7.199999999999989,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 404.92999999999995,
+            "bottom": 415.9699999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 29,
+              "text": "Figure 6-5 \u2013 Nominal vertical and horizontal locations of 4:4:4 luma and chroma samples in a frame........................... 25",
+              "text_proportional": "Figure 6-5 \u2013 Nominal vertical and horizontal locations of 4:4:4 luma and chroma samples in a frame........................... 25",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 423.28999999999996,
+                "x1": 538.51504,
+                "bottom": 434.3299999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-5 \u2013 Nominal vertical and horizontal locations of 4:4:4 luma and chroma samples in a frame........................... 25",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 423.7613599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 433.72135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 423.28999999999996,
+                    "x1": 538.51504,
+                    "bottom": 434.3299999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Figure 6-5 \u2013 Nominal vertical and horizontal locations of 4:4:4 luma and chroma samples in a frame........................... 25",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 423.28999999999996,
+            "bottom": 434.3299999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 30,
+              "text": "Figure 6-6 \u2013 Nominal vertical and horizontal sampling locations of 4:4:4 samples top and bottom fields ...................... 25",
+              "text_proportional": "Figure 6-6 \u2013 Nominal vertical and horizontal sampling locations of 4:4:4 samples top and bottom fields ...................... 25",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 441.53,
+                "x1": 538.51504,
+                "bottom": 452.56999999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-6 \u2013 Nominal vertical and horizontal sampling locations of 4:4:4 samples top and bottom fields ...................... 25",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 442.0013599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 451.96135999999996
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 441.53,
+                    "x1": 538.51504,
+                    "bottom": 452.56999999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.340000000000032
+            }
+          ],
+          "text": "Figure 6-6 \u2013 Nominal vertical and horizontal sampling locations of 4:4:4 samples top and bottom fields ...................... 25",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.340000000000032,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 441.53,
+            "bottom": 452.56999999999994
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 31,
+              "text": "Figure 6-7 \u2013 A picture with 11 by 9 macroblocks that is partitioned into two slices........................................................ 26",
+              "text_proportional": "Figure 6-7 \u2013 A picture with 11 by 9 macroblocks that is partitioned into two slices........................................................ 26",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 459.90999999999997,
+                "x1": 538.51504,
+                "bottom": 470.94999999999993
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-7 \u2013 A picture with 11 by 9 macroblocks that is partitioned into two slices........................................................ 26",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 460.3813599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 470.34135999999995
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 459.90999999999997,
+                    "x1": 538.51504,
+                    "bottom": 470.94999999999993
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.340000000000032,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Figure 6-7 \u2013 A picture with 11 by 9 macroblocks that is partitioned into two slices........................................................ 26",
+          "predominant_size": 10.0,
+          "gap_before": 7.340000000000032,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 459.90999999999997,
+            "bottom": 470.94999999999993
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 32,
+              "text": "Figure 6-8 \u2013 Partitioning of the decoded frame into macroblock pairs ............................................................................ 27",
+              "text_proportional": "Figure 6-8 \u2013 Partitioning of the decoded frame into macroblock pairs ............................................................................ 27",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 478.15,
+                "x1": 538.51504,
+                "bottom": 489.18999999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-8 \u2013 Partitioning of the decoded frame into macroblock pairs ............................................................................ 27",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 478.6213599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 488.58135999999996
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 478.15,
+                    "x1": 538.51504,
+                    "bottom": 489.18999999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.791359999999997
+            }
+          ],
+          "text": "Figure 6-8 \u2013 Partitioning of the decoded frame into macroblock pairs ............................................................................ 27",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.791359999999997,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 478.15,
+            "bottom": 489.18999999999994
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 33,
+              "text": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and",
+              "text_proportional": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 496.98135999999994,
+                "x1": 442.0,
+                "bottom": 506.94136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 496.98135999999994,
+                    "x1": 442.0,
+                    "bottom": 506.94136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 7.791359999999997,
+              "gap_after": 1.088639999999998
+            },
+            {
+              "line_number": 34,
+              "text": "sub-macroblock partition scans ................................................................................................................................ 28",
+              "text_proportional": "sub-macroblock partition scans ................................................................................................................................ 28",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 74.544,
+                "top": 508.03,
+                "x1": 538.51504,
+                "bottom": 519.0699999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "sub-macroblock partition scans ................................................................................................................................ 28",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 508.5013599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 518.46136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 508.03,
+                    "x1": 538.51504,
+                    "bottom": 519.0699999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 1.088639999999998,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and\nsub-macroblock partition scans ................................................................................................................................ 28",
+          "predominant_size": 10.0,
+          "gap_before": 7.791359999999997,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.6666666666666666,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 496.98135999999994,
+            "bottom": 519.0699999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 35,
+              "text": "Figure 6-10 \u2013 Scan for 4x4 luma blocks ........................................................................................................................... 29",
+              "text_proportional": "Figure 6-10 \u2013 Scan for 4x4 luma blocks ........................................................................................................................... 29",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 526.27,
+                "x1": 538.51504,
+                "bottom": 537.31
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-10 \u2013 Scan for 4x4 luma blocks ........................................................................................................................... 29",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 526.74136,
+                    "x1": 536.0799999999999,
+                    "bottom": 536.70136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 526.27,
+                    "x1": 538.51504,
+                    "bottom": 537.31
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Figure 6-10 \u2013 Scan for 4x4 luma blocks ........................................................................................................................... 29",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 526.27,
+            "bottom": 537.31
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 36,
+              "text": "Figure 6-11 \u2013 Scan for 8x8 luma blocks ........................................................................................................................... 29",
+              "text_proportional": "Figure 6-11 \u2013 Scan for 8x8 luma blocks ........................................................................................................................... 29",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 544.63,
+                "x1": 538.51504,
+                "bottom": 555.67
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-11 \u2013 Scan for 8x8 luma blocks ........................................................................................................................... 29",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 545.1013599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 555.0613599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 544.63,
+                    "x1": 538.51504,
+                    "bottom": 555.67
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Figure 6-11 \u2013 Scan for 8x8 luma blocks ........................................................................................................................... 29",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 544.63,
+            "bottom": 555.67
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 37,
+              "text": "Figure 6-12 \u2013 Neighbouring macroblocks for a given macroblock .................................................................................. 31",
+              "text_proportional": "Figure 6-12 \u2013 Neighbouring macroblocks for a given macroblock .................................................................................. 31",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 562.87,
+                "x1": 538.51504,
+                "bottom": 573.91
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-12 \u2013 Neighbouring macroblocks for a given macroblock .................................................................................. 31",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 563.3413599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 573.3013599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999964,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 562.87,
+                    "x1": 538.51504,
+                    "bottom": 573.91
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Figure 6-12 \u2013 Neighbouring macroblocks for a given macroblock .................................................................................. 31",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 562.87,
+            "bottom": 573.91
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 38,
+              "text": "Figure 6-13 \u2013 Neighbouring macroblocks for a given macroblock in MBAFF frames .................................................... 32",
+              "text_proportional": "Figure 6-13 \u2013 Neighbouring macroblocks for a given macroblock in MBAFF frames .................................................... 32",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 581.23,
+                "x1": 538.51504,
+                "bottom": 592.27
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-13 \u2013 Neighbouring macroblocks for a given macroblock in MBAFF frames .................................................... 32",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 581.70136,
+                    "x1": 536.0799999999999,
+                    "bottom": 591.66136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 581.23,
+                    "x1": 538.51504,
+                    "bottom": 592.27
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.199999999999932
+            }
+          ],
+          "text": "Figure 6-13 \u2013 Neighbouring macroblocks for a given macroblock in MBAFF frames .................................................... 32",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.199999999999932,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 581.23,
+            "bottom": 592.27
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 39,
+              "text": "Figure 6-14 \u2013 Determination of the neighbouring macroblock, blocks, and partitions (informative) .............................. 33",
+              "text_proportional": "Figure 6-14 \u2013 Determination of the neighbouring macroblock, blocks, and partitions (informative) .............................. 33",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 599.4699999999999,
+                "x1": 538.51504,
+                "bottom": 610.51
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-14 \u2013 Determination of the neighbouring macroblock, blocks, and partitions (informative) .............................. 33",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 599.9413599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 609.90136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 599.4699999999999,
+                    "x1": 538.51504,
+                    "bottom": 610.51
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.199999999999932,
+              "gap_after": 7.7913599999999406
+            }
+          ],
+          "text": "Figure 6-14 \u2013 Determination of the neighbouring macroblock, blocks, and partitions (informative) .............................. 33",
+          "predominant_size": 10.0,
+          "gap_before": 7.199999999999932,
+          "gap_after": 7.7913599999999406,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 599.4699999999999,
+            "bottom": 610.51
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 40,
+              "text": "Figure 7-1 \u2013 Structure of an access unit not containing any NAL units with nal_unit_type equal to 0, 7, 8,",
+              "text_proportional": "Figure 7-1 \u2013 Structure of an access unit not containing any NAL units with nal_unit_type equal to 0, 7, 8,",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 618.3013599999999,
+                "x1": 481.15000000000003,
+                "bottom": 628.26136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 7-1 \u2013 Structure of an access unit not containing any NAL units with nal_unit_type equal to 0, 7, 8,",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 618.3013599999999,
+                    "x1": 481.15000000000003,
+                    "bottom": 628.26136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 7.7913599999999406,
+              "gap_after": 1.0886399999999412
+            },
+            {
+              "line_number": 41,
+              "text": "or in the range of 12 to 18, inclusive, or in the range of 20 to 31, inclusive ............................................................. 71",
+              "text_proportional": "or in the range of 12 to 18, inclusive, or in the range of 20 to 31, inclusive ............................................................. 71",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 74.544,
+                "top": 629.3499999999999,
+                "x1": 538.51504,
+                "bottom": 640.3899999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "or in the range of 12 to 18, inclusive, or in the range of 20 to 31, inclusive ............................................................. 71",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 629.8213599999999,
+                    "x1": 536.0799999999999,
+                    "bottom": 639.78136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 629.3499999999999,
+                    "x1": 538.51504,
+                    "bottom": 640.3899999999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 1.0886399999999412,
+              "gap_after": 7.230000000000018
+            }
+          ],
+          "text": "Figure 7-1 \u2013 Structure of an access unit not containing any NAL units with nal_unit_type equal to 0, 7, 8,\nor in the range of 12 to 18, inclusive, or in the range of 20 to 31, inclusive ............................................................. 71",
+          "predominant_size": 10.0,
+          "gap_before": 7.7913599999999406,
+          "gap_after": 7.230000000000018,
+          "size_coverage": 0.6666666666666666,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 618.3013599999999,
+            "bottom": 640.3899999999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 42,
+              "text": "Figure 8-1 \u2013 Intra_4x4 prediction mode directions (informative) .................................................................................. 133",
+              "text_proportional": "Figure 8-1 \u2013 Intra_4x4 prediction mode directions (informative) .................................................................................. 133",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 647.6199999999999,
+                "x1": 538.51504,
+                "bottom": 658.66
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 8-1 \u2013 Intra_4x4 prediction mode directions (informative) .................................................................................. 133",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 648.0913599999999,
+                    "x1": 536.08,
+                    "bottom": 658.0513599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 647.6199999999999,
+                    "x1": 538.51504,
+                    "bottom": 658.66
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.230000000000018,
+              "gap_after": 7.32000000000005
+            }
+          ],
+          "text": "Figure 8-1 \u2013 Intra_4x4 prediction mode directions (informative) .................................................................................. 133",
+          "predominant_size": 10.0,
+          "gap_before": 7.230000000000018,
+          "gap_after": 7.32000000000005,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 647.6199999999999,
+            "bottom": 658.66
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 43,
+              "text": "Figure 8-2 \u2013 Example for temporal direct-mode motion vector inference (informative) ............................................... 161",
+              "text_proportional": "Figure 8-2 \u2013 Example for temporal direct-mode motion vector inference (informative) ............................................... 161",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 665.98,
+                "x1": 538.51504,
+                "bottom": 677.02
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 8-2 \u2013 Example for temporal direct-mode motion vector inference (informative) ............................................... 161",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 666.45136,
+                    "x1": 536.08,
+                    "bottom": 676.41136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 665.98,
+                    "x1": 538.51504,
+                    "bottom": 677.02
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.32000000000005,
+              "gap_after": 7.199999999999932
+            }
+          ],
+          "text": "Figure 8-2 \u2013 Example for temporal direct-mode motion vector inference (informative) ............................................... 161",
+          "predominant_size": 10.0,
+          "gap_before": 7.32000000000005,
+          "gap_after": 7.199999999999932,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 665.98,
+            "bottom": 677.02
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 44,
+              "text": "Figure 8-3 \u2013 Directional segmentation prediction (informative) .................................................................................... 162",
+              "text_proportional": "Figure 8-3 \u2013 Directional segmentation prediction (informative) .................................................................................... 162",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 684.2199999999999,
+                "x1": 538.51504,
+                "bottom": 695.26
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 8-3 \u2013 Directional segmentation prediction (informative) .................................................................................... 162",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 684.6913599999999,
+                    "x1": 536.08,
+                    "bottom": 694.65136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.039999999999992,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 684.2199999999999,
+                    "x1": 538.51504,
+                    "bottom": 695.26
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.199999999999932,
+              "gap_after": 7.671359999999936
+            }
+          ],
+          "text": "Figure 8-3 \u2013 Directional segmentation prediction (informative) .................................................................................... 162",
+          "predominant_size": 10.0,
+          "gap_before": 7.199999999999932,
+          "gap_after": 7.671359999999936,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 684.2199999999999,
+            "bottom": 695.26
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 45,
+              "text": "Figure 8-4 \u2013 Integer samples (shaded blocks with upper-case letters) and fractional sample positions",
+              "text_proportional": "Figure 8-4 \u2013 Integer samples (shaded blocks with upper-case letters) and fractional sample positions",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 702.9313599999999,
+                "x1": 460.39,
+                "bottom": 712.89136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 8-4 \u2013 Integer samples (shaded blocks with upper-case letters) and fractional sample positions",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 702.9313599999999,
+                    "x1": 460.39,
+                    "bottom": 712.89136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 7.671359999999936,
+              "gap_after": 1.2086399999999458
+            },
+            {
+              "line_number": 46,
+              "text": "(un-shaded blocks with lower-case letters) for quarter sample luma interpolation ................................................ 169",
+              "text_proportional": "(un-shaded blocks with lower-case letters) for quarter sample luma interpolation ................................................ 169",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 74.544,
+                "top": 714.0999999999999,
+                "x1": 538.51504,
+                "bottom": 725.14
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "(un-shaded blocks with lower-case letters) for quarter sample luma interpolation ................................................ 169",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 714.5713599999999,
+                    "x1": 536.08,
+                    "bottom": 724.53136
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.040000000000006,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 714.0999999999999,
+                    "x1": 538.51504,
+                    "bottom": 725.14
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 1.2086399999999458,
+              "gap_after": 7.671359999999936
+            }
+          ],
+          "text": "Figure 8-4 \u2013 Integer samples (shaded blocks with upper-case letters) and fractional sample positions\n(un-shaded blocks with lower-case letters) for quarter sample luma interpolation ................................................ 169",
+          "predominant_size": 10.0,
+          "gap_before": 7.671359999999936,
+          "gap_after": 7.671359999999936,
+          "size_coverage": 0.6666666666666666,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 702.9313599999999,
+            "bottom": 725.14
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 47,
+              "text": "Figure 8-5 \u2013 Fractional sample position dependent variables in chroma interpolation and surrounding integer position",
+              "text_proportional": "Figure 8-5 \u2013 Fractional sample position dependent variables in chroma interpolation and surrounding integer position",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 732.8113599999999,
+                "x1": 525.8556800000008,
+                "bottom": 742.77136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 8-5 \u2013 Fractional sample position dependent variables in chroma interpolation and surrounding integer position",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 732.8113599999999,
+                    "x1": 525.8556800000008,
+                    "bottom": 742.77136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 7.671359999999936,
+              "gap_after": 1.0846400000000358
+            },
+            {
+              "line_number": 48,
+              "text": "samples A, B, C, and D .......................................................................................................................................... 171",
+              "text_proportional": "samples A, B, C, and D .......................................................................................................................................... 171",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 74.544,
+                "top": 743.856,
+                "x1": 538.51504,
+                "bottom": 754.896
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "samples A, B, C, and D .......................................................................................................................................... 171",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 744.32736,
+                    "x1": 536.08,
+                    "bottom": 754.2873599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.040000000000006,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 743.856,
+                    "x1": 538.51504,
+                    "bottom": 754.896
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 1.0846400000000358,
+              "gap_after": 7.2000000000000455
+            }
+          ],
+          "text": "Figure 8-5 \u2013 Fractional sample position dependent variables in chroma interpolation and surrounding integer position\nsamples A, B, C, and D .......................................................................................................................................... 171",
+          "predominant_size": 10.0,
+          "gap_before": 7.671359999999936,
+          "gap_after": 7.2000000000000455,
+          "size_coverage": 0.6666666666666666,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 732.8113599999999,
+            "bottom": 754.896
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 49,
+              "text": "Figure 8-6 \u2013 Assignment of the indices of dcY to luma4x4BlkIdx ................................................................................ 177",
+              "text_proportional": "Figure 8-6 \u2013 Assignment of the indices of dcY to luma4x4BlkIdx ................................................................................ 177",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 762.096,
+                "x1": 538.51504,
+                "bottom": 773.136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 8-6 \u2013 Assignment of the indices of dcY to luma4x4BlkIdx ................................................................................ 177",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 762.56736,
+                    "x1": 536.08,
+                    "bottom": 772.5273599999999
+                  }
+                },
+                {
+                  "font": "ABCDEE+Calibri",
+                  "reported_size": 11.040000000000006,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 536.02,
+                    "top": 762.096,
+                    "x1": 538.51504,
+                    "bottom": 773.136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 99.5,
+              "predominant_font_coverage": 99.5,
+              "gap_before": 7.2000000000000455,
+              "gap_after": 33.22464000000002
+            }
+          ],
+          "text": "Figure 8-6 \u2013 Assignment of the indices of dcY to luma4x4BlkIdx ................................................................................ 177",
+          "predominant_size": 10.0,
+          "gap_before": 7.2000000000000455,
+          "gap_after": 33.22464000000002,
+          "size_coverage": 0.5,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 538.51504,
+            "top": 762.096,
+            "bottom": 773.136
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 50,
+              "text": "Rec. ITU-T H.264 (06/2019) xv",
+              "text_proportional": "Rec. ITU-T H.264 (06/2019)         xv",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 26,
+                  "raw_gap_pt": 28.68,
+                  "estimated_space_width_pt": 3.3,
+                  "proportional_spaces": 9
+                }
+              ],
+              "bbox": {
+                "x0": 54.48,
+                "top": 806.36064,
+                "x1": 539.26,
+                "bottom": 817.40064
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "Rec. ITU-T H.264 (06/2019)",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 806.36064,
+                    "x1": 496.78,
+                    "bottom": 817.40064
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "xv",
+                  "bbox": {
+                    "x0": 525.46,
+                    "top": 806.36064,
+                    "x1": 539.26,
+                    "bottom": 817.40064
+                  }
+                }
+              ],
+              "predominant_size": 11.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 97.0,
+              "gap_before": 33.22464000000002,
+              "gap_after": 24.279359999999997
+            }
+          ],
+          "text": "Rec. ITU-T H.264 (06/2019) xv",
+          "predominant_size": 11.0,
+          "gap_before": 33.22464000000002,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 539.26,
+            "top": 806.36064,
+            "bottom": 817.40064
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "test_number": 4,
+  "template": "section_headings_only.txt",
+  "content_type": "section_headings",
+  "data_file": "h264_list_of_tables_page19.json",
+  "page_description": "Page 19 (List of Tables)",
+  "response_content": "{\n  \"section_headings\": [\n    // No section headings found on this page.\n  ]\n}",
+  "execution_time": 0.8266587257385254,
+  "request_size": 14846,
+  "response_length": 78,
+  "findings_summary": "Parse error"
+}

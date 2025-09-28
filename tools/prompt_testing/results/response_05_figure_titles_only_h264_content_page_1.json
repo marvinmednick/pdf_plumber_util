@@ -1,0 +1,9 @@
+{
+  "scenario": "Figure titles on content page",
+  "template": "figure_titles_only.txt",
+  "data_file": "h264_content_page_1.json",
+  "response_content": "{\n  \"figure_titles\": [\n    {\n      \"text\": \"Figure 9-11 \u2013 Flowchart of encoding a decision before termination\",\n      \"figure_number\": \"9-11\",\n      \"figure_title\": \"Flowchart of encoding a decision before termination\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    },\n    {\n      \"text\": \"Figure 9-12 \u2013 Flowchart of flushing at termination\",\n      \"figure_number\": \"9-12\",\n      \"figure_title\": \"Flowchart of flushing at termination\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    }\n  ]\n}",
+  "execution_time": 1.6505303382873535,
+  "request_size": 3969,
+  "response_length": 593
+}

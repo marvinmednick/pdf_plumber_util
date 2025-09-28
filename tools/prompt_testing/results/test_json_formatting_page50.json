@@ -1,0 +1,28 @@
+{
+  "template": "comprehensive_content_analysis.txt",
+  "timestamp": 1759086109.4870625,
+  "total_tests": 1,
+  "test_results": {
+    "h264_content_page_50.json": {
+      "success": true,
+      "execution_time": 6.706258296966553,
+      "request_size": 13702,
+      "response_length": 3156,
+      "data_size_kb": 74.2138671875,
+      "total_items": 8,
+      "content_summary": {
+        "section_headings": 2,
+        "table_titles": 0,
+        "figure_titles": 1,
+        "equation_titles": 5,
+        "toc_entries": 0
+      },
+      "response_content": null
+    }
+  },
+  "successful_tests": 1,
+  "failed_tests": 0,
+  "success_rate": 1.0,
+  "average_execution_time": 6.706258296966553,
+  "total_items_found": 8
+}

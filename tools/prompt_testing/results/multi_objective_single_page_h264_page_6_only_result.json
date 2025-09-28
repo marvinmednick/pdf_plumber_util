@@ -1,0 +1,16 @@
+{
+  "test_name": "multi_objective_single_page_h264_page_6_only",
+  "template": "multi_objective_single_page.txt",
+  "data_file": "h264_page_6_only.json",
+  "data_size_kb": 199.5625,
+  "result": {
+    "success": true,
+    "execution_time": 153.1437315940857,
+    "request_size": 205946,
+    "response_length": 23216,
+    "token_count": 57290,
+    "start_timestamp": "2025-09-27 20:17:55",
+    "end_timestamp": "2025-09-27 20:20:29",
+    "error_message": null
+  }
+}

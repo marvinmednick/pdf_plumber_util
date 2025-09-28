@@ -1,0 +1,9 @@
+{
+  "scenario": "2-objective on content page",
+  "template": "combo_2_headings_tables.txt",
+  "data_file": "h264_content_page_50.json",
+  "response_content": "{\n  \"section_headings\": [\n    {\n      \"text\": \"6.4.2.1 Inverse macroblock partition scanning process\",\n      \"section_number\": \"6.4.2.1\",\n      \"section_title\": \"Inverse macroblock partition scanning process\",\n      \"y_position\": 421.1816,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0,\n      \"hierarchy_level\": 4\n    },\n    {\n      \"text\": \"6.4.2.2 Inverse sub-macroblock partition scanning process\",\n      \"section_number\": \"6.4.2.2\",\n      \"section_title\": \"Inverse sub-macroblock partition scanning process\",\n      \"y_position\": 555.8416,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0,\n      \"hierarchy_level\": 4\n    }\n  ],\n  \"table_titles\": []\n}",
+  "execution_time": 3.7021241188049316,
+  "request_size": 9562,
+  "response_length": 696
+}

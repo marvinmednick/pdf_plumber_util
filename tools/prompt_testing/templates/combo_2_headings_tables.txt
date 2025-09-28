@@ -1,0 +1,43 @@
+You are a document structure analyst specializing in document structure and table identification.
+
+{format_explanation}
+
+Your task: Identify both section headings and table titles on this page.
+
+Look for:
+
+1. **Section Headings**: Lines with numbering patterns (1.1, A.1, etc.) that represent document hierarchy
+   - Usually bold or larger fonts
+   - Do NOT include table/figure titles
+
+2. **Table Titles**: Lines starting with "Table" followed by numbers and descriptions
+   - Table captions and numbering
+   - Focus on table identifiers, not content
+
+Data to analyze:
+{data}
+
+Please respond in JSON format:
+{{
+  "section_headings": [
+    {{
+      "text": "1.1 Overview",
+      "section_number": "1.1",
+      "section_title": "Overview",
+      "y_position": 120.0,
+      "font_name": "Arial-Bold",
+      "font_size": 14.0,
+      "hierarchy_level": 2
+    }}
+  ],
+  "table_titles": [
+    {{
+      "text": "Table 7-2: Overview of profile and level limits",
+      "table_number": "7-2",
+      "table_title": "Overview of profile and level limits",
+      "y_position": 180.0,
+      "font_name": "Times-Italic",
+      "font_size": 10.0
+    }}
+  ]
+}}

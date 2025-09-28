@@ -1,0 +1,12 @@
+{
+  "test_number": 29,
+  "template": "equations_only.txt",
+  "content_type": "equations",
+  "data_file": "h264_list_of_tables_page19.json",
+  "page_description": "Page 19 (List of Tables)",
+  "response_content": "{\n  \"equations\": []\n}",
+  "execution_time": 0.6375064849853516,
+  "request_size": 14778,
+  "response_length": 21,
+  "findings_summary": "Nothing found"
+}

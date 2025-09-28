@@ -1,0 +1,12 @@
+{
+  "test_number": 1,
+  "template": "section_headings_only.txt",
+  "content_type": "section_headings",
+  "data_file": "h264_content_page_1.json",
+  "page_description": "Page ~305 (Figures content)",
+  "response_content": "{\n  \"section_headings\": []\n}",
+  "execution_time": 0.836125373840332,
+  "request_size": 3969,
+  "response_length": 28,
+  "findings_summary": "Nothing found"
+}

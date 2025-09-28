@@ -1,0 +1,85 @@
+{
+  "template": "comprehensive_content_analysis.txt",
+  "data_file": "h264_content_page_50.json",
+  "response_content": {
+    "section_headings": [
+      {
+        "text": "6.4.2.1 Inverse macroblock partition scanning process",
+        "section_number": "6.4.2.1",
+        "section_title": "Inverse macroblock partition scanning process",
+        "y_position": 421.1816,
+        "font_name": "TimesNewRomanPS-BoldMT",
+        "font_size": 10.0,
+        "hierarchy_level": 4
+      },
+      {
+        "text": "6.4.2.2 Inverse sub-macroblock partition scanning process",
+        "section_number": "6.4.2.2",
+        "section_title": "Inverse sub-macroblock partition scanning process",
+        "y_position": 555.8416,
+        "font_name": "TimesNewRomanPS-BoldMT",
+        "font_size": 10.0,
+        "hierarchy_level": 4
+      }
+    ],
+    "table_titles": [],
+    "figure_titles": [
+      {
+        "text": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and sub-macroblock partition scans",
+        "figure_number": "6-9",
+        "figure_title": "Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and sub-macroblock partition scans",
+        "y_position": 362.32136,
+        "font_name": "TimesNewRomanPS-BoldMT",
+        "font_size": 10.0
+      }
+    ],
+    "equation_titles": [
+      {
+        "text": "x = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 0 ) (6-11)",
+        "equation_number": "6-11",
+        "equation_title": "",
+        "y_position": 508.62136,
+        "font_name": "TimesNewRomanPSMT",
+        "font_size": 10.0
+      },
+      {
+        "text": "y = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 1 )   (6-12)",
+        "equation_number": "6-12",
+        "equation_title": "",
+        "y_position": 532.14136,
+        "font_name": "TimesNewRomanPSMT",
+        "font_size": 10.0
+      },
+      {
+        "text": "x = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ), SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 0 )  (6-13)",
+        "equation_number": "6-13",
+        "equation_title": "",
+        "y_position": 670.41136,
+        "font_name": "TimesNewRomanPSMT",
+        "font_size": 10.0
+      },
+      {
+        "text": "y = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ), SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 1 )  (6-14)",
+        "equation_number": "6-14",
+        "equation_title": "",
+        "y_position": 705.45136,
+        "font_name": "TimesNewRomanPSMT",
+        "font_size": 10.0
+      },
+      {
+        "text": "x = InverseRasterScan( subMbPartIdx, 4, 4, 8, 0 )  (6-15)",
+        "equation_number": "6-15",
+        "equation_title": "",
+        "y_position": 761.60736,
+        "font_name": "TimesNewRomanPSMT",
+        "font_size": 10.0
+      }
+    ],
+    "toc_entries": []
+  },
+  "execution_time": 11.097738027572632,
+  "request_size": 14474,
+  "response_length": 2663,
+  "data_size_kb": 74.2138671875,
+  "timestamp": 1759087462.5480814
+}

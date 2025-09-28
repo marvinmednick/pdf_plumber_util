@@ -1,0 +1,12 @@
+{
+  "test_number": 8,
+  "template": "table_titles_only.txt",
+  "content_type": "table_titles",
+  "data_file": "h264_page_6_only.json",
+  "page_description": "Page 6 (Table of Contents)",
+  "response_content": "{\n  \"table_titles\": []\n}",
+  "execution_time": 0.9249932765960693,
+  "request_size": 16411,
+  "response_length": 24,
+  "findings_summary": "Nothing found"
+}

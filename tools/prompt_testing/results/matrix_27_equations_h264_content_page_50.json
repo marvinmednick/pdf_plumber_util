@@ -1,0 +1,12 @@
+{
+  "test_number": 27,
+  "template": "equations_only.txt",
+  "content_type": "equations",
+  "data_file": "h264_content_page_50.json",
+  "page_description": "Page 50 (Sections + Tables)",
+  "response_content": "{\n  \"equations\": [\n    {\n      \"text\": \"x = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 0 )\",\n      \"y_position\": 508.6213599999999,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0,\n      \"equation_number\": \"6-11\",\n      \"type\": \"display|numbered\"\n    },\n    {\n      \"text\": \"y = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 1 )\",\n      \"y_position\": 532.1413599999998,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0,\n      \"equation_number\": \"6-12\",\n      \"type\": \"display|numbered\"\n    },\n    {\n      \"text\": \"x = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ), SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 0 )\",\n      \"y_position\": 670.41136,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0,\n      \"equation_number\": \"6-13\",\n      \"type\": \"display|numbered\"\n    },\n    {\n      \"text\": \"y = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ), SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 1 )\",\n      \"y_position\": 705.45136,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0,\n      \"equation_number\": \"6-14\",\n      \"type\": \"display|numbered\"\n    },\n    {\n      \"text\": \"x = InverseRasterScan( subMbPartIdx, 4, 4, 8, 0 )\",\n      \"y_position\": 761.60736,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0,\n      \"equation_number\": \"6-15\",\n      \"type\": \"display|numbered\"\n    }\n  ]\n}",
+  "execution_time": 6.221752405166626,
+  "request_size": 9283,
+  "response_length": 1497,
+  "findings_summary": "5 equations"
+}

@@ -1,0 +1,33 @@
+{
+  "template": "comprehensive_content_analysis.txt",
+  "data_file": "h264_content_page_305.json",
+  "response_content": {
+    "section_headings": [],
+    "table_titles": [],
+    "figure_titles": [
+      {
+        "text": "Figure 9-11 \u2013 Flowchart of encoding a decision before termination",
+        "figure_number": "9-11",
+        "figure_title": "Flowchart of encoding a decision before termination",
+        "y_position": 0,
+        "font_name": "TimesNewRomanPS-BoldMT",
+        "font_size": 10.0
+      },
+      {
+        "text": "Figure 9-12 \u2013 Flowchart of flushing at termination",
+        "figure_number": "9-12",
+        "figure_title": "Flowchart of flushing at termination",
+        "y_position": 0,
+        "font_name": "TimesNewRomanPS-BoldMT",
+        "font_size": 10.0
+      }
+    ],
+    "equation_titles": [],
+    "toc_entries": []
+  },
+  "execution_time": 2.0555906295776367,
+  "request_size": 8320,
+  "response_length": 687,
+  "data_size_kb": 17.8583984375,
+  "timestamp": 1759086066.5856075
+}

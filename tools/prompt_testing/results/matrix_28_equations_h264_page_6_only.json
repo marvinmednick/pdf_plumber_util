@@ -1,0 +1,12 @@
+{
+  "test_number": 28,
+  "template": "equations_only.txt",
+  "content_type": "equations",
+  "data_file": "h264_page_6_only.json",
+  "page_description": "Page 6 (Table of Contents)",
+  "response_content": "{\n  \"equations\": []\n}",
+  "execution_time": 0.6960759162902832,
+  "request_size": 16446,
+  "response_length": 21,
+  "findings_summary": "Nothing found"
+}

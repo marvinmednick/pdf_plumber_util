@@ -1,0 +1,12 @@
+{
+  "test_number": 16,
+  "template": "toc_entries_only.txt",
+  "content_type": "toc_entries",
+  "data_file": "h264_content_page_1.json",
+  "page_description": "Page ~305 (Figures content)",
+  "response_content": "{\n  \"toc_entries\": []\n}",
+  "execution_time": 0.4153602123260498,
+  "request_size": 3967,
+  "response_length": 23,
+  "findings_summary": "Nothing found"
+}

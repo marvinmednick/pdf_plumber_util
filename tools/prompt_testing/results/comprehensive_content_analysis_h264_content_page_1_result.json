@@ -1,0 +1,10 @@
+{
+  "template": "comprehensive_content_analysis.txt",
+  "data_file": "h264_content_page_1.json",
+  "response_content": "{\n  \"section_headings\": [],\n  \"table_titles\": [],\n  \"figure_titles\": [\n    {\n      \"text\": \"Figure 9-11 \u2013 Flowchart of encoding a decision before termination\",\n      \"figure_number\": \"9-11\",\n      \"figure_title\": \"Flowchart of encoding a decision before termination\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    },\n    {\n      \"text\": \"Figure 9-12 \u2013 Flowchart of flushing at termination\",\n      \"figure_number\": \"9-12\",\n      \"figure_title\": \"Flowchart of flushing at termination\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    }\n  ],\n  \"equation_titles\": [],\n  \"toc_entries\": []\n}",
+  "execution_time": 2.974987506866455,
+  "request_size": 8320,
+  "response_length": 687,
+  "data_size_kb": 17.8583984375,
+  "timestamp": 1759084829.197854
+}

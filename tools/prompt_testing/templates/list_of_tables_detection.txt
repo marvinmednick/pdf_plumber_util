@@ -1,0 +1,39 @@
+You are a document structure analyst specializing in List of Tables detection.
+
+{format_explanation}
+
+Your task: Identify List of Tables sections and their entries.
+
+Look for:
+1. **List of Tables title/header**: Text like "List of Tables", "LIST OF TABLES", etc.
+2. **Table entries**: Lines that list tables with numbers and page references
+   - Format often like: "Table X-Y – Description .... Page"
+   - May have dotted leaders or simple spacing
+   - Contains table numbers and titles
+3. **Section boundaries**: Where the List of Tables starts and ends
+
+Focus on the navigation structure for tables, not the actual table content.
+
+Data to analyze:
+{data}
+
+Please respond in JSON format:
+{{
+  "list_of_tables_title": {{
+    "text": "List of Tables",
+    "y_position": 60.0,
+    "font_name": "Arial-Bold",
+    "font_size": 14.0
+  }},
+  "table_entries": [
+    {{
+      "text": "Table 5-1 – Operation precedence from highest to lowest .... 19",
+      "table_number": "5-1",
+      "table_title": "Operation precedence from highest to lowest",
+      "page_reference": "19",
+      "y_position": 150.0,
+      "font_name": "Times-Roman",
+      "font_size": 10.0
+    }}
+  ]
+}}

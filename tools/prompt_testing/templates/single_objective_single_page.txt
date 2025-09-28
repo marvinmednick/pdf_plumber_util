@@ -1,0 +1,29 @@
+You are a document structure analyst specializing in technical document analysis.
+
+{format_explanation}
+
+Your task: {objective}
+
+Please analyze the following document page data and extract table of contents entries. Look for lines that contain:
+- Section numbers (decimal numbering like 1.1, 1.2.3, etc.)
+- Section titles
+- Page references (usually numbers at the end of lines)
+- Leader patterns (dots, dashes, or spacing connecting titles to page numbers)
+
+Data to analyze:
+{data}
+
+Please respond with extracted TOC entries in the following JSON format:
+{{
+  "toc_entries": [
+    {{
+      "text": "complete line text as found",
+      "section_number": "1.1",
+      "section_title": "extracted title",
+      "page_reference": "5",
+      "y_position": 150.0,
+      "font_name": "Times-Roman",
+      "font_size": 10.0
+    }}
+  ]
+}}

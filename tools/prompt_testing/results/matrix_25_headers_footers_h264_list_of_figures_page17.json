@@ -1,0 +1,12 @@
+{
+  "test_number": 25,
+  "template": "headers_footers_only.txt",
+  "content_type": "headers_footers",
+  "data_file": "h264_list_of_figures_page17.json",
+  "page_description": "Page 17 (List of Figures)",
+  "response_content": "{\n  \"headers\": [\n    {\n      \"text\": \"J.8.4 Decoding process for depth range parameters ........................................................................................ 803\\nJ.9 Parsing process ............................................................................................................................................... 804\\nJ.9.1 Alternative CABAC parsing process for slice data and macroblock layer in depth extension ............... 804\\nJ.9.1.1 Initialization process ............................................................................................................................... 804\\nJ.9.1.2 Binarization process ................................................................................................................................ 805\\nJ.9.1.3 Decoding process flow ............................................................................................................................ 806\",\n      \"y_position\": 55.32,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0,\n      \"type\": \"section_name\"\n    }\n  ],\n  \"footers\": [\n    {\n      \"text\": \"Rec. ITU-T H.264 (06/2019) xv\",\n      \"y_position\": 806.36,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 11.0,\n      \"type\": \"document_title\"\n    }\n  ],\n  \"content_boundaries\": {\n    \"main_content_starts_after_y\": 68.16,\n    \"main_content_ends_before_y\": 800.0\n  }\n}",
+  "execution_time": 6.341973781585693,
+  "request_size": 14675,
+  "response_length": 1408,
+  "findings_summary": "1 headers, 1 footers, 1 content_boundaries"
+}

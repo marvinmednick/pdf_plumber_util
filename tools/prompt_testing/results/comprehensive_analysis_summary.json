@@ -1,0 +1,35 @@
+{
+  "template": "comprehensive_content_analysis.txt",
+  "timestamp": 1759084726.3918605,
+  "total_tests": 5,
+  "test_results": {
+    "h264_content_page_1.json": {
+      "success": false,
+      "error": "'PromptTester' object has no attribute 'test_template'",
+      "data_size_kb": 17.8583984375
+    },
+    "h264_content_page_50.json": {
+      "success": false,
+      "error": "'PromptTester' object has no attribute 'test_template'",
+      "data_size_kb": 74.2138671875
+    },
+    "h264_page_6_only.json": {
+      "success": false,
+      "error": "'PromptTester' object has no attribute 'test_template'",
+      "data_size_kb": 199.5625
+    },
+    "h264_list_of_tables_page19.json": {
+      "success": false,
+      "error": "'PromptTester' object has no attribute 'test_template'",
+      "data_size_kb": 102.2578125
+    },
+    "h264_list_of_figures_page17.json": {
+      "success": false,
+      "error": "'PromptTester' object has no attribute 'test_template'",
+      "data_size_kb": 134.0
+    }
+  },
+  "successful_tests": 0,
+  "failed_tests": 5,
+  "success_rate": 0.0
+}

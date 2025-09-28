@@ -1,0 +1,12 @@
+{
+  "test_number": 24,
+  "template": "headers_footers_only.txt",
+  "content_type": "headers_footers",
+  "data_file": "h264_list_of_tables_page19.json",
+  "page_description": "Page 19 (List of Tables)",
+  "response_content": "{\n  \"headers\": [\n    {\n      \"text\": \"Figure D-11 \u2013 Rearrangement of a temporal interleaving frame arrangement  (frame_packing_arrangement_type equal to 5) ............................................................................................................................................................... 391\",\n      \"y_position\": 55.67,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0,\n      \"type\": \"section_name\"\n    }\n  ],\n  \"footers\": [\n    {\n      \"text\": \"Rec. ITU-T H.264 (06/2019) xvii\",\n      \"y_position\": 806.36,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 11.0,\n      \"type\": \"document_title\"\n    }\n  ],\n  \"content_boundaries\": {\n    \"main_content_starts_after_y\": 65.0,\n    \"main_content_ends_before_y\": 800.0\n  }\n}",
+  "execution_time": 3.080193042755127,
+  "request_size": 15085,
+  "response_length": 778,
+  "findings_summary": "1 headers, 1 footers, 1 content_boundaries"
+}

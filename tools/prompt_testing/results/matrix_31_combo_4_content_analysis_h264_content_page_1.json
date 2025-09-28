@@ -1,0 +1,12 @@
+{
+  "test_number": 31,
+  "template": "combo_4_content_analysis.txt",
+  "content_type": "combo_4_content_analysis",
+  "data_file": "h264_content_page_1.json",
+  "page_description": "Page ~305 (Figures content)",
+  "response_content": "{\n  \"section_headings\": [],\n  \"table_titles\": [],\n  \"figure_titles\": [\n    {\n      \"text\": \"Figure 9-11 \u2013 Flowchart of encoding a decision before termination\",\n      \"figure_number\": \"9-11\",\n      \"figure_title\": \"Flowchart of encoding a decision before termination\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    },\n    {\n      \"text\": \"Figure 9-12 \u2013 Flowchart of flushing at termination\",\n      \"figure_number\": \"9-12\",\n      \"figure_title\": \"Flowchart of flushing at termination\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    }\n  ],\n  \"equations\": [\n    {\n      \"text\": \"codIRange = 2\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 9.0,\n      \"equation_number\": null,\n      \"type\": \"display\"\n    },\n    {\n      \"text\": \"PutBit((codILow >> 9) & 1)\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 9.0,\n      \"equation_number\": null,\n      \"type\": \"display\"\n    },\n    {\n      \"text\": \"WriteBits(((codILow >> 7) & 3) | 1, 2)\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 9.0,\n      \"equation_number\": null,\n      \"type\": \"display\"\n    }\n  ]\n}",
+  "execution_time": 3.069237232208252,
+  "request_size": 4954,
+  "response_length": 1258,
+  "findings_summary": "2 figure_titles, 3 equations"
+}

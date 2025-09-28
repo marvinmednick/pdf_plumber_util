@@ -1,0 +1,12 @@
+{
+  "test_number": 21,
+  "template": "headers_footers_only.txt",
+  "content_type": "headers_footers",
+  "data_file": "h264_content_page_1.json",
+  "page_description": "Page ~305 (Figures content)",
+  "response_content": "{\n  \"headers\": [],\n  \"footers\": [\n    {\n      \"text\": \"Rec. ITU-T H.264 (06/2019)283\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 11.0,\n      \"type\": \"other\"\n    }\n  ],\n  \"content_boundaries\": {\n    \"main_content_starts_after_y\": 0,\n    \"main_content_ends_before_y\": 0\n  }\n}",
+  "execution_time": 1.0572638511657715,
+  "request_size": 4208,
+  "response_length": 318,
+  "findings_summary": "1 footers, 1 content_boundaries"
+}

@@ -1,0 +1,41 @@
+You are a document structure analyst specializing in header and footer detection.
+
+{format_explanation}
+
+Your task: Identify headers and footers on this page to distinguish main content from page margins.
+
+Look for content that appears at consistent positions at the top or bottom of pages:
+- Headers: Content at the top that repeats across pages (titles, chapter names, etc.)
+- Footers: Content at the bottom that repeats across pages (page numbers, copyright, etc.)
+- Page numbering: Numbers or formatted page references
+
+Focus on boundary detection - where does the main content area begin and end?
+
+Data to analyze:
+{data}
+
+Please respond in JSON format:
+{{
+  "headers": [
+    {{
+      "text": "complete header text",
+      "y_position": 52.0,
+      "font_name": "Arial-Bold",
+      "font_size": 12.0,
+      "type": "document_title|chapter_name|section_name"
+    }}
+  ],
+  "footers": [
+    {{
+      "text": "Page 1",
+      "y_position": 748.0,
+      "font_name": "Arial",
+      "font_size": 10.0,
+      "type": "page_number|copyright|other"
+    }}
+  ],
+  "content_boundaries": {{
+    "main_content_starts_after_y": 65.0,
+    "main_content_ends_before_y": 735.0
+  }}
+}}

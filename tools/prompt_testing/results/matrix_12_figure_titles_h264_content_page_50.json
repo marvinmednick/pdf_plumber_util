@@ -1,0 +1,12 @@
+{
+  "test_number": 12,
+  "template": "figure_titles_only.txt",
+  "content_type": "figure_titles",
+  "data_file": "h264_content_page_50.json",
+  "page_description": "Page 50 (Sections + Tables)",
+  "response_content": "{\n  \"figure_titles\": [\n    {\n      \"text\": \"Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and sub-macroblock partition scans\",\n      \"figure_number\": \"6-9\",\n      \"figure_title\": \"Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and sub-macroblock partition scans\",\n      \"y_position\": 362.3213599999999,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0\n    }\n  ]\n}",
+  "execution_time": 1.8895971775054932,
+  "request_size": 9351,
+  "response_length": 461,
+  "findings_summary": "1 figure_titles"
+}

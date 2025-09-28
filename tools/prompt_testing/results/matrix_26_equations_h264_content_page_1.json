@@ -1,0 +1,12 @@
+{
+  "test_number": 26,
+  "template": "equations_only.txt",
+  "content_type": "equations",
+  "data_file": "h264_content_page_1.json",
+  "page_description": "Page ~305 (Figures content)",
+  "response_content": "{\n  \"equations\": [\n    {\n      \"text\": \"codIRange = 2\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 9.0,\n      \"equation_number\": null,\n      \"type\": \"display\"\n    },\n    {\n      \"text\": \"PutBit((codILow >> 9) & 1)\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 9.0,\n      \"equation_number\": null,\n      \"type\": \"display\"\n    },\n    {\n      \"text\": \"WriteBits(((codILow >> 7) & 3) | 1, 2)\",\n      \"y_position\": 0,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 9.0,\n      \"equation_number\": null,\n      \"type\": \"display\"\n    }\n  ]\n}",
+  "execution_time": 4.883000612258911,
+  "request_size": 3901,
+  "response_length": 619,
+  "findings_summary": "3 equations"
+}

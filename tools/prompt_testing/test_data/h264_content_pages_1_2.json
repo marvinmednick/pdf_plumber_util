@@ -1,0 +1,1185 @@
+{
+  "pages": [
+    {
+      "page": 1,
+      "blocks": [
+        {
+          "lines": [
+            {
+              "line_number": 3,
+              "text": "Figure 9-11 \u2013 Flowchart of encoding a decision before termination",
+              "bbox": {
+                "x0": 156.74,
+                "top": 334.0013599999999,
+                "x1": 441.28000000000003,
+                "bottom": 343.96135999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 9-11 \u2013 Flowchart of encoding a decision before termination",
+                  "bbox": {
+                    "x0": 156.74,
+                    "top": 334.0013599999999,
+                    "x1": 441.28000000000003,
+                    "bottom": 343.96135999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 11.400000000000034,
+              "gap_after": 37.31999999999999
+            }
+          ],
+          "text": "Figure 9-11 \u2013 Flowchart of encoding a decision before termination",
+          "predominant_size": 10.0,
+          "gap_before": 11.400000000000034,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 4,
+              "text": "When the value of binVal to encode is equal to 1, CABAC encoding is terminated and the flushing procedure shown in",
+              "bbox": {
+                "x0": 54.48,
+                "top": 381.28135999999995,
+                "x1": 543.1508,
+                "bottom": 391.24136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "When the value of binVal to encode is equal to 1, CABAC encoding is terminated and the flushing procedure shown in",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 381.28135999999995,
+                    "x1": 543.1508,
+                    "bottom": 391.24136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 37.31999999999999,
+              "gap_after": 1.5599999999999454
+            },
+            {
+              "line_number": 5,
+              "text": "Figure 9-12 is applied. In this flushing procedure, the last bit written by WriteBits( B, N )  is equal to 1. When encoding",
+              "bbox": {
+                "x0": 54.48,
+                "top": 392.80135999999993,
+                "x1": 543.48532,
+                "bottom": 402.76135999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 9-12 is applied. In this flushing procedure, the last bit written by WriteBits( B, N )  is equal to 1. When encoding",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 392.80135999999993,
+                    "x1": 543.48532,
+                    "bottom": 402.76135999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5599999999999454,
+              "gap_after": 1.4399999999999409
+            },
+            {
+              "line_number": 6,
+              "text": "end_of_slice_flag, this last bit is interpreted as the rbsp_stop_one_bit.",
+              "bbox": {
+                "x0": 54.48,
+                "top": 404.2013599999999,
+                "x1": 337.0,
+                "bottom": 414.16135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "end_of_slice_flag, this last bit is interpreted as the rbsp_stop_one_bit.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 404.2013599999999,
+                    "x1": 337.0,
+                    "bottom": 414.16135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.4399999999999409,
+              "gap_after": 40.66909453887848
+            }
+          ],
+          "text": "When the value of binVal to encode is equal to 1, CABAC encoding is terminated and the flushing procedure shown in\nFigure 9-12 is applied. In this flushing procedure, the last bit written by WriteBits( B, N )  is equal to 1. When encoding\nend_of_slice_flag, this last bit is interpreted as the rbsp_stop_one_bit.",
+          "predominant_size": 10.0,
+          "gap_before": 37.31999999999999,
+          "gap_after": 1.4399999999999409,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 7,
+              "text": "EncodeFlush",
+              "bbox": {
+                "x0": 270.389985639394,
+                "top": 454.8304545388784,
+                "x1": 316.29328310665846,
+                "bottom": 463.67078840538545
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.840333866507024,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "EncodeFlush",
+                  "bbox": {
+                    "x0": 270.389985639394,
+                    "top": 454.8304545388784,
+                    "x1": 316.29328310665846,
+                    "bottom": 463.67078840538545
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 40.66909453887848,
+              "gap_after": 29.13343805529297
+            }
+          ],
+          "text": "EncodeFlush",
+          "predominant_size": 9.0,
+          "gap_before": 40.66909453887848,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 8,
+              "text": "codIRange = 2",
+              "bbox": {
+                "x0": 267.5594522516,
+                "top": 492.8042264606784,
+                "x1": 319.53152785518535,
+                "bottom": 501.64456032718545
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.840333866507024,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "codIRange = 2",
+                  "bbox": {
+                    "x0": 267.5594522516,
+                    "top": 492.8042264606784,
+                    "x1": 319.53152785518535,
+                    "bottom": 501.64456032718545
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 29.13343805529297,
+              "gap_after": 30.147397410273015
+            }
+          ],
+          "text": "codIRange = 2",
+          "predominant_size": 9.0,
+          "gap_before": 29.13343805529297,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 9,
+              "text": "RenormE",
+              "bbox": {
+                "x0": 276.50632672329203,
+                "top": 531.7919577374585,
+                "x1": 310.202411927828,
+                "bottom": 540.6322916039654
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.840333866507024,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "RenormE",
+                  "bbox": {
+                    "x0": 276.50632672329203,
+                    "top": 531.7919577374585,
+                    "x1": 310.202411927828,
+                    "bottom": 540.6322916039654
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 30.147397410273015,
+              "gap_after": 28.19005822404199
+            }
+          ],
+          "text": "RenormE",
+          "predominant_size": 9.0,
+          "gap_before": 30.147397410273015,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 10,
+              "text": "PutBit((codILow >> 9) & 1)",
+              "bbox": {
+                "x0": 243.35746165565402,
+                "top": 568.8223498280074,
+                "x1": 343.61855238697996,
+                "bottom": 577.6626836945145
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.840333866507024,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "PutBit((codILow >> 9) & 1)",
+                  "bbox": {
+                    "x0": 243.35746165565402,
+                    "top": 568.8223498280074,
+                    "x1": 343.61855238697996,
+                    "bottom": 577.6626836945145
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 28.19005822404199,
+              "gap_after": 29.409791683414937
+            }
+          ],
+          "text": "PutBit((codILow >> 9) & 1)",
+          "predominant_size": 9.0,
+          "gap_before": 28.19005822404199,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 11,
+              "text": "WriteBits(((codILow >> 7) & 3) | 1, 2)",
+              "bbox": {
+                "x0": 225.00843840396,
+                "top": 607.0724753779294,
+                "x1": 361.83892393090633,
+                "bottom": 615.9128092444364
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.840333866506995,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "WriteBits(((codILow >> 7) & 3) | 1, 2)",
+                  "bbox": {
+                    "x0": 225.00843840396,
+                    "top": 607.0724753779294,
+                    "x1": 361.83892393090633,
+                    "bottom": 615.9128092444364
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 29.409791683414937,
+              "gap_after": 30.849216336367135
+            }
+          ],
+          "text": "WriteBits(((codILow >> 7) & 3) | 1, 2)",
+          "predominant_size": 9.0,
+          "gap_before": 29.409791683414937,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 12,
+              "text": "Done",
+              "bbox": {
+                "x0": 284.038424043354,
+                "top": 646.7620255808035,
+                "x1": 303.15028632344604,
+                "bottom": 655.6023594473105
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.840333866506995,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "Done",
+                  "bbox": {
+                    "x0": 284.038424043354,
+                    "top": 646.7620255808035,
+                    "x1": 303.15028632344604,
+                    "bottom": 655.6023594473105
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 30.849216336367135,
+              "gap_after": 3.409000552689463
+            }
+          ],
+          "text": "Done",
+          "predominant_size": 9.0,
+          "gap_before": 30.849216336367135,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 14,
+              "text": "Figure 9-12 \u2013 Flowchart of flushing at termination",
+              "bbox": {
+                "x0": 190.37,
+                "top": 680.37136,
+                "x1": 407.68,
+                "bottom": 690.3313599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 9-12 \u2013 Flowchart of flushing at termination",
+                  "bbox": {
+                    "x0": 190.37,
+                    "top": 680.37136,
+                    "x1": 407.68,
+                    "bottom": 690.3313599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 11.399999999999977,
+              "gap_after": 37.32000000000005
+            }
+          ],
+          "text": "Figure 9-12 \u2013 Flowchart of flushing at termination",
+          "predominant_size": 10.0,
+          "gap_before": 11.399999999999977,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 18,
+              "text": "Rec. ITU-T H.264 (06/2019)283",
+              "bbox": {
+                "x0": 54.48,
+                "top": 806.36064,
+                "x1": 539.26,
+                "bottom": 817.40064
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "Rec. ITU-T H.264 (06/2019)",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 806.36064,
+                    "x1": 496.78,
+                    "bottom": 817.40064
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "283",
+                  "bbox": {
+                    "x0": 519.94,
+                    "top": 806.36064,
+                    "x1": 539.26,
+                    "bottom": 817.40064
+                  }
+                }
+              ],
+              "predominant_size": 11.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 95.8,
+              "gap_before": 32.27328,
+              "gap_after": 24.279359999999997
+            }
+          ],
+          "text": "Rec. ITU-T H.264 (06/2019)283",
+          "predominant_size": 11.0,
+          "gap_before": 32.27328,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 0.5
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "blocks": [
+        {
+          "lines": [
+            {
+              "line_number": 2,
+              "text": "9.3.4.6Byte stuffing process (informative)",
+              "bbox": {
+                "x0": 54.48,
+                "top": 55.85159999999996,
+                "x1": 244.70000000000002,
+                "bottom": 65.87135999999987
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "9.3.4.6",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 55.911359999999945,
+                    "x1": 81.9696,
+                    "bottom": 65.87135999999987
+                  }
+                },
+                {
+                  "font": "Arial-BoldMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 81.984,
+                    "top": 55.85159999999996,
+                    "x1": 84.75287999999999,
+                    "bottom": 65.81159999999988
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Byte stuffing process (informative)",
+                  "bbox": {
+                    "x0": 94.224,
+                    "top": 55.911359999999945,
+                    "x1": 244.70000000000002,
+                    "bottom": 65.87135999999987
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 98.5,
+              "gap_before": 13.740240000000085,
+              "gap_after": 8.160000000000082
+            }
+          ],
+          "text": "9.3.4.6Byte stuffing process (informative)",
+          "predominant_size": 10.0,
+          "gap_before": 13.740240000000085,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 0.6666666666666666
+        },
+        {
+          "lines": [
+            {
+              "line_number": 3,
+              "text": "This clause does not form an integral part of this Recommendation | International Standard.",
+              "bbox": {
+                "x0": 54.48,
+                "top": 74.03135999999995,
+                "x1": 422.92,
+                "bottom": 83.99135999999987
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "This clause does not form an integral part of this Recommendation | International Standard.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 74.03135999999995,
+                    "x1": 422.92,
+                    "bottom": 83.99135999999987
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.160000000000082,
+              "gap_after": 8.300000000000068
+            }
+          ],
+          "text": "This clause does not form an integral part of this Recommendation | International Standard.",
+          "predominant_size": 10.0,
+          "gap_before": 8.160000000000082,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 4,
+              "text": "This process is invoked after encoding the last macroblock of the last slice of a picture and after encapsulation.",
+              "bbox": {
+                "x0": 54.48,
+                "top": 92.29135999999994,
+                "x1": 500.59000000000003,
+                "bottom": 102.25135999999986
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "This process is invoked after encoding the last macroblock of the last slice of a picture and after encapsulation.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 92.29135999999994,
+                    "x1": 500.59000000000003,
+                    "bottom": 102.25135999999986
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.300000000000068,
+              "gap_after": 8.400000000000091
+            }
+          ],
+          "text": "This process is invoked after encoding the last macroblock of the last slice of a picture and after encapsulation.",
+          "predominant_size": 10.0,
+          "gap_before": 8.300000000000068,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 5,
+              "text": "Inputs to this process are the number of bytes NumBytesInVclNALunits of all VCL NAL units of a picture, the number of",
+              "bbox": {
+                "x0": 54.48,
+                "top": 110.65135999999995,
+                "x1": 543.0976800000009,
+                "bottom": 120.61135999999988
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Inputs to this process are the number of bytes NumBytesInVclNALunits of all VCL NAL units of a picture, the number of",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 110.65135999999995,
+                    "x1": 543.0976800000009,
+                    "bottom": 120.61135999999988
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.400000000000091,
+              "gap_after": 1.5600000000000591
+            },
+            {
+              "line_number": 6,
+              "text": "macroblocks PicSizeInMbs in the picture, and the number of binary symbols BinCountsInNALunits resulting from",
+              "bbox": {
+                "x0": 54.48,
+                "top": 122.17135999999994,
+                "x1": 543.26704,
+                "bottom": 132.13135999999986
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "macroblocks PicSizeInMbs in the picture, and the number of binary symbols BinCountsInNALunits resulting from",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 122.17135999999994,
+                    "x1": 543.26704,
+                    "bottom": 132.13135999999986
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000000591,
+              "gap_after": 1.5600000000001728
+            },
+            {
+              "line_number": 7,
+              "text": "encoding the contents of all VCL NAL units of the picture.",
+              "bbox": {
+                "x0": 54.48,
+                "top": 133.69136000000003,
+                "x1": 293.3,
+                "bottom": 143.65135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "encoding the contents of all VCL NAL units of the picture.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 133.69136000000003,
+                    "x1": 293.3,
+                    "bottom": 143.65135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000001728,
+              "gap_after": 4.232639999999947
+            }
+          ],
+          "text": "Inputs to this process are the number of bytes NumBytesInVclNALunits of all VCL NAL units of a picture, the number of\nmacroblocks PicSizeInMbs in the picture, and the number of binary symbols BinCountsInNALunits resulting from\nencoding the contents of all VCL NAL units of the picture.",
+          "predominant_size": 10.0,
+          "gap_before": 8.400000000000091,
+          "gap_after": 1.5600000000001728,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 8,
+              "text": "NOTE \u2013 The value of BinCountsInNALunits is the result of encoding all slices of a coded picture. After initializing for the first slice",
+              "bbox": {
+                "x0": 68.664,
+                "top": 147.8839999999999,
+                "x1": 543.3100000000001,
+                "bottom": 156.8839999999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.0,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "NOTE \u2013 The value of BinCountsInNALunits is the result of encoding all slices of a coded picture. After initializing for the first slice",
+                  "bbox": {
+                    "x0": 68.664,
+                    "top": 147.8839999999999,
+                    "x1": 543.3100000000001,
+                    "bottom": 156.8839999999999
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 4.232639999999947,
+              "gap_after": 0.9600000000000364
+            },
+            {
+              "line_number": 9,
+              "text": "of a coded picture as specified in clause 9.3.4.1, BinCountsInNALunits is incremented as specified in clauses 9.3.4.2, 9.3.4.4, and",
+              "bbox": {
+                "x0": 68.664,
+                "top": 157.84399999999994,
+                "x1": 543.2769999999999,
+                "bottom": 166.84399999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.0,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "of a coded picture as specified in clause 9.3.4.1, BinCountsInNALunits is incremented as specified in clauses 9.3.4.2, 9.3.4.4, and",
+                  "bbox": {
+                    "x0": 68.664,
+                    "top": 157.84399999999994,
+                    "x1": 543.2769999999999,
+                    "bottom": 166.84399999999994
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 0.9600000000000364,
+              "gap_after": 0.8399999999999181
+            },
+            {
+              "line_number": 10,
+              "text": "9.3.4.5.",
+              "bbox": {
+                "x0": 68.664,
+                "top": 167.68399999999986,
+                "x1": 97.914,
+                "bottom": 176.68399999999986
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.0,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "9.3.4.5.",
+                  "bbox": {
+                    "x0": 68.664,
+                    "top": 167.68399999999986,
+                    "x1": 97.914,
+                    "bottom": 176.68399999999986
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 0.8399999999999181,
+              "gap_after": 8.007360000000176
+            }
+          ],
+          "text": "NOTE \u2013 The value of BinCountsInNALunits is the result of encoding all slices of a coded picture. After initializing for the first slice\nof a coded picture as specified in clause 9.3.4.1, BinCountsInNALunits is incremented as specified in clauses 9.3.4.2, 9.3.4.4, and\n9.3.4.5.",
+          "predominant_size": 9.0,
+          "gap_before": 4.232639999999947,
+          "gap_after": 0.8399999999999181,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 11,
+              "text": "Outputs of this process are zero or more bytes appended to the NAL unit.",
+              "bbox": {
+                "x0": 54.48,
+                "top": 184.69136000000003,
+                "x1": 350.32,
+                "bottom": 194.65135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Outputs of this process are zero or more bytes appended to the NAL unit.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 184.69136000000003,
+                    "x1": 350.32,
+                    "bottom": 194.65135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.007360000000176,
+              "gap_after": 8.399999999999977
+            }
+          ],
+          "text": "Outputs of this process are zero or more bytes appended to the NAL unit.",
+          "predominant_size": 10.0,
+          "gap_before": 8.007360000000176,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 12,
+              "text": "Let the variable k be set equal to Ceil( ( Ceil( 3 * ( 32 * BinCountsInNALunits \u2212 RawMbBits * PicSizeInMbs ) \u00f7 1024 ) \u2212",
+              "bbox": {
+                "x0": 54.48,
+                "top": 203.05135999999993,
+                "x1": 543.55,
+                "bottom": 213.01135999999985
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Let the variable k be set equal to Ceil( ( Ceil( 3 * ( 32 * BinCountsInNALunits \u2212 RawMbBits * PicSizeInMbs ) \u00f7 1024 ) \u2212",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 203.05135999999993,
+                    "x1": 543.55,
+                    "bottom": 213.01135999999985
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.399999999999977,
+              "gap_after": 1.5600000000001728
+            },
+            {
+              "line_number": 13,
+              "text": "NumBytesInVclNALunits ) \u00f7 3 ). Depending on the variable k the following applies:",
+              "bbox": {
+                "x0": 54.48,
+                "top": 214.57136000000003,
+                "x1": 397.84000000000003,
+                "bottom": 224.53135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "NumBytesInVclNALunits ) \u00f7 3 ). Depending on the variable k the following applies:",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 214.57136000000003,
+                    "x1": 397.84000000000003,
+                    "bottom": 224.53135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000001728,
+              "gap_after": 8.280000000000086
+            }
+          ],
+          "text": "Let the variable k be set equal to Ceil( ( Ceil( 3 * ( 32 * BinCountsInNALunits \u2212 RawMbBits * PicSizeInMbs ) \u00f7 1024 ) \u2212\nNumBytesInVclNALunits ) \u00f7 3 ). Depending on the variable k the following applies:",
+          "predominant_size": 10.0,
+          "gap_before": 8.399999999999977,
+          "gap_after": 1.5600000000001728,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 14,
+              "text": "\u2013 If k is less than or equal to 0, no cabac_zero_word is appended to the NAL unit.",
+              "bbox": {
+                "x0": 54.48,
+                "top": 232.81136000000004,
+                "x1": 397.0,
+                "bottom": 242.77135999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "\u2013 If k is less than or equal to 0, no cabac_zero_word is appended to the NAL unit.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 232.81136000000004,
+                    "x1": 397.0,
+                    "bottom": 242.77135999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.280000000000086,
+              "gap_after": 8.399999999999977
+            }
+          ],
+          "text": "\u2013 If k is less than or equal to 0, no cabac_zero_word is appended to the NAL unit.",
+          "predominant_size": 10.0,
+          "gap_before": 8.280000000000086,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 15,
+              "text": "\u2013 Otherwise (k is greater than 0), the 3-byte sequence 0x000003 is appended k times to the NAL unit after encapsulation,",
+              "bbox": {
+                "x0": 54.48,
+                "top": 251.17135999999994,
+                "x1": 543.3050000000002,
+                "bottom": 261.13135999999986
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "\u2013 Otherwise (k is greater than 0), the 3-byte sequence 0x000003 is appended k times to the NAL unit after encapsulation,",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 251.17135999999994,
+                    "x1": 543.3050000000002,
+                    "bottom": 261.13135999999986
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.399999999999977,
+              "gap_after": 1.5600000000001728
+            },
+            {
+              "line_number": 16,
+              "text": "where the first two bytes 0x0000 represent a cabac_zero_word and the third byte 0x03 represents an",
+              "bbox": {
+                "x0": 74.544,
+                "top": 262.69136000000003,
+                "x1": 543.388,
+                "bottom": 272.65135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "where the first two bytes 0x0000 represent a cabac_zero_word and the third byte 0x03 represents an",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 262.69136000000003,
+                    "x1": 543.388,
+                    "bottom": 272.65135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000001728,
+              "gap_after": 1.5900000000000318
+            },
+            {
+              "line_number": 17,
+              "text": "emulation_prevention_three_byte.",
+              "bbox": {
+                "x0": 74.544,
+                "top": 274.24136,
+                "x1": 214.58,
+                "bottom": 284.2013599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "emulation_prevention_three_byte.",
+                  "bbox": {
+                    "x0": 74.544,
+                    "top": 274.24136,
+                    "x1": 214.58,
+                    "bottom": 284.2013599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5900000000000318,
+              "gap_after": 522.1592800000001
+            }
+          ],
+          "text": "\u2013 Otherwise (k is greater than 0), the 3-byte sequence 0x000003 is appended k times to the NAL unit after encapsulation,\nwhere the first two bytes 0x0000 represent a cabac_zero_word and the third byte 0x03 represents an\nemulation_prevention_three_byte.",
+          "predominant_size": 10.0,
+          "gap_before": 8.399999999999977,
+          "gap_after": 1.5900000000000318,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0
+        },
+        {
+          "lines": [
+            {
+              "line_number": 18,
+              "text": "284Rec. ITU-T H.264 (06/2019)",
+              "bbox": {
+                "x0": 54.48,
+                "top": 806.36064,
+                "x1": 233.09,
+                "bottom": 817.40064
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "284",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 806.36064,
+                    "x1": 71.03999999999999,
+                    "bottom": 817.40064
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "Rec. ITU-T H.264 (06/2019)",
+                  "bbox": {
+                    "x0": 71.064,
+                    "top": 806.36064,
+                    "x1": 233.09,
+                    "bottom": 817.40064
+                  }
+                }
+              ],
+              "predominant_size": 11.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 90.7,
+              "gap_before": 522.1592800000001,
+              "gap_after": 24.279359999999997
+            }
+          ],
+          "text": "284Rec. ITU-T H.264 (06/2019)",
+          "predominant_size": 11.0,
+          "gap_before": 522.1592800000001,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5
+        }
+      ]
+    }
+  ]
+}

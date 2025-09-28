@@ -1,0 +1,44 @@
+{
+  "template": "comprehensive_content_analysis.txt",
+  "timestamp": 1759085029.7504725,
+  "total_tests": 2,
+  "test_results": {
+    "h264_content_page_305.json": {
+      "success": true,
+      "execution_time": 4.565362930297852,
+      "request_size": 8320,
+      "response_length": 687,
+      "data_size_kb": 17.8583984375,
+      "total_items": 2,
+      "content_summary": {
+        "section_headings": 0,
+        "table_titles": 0,
+        "figure_titles": 2,
+        "equation_titles": 0,
+        "toc_entries": 0
+      },
+      "response_content": null
+    },
+    "h264_content_page_50.json": {
+      "success": true,
+      "execution_time": 12.484980344772339,
+      "request_size": 13702,
+      "response_length": 3156,
+      "data_size_kb": 74.2138671875,
+      "total_items": 8,
+      "content_summary": {
+        "section_headings": 2,
+        "table_titles": 0,
+        "figure_titles": 1,
+        "equation_titles": 5,
+        "toc_entries": 0
+      },
+      "response_content": null
+    }
+  },
+  "successful_tests": 2,
+  "failed_tests": 0,
+  "success_rate": 1.0,
+  "average_execution_time": 8.525171637535095,
+  "total_items_found": 10
+}

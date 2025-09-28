@@ -2,6 +2,60 @@
 
 This document provides detailed information about each development phase of PDF Plumb, including achievements, technical decisions, and migration details.
 
+## Recent Archived Work (September 2025)
+
+**Documentation Organization and Claude Code Session Guidance**:
+- Fixed all incorrect document references in CLAUDE.md (CLI_USAGE.md → docs/cli-usage.md, STATUS.md → docs/status.md, etc.)
+- Added WORK_LOG.md to core documentation list
+- Created comprehensive Session Startup Guidance section for Claude Code context
+- Updated Work Log Protocol to include creating empty WORK_LOG.md after commits
+- Established proper workflow for documentation maintenance and session continuity
+
+**LLM Duplicate Element Detection Fix**:
+- Fixed critical issue where table titles appeared in both section_headings and table_titles
+- Updated LLM prompt with explicit guidance preventing double categorization
+- Verified fix with real API call using controlled test fixture (pages 97-99)
+- Table 7-2, 7-3, 7-4 now appear ONLY in table_titles category as expected
+
+**Configuration System Enhancement**:
+- LLM sampling now properly uses environment variables from .env and config.py
+- Added llm_sequence_length configuration parameter for clearer naming
+- Renamed group_size → sequence_length throughout sampling system
+- All sampling calls now use configured values instead of hardcoded defaults
+
+**Testing Infrastructure Expansion**:
+- Created comprehensive pytest tests for overlap-free sampling algorithm (22 new tests)
+- Added test fixture generation script for controlled LLM testing scenarios
+- All 109 tests passing with robust coverage of sampling edge cases
+- Enhanced test documentation following established guidelines
+
+**Documentation Reorganization**:
+- Implemented mkdocs-gen-files for dynamic README/CLAUDE.md transformation
+- Fixed phase history anchor tags by moving "✅ COMPLETE" status to separate lines
+- Resolved mkdocs build warnings for missing readme.md and development.md files
+- All documentation now builds successfully with proper link transformation
+
+**State Machine Architecture**:
+- Complete state machine orchestrator implementation with AnalysisState base class
+- Fixed MAX_TOTAL_STATES constant (50) to prevent infinite loops
+- Removed unused retry functionality to simplify codebase (87 tests now passing)
+
+**State Machine Integration (Phase 2.4)**:
+- State machine workflow is now the default for LLM analysis (`llm-analyze` command)
+- Added `--use-direct-analyzer` flag for legacy direct analyzer access
+- Fixed CLI result extraction issue for state machine workflow
+- Added reproducible sampling with `--sampling-seed` parameter for testing
+- Verified identical LLM requests between state machine and direct analyzer implementations
+- Created comprehensive `HeaderFooterAnalysisState` (222 lines) with provider configuration and cost estimation
+- Enhanced `LLMDocumentAnalyzer` with sampling seed support for reproducible testing
+- Updated state registry and workflow infrastructure
+- Created test comparison framework (`test_state_comparison.py`, 254 lines)
+- Updated design documentation with loop prevention details and implementation status
+
+**Work Log Protocol Enhancement**:
+- Strengthened CLAUDE.md work log protocol with mandatory immediate documentation requirements
+- Enhanced documentation scope to ensure complete coverage of implementation work
+
 ## Phase 1: Foundation Modernization
 ✅ **COMPLETE**
 

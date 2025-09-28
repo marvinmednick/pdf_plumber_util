@@ -1,0 +1,12 @@
+{
+  "test_number": 2,
+  "template": "section_headings_only.txt",
+  "content_type": "section_headings",
+  "data_file": "h264_content_page_50.json",
+  "page_description": "Page 50 (Sections + Tables)",
+  "response_content": "{\n  \"section_headings\": [\n    {\n      \"text\": \"6.4.2.1 Inverse macroblock partition scanning process\",\n      \"section_number\": \"6.4.2.1\",\n      \"section_title\": \"Inverse macroblock partition scanning process\",\n      \"y_position\": 421.18159999999995,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0,\n      \"hierarchy_level\": 4\n    },\n    {\n      \"text\": \"6.4.2.2 Inverse sub-macroblock partition scanning process\",\n      \"section_number\": \"6.4.2.2\",\n      \"section_title\": \"Inverse sub-macroblock partition scanning process\",\n      \"y_position\": 555.8416,\n      \"font_name\": \"TimesNewRomanPS-BoldMT\",\n      \"font_size\": 10.0,\n      \"hierarchy_level\": 4\n    }\n  ]\n}",
+  "execution_time": 2.9079971313476562,
+  "request_size": 9351,
+  "response_length": 684,
+  "findings_summary": "2 section_headings"
+}

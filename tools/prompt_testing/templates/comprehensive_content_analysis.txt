@@ -1,0 +1,129 @@
+You are a document structure analyst specializing in comprehensive content identification.
+
+{format_explanation}
+
+You are analyzing page {page_number} of {total_pages} from a multi-page document. Your task is to identify different types of content structure elements that may appear on this single page.
+
+**Context**: This page is part of a larger document. Content types may include document structure elements, navigation aids, or mixed content depending on the page's purpose within the document.
+
+Look for these content types:
+
+1. **Section Headings**: Document hierarchy markers that introduce content sections
+   - **Numbering patterns**: Various formats including 1.1, A.1, I.2.3, (a), Chapter 5, Part II, Appendix B, etc.
+   - **Titles/Labels**: May use diverse terminology - Section, Chapter, Part, Appendix, Article, etc.
+   - **Context clues**: Typically followed by body text content (on next line or same line after separator like colon/dash)
+   - **Formatting**: Often bold, larger fonts, or distinctive styling, but not always
+   - **NOT section references**: Do not include references TO sections (like "see Section 1.1" or navigation lists)
+
+2. **Table References/Titles**: Identifiers for tables or data presentations
+   - **Label patterns**: "Table", "Tbl", "Tab", numbered/lettered variations (Table 5-1, Tbl A.2, etc.), etc.
+   - **Context clues**: May be standalone titles, captions, or references within lists
+   - **Formatting**: Often italic or distinctive styling
+
+3. **Figure References/Titles**: Identifiers for figures, diagrams, illustrations
+   - **Label patterns**: "Figure", "Fig", "Diagram", "Chart", "Illustration", numbered variations, etc.
+   - **Separators**: May use em-dash (–), hyphen (-), colon (:), or other separators
+   - **Context clues**: May be captions, standalone titles, or references within lists
+
+4. **Equation Titles/References**: Identifiers and titles for mathematical expressions or formulas
+   - **Reference patterns**: "Equation", "Eq", "Formula", "Form", numbered variations, etc.
+   - **Numbering formats**: (5.1), (A-3), (2-1), 5.1, A.3, etc.
+   - **Layout patterns**:
+     * Separate line with title: "Equation 5.1: Complex equation" (title to the right of number)
+     * Separate line, number only: "Equation (6-11)" or "Formula 2.3"
+     * Inline with number: "x = expression (6-11)" or "(2-5) F = ma"
+   - **Title positioning**: When present, titles appear to the right of the equation number
+   - **No title cases**: Many equations have only numbers without descriptive titles - leave title blank
+   - **Focus**: Identify equation REFERENCES and TITLES, not the mathematical expressions themselves
+   - **Use your knowledge**: Apply standard mathematical document conventions
+
+5. **Table of Contents/Navigation Entries**: Navigation elements listing document content
+   - **Unified purpose**: All serve as navigation/reference to other parts of document
+   - **Common characteristics**: Sequential listing of document sections or elements in the order they appear in the document
+   - **Individual line format examples**:
+     * "1.1 Introduction .................... 5"
+     * "Chapter 2: Methodology"
+     * "Table 5-1 – Operation precedence .... 19"
+     * "Figure 9-11 – Flowchart 107"
+     * "Appendix A"
+     * "Bibliography ...................... 245"
+     * etc.
+   - **Pattern variations**: May include page numbers (right-aligned, inline, or absent), leader characters (dots, dashes, or none), various numbering schemes
+   - **Context**: Multiple consecutive entries with similar formatting pattern, organized in the sequence they appear in the document
+   - **Key distinction**: These REFERENCE content, they are not the content itself
+   - **Use your knowledge**: Apply your understanding of table of contents conventions across different document types and formatting styles
+
+**Important Context Guidelines**:
+- Use your knowledge of diverse document formatting conventions
+- Consider the formatting context - does this element introduce content or reference content?
+- Look for patterns that indicate the PURPOSE of the element (navigation vs content vs reference)
+- Pay attention to what follows each element (body text, similar entries, etc.)
+- Consider whether elements appear in isolation or as part of a structured list
+
+Data to analyze:
+{data}
+
+Please respond in JSON format:
+{{
+  "section_headings": [
+    {{
+      "text": "1.1 Overview",
+      "section_number": "1.1",
+      "section_title": "Overview",
+      "y_position": 120.0,
+      "font_name": "Arial-Bold",
+      "font_size": 14.0,
+      "hierarchy_level": 2
+    }}
+  ],
+  "table_titles": [
+    {{
+      "text": "Table 7-2: Overview of profile and level limits",
+      "table_number": "7-2",
+      "table_title": "Overview of profile and level limits",
+      "y_position": 180.0,
+      "font_name": "Times-Italic",
+      "font_size": 10.0
+    }}
+  ],
+  "figure_titles": [
+    {{
+      "text": "Figure 9-11 – Flowchart of encoding a decision before termination",
+      "figure_number": "9-11",
+      "figure_title": "Flowchart of encoding a decision before termination",
+      "y_position": 255.0,
+      "font_name": "Times-Italic",
+      "font_size": 10.0
+    }}
+  ],
+  "equation_titles": [
+    {{
+      "text": "Equation 3.2: Mass calculation",
+      "equation_number": "3.2",
+      "equation_title": "Mass calculation",
+      "y_position": 300.0,
+      "font_name": "Times-Roman",
+      "font_size": 12.0
+    }},
+    {{
+      "text": "x = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), 16, 0 ) (6-11)",
+      "equation_number": "6-11",
+      "equation_title": "",
+      "y_position": 400.0,
+      "font_name": "Times-Roman",
+      "font_size": 10.0
+    }}
+  ],
+  "toc_entries": [
+    {{
+      "text": "1.1 Introduction .................... 5",
+      "entry_number": "1.1",
+      "entry_title": "Introduction",
+      "page_number": "5",
+      "y_position": 100.0,
+      "font_name": "Times-Roman",
+      "font_size": 12.0,
+      "entry_type": "section|table|figure|equation|other"
+    }}
+  ]
+}}

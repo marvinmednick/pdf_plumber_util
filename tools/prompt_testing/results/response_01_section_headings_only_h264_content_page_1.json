@@ -1,0 +1,9 @@
+{
+  "scenario": "Section headings on content page",
+  "template": "section_headings_only.txt",
+  "data_file": "h264_content_page_1.json",
+  "response_content": "{\n  \"section_headings\": []\n}",
+  "execution_time": 0.8197834491729736,
+  "request_size": 3969,
+  "response_length": 28
+}

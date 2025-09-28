@@ -1,0 +1,9 @@
+{
+  "scenario": "Table titles on content page",
+  "template": "table_titles_only.txt",
+  "data_file": "h264_content_page_50.json",
+  "response_content": "{\n  \"table_titles\": [\n    {\n      \"text\": \"Tables 7-13, 7-14, 7-17, and 7-18\",\n      \"table_number\": [\"7-13\", \"7-14\", \"7-17\", \"7-18\"],\n      \"table_title\": null,\n      \"y_position\": 55.671359999999936,\n      \"font_name\": \"TimesNewRomanPSMT\",\n      \"font_size\": 10.0\n    }\n  ]\n}",
+  "execution_time": 1.743279218673706,
+  "request_size": 9248,
+  "response_length": 277
+}

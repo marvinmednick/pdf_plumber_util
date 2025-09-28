@@ -1,0 +1,1919 @@
+{
+  "pages": [
+    {
+      "page": 50,
+      "blocks": [
+        {
+          "lines": [
+            {
+              "line_number": 2,
+              "text": "The functions MbPartWidth( ), MbPartHeight( ), SubMbPartWidth( ), and SubMbPartHeight( ) describing the width and",
+              "text_proportional": "The functions MbPartWidth( ), MbPartHeight( ), SubMbPartWidth( ), and SubMbPartHeight( ) describing the width and",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 55.671359999999936,
+                "x1": 543.38548,
+                "bottom": 65.63135999999986
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "The functions MbPartWidth( ), MbPartHeight( ), SubMbPartWidth( ), and SubMbPartHeight( ) describing the width and",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 55.671359999999936,
+                    "x1": 543.38548,
+                    "bottom": 65.63135999999986
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 13.56000000000006,
+              "gap_after": 1.5600000000001728
+            },
+            {
+              "line_number": 3,
+              "text": "height of macroblock partitions and sub-macroblock partitions are specified in Tables 7-13, 7-14, 7-17, and 7-18.",
+              "text_proportional": "height of macroblock partitions and sub-macroblock partitions are specified in Tables 7-13, 7-14, 7-17, and 7-18.",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 67.19136000000003,
+                "x1": 543.55,
+                "bottom": 77.15135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "height of macroblock partitions and sub-macroblock partitions are specified in Tables 7-13, 7-14, 7-17, and 7-18.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 67.19136000000003,
+                    "x1": 543.55,
+                    "bottom": 77.15135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000001728,
+              "gap_after": 1.5600000000000591
+            },
+            {
+              "line_number": 4,
+              "text": "MbPartWidth( ) and MbPartHeight( ) are set to appropriate values for each macroblock, depending on the macroblock",
+              "text_proportional": "MbPartWidth( ) and MbPartHeight( ) are set to appropriate values for each macroblock, depending on the macroblock",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 78.71136000000001,
+                "x1": 543.3906400000001,
+                "bottom": 88.67135999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "MbPartWidth( ) and MbPartHeight( ) are set to appropriate values for each macroblock, depending on the macroblock",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 78.71136000000001,
+                    "x1": 543.3906400000001,
+                    "bottom": 88.67135999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000000591,
+              "gap_after": 1.580000000000041
+            },
+            {
+              "line_number": 5,
+              "text": "type. SubMbPartWidth( ) and SubMbPartHeight( ) are set to appropriate values for each sub-macroblock of a macroblock",
+              "text_proportional": "type. SubMbPartWidth( ) and SubMbPartHeight( ) are set to appropriate values for each sub-macroblock of a macroblock",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 90.25135999999998,
+                "x1": 543.39076,
+                "bottom": 100.2113599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "type. SubMbPartWidth( ) and SubMbPartHeight( ) are set to appropriate values for each sub-macroblock of a macroblock",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 90.25135999999998,
+                    "x1": 543.39076,
+                    "bottom": 100.2113599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.580000000000041,
+              "gap_after": 1.5600000000000591
+            },
+            {
+              "line_number": 6,
+              "text": "with mb_type equal to P_8x8, P_8x8ref0, or B_8x8, depending on the sub-macroblock type.",
+              "text_proportional": "with mb_type equal to P_8x8, P_8x8ref0, or B_8x8, depending on the sub-macroblock type.",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 101.77135999999996,
+                "x1": 427.0,
+                "bottom": 111.73135999999988
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999923,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "with mb_type equal to P_8x8, P_8x8ref0, or B_8x8, depending on the sub-macroblock type.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 101.77135999999996,
+                    "x1": 427.0,
+                    "bottom": 111.73135999999988
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000000591,
+              "gap_after": 28.922129675432984
+            }
+          ],
+          "text": "The functions MbPartWidth( ), MbPartHeight( ), SubMbPartWidth( ), and SubMbPartHeight( ) describing the width and\nheight of macroblock partitions and sub-macroblock partitions are specified in Tables 7-13, 7-14, 7-17, and 7-18.\nMbPartWidth( ) and MbPartHeight( ) are set to appropriate values for each macroblock, depending on the macroblock\ntype. SubMbPartWidth( ) and SubMbPartHeight( ) are set to appropriate values for each sub-macroblock of a macroblock\nwith mb_type equal to P_8x8, P_8x8ref0, or B_8x8, depending on the sub-macroblock type.",
+          "predominant_size": 10.0,
+          "gap_before": 13.56000000000006,
+          "gap_after": 28.922129675432984,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 543.55,
+            "top": 55.671359999999936,
+            "bottom": 111.73135999999988
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 7,
+              "text": "1 macroblock partition of2 macroblock partitions of2 macroblock partitions of4 sub-macroblocks of",
+              "text_proportional": "1 macroblock partition of2 macroblock partitions of2 macroblock partitions of4 sub-macroblocks of",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 114.76912233048,
+                "top": 140.65348967543287,
+                "x1": 519.038837287367,
+                "bottom": 149.6408691179929
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "1 macroblock partition of2 macroblock partitions of2 macroblock partitions of4 sub-macroblocks of",
+                  "bbox": {
+                    "x0": 114.76912233048,
+                    "top": 140.65348967543287,
+                    "x1": 519.038837287367,
+                    "bottom": 149.6408691179929
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 28.922129675432984,
+              "gap_after": 1.1821875782399047
+            },
+            {
+              "line_number": 8,
+              "text": "16*16 luma samples and16*8 luma samples and8*16 luma samples and8*8 luma samples and",
+              "text_proportional": "16*16 luma samples and16*8 luma samples and8*16 luma samples and8*8 luma samples and",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 115.95770166168,
+                "top": 150.8230566962328,
+                "x1": 520.122066889546,
+                "bottom": 159.81043613879285
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "16*16 luma samples and16*8 luma samples and8*16 luma samples and8*8 luma samples and",
+                  "bbox": {
+                    "x0": 115.95770166168,
+                    "top": 150.8230566962328,
+                    "x1": 520.122066889546,
+                    "bottom": 159.81043613879285
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.1821875782399047,
+              "gap_after": 1.192022749439957
+            },
+            {
+              "line_number": 9,
+              "text": "associated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples",
+              "text_proportional": "associated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 111.930398694464,
+                "top": 161.0024588882328,
+                "x1": 528.8903592453282,
+                "bottom": 169.98983833079285
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "associated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples",
+                  "bbox": {
+                    "x0": 111.930398694464,
+                    "top": 161.0024588882328,
+                    "x1": 528.8903592453282,
+                    "bottom": 169.98983833079285
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.192022749439957,
+              "gap_after": 23.45885034624007
+            }
+          ],
+          "text": "1 macroblock partition of2 macroblock partitions of2 macroblock partitions of4 sub-macroblocks of\n16*16 luma samples and16*8 luma samples and8*16 luma samples and8*8 luma samples and\nassociated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples",
+          "predominant_size": 9.0,
+          "gap_before": 28.922129675432984,
+          "gap_after": 23.45885034624007,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 111.930398694464,
+            "x1": 528.8903592453282,
+            "top": 140.65348967543287,
+            "bottom": 169.98983833079285
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 10,
+              "text": "001",
+              "text_proportional": "001",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 264.55983254496005,
+                "top": 193.44868867703292,
+                "x1": 494.271607472104,
+                "bottom": 202.43606811959296
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "001",
+                  "bbox": {
+                    "x0": 264.55983254496005,
+                    "top": 193.44868867703292,
+                    "x1": 494.271607472104,
+                    "bottom": 202.43606811959296
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 23.45885034624007,
+              "gap_after": 1.4280668582399585
+            }
+          ],
+          "text": "001",
+          "predominant_size": 9.0,
+          "gap_before": 23.45885034624007,
+          "gap_after": 1.4280668582399585,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 264.55983254496005,
+            "x1": 494.271607472104,
+            "top": 193.44868867703292,
+            "bottom": 202.43606811959296
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 11,
+              "text": "Macroblock 001",
+              "text_proportional": "Macroblock             001",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 10,
+                  "raw_gap_pt": 35.15,
+                  "estimated_space_width_pt": 2.7,
+                  "proportional_spaces": 13
+                }
+              ],
+              "bbox": {
+                "x0": 76.720716973216,
+                "top": 203.86413497783292,
+                "x1": 387.497564219304,
+                "bottom": 213.5498115755929
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "Macroblock",
+                  "bbox": {
+                    "x0": 76.720716973216,
+                    "top": 203.86413497783292,
+                    "x1": 122.6637534107947,
+                    "bottom": 212.85151442039296
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "001",
+                  "bbox": {
+                    "x0": 157.816494258216,
+                    "top": 204.56243213303287,
+                    "x1": 387.497564219304,
+                    "bottom": 213.5498115755929
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 83.3,
+              "gap_before": 1.4280668582399585,
+              "gap_after": 0.4937255942400043
+            },
+            {
+              "line_number": 12,
+              "text": "partitions 123",
+              "text_proportional": "partitions                                                      123",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 10,
+                  "raw_gap_pt": 146.78,
+                  "estimated_space_width_pt": 2.7,
+                  "proportional_spaces": 54
+                }
+              ],
+              "bbox": {
+                "x0": 81.015450289952,
+                "top": 214.04353716983292,
+                "x1": 494.023986778104,
+                "bottom": 224.91926948279297
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "partitions",
+                  "bbox": {
+                    "x0": 81.015450289952,
+                    "top": 214.04353716983292,
+                    "x1": 118.26949638472621,
+                    "bottom": 223.03091661239296
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "123",
+                  "bbox": {
+                    "x0": 265.0451691052,
+                    "top": 215.68601076023288,
+                    "x1": 494.023986778104,
+                    "bottom": 224.91926948279297
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 86.0,
+              "gap_before": 0.4937255942400043,
+              "gap_after": 19.42151256863997
+            }
+          ],
+          "text": "Macroblock 001\npartitions 123",
+          "predominant_size": 9.0,
+          "gap_before": 1.4280668582399585,
+          "gap_after": 19.42151256863997,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 76.720716973216,
+            "x1": 494.023986778104,
+            "top": 203.86413497783292,
+            "bottom": 224.91926948279297
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 13,
+              "text": "1 sub-macroblock partition2 sub-macroblock partitions2 sub-macroblock partitions4 sub-macroblock partitions",
+              "text_proportional": "1 sub-macroblock partition2 sub-macroblock partitions2 sub-macroblock partitions4 sub-macroblock partitions",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 111.687730414344,
+                "top": 244.34078205143294,
+                "x1": 530.2750105849341,
+                "bottom": 253.32816149399298
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "1 sub-macroblock partition2 sub-macroblock partitions2 sub-macroblock partitions4 sub-macroblock partitions",
+                  "bbox": {
+                    "x0": 111.687730414344,
+                    "top": 244.34078205143294,
+                    "x1": 530.2750105849341,
+                    "bottom": 253.32816149399298
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 19.42151256863997,
+              "gap_after": 1.192022749439957
+            },
+            {
+              "line_number": 14,
+              "text": "of 8*8 luma samples andof 8*4 luma samples and of 4*8 luma samples andof 4*4 luma samples and",
+              "text_proportional": "of 8*8 luma samples andof 8*4 luma samples and of 4*8 luma samples andof 4*4 luma samples and",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 115.47236510144,
+                "top": 254.52018424343294,
+                "x1": 524.8532306889742,
+                "bottom": 263.507563685993
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "of 8*8 luma samples andof 8*4 luma samples and of 4*8 luma samples andof 4*4 luma samples and",
+                  "bbox": {
+                    "x0": 115.47236510144,
+                    "top": 254.52018424343294,
+                    "x1": 524.8532306889742,
+                    "bottom": 263.507563685993
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.192022749439957,
+              "gap_after": 1.1910392323198948
+            },
+            {
+              "line_number": 15,
+              "text": "associated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples",
+              "text_proportional": "associated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 111.687730414344,
+                "top": 264.6986029183129,
+                "x1": 528.8903592453282,
+                "bottom": 273.6859823608729
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "associated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples",
+                  "bbox": {
+                    "x0": 111.687730414344,
+                    "top": 264.6986029183129,
+                    "x1": 528.8903592453282,
+                    "bottom": 273.6859823608729
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.1910392323198948,
+              "gap_after": 24.636120338880005
+            }
+          ],
+          "text": "1 sub-macroblock partition2 sub-macroblock partitions2 sub-macroblock partitions4 sub-macroblock partitions\nof 8*8 luma samples andof 8*4 luma samples and of 4*8 luma samples andof 4*4 luma samples and\nassociated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples",
+          "predominant_size": 9.0,
+          "gap_before": 19.42151256863997,
+          "gap_after": 24.636120338880005,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 111.687730414344,
+            "x1": 530.2750105849341,
+            "top": 244.34078205143294,
+            "bottom": 273.6859823608729
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 16,
+              "text": "001",
+              "text_proportional": "001",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 264.55983254496005,
+                "top": 298.3221026997529,
+                "x1": 494.271607472104,
+                "bottom": 307.30948214231296
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "001",
+                  "bbox": {
+                    "x0": 264.55983254496005,
+                    "top": 298.3221026997529,
+                    "x1": 494.271607472104,
+                    "bottom": 307.30948214231296
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 24.636120338880005,
+              "gap_after": 0.008851654079876425
+            },
+            {
+              "line_number": 17,
+              "text": "Sub-macroblock 001",
+              "text_proportional": "Sub-macroblock          001",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 14,
+                  "raw_gap_pt": 26.8,
+                  "estimated_space_width_pt": 2.7,
+                  "proportional_spaces": 10
+                }
+              ],
+              "bbox": {
+                "x0": 68.1793878026576,
+                "top": 307.31833379639284,
+                "x1": 387.497564219304,
+                "bottom": 318.42912670103294
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "Sub-macroblock",
+                  "bbox": {
+                    "x0": 68.1793878026576,
+                    "top": 307.31833379639284,
+                    "x1": 131.0116492190625,
+                    "bottom": 316.3057132389529
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "001",
+                  "bbox": {
+                    "x0": 157.816494258216,
+                    "top": 309.4417472584729,
+                    "x1": 387.497564219304,
+                    "bottom": 318.42912670103294
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 78.5,
+              "gap_before": 0.008851654079876425,
+              "gap_after": 0
+            },
+            {
+              "line_number": 18,
+              "text": "partitions",
+              "text_proportional": "partitions",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 81.015450289952,
+                "top": 317.49773598839283,
+                "x1": 118.26949638472621,
+                "bottom": 326.4851154309529
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "partitions",
+                  "bbox": {
+                    "x0": 81.015450289952,
+                    "top": 317.49773598839283,
+                    "x1": 118.26949638472621,
+                    "bottom": 326.4851154309529
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 0,
+              "gap_after": 0
+            },
+            {
+              "line_number": 19,
+              "text": "12 3",
+              "text_proportional": "12       3",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 2,
+                  "raw_gap_pt": 18.07,
+                  "estimated_space_width_pt": 2.7,
+                  "proportional_spaces": 7
+                }
+              ],
+              "bbox": {
+                "x0": 265.0451691052,
+                "top": 320.56040830007294,
+                "x1": 494.023986778104,
+                "bottom": 329.7887494370329
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.987379442559984,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "12",
+                  "bbox": {
+                    "x0": 265.0451691052,
+                    "top": 320.8013699944729,
+                    "x1": 471.431074657544,
+                    "bottom": 329.7887494370329
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 8.98737944256004,
+                  "rounded_size": 9.0,
+                  "direction": "upright",
+                  "text": "3",
+                  "bbox": {
+                    "x0": 489.49847097456,
+                    "top": 320.56040830007294,
+                    "x1": 494.023986778104,
+                    "bottom": 329.547787742633
+                  }
+                }
+              ],
+              "predominant_size": 9.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 0,
+              "gap_after": 11.172610562967009
+            }
+          ],
+          "text": "001\nSub-macroblock 001\npartitions\n12 3",
+          "predominant_size": 9.0,
+          "gap_before": 24.636120338880005,
+          "gap_after": 32.53261056296702,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 68.1793878026576,
+            "x1": 494.271607472104,
+            "top": 298.3221026997529,
+            "bottom": 329.7887494370329
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 21,
+              "text": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans,",
+              "text_proportional": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans,",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 101.78,
+                "top": 362.3213599999999,
+                "x1": 496.15000000000003,
+                "bottom": 372.28135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans,",
+                  "bbox": {
+                    "x0": 101.78,
+                    "top": 362.3213599999999,
+                    "x1": 496.15000000000003,
+                    "bottom": 372.28135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 11.399999999999977,
+              "gap_after": 1.5600000000000023
+            },
+            {
+              "line_number": 22,
+              "text": "and sub-macroblock partition scans",
+              "text_proportional": "and sub-macroblock partition scans",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 221.21,
+                "top": 373.84135999999995,
+                "x1": 376.84000000000003,
+                "bottom": 383.80136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "and sub-macroblock partition scans",
+                  "bbox": {
+                    "x0": 221.21,
+                    "top": 373.84135999999995,
+                    "x1": 376.84000000000003,
+                    "bottom": 383.80136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000000023,
+              "gap_after": 37.38023999999996
+            }
+          ],
+          "text": "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans,\nand sub-macroblock partition scans",
+          "predominant_size": 10.0,
+          "gap_before": 32.53261056296702,
+          "gap_after": 37.38023999999996,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 101.78,
+            "x1": 496.15000000000003,
+            "top": 362.3213599999999,
+            "bottom": 383.80136
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 23,
+              "text": "6.4.2.1 Inverse macroblock partition scanning process",
+              "text_proportional": "6.4.2.1    Inverse macroblock partition scanning process",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 7,
+                  "raw_gap_pt": 12.25,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 54.48,
+                "top": 421.18159999999995,
+                "x1": 296.18,
+                "bottom": 431.20135999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "6.4.2.1",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 421.24135999999993,
+                    "x1": 81.9696,
+                    "bottom": 431.20135999999997
+                  }
+                },
+                {
+                  "font": "Arial-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 81.984,
+                    "top": 421.18159999999995,
+                    "x1": 84.75287999999999,
+                    "bottom": 431.1416
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Inverse macroblock partition scanning process",
+                  "bbox": {
+                    "x0": 94.224,
+                    "top": 421.24135999999993,
+                    "x1": 296.18,
+                    "bottom": 431.20135999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 98.8,
+              "gap_before": 37.38023999999996,
+              "gap_after": 8.039999999999964
+            }
+          ],
+          "text": "6.4.2.1 Inverse macroblock partition scanning process",
+          "predominant_size": 10.0,
+          "gap_before": 37.38023999999996,
+          "gap_after": 8.039999999999964,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 296.18,
+            "top": 421.18159999999995,
+            "bottom": 431.20135999999997
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 24,
+              "text": "Input to this process is the index of a macroblock partition mbPartIdx.",
+              "text_proportional": "Input to this process is the index of a macroblock partition mbPartIdx.",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 439.24135999999993,
+                "x1": 337.6,
+                "bottom": 449.20135999999997
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Input to this process is the index of a macroblock partition mbPartIdx.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 439.24135999999993,
+                    "x1": 337.6,
+                    "bottom": 449.20135999999997
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.039999999999964,
+              "gap_after": 8.419999999999959
+            }
+          ],
+          "text": "Input to this process is the index of a macroblock partition mbPartIdx.",
+          "predominant_size": 10.0,
+          "gap_before": 8.039999999999964,
+          "gap_after": 8.419999999999959,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 337.6,
+            "top": 439.24135999999993,
+            "bottom": 449.20135999999997
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 25,
+              "text": "Output of this process is the location ( x, y ) of the upper-left luma sample for the macroblock partition mbPartIdx relative",
+              "text_proportional": "Output of this process is the location ( x, y ) of the upper-left luma sample for the macroblock partition mbPartIdx relative",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 457.6213599999999,
+                "x1": 543.2254399999999,
+                "bottom": 467.58135999999996
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Output of this process is the location ( x, y ) of the upper-left luma sample for the macroblock partition mbPartIdx relative",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 457.6213599999999,
+                    "x1": 543.2254399999999,
+                    "bottom": 467.58135999999996
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.419999999999959,
+              "gap_after": 1.5599999999999454
+            },
+            {
+              "line_number": 26,
+              "text": "to the upper-left sample of the macroblock.",
+              "text_proportional": "to the upper-left sample of the macroblock.",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 469.1413599999999,
+                "x1": 230.06,
+                "bottom": 479.10135999999994
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "to the upper-left sample of the macroblock.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 469.1413599999999,
+                    "x1": 230.06,
+                    "bottom": 479.10135999999994
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5599999999999454,
+              "gap_after": 8.279999999999973
+            }
+          ],
+          "text": "Output of this process is the location ( x, y ) of the upper-left luma sample for the macroblock partition mbPartIdx relative\nto the upper-left sample of the macroblock.",
+          "predominant_size": 10.0,
+          "gap_before": 8.419999999999959,
+          "gap_after": 8.279999999999973,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 543.2254399999999,
+            "top": 457.6213599999999,
+            "bottom": 479.10135999999994
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 27,
+              "text": "The inverse macroblock partition scanning process is specified by",
+              "text_proportional": "The inverse macroblock partition scanning process is specified by",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 487.3813599999999,
+                "x1": 320.92,
+                "bottom": 497.34135999999995
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "The inverse macroblock partition scanning process is specified by",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 487.3813599999999,
+                    "x1": 320.92,
+                    "bottom": 497.34135999999995
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.279999999999973,
+              "gap_after": 11.279999999999973
+            }
+          ],
+          "text": "The inverse macroblock partition scanning process is specified by",
+          "predominant_size": 10.0,
+          "gap_before": 8.279999999999973,
+          "gap_after": 11.279999999999973,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 320.92,
+            "top": 487.3813599999999,
+            "bottom": 497.34135999999995
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 28,
+              "text": "x = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 0 ) (6-11)",
+              "text_proportional": "x = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 0 ) (6-11)",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 90.504,
+                "top": 508.6213599999999,
+                "x1": 541.87,
+                "bottom": 518.5813599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "x = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 0 ) (6-11)",
+                  "bbox": {
+                    "x0": 90.504,
+                    "top": 508.6213599999999,
+                    "x1": 541.87,
+                    "bottom": 518.5813599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 11.279999999999973,
+              "gap_after": 13.559999999999945
+            }
+          ],
+          "text": "x = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 0 ) (6-11)",
+          "predominant_size": 10.0,
+          "gap_before": 11.279999999999973,
+          "gap_after": 13.559999999999945,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 90.504,
+            "x1": 541.87,
+            "top": 508.6213599999999,
+            "bottom": 518.5813599999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 29,
+              "text": "y = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 1 )   (6-12)",
+              "text_proportional": "y = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 1 )   (6-12)",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 90.504,
+                "top": 532.1413599999998,
+                "x1": 541.87,
+                "bottom": 542.1013599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "y = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 1 )   (6-12)",
+                  "bbox": {
+                    "x0": 90.504,
+                    "top": 532.1413599999998,
+                    "x1": 541.87,
+                    "bottom": 542.1013599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 13.559999999999945,
+              "gap_after": 13.740240000000085
+            }
+          ],
+          "text": "y = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 1 )   (6-12)",
+          "predominant_size": 10.0,
+          "gap_before": 13.559999999999945,
+          "gap_after": 13.740240000000085,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 90.504,
+            "x1": 541.87,
+            "top": 532.1413599999998,
+            "bottom": 542.1013599999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 30,
+              "text": "6.4.2.2 Inverse sub-macroblock partition scanning process",
+              "text_proportional": "6.4.2.2    Inverse sub-macroblock partition scanning process",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 7,
+                  "raw_gap_pt": 12.25,
+                  "estimated_space_width_pt": 3.0,
+                  "proportional_spaces": 4
+                }
+              ],
+              "bbox": {
+                "x0": 54.48,
+                "top": 555.8416,
+                "x1": 314.54,
+                "bottom": 565.8613599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "6.4.2.2",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 555.9013599999998,
+                    "x1": 81.9696,
+                    "bottom": 565.8613599999999
+                  }
+                },
+                {
+                  "font": "Arial-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "",
+                  "bbox": {
+                    "x0": 81.984,
+                    "top": 555.8416,
+                    "x1": 84.75287999999999,
+                    "bottom": 565.8016
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Inverse sub-macroblock partition scanning process",
+                  "bbox": {
+                    "x0": 94.224,
+                    "top": 555.9013599999998,
+                    "x1": 314.54,
+                    "bottom": 565.8613599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 98.9,
+              "gap_before": 13.740240000000085,
+              "gap_after": 8.039999999999964
+            }
+          ],
+          "text": "6.4.2.2 Inverse sub-macroblock partition scanning process",
+          "predominant_size": 10.0,
+          "gap_before": 13.740240000000085,
+          "gap_after": 8.039999999999964,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPS-BoldMT",
+          "font_coverage": 0.6666666666666666,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 314.54,
+            "top": 555.8416,
+            "bottom": 565.8613599999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 31,
+              "text": "Inputs to this process are the index of a macroblock partition mbPartIdx and the index of a sub-macroblock partition",
+              "text_proportional": "Inputs to this process are the index of a macroblock partition mbPartIdx and the index of a sub-macroblock partition",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 573.9013599999998,
+                "x1": 543.4402,
+                "bottom": 583.8613599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Inputs to this process are the index of a macroblock partition mbPartIdx and the index of a sub-macroblock partition",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 573.9013599999998,
+                    "x1": 543.4402,
+                    "bottom": 583.8613599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.039999999999964,
+              "gap_after": 1.5600000000000591
+            },
+            {
+              "line_number": 32,
+              "text": "subMbPartIdx.",
+              "text_proportional": "subMbPartIdx.",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 585.4213599999999,
+                "x1": 116.75,
+                "bottom": 595.38136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000036,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "subMbPartIdx.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 585.4213599999999,
+                    "x1": 116.75,
+                    "bottom": 595.38136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000000591,
+              "gap_after": 8.279999999999973
+            }
+          ],
+          "text": "Inputs to this process are the index of a macroblock partition mbPartIdx and the index of a sub-macroblock partition\nsubMbPartIdx.",
+          "predominant_size": 10.0,
+          "gap_before": 8.039999999999964,
+          "gap_after": 8.279999999999973,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 543.4402,
+            "top": 573.9013599999998,
+            "bottom": 595.38136
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 33,
+              "text": "Output of this process is the location ( x, y ) of the upper-left luma sample for the sub-macroblock partition subMbPartIdx",
+              "text_proportional": "Output of this process is the location ( x, y ) of the upper-left luma sample for the sub-macroblock partition subMbPartIdx",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 603.66136,
+                "x1": 543.37564,
+                "bottom": 613.62136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "Output of this process is the location ( x, y ) of the upper-left luma sample for the sub-macroblock partition subMbPartIdx",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 603.66136,
+                    "x1": 543.37564,
+                    "bottom": 613.62136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.279999999999973,
+              "gap_after": 1.5599999999999454
+            },
+            {
+              "line_number": 34,
+              "text": "relative to the upper-left sample of the sub-macroblock.",
+              "text_proportional": "relative to the upper-left sample of the sub-macroblock.",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 615.1813599999999,
+                "x1": 279.74,
+                "bottom": 625.14136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "relative to the upper-left sample of the sub-macroblock.",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 615.1813599999999,
+                    "x1": 279.74,
+                    "bottom": 625.14136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5599999999999454,
+              "gap_after": 8.279999999999973
+            }
+          ],
+          "text": "Output of this process is the location ( x, y ) of the upper-left luma sample for the sub-macroblock partition subMbPartIdx\nrelative to the upper-left sample of the sub-macroblock.",
+          "predominant_size": 10.0,
+          "gap_before": 8.279999999999973,
+          "gap_after": 8.279999999999973,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 543.37564,
+            "top": 603.66136,
+            "bottom": 625.14136
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 35,
+              "text": "The inverse sub-macroblock partition scanning process is specified as follows:",
+              "text_proportional": "The inverse sub-macroblock partition scanning process is specified as follows:",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 633.4213599999999,
+                "x1": 371.68,
+                "bottom": 643.38136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "The inverse sub-macroblock partition scanning process is specified as follows:",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 633.4213599999999,
+                    "x1": 371.68,
+                    "bottom": 643.38136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 8.279999999999973,
+              "gap_after": 5.909999999999968
+            }
+          ],
+          "text": "The inverse sub-macroblock partition scanning process is specified as follows:",
+          "predominant_size": 10.0,
+          "gap_before": 8.279999999999973,
+          "gap_after": 5.909999999999968,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 371.68,
+            "top": 633.4213599999999,
+            "bottom": 643.38136
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 36,
+              "text": "\u2013 If mb_type is equal to P_8x8, P_8x8ref0, or B_8x8,",
+              "text_proportional": "\u2013 If mb_type is equal to P_8x8, P_8x8ref0, or B_8x8,",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 649.2913599999999,
+                "x1": 284.3,
+                "bottom": 659.25136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "\u2013 If mb_type is equal to P_8x8, P_8x8ref0, or B_8x8,",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 649.2913599999999,
+                    "x1": 284.3,
+                    "bottom": 659.25136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 5.909999999999968,
+              "gap_after": 11.159999999999968
+            }
+          ],
+          "text": "\u2013 If mb_type is equal to P_8x8, P_8x8ref0, or B_8x8,",
+          "predominant_size": 10.0,
+          "gap_before": 5.909999999999968,
+          "gap_after": 11.159999999999968,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 284.3,
+            "top": 649.2913599999999,
+            "bottom": 659.25136
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 37,
+              "text": "x = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),",
+              "text_proportional": "x = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 82.824,
+                "top": 670.41136,
+                "x1": 438.52,
+                "bottom": 680.37136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "x = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),",
+                  "bbox": {
+                    "x0": 82.824,
+                    "top": 670.41136,
+                    "x1": 438.52,
+                    "bottom": 680.37136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 11.159999999999968,
+              "gap_after": 1.67999999999995
+            },
+            {
+              "line_number": 38,
+              "text": "SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 0 )  (6-13)",
+              "text_proportional": "SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 0 )  (6-13)",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 82.824,
+                "top": 682.0513599999999,
+                "x1": 541.87,
+                "bottom": 692.01136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.960000000000008,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 0 )  (6-13)",
+                  "bbox": {
+                    "x0": 82.824,
+                    "top": 682.0513599999999,
+                    "x1": 541.87,
+                    "bottom": 692.01136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.67999999999995,
+              "gap_after": 13.440000000000055
+            }
+          ],
+          "text": "x = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),\nSubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 0 )  (6-13)",
+          "predominant_size": 10.0,
+          "gap_before": 11.159999999999968,
+          "gap_after": 13.440000000000055,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 82.824,
+            "x1": 541.87,
+            "top": 670.41136,
+            "bottom": 692.01136
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 39,
+              "text": "y = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),",
+              "text_proportional": "y = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 82.824,
+                "top": 705.45136,
+                "x1": 438.52,
+                "bottom": 715.41136
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "y = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),",
+                  "bbox": {
+                    "x0": 82.824,
+                    "top": 705.45136,
+                    "x1": 438.52,
+                    "bottom": 715.41136
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 13.440000000000055,
+              "gap_after": 1.5600000000000591
+            },
+            {
+              "line_number": 40,
+              "text": "SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 1 )  (6-14)",
+              "text_proportional": "SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 1 )  (6-14)",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 82.824,
+                "top": 716.97136,
+                "x1": 541.87,
+                "bottom": 726.9313599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 1 )  (6-14)",
+                  "bbox": {
+                    "x0": 82.824,
+                    "top": 716.97136,
+                    "x1": 541.87,
+                    "bottom": 726.9313599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 1.5600000000000591,
+              "gap_after": 13.55600000000004
+            }
+          ],
+          "text": "y = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),\nSubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 1 )  (6-14)",
+          "predominant_size": 10.0,
+          "gap_before": 13.440000000000055,
+          "gap_after": 13.55600000000004,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 82.824,
+            "x1": 541.87,
+            "top": 705.45136,
+            "bottom": 726.9313599999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 41,
+              "text": "\u2013 Otherwise (mb_type is not equal to P_8x8, P_8x8ref0, or B_8x8),",
+              "text_proportional": "\u2013 Otherwise (mb_type is not equal to P_8x8, P_8x8ref0, or B_8x8),",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 54.48,
+                "top": 740.48736,
+                "x1": 340.72,
+                "bottom": 750.4473599999999
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "\u2013 Otherwise (mb_type is not equal to P_8x8, P_8x8ref0, or B_8x8),",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 740.48736,
+                    "x1": 340.72,
+                    "bottom": 750.4473599999999
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 13.55600000000004,
+              "gap_after": 11.160000000000082
+            }
+          ],
+          "text": "\u2013 Otherwise (mb_type is not equal to P_8x8, P_8x8ref0, or B_8x8),",
+          "predominant_size": 10.0,
+          "gap_before": 13.55600000000004,
+          "gap_after": 11.160000000000082,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 340.72,
+            "top": 740.48736,
+            "bottom": 750.4473599999999
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 42,
+              "text": "x = InverseRasterScan( subMbPartIdx, 4, 4, 8, 0 )  (6-15)",
+              "text_proportional": "x = InverseRasterScan( subMbPartIdx, 4, 4, 8, 0 )  (6-15)",
+              "proportional_spacing_info": [],
+              "bbox": {
+                "x0": 82.824,
+                "top": 761.60736,
+                "x1": 541.87,
+                "bottom": 771.56736
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 9.959999999999994,
+                  "rounded_size": 10.0,
+                  "direction": "upright",
+                  "text": "x = InverseRasterScan( subMbPartIdx, 4, 4, 8, 0 )  (6-15)",
+                  "bbox": {
+                    "x0": 82.824,
+                    "top": 761.60736,
+                    "x1": 541.87,
+                    "bottom": 771.56736
+                  }
+                }
+              ],
+              "predominant_size": 10.0,
+              "predominant_font": "TimesNewRomanPSMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 100.0,
+              "gap_before": 11.160000000000082,
+              "gap_after": 34.79327999999998
+            }
+          ],
+          "text": "x = InverseRasterScan( subMbPartIdx, 4, 4, 8, 0 )  (6-15)",
+          "predominant_size": 10.0,
+          "gap_before": 11.160000000000082,
+          "gap_after": 34.79327999999998,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 1.0,
+          "bbox": {
+            "x0": 82.824,
+            "x1": 541.87,
+            "top": 761.60736,
+            "bottom": 771.56736
+          }
+        },
+        {
+          "lines": [
+            {
+              "line_number": 43,
+              "text": "28 Rec. ITU-T H.264 (06/2019)",
+              "text_proportional": "28 Rec. ITU-T H.264 (06/2019)",
+              "proportional_spacing_info": [
+                {
+                  "normalized_text_index": 2,
+                  "raw_gap_pt": 0.02,
+                  "estimated_space_width_pt": 3.3,
+                  "proportional_spaces": 1
+                }
+              ],
+              "bbox": {
+                "x0": 54.48,
+                "top": 806.36064,
+                "x1": 233.09,
+                "bottom": 817.40064
+              },
+              "text_segments": [
+                {
+                  "font": "TimesNewRomanPSMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "28",
+                  "bbox": {
+                    "x0": 54.48,
+                    "top": 806.36064,
+                    "x1": 65.52,
+                    "bottom": 817.40064
+                  }
+                },
+                {
+                  "font": "TimesNewRomanPS-BoldMT",
+                  "reported_size": 11.040000000000003,
+                  "rounded_size": 11.0,
+                  "direction": "upright",
+                  "text": "Rec. ITU-T H.264 (06/2019)",
+                  "bbox": {
+                    "x0": 65.544,
+                    "top": 806.36064,
+                    "x1": 233.09,
+                    "bottom": 817.40064
+                  }
+                }
+              ],
+              "predominant_size": 11.0,
+              "predominant_font": "TimesNewRomanPS-BoldMT",
+              "predominant_size_coverage": 100.0,
+              "predominant_font_coverage": 93.8,
+              "gap_before": 34.79327999999998,
+              "gap_after": 24.279359999999997
+            }
+          ],
+          "text": "28 Rec. ITU-T H.264 (06/2019)",
+          "predominant_size": 11.0,
+          "gap_before": 34.79327999999998,
+          "gap_after": 0,
+          "size_coverage": 1.0,
+          "predominant_font": "TimesNewRomanPSMT",
+          "font_coverage": 0.5,
+          "bbox": {
+            "x0": 54.48,
+            "x1": 233.09,
+            "top": 806.36064,
+            "bottom": 817.40064
+          }
+        }
+      ]
+    }
+  ]
+}

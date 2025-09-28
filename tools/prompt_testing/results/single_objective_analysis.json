@@ -1,0 +1,61 @@
+{
+  "test_data": "h264_content_page_1.json",
+  "data_size_kb": 17.8583984375,
+  "total_templates": 6,
+  "results": [
+    {
+      "objective": "headers_footers",
+      "template": "headers_footers_only.txt",
+      "success": true,
+      "execution_time": 3.2105283737182617,
+      "request_size": 19865,
+      "response_length": 354,
+      "token_count": 5054
+    },
+    {
+      "objective": "section_headings",
+      "template": "section_headings_only.txt",
+      "success": true,
+      "execution_time": 0.8060920238494873,
+      "request_size": 19626,
+      "response_length": 28,
+      "token_count": 4913
+    },
+    {
+      "objective": "table_titles",
+      "template": "table_titles_only.txt",
+      "success": true,
+      "execution_time": 1.0056846141815186,
+      "request_size": 19523,
+      "response_length": 24,
+      "token_count": 4886
+    },
+    {
+      "objective": "figure_titles",
+      "template": "figure_titles_only.txt",
+      "success": true,
+      "execution_time": 2.679469108581543,
+      "request_size": 19626,
+      "response_length": 617,
+      "token_count": 5058
+    },
+    {
+      "objective": "toc_entries",
+      "template": "toc_entries_only.txt",
+      "success": true,
+      "execution_time": 0.7860722541809082,
+      "request_size": 19624,
+      "response_length": 23,
+      "token_count": 4911
+    },
+    {
+      "objective": "equations",
+      "template": "equations_only.txt",
+      "success": true,
+      "execution_time": 3.9557394981384277,
+      "request_size": 19558,
+      "response_length": 634,
+      "token_count": 5046
+    }
+  ]
+}
