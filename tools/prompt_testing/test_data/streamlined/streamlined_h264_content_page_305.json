@@ -1,0 +1,109 @@
+{
+  "source_file": "h264_content_page_305.json",
+  "streamlined_data": {
+    "pages": [
+      {
+        "page_index": 1,
+        "blocks": [
+          {
+            "text_lines": [
+              "Figure 9-11 \u2013 Flowchart of encoding a decision before termination"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "When the value of binVal to encode is equal to 1, CABAC encoding is terminated and the flushing procedure shown in",
+              "Figure 9-12 is applied. In this flushing procedure, the last bit written by WriteBits( B, N )  is equal to 1. When encoding",
+              "end_of_slice_flag, this last bit is interpreted as the rbsp_stop_one_bit."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "EncodeFlush"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "codIRange = 2"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "RenormE"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "PutBit((codILow >> 9) & 1)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "WriteBits(((codILow >> 7) & 3) | 1, 2)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Done"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Figure 9-12 \u2013 Flowchart of flushing at termination"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Rec. ITU-T H.264 (06/2019)283"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 0.0
+          }
+        ],
+        "block_count": 10
+      }
+    ]
+  },
+  "metadata": {
+    "page_count": 1,
+    "total_blocks": 10
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "source_file": "h264_list_of_figures_page17.json",
+  "streamlined_data": {
+    "pages": [
+      {
+        "page_index": 17,
+        "blocks": [
+          {
+            "text_lines": [
+              "J.8.4 Decoding process for depth range parameters ........................................................................................ 803"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 74.304
+          },
+          {
+            "text_lines": [
+              "J.9 Parsing process ............................................................................................................................................... 804",
+              "J.9.1 Alternative CABAC parsing process for slice data and macroblock layer in depth extension ............... 804",
+              "J.9.1.1 Initialization process ............................................................................................................................... 804",
+              "J.9.1.2 Binarization process ................................................................................................................................ 805",
+              "J.9.1.3 Decoding process flow ............................................................................................................................ 806"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "J.10 Profiles and levels ........................................................................................................................................... 808",
+              "J.10.1 Profiles .................................................................................................................................................... 808",
+              "J.10.1.1 Enhanced Multiview Depth High profile ................................................................................................ 808",
+              "J.10.2 Levels ...................................................................................................................................................... 809",
+              "J.10.2.1 Level limits for Enhanced Multiview Depth High profile ...................................................................... 809",
+              "J.10.2.2 Profile specific level limits ..................................................................................................................... 809"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "J.11 Byte stream format .......................................................................................................................................... 809"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "J.12 3D-AVC hypothetical reference decoder ........................................................................................................ 809"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "J.13 3D-AVC SEI messages ................................................................................................................................... 810",
+              "J.13.1 SEI message syntax................................................................................................................................. 810",
+              "J.13.1.1 Constrained depth parameter set identifier SEI message syntax ............................................................. 810",
+              "J.13.2 SEI message semantics ........................................................................................................................... 810",
+              "J.13.2.1 Constrained depth parameter set identifier SEI message semantics ....................................................... 810"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "J.14 Video usability information ............................................................................................................................ 811"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "List of Figures"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 12.0,
+            "y0": 0.0,
+            "x0": 260.45
+          },
+          {
+            "text_lines": [
+              "Figure 6-1 \u2013 Nominal vertical and horizontal locations of 4:2:0 luma and chroma samples in a frame........................... 23"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-2 \u2013 Nominal vertical and horizontal sampling locations of 4:2:0 samples in top and bottom fields .................. 24"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-3 \u2013 Nominal vertical and horizontal locations of 4:2:2 luma and chroma samples in a frame........................... 24"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-4 \u2013 Nominal vertical and horizontal sampling locations of 4:2:2 samples top and bottom fields ...................... 25"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-5 \u2013 Nominal vertical and horizontal locations of 4:4:4 luma and chroma samples in a frame........................... 25"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-6 \u2013 Nominal vertical and horizontal sampling locations of 4:4:4 samples top and bottom fields ...................... 25"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-7 \u2013 A picture with 11 by 9 macroblocks that is partitioned into two slices........................................................ 26"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-8 \u2013 Partitioning of the decoded frame into macroblock pairs ............................................................................ 27"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans, and",
+              "sub-macroblock partition scans ................................................................................................................................ 28"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-10 \u2013 Scan for 4x4 luma blocks ........................................................................................................................... 29"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-11 \u2013 Scan for 8x8 luma blocks ........................................................................................................................... 29"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-12 \u2013 Neighbouring macroblocks for a given macroblock .................................................................................. 31"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-13 \u2013 Neighbouring macroblocks for a given macroblock in MBAFF frames .................................................... 32"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 6-14 \u2013 Determination of the neighbouring macroblock, blocks, and partitions (informative) .............................. 33"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 7-1 \u2013 Structure of an access unit not containing any NAL units with nal_unit_type equal to 0, 7, 8,",
+              "or in the range of 12 to 18, inclusive, or in the range of 20 to 31, inclusive ............................................................. 71"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 8-1 \u2013 Intra_4x4 prediction mode directions (informative) .................................................................................. 133"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 8-2 \u2013 Example for temporal direct-mode motion vector inference (informative) ............................................... 161"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 8-3 \u2013 Directional segmentation prediction (informative) .................................................................................... 162"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 8-4 \u2013 Integer samples (shaded blocks with upper-case letters) and fractional sample positions",
+              "(un-shaded blocks with lower-case letters) for quarter sample luma interpolation ................................................ 169"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 8-5 \u2013 Fractional sample position dependent variables in chroma interpolation and surrounding integer position",
+              "samples A, B, C, and D .......................................................................................................................................... 171"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure 8-6 \u2013 Assignment of the indices of dcY to luma4x4BlkIdx ................................................................................ 177"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Rec. ITU-T H.264 (06/2019) xv"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 30
+      }
+    ]
+  },
+  "metadata": {
+    "page_count": 1,
+    "total_blocks": 30
+  }
+}

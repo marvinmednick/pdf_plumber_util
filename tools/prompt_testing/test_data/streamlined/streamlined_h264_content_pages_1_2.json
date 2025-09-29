@@ -1,0 +1,212 @@
+{
+  "source_file": "h264_content_pages_1_2.json",
+  "streamlined_data": {
+    "pages": [
+      {
+        "page_index": 1,
+        "blocks": [
+          {
+            "text_lines": [
+              "Figure 9-11 \u2013 Flowchart of encoding a decision before termination"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "When the value of binVal to encode is equal to 1, CABAC encoding is terminated and the flushing procedure shown in",
+              "Figure 9-12 is applied. In this flushing procedure, the last bit written by WriteBits( B, N )  is equal to 1. When encoding",
+              "end_of_slice_flag, this last bit is interpreted as the rbsp_stop_one_bit."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "EncodeFlush"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "codIRange = 2"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "RenormE"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "PutBit((codILow >> 9) & 1)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "WriteBits(((codILow >> 7) & 3) | 1, 2)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Done"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Figure 9-12 \u2013 Flowchart of flushing at termination"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Rec. ITU-T H.264 (06/2019)283"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 0.0
+          }
+        ],
+        "block_count": 10
+      },
+      {
+        "page_index": 2,
+        "blocks": [
+          {
+            "text_lines": [
+              "9.3.4.6Byte stuffing process (informative)"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "This clause does not form an integral part of this Recommendation | International Standard."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "This process is invoked after encoding the last macroblock of the last slice of a picture and after encapsulation."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Inputs to this process are the number of bytes NumBytesInVclNALunits of all VCL NAL units of a picture, the number of",
+              "macroblocks PicSizeInMbs in the picture, and the number of binary symbols BinCountsInNALunits resulting from",
+              "encoding the contents of all VCL NAL units of the picture."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "NOTE \u2013 The value of BinCountsInNALunits is the result of encoding all slices of a coded picture. After initializing for the first slice",
+              "of a coded picture as specified in clause 9.3.4.1, BinCountsInNALunits is incremented as specified in clauses 9.3.4.2, 9.3.4.4, and",
+              "9.3.4.5."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Outputs of this process are zero or more bytes appended to the NAL unit."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "Let the variable k be set equal to Ceil( ( Ceil( 3 * ( 32 * BinCountsInNALunits \u2212 RawMbBits * PicSizeInMbs ) \u00f7 1024 ) \u2212",
+              "NumBytesInVclNALunits ) \u00f7 3 ). Depending on the variable k the following applies:"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "\u2013 If k is less than or equal to 0, no cabac_zero_word is appended to the NAL unit."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "\u2013 Otherwise (k is greater than 0), the 3-byte sequence 0x000003 is appended k times to the NAL unit after encapsulation,",
+              "where the first two bytes 0x0000 represent a cabac_zero_word and the third byte 0x03 represents an",
+              "emulation_prevention_three_byte."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 0.0
+          },
+          {
+            "text_lines": [
+              "284Rec. ITU-T H.264 (06/2019)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 0.0
+          }
+        ],
+        "block_count": 10
+      }
+    ]
+  },
+  "metadata": {
+    "page_count": 2,
+    "total_blocks": 20
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "template": "phase2_pattern_analysis.txt",
+  "timestamp": 1759171840.6084797,
+  "total_tests": 1,
+  "test_results": {
+    "phase2_aggregated_input.json": {
+      "success": true,
+      "execution_time": 20.645082473754883,
+      "request_size": 94925,
+      "response_length": 9650,
+      "data_size_kb": 86.69140625,
+      "total_items": 0,
+      "content_summary": {},
+      "response_content": null
+    }
+  },
+  "successful_tests": 1,
+  "failed_tests": 0,
+  "success_rate": 1.0,
+  "average_execution_time": 20.645082473754883,
+  "total_items_found": 0
+}

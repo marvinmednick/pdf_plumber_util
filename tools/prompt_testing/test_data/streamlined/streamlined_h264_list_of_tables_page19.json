@@ -1,0 +1,362 @@
+{
+  "source_file": "h264_list_of_tables_page19.json",
+  "streamlined_data": {
+    "pages": [
+      {
+        "page_index": 19,
+        "blocks": [
+          {
+            "text_lines": [
+              "Figure D-11 \u2013 Rearrangement of a temporal interleaving frame arrangement  (frame_packing_arrangement_type",
+              "equal to 5) ............................................................................................................................................................... 391"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure D-12 \u2013 Rearrangement and upconversion of tile format packing arrangement",
+              "(frame_packing_arrangement_type equal to 7) ...................................................................................................... 391"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Figure E-1 \u2013 Location of chroma samples for top and bottom fields for chroma_format_idc equal to 1 (4:2:0 chroma",
+              "format) as a function of chroma_sample_loc_type_top_field and chroma_sample_loc_type_bottom_field ......... 430"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "List of Tables"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 12.0,
+            "y0": 0.0,
+            "x0": 262.73
+          },
+          {
+            "text_lines": [
+              "Table 5-1 \u2013 Operation precedence from highest (at top of table) to lowest (at bottom of table) ...................................... 19"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 6-1 \u2013 SubWidthC, and SubHeightC values derived from  chroma_format_idc and separate_colour_plane_flag .. 22"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 6-2 \u2013 Specification of input and output assignments for clauses 6.4.11.1 to 6.4.11.7 ............................................ 32"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 6-3 \u2013 Specification of mbAddrN ............................................................................................................................ 37"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 6-4 \u2013 Specification of mbAddrN and yM ............................................................................................................... 38"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-1 \u2013 NAL unit type codes, syntax element categories, and NAL unit type classes ............................................... 65"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-2 \u2013 Assignment of mnemonic names to scaling list indices and specification of fall-back rule .......................... 76"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-3 \u2013 Specification of default scaling lists Default_4x4_Intra and Default_4x4_Inter .......................................... 76"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-4 \u2013 Specification of default scaling lists Default_8x8_Intra and Default_8x8_Inter .......................................... 77"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-5 \u2013 Meaning of primary_pic_type ....................................................................................................................... 84"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-6 \u2013 Name association to slice_type ..................................................................................................................... 87"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-7 \u2013 modification_of_pic_nums_idc operations for modification of reference picture lists ................................. 93"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-8 \u2013 Interpretation of adaptive_ref_pic_marking_mode_flag ............................................................................... 94"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-9 \u2013 Memory management control operation (memory_management_control_operation) values ....................... 96"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-10 \u2013 Allowed collective macroblock types for slice_type ................................................................................... 98"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-11 \u2013 Macroblock types for I slices .................................................................................................................... 100"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-12 \u2013 Macroblock type with value 0 for SI slices ............................................................................................... 101"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-13 \u2013 Macroblock type values 0 to 4 for P and SP slices .................................................................................... 102"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-14 \u2013 Macroblock type values 0 to 22 for B slices ............................................................................................. 103"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-15 \u2013 Specification of CodedBlockPatternChroma values ................................................................................. 105"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-16 \u2013 Relationship between intra_chroma_pred_mode and spatial prediction modes ........................................ 106"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-17 \u2013 Sub-macroblock types in P macroblocks................................................................................................... 107"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 7-18 \u2013 Sub-macroblock types in B macroblocks .................................................................................................. 108"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-1 \u2013 Refined slice group map type ...................................................................................................................... 117"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-2 \u2013 Specification of Intra4x4PredMode[ luma4x4BlkIdx ] and associated names ............................................ 132"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-3 \u2013 Specification of Intra8x8PredMode[ luma8x8BlkIdx ] and associated names ............................................ 138"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-4 \u2013 Specification of Intra16x16PredMode and associated names ..................................................................... 145"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-5 \u2013 Specification of Intra chroma prediction modes and associated names ...................................................... 147"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-6 \u2013 Specification of the variable colPic ............................................................................................................. 155"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-7 \u2013 Specification of PicCodingStruct( X ) ......................................................................................................... 155"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-8 \u2013 Specification of mbAddrCol, yM, and vertMvScale ................................................................................... 157"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-9 \u2013 Assignment of prediction utilization flags .................................................................................................. 159"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Table 8-10 \u2013 Derivation of the vertical component of the chroma vector in field coding mode .................................... 165"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Rec. ITU-T H.264 (06/2019) xvii"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 38
+      }
+    ]
+  },
+  "metadata": {
+    "page_count": 1,
+    "total_blocks": 38
+  }
+}

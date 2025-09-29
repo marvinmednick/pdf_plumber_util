@@ -1,0 +1,152 @@
+```json
+{
+  "analysis_metadata": {
+    "total_pages_analyzed": 6,
+    "total_items_analyzed": 145,
+    "analysis_timestamp": "2024-06-13T15:00:00Z"
+  },
+  "content_type_patterns": {
+    "section_headings": {
+      "sample_size": 3,
+      "confidence_score": 0.5,
+      "observed_characteristics": [
+        "Section headings use TimesNewRomanPS-BoldMT font",
+        "Font size is either 10.0 or 12.0",
+        "Section headings are either numbered (e.g., '6.4.2.1') or unnumbered (e.g., 'List of Tables')",
+        "Numbered headings use dot-separated hierarchical numbers",
+        "Positioning varies (y_position), but headings are generally higher on the page",
+        "Hierarchy level is present for numbered headings"
+      ],
+      "numbering_scheme": "Dot-separated hierarchical numbers (e.g., 6.4.2.1), with optional unnumbered headings",
+      "restrictive_pattern": "^(\\d+\\.\\d+(?:\\.\\d+)*)(?:\\s+)([A-Z][A-Za-z0-9 ,\\-()]+)$",
+      "restrictive_pattern_explanation": "Matches headings starting with one or more dot-separated numbers, followed by a space and a title starting with a capital letter. Only matches numbered headings, excludes unnumbered ones.",
+      "permissive_pattern": "^(\\d+(?:\\.\\d+)*|[A-Za-z ]+)(?:\\s+)([A-Za-z0-9 ,\\-()]+)$",
+      "permissive_pattern_explanation": "Allows for either dot-separated numbers or unnumbered headings (e.g., 'List of Tables'), and relaxes the requirement for the title to start with a capital letter. Accepts more variations in heading text.",
+      "false_positive_risk": "medium",
+      "false_positive_explanation": "Permissive pattern may match non-heading lines with similar structure; restrictive pattern may miss unnumbered headings.",
+      "phase3_recommendation": "Collect more samples, especially unnumbered headings and different hierarchy levels. Validate patterns against a larger set and test for false positives in real document pages."
+    },
+    "figure_titles": {
+      "sample_size": 5,
+      "confidence_score": 0.7,
+      "observed_characteristics": [
+        "All figure titles start with 'Figure' followed by a number (e.g., '6-9', '9-11')",
+        "Numbering uses either single or double numbers, sometimes with a letter prefix (e.g., 'D-11')",
+        "Titles are separated from the number by an en dash (–) or hyphen",
+        "Font is TimesNewRomanPS-BoldMT, size 10.0",
+        "Titles are descriptive and may include parentheses"
+      ],
+      "numbering_scheme": "'Figure' + space + number (digit(s)-digit(s) or letter-digit(s)-digit(s)), followed by en dash/hyphen and title",
+      "restrictive_pattern": "^Figure\\s([A-Z]?\\d+-\\d+)\\s[–\\-]\\s([A-Z][A-Za-z0-9 ,\\-()]+)$",
+      "restrictive_pattern_explanation": "Matches 'Figure', optional letter, number-number, en dash/hyphen, and a title starting with a capital letter. Strictly enforces observed format.",
+      "permissive_pattern": "^Figure\\s([A-Z]?\\d+-\\d+)\\s[–\\-]\\s(.+)$",
+      "permissive_pattern_explanation": "Relaxes title requirements, allowing any text after the dash. Accepts more flexible title formats and punctuation.",
+      "false_positive_risk": "low",
+      "false_positive_explanation": "Figure titles are highly distinctive; risk is low unless other content mimics the format.",
+      "phase3_recommendation": "Pattern is ready for programmatic testing. Validate against more pages to confirm coverage of all numbering variants (e.g., letter prefixes)."
+    },
+    "table_titles": {
+      "sample_size": 0,
+      "confidence_score": 0.0,
+      "observed_characteristics": [],
+      "numbering_scheme": "",
+      "restrictive_pattern": "",
+      "restrictive_pattern_explanation": "",
+      "permissive_pattern": "",
+      "permissive_pattern_explanation": "",
+      "false_positive_risk": "",
+      "false_positive_explanation": "",
+      "phase3_recommendation": "No samples available. Collect table title samples from additional pages before pattern development."
+    },
+    "equation_titles": {
+      "sample_size": 5,
+      "confidence_score": 0.7,
+      "observed_characteristics": [
+        "Equations are written as expressions followed by a number in parentheses (e.g., '(6-11)')",
+        "Font is TimesNewRomanPSMT, size 10.0",
+        "Equation number is always at the end, in parentheses",
+        "No explicit 'Equation' label; title is the equation itself"
+      ],
+      "numbering_scheme": "Parenthesized number at end of line, format (digit(s)-digit(s))",
+      "restrictive_pattern": "^.+\\s\\((\\d+-\\d+)\\)$",
+      "restrictive_pattern_explanation": "Matches any equation text ending with a space and a parenthesized number-number. Strictly enforces observed format.",
+      "permissive_pattern": "^.+\\s*\\((\\d+-\\d+)\\)$",
+      "permissive_pattern_explanation": "Allows for optional space before the parenthesis, accommodating minor formatting variations.",
+      "false_positive_risk": "medium",
+      "false_positive_explanation": "Pattern may match non-equation lines ending with similar parenthesized numbers; risk is moderate.",
+      "phase3_recommendation": "Test pattern against more equation samples and non-equation lines to assess false positive rate. Consider collecting equations with different numbering formats."
+    },
+    "toc_entries": {
+      "sample_size": 132,
+      "confidence_score": 0.95,
+      "observed_characteristics": [
+        "Entries use TimesNewRomanPSMT font, size 10.0",
+        "Entries start with a section/figure/table number (e.g., 'J.8.4', 'Figure 6-1', 'Table 5-1', '0.1')",
+        "Title follows the number, separated by a space",
+        "Long dotted/line fill between title and page number",
+        "Page number at end, right-aligned",
+        "Entry types observed: section, figure, table"
+      ],
+      "numbering_scheme": "Section: dot-separated numbers (e.g., 'J.8.4', '0.1'); Figure/Table: 'Figure/Table' + number-number",
+      "entry_types": [
+        "section",
+        "figure",
+        "table"
+      ],
+      "restrictive_pattern": "^(J?\\d+(?:\\.\\d+)*|Figure\\s[A-Z]?\\d+-\\d+|Table\\s\\d+-\\d+)\\s+([A-Za-z0-9 ,\\-()]+)\\s+\\.{5,}\\s+(\\d+)$",
+      "restrictive_pattern_explanation": "Matches section, figure, or table entries with strict numbering, title, dotted fill, and page number. Enforces observed TOC format.",
+      "permissive_pattern": "^(J?\\d+(?:\\.\\d+)*|Figure\\s[A-Z]?\\d+-\\d+|Table\\s\\d+-\\d+)\\s+(.+)\\s+\\.{3,}\\s+(\\d+)$",
+      "permissive_pattern_explanation": "Relaxes title format and allows shorter dotted fill, accommodating minor TOC formatting variations.",
+      "false_positive_risk": "low",
+      "false_positive_explanation": "TOC entries are highly structured; risk is low unless other content mimics the format.",
+      "phase3_recommendation": "Pattern is ready for deployment. Validate against additional TOC pages and test for edge cases (e.g., missing dotted fill, multi-line entries)."
+    }
+  },
+  "page_classification_patterns": {
+    "navigation_pages": {
+      "sample_size": 2,
+      "confidence_score": 0.8,
+      "classification_criteria": "Pages containing lists of figures/tables or TOC entries with high density of structured entries and navigation headings (e.g., 'List of Tables')",
+      "observed_characteristics": [
+        "High density of TOC entries",
+        "Presence of navigation headings (e.g., 'List of Tables')",
+        "Consistent font and size (TimesNewRomanPSMT, 10.0)",
+        "Page numbers aligned to the right"
+      ],
+      "recommendation": "Ready for programmatic classification. Test against more navigation pages to confirm robustness."
+    },
+    "content_pages": {
+      "sample_size": 4,
+      "confidence_score": 0.7,
+      "classification_criteria": "Pages containing section headings, figure titles, equation references, and main content, with lower density of TOC entries",
+      "observed_characteristics": [
+        "Presence of section headings and/or figure/equation titles",
+        "Content text in TimesNewRomanPSMT or TimesNewRomanPS-BoldMT",
+        "Font size 10.0 or 12.0",
+        "No navigation headings or dense TOC structure"
+      ],
+      "recommendation": "Classification criteria are sufficient for initial deployment. Validate with more diverse content pages."
+    }
+  },
+  "cross_pattern_observations": {
+    "font_usage_patterns": "Section headings and figure titles use TimesNewRomanPS-BoldMT; TOC entries, equation titles, and most content use TimesNewRomanPSMT. Font usage is consistent across content types.",
+    "size_usage_patterns": "Font size is predominantly 10.0 for all content types, with occasional 12.0 for top-level headings.",
+    "numbering_system_overview": "Dot-separated hierarchical numbers for sections; figure/table numbers use digit(s)-digit(s) or letter-digit(s)-digit(s); equations use parenthesized numbers at end.",
+    "hierarchy_patterns": "Section headings and TOC entries reflect hierarchical structure via dot-separated numbers. Figures and tables use flat numbering, sometimes with letter prefixes."
+  },
+  "overall_recommendations": {
+    "high_confidence_patterns": [
+      "figure_titles",
+      "toc_entries",
+      "navigation_pages"
+    ],
+    "needs_more_data": [
+      "section_headings",
+      "table_titles",
+      "equation_titles",
+      "content_pages"
+    ],
+    "suggested_phase3_approach": "Deploy high-confidence patterns for programmatic extraction and classification. Collect more samples for section headings, table titles, and equations to refine patterns. Validate all patterns against a larger, more diverse document set, and perform targeted false positive testing for permissive patterns."
+  }
+}
+```

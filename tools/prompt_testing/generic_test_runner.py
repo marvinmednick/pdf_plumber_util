@@ -160,10 +160,10 @@ def run_tests(template_name, data_files, template_dir, data_dir, results_dir, ou
                 test_summary['test_results'][data_name] = test_result
 
             else:
-                print(f"   ❌ FAILED: {result.error}")
+                print(f"   ❌ FAILED: {result.error_message}")
                 error_result = {
                     'success': False,
-                    'error': result.error,
+                    'error': result.error_message,
                     'data_size_kb': data_size_kb
                 }
                 results[data_name] = error_result

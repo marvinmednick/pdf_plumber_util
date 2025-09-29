@@ -1,0 +1,1514 @@
+{
+  "source_file": "h264_content_pages_30_35.json",
+  "streamlined_data": {
+    "pages": [
+      {
+        "page_index": 30,
+        "blocks": [
+          {
+            "text_lines": [
+              "3.22 byte stream : An encapsulation of a NAL unit stream containing start code prefixes and NAL units as specified",
+              "in Annex B."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.23 can : A term used to refer to behaviour that is allowed, but not necessarily required ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.24 category : A number associated with each syntax element . The category is used to specify the allocation of syntax",
+              "elements to NAL units for slice data partitioning . It may also be used in a manner determined by the application",
+              "to refer to classes of syntax elements in a manner not specified in this Recommendation | International Standard."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.25 chroma : An adjective specifying that a sample array or single sample is representing one of the two colour",
+              "difference signals related to the primary colours. The symbols used for a chroma array or sample are Cb and Cr."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "NOTE \u2013 The term chroma is used rather than the term chrominance in order to avoid the implication of the use of linear",
+              "light transfer characteristics that is often associated with the term chrominance."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 108.38
+          },
+          {
+            "text_lines": [
+              "3.26 coded field : A coded representation of a field ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.27 coded frame : A coded representation of a frame ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.28 coded picture : A coded representation of a picture . A coded picture may be either a coded field or a coded",
+              "frame . Coded picture is a collective term referring to a primary coded picture or a redundant coded picture , but",
+              "not to both together."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.29 coded picture buffer (CPB) : A first-in first-out buffer containing access units in decoding order specified in",
+              "the hypothetical reference decoder in Annex C."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.30 coded representation : A data element as represented in its coded form."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.31 coded slice data partition NAL unit : A NAL unit containing a slice data partition ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.32 coded slice NAL unit : A NAL unit containing a slice that is not a slice of an auxiliary coded picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.33 coded video sequence : A sequence of access units that consists, in decoding order, of an IDR access unit",
+              "followed by zero or more non-IDR access units including all subsequent access units up to but not including any",
+              "subsequent IDR access unit ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.34 component : An array or single sample from one of the three arrays ( luma and two chroma ) that make up a field",
+              "or frame in 4:2:0, 4:2:2, or 4:4:4 colour format or the array or a single sample of the array that make up a field",
+              "or frame in monochrome format."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.35 complementary field pair: A collective term for a complementary reference field pair or a complementary non-",
+              "reference field pair ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.36 complementary non-reference field pair : Two non-reference fields that are in consecutive access units in",
+              "decoding order as two coded fields of opposite parity and share the same value of the frame_num syntax element ,",
+              "where the first field is not already a paired field."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.37 complementary reference field pair : Two reference fields that are in consecutive access units in decoding",
+              "order as two coded fields and share the same value of the frame_num syntax element , where the second field in",
+              "decoding order is not an IDR picture and does not include a memory_management_control_operation syntax",
+              "element equal to 5 ."
+            ],
+            "font_name": "TimesNewRomanPS-ItalicMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.38 constituent picture : part of a spatially frame-packed stereoscopic video picture that corresponds to one view, or",
+              "a picture itself when frame packing is not in use or the temporal interleaving frame packing arrangement is in",
+              "use."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.39 context variable : A variable specified for the adaptive binary arithmetic decoding process of a bin by an",
+              "equation containing recently decoded bins ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.40 DC transform coefficient : A transform coefficient for which the frequency index is zero in all dimensions."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.41 decoded picture : A decoded picture is derived by decoding a coded picture . A decoded picture is either a",
+              "decoded frame , or a decoded field . A decoded field is either a decoded top field or a decoded bottom field ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.42 decoded picture buffer (DPB) : A buffer holding decoded pictures for reference, output reordering, or output",
+              "delay specified for the hypothetical reference decoder in Annex C."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.43 decoder : An embodiment of a decoding process ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.44 decoder under test (DUT) : A decoder that is tested for conformance to this Recommendation | International",
+              "Standard by operating the hypothetical stream scheduler to deliver a conforming bitstream to the decoder and to",
+              "the hypothetical reference decoder and comparing the values and timing of the output of the two decoders ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.45 decoding order : The order in which syntax elements are processed by the decoding process ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "8 Rec. ITU-T H.264 (06/2019)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 26
+      },
+      {
+        "page_index": 31,
+        "blocks": [
+          {
+            "text_lines": [
+              "3.46 decoding process : The process specified in this Recommendation | International Standard that reads a bitstream",
+              "and derives decoded pictures from it."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.47 direct prediction : An inter prediction for a block for which no motion vector is decoded. Two direct prediction",
+              "modes are specified that are referred to as spatial direct prediction and temporal prediction mode."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.48 display process : A process not specified in this Recommendation | International Standard having, as its input,",
+              "the cropped decoded pictures that are the output of the decoding process."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.49 elevation circle : circle on a sphere connecting all points with the same elevation value."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "NOTE \u2013 An elevation circle is similar to a lattitude line on the earth. Except when the elevation value is zero, an elevation",
+              "circle is not a great circle like a longitude circle on the earth."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 108.38
+          },
+          {
+            "text_lines": [
+              "3.50 emulation prevention byte : A byte equal to 0x03 that may be present within a NAL unit . The presence of",
+              "emulation prevention bytes ensures that no sequence of consecutive byte-aligned bytes in the NAL unit contains",
+              "a start code prefix ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.51 encoder : An embodiment of an encoding process ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.52 encoding process : A process, not specified in this Recommendation | International Standard, that produces a",
+              "bitstream conforming to this Recommendation | International Standard."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.53 field : An assembly of alternate rows of a frame . A frame is composed of two fields , a top field and a bottom field ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.54 field macroblock : A macroblock containing samples from a single field . All macroblocks of a coded field are",
+              "field macroblocks. When macroblock-adaptive frame/field decoding is in use, some macroblocks of a coded",
+              "frame may be field macroblocks."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.55 field macroblock pair : A macroblock pair decoded as two field macroblocks."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.56 field scan : A specific sequential ordering of transform coefficients that differs from the zig-zag scan by scanning",
+              "columns more rapidly than rows. Field scan is used for transform coefficients in field macroblocks."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.57 flag : A variable that can take one of the two possible values 0 and 1."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.58 frame : A frame contains an array of luma samples in monochrome format or an array of luma samples and two",
+              "corresponding arrays of chroma samples in 4:2:0, 4:2:2, and 4:4:4 colour format. A frame consists of two fields ,",
+              "a top field and a bottom field ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.59 frame macroblock : A macroblock representing samples from the two fields of a coded frame . When",
+              "macroblock-adaptive frame/field decoding is not in use, all macroblocks of a coded frame are frame",
+              "macroblocks. When macroblock-adaptive frame/field decoding is in use, some macroblocks of a coded frame",
+              "may be frame macroblocks."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.60 frame macroblock pair : A macroblock pair decoded as two frame macroblocks."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.61 frequency index : A one-dimensional or two-dimensional index associated with a transform coefficient prior to",
+              "an inverse transform part of the decoding process."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.62 global coordinate axes : coordinate axes associated with omnidirectional video that are associated with an",
+              "externally referenceable position and orientation."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "NOTE \u2013 The global coordinate axes may correspond to the position and orientation of a device or rig used for",
+              "omnidirectional audio/video acquisition as well as the position of an observer's head in the three-dimensional space of",
+              "the omnidirectional video rendering environment."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 108.38
+          },
+          {
+            "text_lines": [
+              "3.63 great circle : intersection of a sphere and a plane that passes through the centre point of the sphere."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "NOTE \u2013 A great circle is also known as an orthodrome or Riemannian circle."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 108.38
+          },
+          {
+            "text_lines": [
+              "3.64 hypothetical reference decoder (HRD) : A hypothetical decoder model that specifies constraints on the",
+              "variability of conforming NAL unit streams or conforming byte streams that an encoding process may produce."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.65 hypothetical stream scheduler (HSS) : A hypothetical delivery mechanism for the timing and data flow of the",
+              "input of a bitstream into the hypothetical reference decoder . The HSS is used for checking the conformance of",
+              "a bitstream or a decoder ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.66 I slice : A slice that is not an SI slice that is decoded using intra prediction only."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.67 informative : A term used to refer to content provided in this Recommendation | International Standard that is",
+              "not an integral part of this Recommendation | International Standard. Informative content does not establish any",
+              "mandatory requirements for conformance to this Recommendation | International Standard."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Rec. ITU-T H.264 (06/2019) 9"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 26
+      },
+      {
+        "page_index": 32,
+        "blocks": [
+          {
+            "text_lines": [
+              "3.68 instantaneous decoding refresh (IDR) access unit : An access unit in which the primary coded picture is an",
+              "IDR picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.69 instantaneous decoding refresh (IDR) picture : A coded picture for which the variable IdrPicFlag is equal to 1.",
+              "An IDR picture causes the decoding process to mark all reference pictures as \"unused for reference\" immediately",
+              "after the decoding of the IDR picture. All coded pictures that follow an IDR picture in decoding order can be",
+              "decoded without inter prediction from any picture that precedes the IDR picture in decoding order . The first",
+              "picture of each coded video sequence in decoding order is an IDR picture."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.70 inter coding : Coding of a block , macroblock , slice , or picture that uses inter prediction ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.71 inter prediction : A prediction derived from decoded samples of reference pictures other than the current",
+              "decoded picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.72 interpretation sample value : A possibly-altered value corresponding to a decoded sample value of an auxiliary",
+              "coded picture that may be generated for use in the display process . Interpretation sample values are not used in",
+              "the decoding process and have no normative effect on the decoding process ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.73 intra coding : Coding of a block, macroblock , slice , or picture that uses intra prediction ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.74 intra prediction : A prediction derived from the decoded samples of the same decoded slice ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.75 intra slice : See I slice ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.76 inverse transform : A part of the decoding process by which a set of transform coefficients are converted into",
+              "spatial-domain values, or by which a set of transform coefficients are converted into DC transform coefficients ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.77 layer : One of a set of syntactical structures in a non-branching hierarchical relationship. Higher layers contain",
+              "lower layers. The coding layers are the coded video sequence , picture , slice , and macroblock layers."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.78 level : A defined set of constraints on the values that may be taken by the syntax elements and variables of this",
+              "Recommendation | International Standard. The same set of levels is defined for all profiles , with most aspects of",
+              "the definition of each level being in common across different profiles. Individual implementations may, within",
+              "specified constraints, support a different level for each supported profile . In a different context, a level is the",
+              "value of a transform coefficient prior to scaling (see the definition of transform coefficient level )."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.79 list: A one-dimensional array of syntax elements or variables."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.80 list 0 (list 1) motion vector : A motion vector associated with a reference index pointing into reference picture",
+              "list 0 ( list 1 )."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.81 list 0 (list 1) prediction : Inter prediction of the content of a slice using a reference index pointing into reference",
+              "picture list 0 ( list 1 )."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.82 local coordinate axes : coordinate axes having a specified rotation relationship relative to the global coordinate",
+              "axes ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.83 luma : An adjective specifying that a sample array or single sample is representing the monochrome signal related",
+              "to the primary colours. The symbol or subscript used for luma is Y or L."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "NOTE \u2013 The term luma is used rather than the term luminance in order to avoid the implication of the use of linear light",
+              "transfer characteristics that is often associated with the term luminance. The symbol L is sometimes used instead of the",
+              "symbol Y to avoid confusion with the symbol y as used for vertical location."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 108.38
+          },
+          {
+            "text_lines": [
+              "3.84 macroblock : A 16x16 block of luma samples and two corresponding blocks of chroma samples of a picture that",
+              "has three sample arrays, or a 16x16 block of samples of a monochrome picture or a picture that is coded using",
+              "three separate colour planes. The division of a slice or a macroblock pair into macroblocks is a partitioning ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.85 macroblock-adaptive frame/field decoding : A decoding process for coded frames in which some macroblocks",
+              "may be decoded as frame macroblocks and others may be decoded as field macroblocks."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.86 macroblock address : When macroblock-adaptive frame/field decoding is not in use, a macroblock address is",
+              "the index of a macroblock in a macroblock raster scan of the picture starting with zero for the top-left macroblock",
+              "in a picture . When macroblock-adaptive frame/field decoding is in use, the macroblock address of the top",
+              "macroblock of a macroblock pair is two times the index of the macroblock pair in a macroblock pair raster scan",
+              "of the picture , and the macroblock address of the bottom macroblock of a macroblock pair is the macroblock",
+              "address of the corresponding top macroblock plus 1. The macroblock address of the top macroblock of each",
+              "macroblock pair is an even number and the macroblock address of the bottom macroblock of each macroblock",
+              "pair is an odd number."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.87 macroblock location : The two-dimensional coordinates of a macroblock in a picture denoted by ( x, y ). For the",
+              "top left macroblock of the picture ( x, y ) is equal to ( 0, 0 ). x is incremented by 1 for each macroblock column"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "10 Rec. ITU-T H.264 (06/2019)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 22
+      },
+      {
+        "page_index": 33,
+        "blocks": [
+          {
+            "text_lines": [
+              "from left to right. When macroblock-adaptive frame/field decoding is not in use, y is incremented by 1 for each",
+              "macroblock row from top to bottom. When macroblock-adaptive frame/field decoding is in use, y is incremented",
+              "by 2 for each macroblock pair row from top to bottom, and is incremented by an additional 1 when a macroblock",
+              "is a bottom macroblock ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 94.224
+          },
+          {
+            "text_lines": [
+              "3.88 macroblock pair : A pair of vertically contiguous macroblocks in a frame that is coupled for use in macroblock-",
+              "adaptive frame/field decoding . The division of a slice into macroblock pairs is a partitioning ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.89 macroblock partition : A block of luma samples and two corresponding blocks of chroma samples resulting",
+              "from a partitioning of a macroblock for inter prediction for a picture that has three sample arrays or a block of",
+              "luma samples resulting from a partitioning of a macroblock for inter prediction for a monochrome picture or a",
+              "picture that is coded using three separate colour planes."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.90 macroblock to slice group map : A means of mapping macroblocks of a picture into slice groups . The",
+              "macroblock to slice group map consists of a list of numbers, one for each coded macroblock , specifying the slice",
+              "group to which each coded macroblock belongs."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.91 map unit to slice group map : A means of mapping slice group map units of a picture into slice groups . The",
+              "map unit to slice group map consists of a list of numbers, one for each slice group map unit , specifying the slice",
+              "group to which each coded slice group map unit belongs."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.92 matrix : A two-dimensional array of syntax elements or variables."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.93 may : A term used to refer to behaviour that is allowed, but not necessarily required . In some places where the",
+              "optional nature of the described behaviour is intended to be emphasized, the phrase \"may or may not\" is used to",
+              "provide emphasis."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.94 memory management control operation : Seven operations that control reference picture marking ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.95 motion vector : A two-dimensional vector used for inter prediction that provides an offset from the coordinates",
+              "in the decoded picture to the coordinates in a reference picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.96 must : A term used in expressing an observation about a requirement or an implication of a requirement that is",
+              "specified elsewhere in this Recommendation | International Standard. This term is used exclusively in an",
+              "informative context."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.97 NAL unit : A syntax structure containing an indication of the type of data to follow and bytes containing that",
+              "data in the form of an RBSP interspersed as necessary with emulation prevention bytes ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.98 NAL unit stream : A sequence of NAL units ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.99 non-paired field : A collective term for a non-paired reference field or a non-paired non-reference field ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.100 non-paired non-reference field : A decoded non-reference field that is not part of a complementary",
+              "non-reference field pair."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.101 non-paired reference field : A decoded reference field that is not part of a complementary reference field pair."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.102 non-reference field : A field coded with nal_ref_idc equal to 0."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.103 non-reference frame : A frame coded with nal_ref_idc equal to 0."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.104 non-reference picture : A picture coded with nal_ref_idc equal to 0. A non-reference picture is not used for",
+              "inter prediction of any other pictures ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.105 note : A term used to prefix informative remarks. This term is used exclusively in an informative context."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.106 omnidirectional video : video content in a format that enables rendering according to the user's viewing",
+              "orientation, e.g., if viewed using a head-mounted device, or according to a user's desired viewport , reflecting a",
+              "potentially rotated viewing position."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.107 opposite parity : The opposite parity of top is bottom , and vice versa."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.108 output order : The order in which the decoded pictures are output from the decoded picture buffer ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.109 P slice : A slice that is not an SP slice that may be decoded using intra prediction or inter prediction using at",
+              "most one motion vector and reference index to predict the sample values of each block ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.110 packed region : region in a region-wise packed picture that is mapped to a projected region according to a region-",
+              "wise packing ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.111 parameter : A syntax element of a sequence parameter set or a picture parameter set . Parameter is also used as",
+              "part of the defined term quantization parameter ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Rec. ITU-T H.264 (06/2019) 11"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 26
+      },
+      {
+        "page_index": 34,
+        "blocks": [
+          {
+            "text_lines": [
+              "3.112 parity : The parity of a field can be top or bottom ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.113 partitioning : The division of a set into subsets such that each element of the set is in exactly one of the subsets."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.114 picture : A collective term for a field or a frame ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.115 picture parameter set : A syntax structure containing syntax elements that apply to zero or more entire coded",
+              "pictures as determined by the pic_parameter_set_id syntax element found in each slice header."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.116 picture order count : A variable that is associated with each coded field and each field of a coded frame and has",
+              "a value that is non-decreasing with increasing field position in output order relative to the first output field of the",
+              "previous IDR picture in decoding order or relative to the first output field of the previous picture , in decoding",
+              "order , that contains a memory management control operation that marks all reference pictures as \"unused for",
+              "reference\"."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.117 prediction : An embodiment of the prediction process ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.118 prediction process : The use of a predictor to provide an estimate of the sample value or data element currently",
+              "being decoded."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.119 predictive slice : See P slice ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.120 predictor : A combination of specified values or previously decoded sample values or data elements used in the",
+              "decoding process of subsequent sample values or data elements."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.121 primary coded picture : The coded representation of a picture to be used by the decoding process for a bitstream",
+              "conforming to this Recommendation | International Standard. The primary coded picture contains all",
+              "macroblocks of the picture. The only pictures that have a normative effect on the decoding process are primary",
+              "coded pictures. See also redundant coded picture."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.122 profile : A specified subset of the syntax of this Recommendation | International Standard."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.123 projected picture : picture that uses a projection format for omnidirectional video ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.124 projected region : region in a projected picture that is mapped to a packed region according to a region-wise",
+              "packing ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.125 projection : specified correspondence between the colour samples of a projected picture and azimuth and",
+              "elevation positions on a sphere."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.126 quantization parameter : A variable used by the decoding process for scaling of transform coefficient levels ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.127 random access : The act of starting the decoding process for a bitstream at a point other than the beginning of",
+              "the stream."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.128 raster scan : A mapping of a rectangular two-dimensional pattern to a one-dimensional pattern such that the first",
+              "entries in the one-dimensional pattern are from the first top row of the two-dimensional pattern scanned from",
+              "left to right, followed similarly by the second, third, etc., rows of the pattern (going down) each scanned from",
+              "left to right."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.129 raw byte sequence payload (RBSP) : A syntax structure containing an integer number of bytes that is",
+              "encapsulated in a NAL unit . An RBSP is either empty or has the form of a string of data bits containing syntax",
+              "elements followed by an RBSP stop bit and followed by zero or more subsequent bits equal to 0."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.130 raw byte sequence payload (RBSP) stop bit : A bit equal to 1 present within a raw byte sequence payload",
+              "(RBSP) after a string of data bits . The location of the end of the string of data bits within an RBSP can be",
+              "identified by searching from the end of the RBSP for the RBSP stop bit , which is the last non-zero bit in the",
+              "RBSP."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.131 recovery point : A point in the bitstream at which the recovery of an exact or an approximate representation of",
+              "the decoded pictures represented by the bitstream is achieved after a random access or broken link ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.132 redundant coded picture : A coded representation of a picture or a part of a picture. The content of a redundant",
+              "coded picture shall not be used by the decoding process for a bitstream conforming to this",
+              "Recommendation | International Standard. A redundant coded picture is not required to contain all macroblocks",
+              "in the primary coded picture . Redundant coded pictures have no normative effect on the decoding process . See",
+              "also primary coded picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.133 reference field : A reference field may be used for inter prediction when P , SP , and B slices of a coded field or",
+              "field macroblocks of a coded frame are decoded. See also reference picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "12 Rec. ITU-T H.264 (06/2019)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 23
+      },
+      {
+        "page_index": 35,
+        "blocks": [
+          {
+            "text_lines": [
+              "3.134 reference frame : A reference frame may be used for inter prediction when P , SP , and B slices of a coded frame",
+              "are decoded. See also reference picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.135 reference index : An index into a reference picture list ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.136 reference picture : A picture with nal_ref_idc not equal to 0. A reference picture contains samples that may be",
+              "used for inter prediction in the decoding process of subsequent pictures in decoding order ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.137 reference picture list : A list of reference pictures that is used for inter prediction of a P, B, or SP slice. For the",
+              "decoding process of a P or SP slice, there is one reference picture list . For the decoding process of a B slice ,",
+              "there are two reference picture lists ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.138 reference picture list 0 : A reference picture list used for inter prediction of a P , B , or SP slice . All inter",
+              "prediction used for P and SP slices uses reference picture list 0. Reference picture list 0 is one of two reference",
+              "picture lists used for inter prediction for a B slice , with the other being reference picture list 1 ."
+            ],
+            "font_name": "TimesNewRomanPS-ItalicMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.139 reference picture list 1 : A reference picture list used for inter prediction of a B slice . Reference picture list 1 is",
+              "one of two reference picture lists used for inter prediction for a B slice , with the other being reference picture",
+              "list 0 ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.140 reference picture marking : Specifies, in the bitstream, how the decoded pictures are marked for inter",
+              "prediction ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.141 region-wise packed picture : decoded picture that contains one or more packed regions ."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "NOTE \u2013 A packed picture may contain a region-wise packing of a projected picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 108.38
+          },
+          {
+            "text_lines": [
+              "3.142 region-wise packing : transformation, resizing, and relocation of packed regions of a region-wise packed picture",
+              "to remap the packed regions to projected region s of a projected picture ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.143 reserved : The term reserved, when used in the clauses specifying some values of a particular syntax element , are",
+              "for future use by ITU-T | ISO/IEC. These values shall not be used in bitstreams conforming to this",
+              "Recommendation | International Standard, but may be used in future extensions of this",
+              "Recommendation | International Standard by ITU-T | ISO/IEC."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.144 residual : The decoded difference between a prediction of a sample or data element and its decoded value."
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.145 run : A number of consecutive data elements represented in the decoding process. In one context, the number of",
+              "zero-valued transform coefficient levels preceding a non-zero transform coefficient level in the list of transform",
+              "coefficient levels generated by a zig-zag scan or a field scan . In other contexts, run refers to a number of",
+              "macroblocks ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.146 sample aspect ratio : Specifies, for assisting the display process , which is not specified in this",
+              "Recommendation | International Standard, the ratio between the intended horizontal distance between the",
+              "columns and the intended vertical distance between the rows of the luma sample array in a frame . Sample aspect",
+              "ratio is expressed as h : v , where h is horizontal width and v is vertical height (in arbitrary units of spatial distance)."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.147 scaling : The process of multiplying transform coefficient levels by a factor, resulting in transform coefficients ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.148 sequence parameter set : A syntax structure containing syntax elements that apply to zero or more entire coded",
+              "video sequences as determined by the content of a seq_parameter_set_id syntax element found in the picture",
+              "parameter set referred to by the pic_parameter_set_id syntax element found in each slice header."
+            ],
+            "font_name": "TimesNewRomanPS-ItalicMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.149 shall : A term used to express mandatory requirements for conformance to this Recommendation | International",
+              "Standard. When used to express a mandatory constraint on the values of syntax elements or on the results obtained",
+              "by operation of the specified decoding process , it is the responsibility of the encoder to ensure that the constraint",
+              "is fulfilled. When used in reference to operations performed by the decoding process , any decoding process that",
+              "produces identical results to the decoding process described herein conforms to the decoding process",
+              "requirements of this Recommendation | International Standard ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.150 should : A term used to refer to behaviour of an implementation that is encouraged to be followed under",
+              "anticipated ordinary circumstances, but is not a mandatory requirement for conformance to this Recommendation",
+              "| International Standard."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.151 SI slice : A slice that is coded using intra prediction only and using quantization of the prediction samples. An",
+              "SI slice can be coded such that its decoded samples can be constructed identically to an SP slice ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.152 skipped macroblock : A macroblock for which no data is coded other than an indication that the macroblock is",
+              "to be decoded as \"skipped\". This indication may be common to several macroblocks ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3.153 slice : An integer number of macroblocks or macroblock pairs ordered consecutively in the raster scan within a",
+              "particular slice group . For the primary coded picture , the division of each slice group into slices is a partitioning ."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Rec. ITU-T H.264 (06/2019) 13"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 22
+      }
+    ]
+  },
+  "metadata": {
+    "page_count": 6,
+    "total_blocks": 145
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "source_file": "h264_content_page_50.json",
+  "streamlined_data": {
+    "pages": [
+      {
+        "page_index": 50,
+        "blocks": [
+          {
+            "text_lines": [
+              "The functions MbPartWidth( ), MbPartHeight( ), SubMbPartWidth( ), and SubMbPartHeight( ) describing the width and",
+              "height of macroblock partitions and sub-macroblock partitions are specified in Tables 7-13, 7-14, 7-17, and 7-18.",
+              "MbPartWidth( ) and MbPartHeight( ) are set to appropriate values for each macroblock, depending on the macroblock",
+              "type. SubMbPartWidth( ) and SubMbPartHeight( ) are set to appropriate values for each sub-macroblock of a macroblock",
+              "with mb_type equal to P_8x8, P_8x8ref0, or B_8x8, depending on the sub-macroblock type."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "1 macroblock partition of2 macroblock partitions of2 macroblock partitions of4 sub-macroblocks of",
+              "16*16 luma samples and16*8 luma samples and8*16 luma samples and8*8 luma samples and",
+              "associated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 111.930398694464
+          },
+          {
+            "text_lines": [
+              "001"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 264.55983254496005
+          },
+          {
+            "text_lines": [
+              "Macroblock 001",
+              "partitions 123"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 76.720716973216
+          },
+          {
+            "text_lines": [
+              "1 sub-macroblock partition2 sub-macroblock partitions2 sub-macroblock partitions4 sub-macroblock partitions",
+              "of 8*8 luma samples andof 8*4 luma samples and of 4*8 luma samples andof 4*4 luma samples and",
+              "associated chroma samplesassociated chroma samplesassociated chroma samplesassociated chroma samples"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 111.687730414344
+          },
+          {
+            "text_lines": [
+              "001",
+              "Sub-macroblock 001",
+              "partitions",
+              "12 3"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 9.0,
+            "y0": 0.0,
+            "x0": 68.1793878026576
+          },
+          {
+            "text_lines": [
+              "Figure 6-9 \u2013 Macroblock partitions, sub-macroblock partitions, macroblock partition scans,",
+              "and sub-macroblock partition scans"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 101.78
+          },
+          {
+            "text_lines": [
+              "6.4.2.1 Inverse macroblock partition scanning process"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Input to this process is the index of a macroblock partition mbPartIdx."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Output of this process is the location ( x, y ) of the upper-left luma sample for the macroblock partition mbPartIdx relative",
+              "to the upper-left sample of the macroblock."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "The inverse macroblock partition scanning process is specified by"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "x = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 0 ) (6-11)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 90.504
+          },
+          {
+            "text_lines": [
+              "y = InverseRasterScan( mbPartIdx, MbPartWidth( mb_type ), MbPartHeight( mb_type ), 16, 1 )   (6-12)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 90.504
+          },
+          {
+            "text_lines": [
+              "6.4.2.2 Inverse sub-macroblock partition scanning process"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Inputs to this process are the index of a macroblock partition mbPartIdx and the index of a sub-macroblock partition",
+              "subMbPartIdx."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "Output of this process is the location ( x, y ) of the upper-left luma sample for the sub-macroblock partition subMbPartIdx",
+              "relative to the upper-left sample of the sub-macroblock."
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "The inverse sub-macroblock partition scanning process is specified as follows:"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "\u2013 If mb_type is equal to P_8x8, P_8x8ref0, or B_8x8,"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "x = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),",
+              "SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 0 )  (6-13)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 82.824
+          },
+          {
+            "text_lines": [
+              "y = InverseRasterScan( subMbPartIdx, SubMbPartWidth( sub_mb_type[ mbPartIdx ] ),",
+              "SubMbPartHeight( sub_mb_type[ mbPartIdx ] ), 8, 1 )  (6-14)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 82.824
+          },
+          {
+            "text_lines": [
+              "\u2013 Otherwise (mb_type is not equal to P_8x8, P_8x8ref0, or B_8x8),"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "x = InverseRasterScan( subMbPartIdx, 4, 4, 8, 0 )  (6-15)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 82.824
+          },
+          {
+            "text_lines": [
+              "28 Rec. ITU-T H.264 (06/2019)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 23
+      }
+    ]
+  },
+  "metadata": {
+    "page_count": 1,
+    "total_blocks": 23
+  }
+}

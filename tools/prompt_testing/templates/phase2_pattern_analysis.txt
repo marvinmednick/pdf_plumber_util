@@ -1,0 +1,155 @@
+# Document Structure Pattern Analysis (Phase 2)
+
+You are analyzing aggregated extraction results from a technical document to discover formatting and structural patterns. Your goal is to identify patterns that can be used programmatically to recognize similar content in future analysis.
+
+## Your Task
+
+Analyze the provided aggregated data containing extracted section headings, figure titles, table titles, equation references, and TOC entries from multiple document pages. For each content type:
+
+1. **Statistical Analysis**: Examine all instances to identify:
+   - Total count and distribution across pages
+   - Consistency in formatting, fonts, sizes, and positioning
+   - Numbering schemes and hierarchical structures
+   - Any variations or outliers
+
+2. **Pattern Discovery**: Based on your observations, identify the underlying patterns that characterize each content type.
+
+3. **Dual Pattern Generation**: Create two regex-based matching patterns:
+   - **Restrictive Pattern**: Closely matches the observed data characteristics with minimal flexibility
+   - **Permissive Pattern**: More relaxed version that allows for reasonable variations while maintaining specificity
+
+   For each pattern, explain what elements you chose to relax and your reasoning.
+
+4. **Confidence Assessment**: Calculate confidence scores (0.0 to 1.0) based on:
+   - Sample size (more samples = higher confidence)
+   - Consistency (uniform patterns = higher confidence)
+   - Completeness (diverse examples = higher confidence)
+
+5. **Risk Evaluation**: For each pattern, assess the estimated false positive risk (low/medium/high).
+
+6. **Phase 3 Recommendations**: Based on your confidence levels, recommend next steps:
+   - Additional data collection needs
+   - Pattern validation strategies
+   - Areas requiring programmatic testing
+
+## Output Format
+
+You MUST return your analysis as valid JSON matching this exact structure:
+
+```json
+{
+  "analysis_metadata": {
+    "total_pages_analyzed": 0,
+    "total_items_analyzed": 0,
+    "analysis_timestamp": "ISO timestamp"
+  },
+  "content_type_patterns": {
+    "section_headings": {
+      "sample_size": 0,
+      "confidence_score": 0.0,
+      "observed_characteristics": [
+        "list of key observations about format, fonts, numbering, etc."
+      ],
+      "numbering_scheme": "description of numbering pattern observed",
+      "restrictive_pattern": "regex pattern string",
+      "restrictive_pattern_explanation": "what this pattern matches and why",
+      "permissive_pattern": "regex pattern string",
+      "permissive_pattern_explanation": "what was relaxed and reasoning",
+      "false_positive_risk": "low|medium|high",
+      "false_positive_explanation": "why this risk level",
+      "phase3_recommendation": "specific next steps for validation or additional data"
+    },
+    "figure_titles": {
+      "sample_size": 0,
+      "confidence_score": 0.0,
+      "observed_characteristics": [],
+      "numbering_scheme": "",
+      "restrictive_pattern": "",
+      "restrictive_pattern_explanation": "",
+      "permissive_pattern": "",
+      "permissive_pattern_explanation": "",
+      "false_positive_risk": "",
+      "false_positive_explanation": "",
+      "phase3_recommendation": ""
+    },
+    "table_titles": {
+      "sample_size": 0,
+      "confidence_score": 0.0,
+      "observed_characteristics": [],
+      "numbering_scheme": "",
+      "restrictive_pattern": "",
+      "restrictive_pattern_explanation": "",
+      "permissive_pattern": "",
+      "permissive_pattern_explanation": "",
+      "false_positive_risk": "",
+      "false_positive_explanation": "",
+      "phase3_recommendation": ""
+    },
+    "equation_titles": {
+      "sample_size": 0,
+      "confidence_score": 0.0,
+      "observed_characteristics": [],
+      "numbering_scheme": "",
+      "restrictive_pattern": "",
+      "restrictive_pattern_explanation": "",
+      "permissive_pattern": "",
+      "permissive_pattern_explanation": "",
+      "false_positive_risk": "",
+      "false_positive_explanation": "",
+      "phase3_recommendation": ""
+    },
+    "toc_entries": {
+      "sample_size": 0,
+      "confidence_score": 0.0,
+      "observed_characteristics": [],
+      "numbering_scheme": "",
+      "entry_types": "list of entry_type values observed",
+      "restrictive_pattern": "",
+      "restrictive_pattern_explanation": "",
+      "permissive_pattern": "",
+      "permissive_pattern_explanation": "",
+      "false_positive_risk": "",
+      "false_positive_explanation": "",
+      "phase3_recommendation": ""
+    }
+  },
+  "page_classification_patterns": {
+    "navigation_pages": {
+      "sample_size": 0,
+      "confidence_score": 0.0,
+      "classification_criteria": "description of how to identify this page type",
+      "observed_characteristics": [],
+      "recommendation": "deployment readiness or additional validation needs"
+    },
+    "content_pages": {
+      "sample_size": 0,
+      "confidence_score": 0.0,
+      "classification_criteria": "",
+      "observed_characteristics": [],
+      "recommendation": ""
+    }
+  },
+  "cross_pattern_observations": {
+    "font_usage_patterns": "description of font patterns across content types",
+    "size_usage_patterns": "description of size patterns across content types",
+    "numbering_system_overview": "overall numbering scheme observations",
+    "hierarchy_patterns": "hierarchical structure observations"
+  },
+  "overall_recommendations": {
+    "high_confidence_patterns": ["list of patterns ready for Phase 3 testing"],
+    "needs_more_data": ["list of patterns requiring additional samples"],
+    "suggested_phase3_approach": "recommended strategy for Phase 3 validation"
+  }
+}
+```
+
+## Important Requirements
+
+- Return ONLY valid JSON - no additional text before or after
+- All regex patterns must be properly escaped for JSON (use \\\\ for backslashes)
+- Confidence scores must be decimal values between 0.0 and 1.0
+- Base all analysis on the actual data provided - do not make assumptions beyond what you observe
+- If a content type has zero samples, note this in the analysis with confidence 0.0
+- Be specific in your pattern explanations - reference actual examples from the data
+
+{data}

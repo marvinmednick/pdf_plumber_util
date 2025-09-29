@@ -1,0 +1,323 @@
+{
+  "source_file": "h264_page_6_only.json",
+  "streamlined_data": {
+    "pages": [
+      {
+        "page_index": 6,
+        "blocks": [
+          {
+            "text_lines": [
+              "Table of Contents"
+            ],
+            "font_name": "TimesNewRomanPS-BoldMT",
+            "font_size": 12.0,
+            "y0": 0.0,
+            "x0": 252.05
+          },
+          {
+            "text_lines": [
+              "Page"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "0 Introduction ................................................................................................................................................................ 1"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "0.1 Prologue .............................................................................................................................................................. 1"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "0.2 Purpose ............................................................................................................................................................... 1"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "0.3 Applications ........................................................................................................................................................ 1"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "0.4 Publication and versions of this Specification .................................................................................................... 1"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "0.5 Profiles and levels ............................................................................................................................................... 3"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "0.6 Overview of the design characteristics ............................................................................................................... 4",
+              "0.6.1 Predictive coding ........................................................................................................................................ 4",
+              "0.6.2 Coding of progressive and interlaced video ................................................................................................ 5",
+              "0.6.3 Picture partitioning into macroblocks and smaller partitions ...................................................................... 5",
+              "0.6.4 Spatial redundancy reduction ...................................................................................................................... 5"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "0.7 How to read this Specification ............................................................................................................................ 5"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "1 Scope .......................................................................................................................................................................... 6"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "2 Normative references .................................................................................................................................................. 6"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "3 Definitions .................................................................................................................................................................. 6"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "4 Abbreviations ............................................................................................................................................................ 15"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "5 Conventions .............................................................................................................................................................. 16"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "5.1 Arithmetic operators ......................................................................................................................................... 16"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.2 Logical operators .............................................................................................................................................. 16"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.3 Relational operators .......................................................................................................................................... 16"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.4 Bit-wise operators ............................................................................................................................................. 16"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.5 Assignment operators ....................................................................................................................................... 17"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.6 Range notation .................................................................................................................................................. 17"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.7 Mathematical functions ..................................................................................................................................... 17"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.8 Order of operation precedence .......................................................................................................................... 18"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.9 Variables, syntax elements, and tables .............................................................................................................. 19"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.10 Text description of logical operations ............................................................................................................... 20"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "5.11 Processes ........................................................................................................................................................... 21"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "6 Source, coded, decoded and output data formats, scanning processes, and neighbouring relationships .................. 21"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 54.48
+          },
+          {
+            "text_lines": [
+              "6.1 Bitstream formats .............................................................................................................................................. 21"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "6.2 Source, decoded, and output picture formats .................................................................................................... 21"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "6.3 Spatial subdivision of pictures and slices ......................................................................................................... 26",
+              "6.4 Inverse scanning processes and derivation processes for neighbours ............................................................... 27",
+              "6.4.1 Inverse macroblock scanning process ....................................................................................................... 27",
+              "6.4.2 Inverse macroblock partition and sub-macroblock partition scanning process ......................................... 27",
+              "6.4.2.1 Inverse macroblock partition scanning process ........................................................................................ 28",
+              "6.4.2.2 Inverse sub-macroblock partition scanning process .................................................................................. 28",
+              "6.4.3 Inverse 4x4 luma block scanning process ................................................................................................. 29",
+              "6.4.4 Inverse 4x4 Cb or Cr block scanning process for ChromaArrayType equal to 3...................................... 29",
+              "6.4.5 Inverse 8x8 luma block scanning process ................................................................................................. 29",
+              "6.4.6 Inverse 8x8 Cb or Cr block scanning process for ChromaArrayType equal to 3...................................... 30",
+              "6.4.7 Inverse 4x4 chroma block scanning process ............................................................................................. 30",
+              "6.4.8 Derivation process of the availability for macroblock addresses .............................................................. 30",
+              "6.4.9 Derivation process for neighbouring macroblock addresses and their availability ................................... 30",
+              "6.4.10 Derivation process for neighbouring macroblock addresses and their availability in MBAFF frames ..... 31",
+              "6.4.11 Derivation processes for neighbouring macroblocks, blocks, and partitions ............................................ 32",
+              "6.4.11.1 Derivation process for neighbouring macroblocks ................................................................................... 33",
+              "6.4.11.2 Derivation process for neighbouring 8x8 luma block ............................................................................... 33",
+              "6.4.11.3 Derivation process for neighbouring 8x8 chroma blocks for ChromaArrayType equal to 3 .................... 34",
+              "6.4.11.4 Derivation process for neighbouring 4x4 luma blocks ............................................................................. 34",
+              "6.4.11.5 Derivation process for neighbouring 4x4 chroma blocks ......................................................................... 34",
+              "6.4.11.6 Derivation process for neighbouring 4x4 chroma blocks for ChromaArrayType equal to 3 .................... 35",
+              "6.4.11.7 Derivation process for neighbouring partitions ......................................................................................... 35",
+              "6.4.12 Derivation process for neighbouring locations ......................................................................................... 36",
+              "6.4.12.1 Specification for neighbouring locations in fields and non-MBAFF frames ............................................ 37"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 10.0,
+            "y0": 0.0,
+            "x0": 64.344
+          },
+          {
+            "text_lines": [
+              "iv Rec. ITU-T H.264 (06/2019)"
+            ],
+            "font_name": "TimesNewRomanPSMT",
+            "font_size": 11.0,
+            "y0": 0.0,
+            "x0": 54.48
+          }
+        ],
+        "block_count": 31
+      }
+    ]
+  },
+  "metadata": {
+    "page_count": 1,
+    "total_blocks": 31
+  }
+}

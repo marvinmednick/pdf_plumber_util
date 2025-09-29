@@ -196,33 +196,17 @@ class PromptTester:
             }
 
     def substitute_template(self, template: str, data: Dict[str, Any], **kwargs) -> str:
-        """Substitute template variables with actual values."""
-        # Convert to streamlined format for LLM efficiency
-        streamlined_data = self.convert_to_streamlined_format(data)
+        """Substitute template variables with actual values.
 
-        # Default format explanation for streamlined format
-        default_format_explanation = """Input data format: Optimized format with 'blocks' arrays. Each block has:
-- 'text_lines': Array of text lines in the block
-- 'font_name': Font family (e.g., 'TimesNewRomanPSMT', 'Arial-Bold')
-- 'font_size': Font size in points (e.g., 12.0)
-- 'y0': Vertical position on page (higher = closer to top)
-- 'x0': Horizontal position on page
-
-Example block structure:
-{
-  'text_lines': ['This is line 1', 'This is line 2'],
-  'font_name': 'TimesNewRomanPSMT',
-  'font_size': 12.0,
-  'y0': 150.0,
-  'x0': 72.0
-}"""
+        Simply converts data to JSON and substitutes into template.
+        Data transformation (streamlining, etc.) should be done as a separate preprocessing step.
+        """
+        # Convert data to JSON string for template
+        data_str = json.dumps(data, indent=2)
 
         # Prepare substitution variables
         substitutions = {
-            'data': json.dumps(streamlined_data, indent=2),
-            'format_explanation': default_format_explanation,
-            'objective': kwargs.get('objective', 'Find table of contents entries'),
-            'output_format': kwargs.get('output_format', 'JSON format with extracted entries'),
+            'data': data_str,
             **kwargs
         }
 
@@ -262,16 +246,24 @@ Example block structure:
             start_timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(llm_start_time))
 
             # Call LLM provider (note: not all providers may be async)
-            response = self.llm_provider.analyze_document_structure(prompt)
-            if hasattr(response, 'content'):
-                response = response.content
+            llm_response = self.llm_provider.analyze_document_structure(prompt)
+            if hasattr(llm_response, 'content'):
+                response = llm_response.content
             else:
-                response = str(response)
+                response = str(llm_response)
+
+            # Save raw response immediately to file for troubleshooting
+            raw_response_dir = Path("results/raw_responses")
+            raw_response_dir.mkdir(parents=True, exist_ok=True)
+            raw_response_file = raw_response_dir / f"{template_name}_{data_file.replace('.json', '')}_raw.txt"
+            with open(raw_response_file, 'w', encoding='utf-8') as f:
+                f.write(response)
 
             llm_end_time = time.time()
             end_timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(llm_end_time))
             execution_time = llm_end_time - llm_start_time
             print(f"  ✅ LLM request completed in {execution_time:.2f}s")
+            print(f"  💾 Raw response saved to: {raw_response_file}")
 
             # Calculate response metrics
             response_length = len(response.encode('utf-8'))
