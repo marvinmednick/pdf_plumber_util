@@ -3,7 +3,7 @@
 ## Current State
 
 **System Status**: Word-based extraction with proportional spacing reconstruction, contextual block formation, spacing gap analysis, LLM-based header/footer detection with TOC detection, LLM section heading and table/figure analysis, state machine architecture for multi-pass analysis, comprehensive pattern detection system with 30+ patterns and improved text spacing accuracy
-**Active Work**: Phase 2 pattern analysis complete - modular prompt testing pipeline with statistical pattern discovery ready for Phase 3 programmatic validation
+**Active Work**: Pattern Detection Architecture design complete - Phase 0-3 specification with strategic sampling and cost optimization ready for implementation
 
 ## Production Ready: Context-Aware Template Architecture Complete
 
@@ -19,6 +19,19 @@
 - Template architecture demonstrates semantic understanding vs pure pattern matching
 
 ## Last Completed Work
+
+**Pattern Detection Architecture Design with Phase 0 Integration**:
+- Comprehensive design document reorganization separating specification from historical context
+- Created PATTERN_DETECTION_EVOLUTION.md (11KB) capturing decision rationale and analysis methodology
+- Restructured PATTERN_DETECTION_ARCHITECTURE.md (20KB) with clean Phase 0-3 design flow and appendices
+- Integrated Phase 0 Document Structure Discovery: full-document regex scan + LLM strategic sampling
+- Pattern-driven sampling approach prioritizing regex results over rigid formulas
+- Lightweight line-based format for Phase 0 scanning, detailed format for Phase 1 validation
+- **Architecture**: Phase 0 (strategic sampling) → Phase 1 (sequential single-page validation) → Phase 2 (iterative content analysis) → Phase 3 (completion assessment)
+- **Design Decisions**: Pattern-driven sampling, single-page processing, format optimization, knowledge accumulation
+- **Cost Optimization**: $2-3 Phase 0 + $20-30 Phase 1 (20 pages) vs $500+ full document analysis
+- **Files**: 2 design documents with clean separation of specification and historical analysis
+- **Next**: Implement Phase 0 components (DocumentFlattener, DocumentScanner, SamplingStrategy, LLMSamplingAdvisor)
 
 **Phase 2 Pattern Analysis Infrastructure and Statistical Pattern Discovery**:
 - Created modular prompt testing pipeline with separate utilities for data transformation, aggregation, and analysis

@@ -1,567 +1,535 @@
 # Pattern Detection Architecture
 
-## Key Architecture Summary
-
-### **Single LLM Call Design**
-- **All three phases (1A, 1B, 1C) in one comprehensive request**
-- **Token efficiency**: ~20K savings vs separate calls
-- **Context preservation**: Full cross-referential analysis
-- **Technical benefits**: Reduced latency, lower failure rate, simplified parsing
-
-### **Complete System Architecture**
-1. **Phase 1**: Comprehensive pattern validation (single LLM call) - **DETAILED DESIGN COMPLETE**
-2. **Phase 2**: Iterative content analysis with pattern context
-3. **Phase 3**: Completion assessment with multi-dimensional metrics
-
-### **Core Components**
-- **ComprehensivePatternValidator**: Handles single LLM call for all pattern phases
-- **PatternSetManager**: Configurable regex patterns
-- **DocumentScanner**: Full-document pattern matching
-- **KnowledgeTracker**: Progressive knowledge building
-
-### **Data Flow Architecture**
-- **Programmatic preprocessing**: Extract all pattern matches first
-- **Single LLM validation**: Comprehensive analysis of all patterns
-- **Iterative refinement**: Use validated patterns to enhance content analysis
-- **Completion assessment**: Multi-dimensional confidence scoring
-
-### **Implementation Status**
-- **Phase 1 (Pattern Discovery & Validation)**: Detailed design complete with comprehensive LLM call structure
-- **Phase 2 (Iterative Content Analysis)**: High-level design outlined, detailed implementation needed
-- **Phase 3 (Completion Assessment)**: Conceptual framework defined, detailed metrics and thresholds needed
-
-### **Next Steps**
-1. Review and refine Phase 2 iterative content analysis workflow
-2. Define detailed completion assessment metrics and scoring algorithms for Phase 3
-3. Specify component interfaces and integration points between phases
-4. Design configuration management and pattern customization system
-
 ## Overview
 
-This document outlines the architecture for intelligent document structure analysis using hybrid programmatic pattern detection and LLM validation. The system combines regex-based pattern matching with LLM intelligence to systematically discover and validate document numbering schemes, navigation structures, and content organization.
+This document specifies the architecture for intelligent document structure analysis using hybrid programmatic pattern detection and LLM validation. The system combines regex-based pattern matching with LLM intelligence to systematically discover document structure, validate patterns, and guide strategic page sampling for cost-effective detailed analysis.
+
+**Companion documents:**
+- [PATTERN_DETECTION_EVOLUTION.md](PATTERN_DETECTION_EVOLUTION.md) - Historical context and decision rationale
+- PATTERN_DETECTION_IMPLEMENTATION.md (future) - Detailed implementation guide
+- PATTERN_DETECTION_CONFIG.md (future) - Configuration reference
 
 ## System Goals
 
-- **Systematic Pattern Discovery**: Use configurable regex patterns to find potential document structure elements
+- **Strategic Sampling**: Use full-document pattern scanning to identify key pages for detailed analysis
+- **Cost Optimization**: Minimize expensive LLM calls through intelligent page selection
+- **Pattern Discovery**: Use configurable regex patterns to find document structure elements
 - **Intelligent Validation**: Leverage LLM analysis to distinguish valid patterns from false positives
 - **Iterative Refinement**: Build knowledge incrementally through multiple analysis cycles
-- **Cost Optimization**: Minimize expensive LLM calls through strategic programmatic preprocessing
-- **Configurable Patterns**: Support document-specific numbering schemes and formats
+- **Document Adaptability**: Support diverse document types with configurable patterns
 
-## Overall System Architecture
+---
 
-### **High-Level Data Flow**
+## Architecture Overview
+
+### Four-Phase Analysis Process
 
 ```
-Document Input
+Document Input (all pages)
     ↓
-[Phase 1: Pattern Discovery & Validation - SINGLE LLM CALL]
+┌─────────────────────────────────────────────────┐
+│ Phase 0: Document Structure Discovery          │
+│ - Full document regex scan (lightweight)       │
+│ - LLM analyzes pattern distribution            │
+│ - Recommends strategic page sampling           │
+└─────────────────────────────────────────────────┘
     ↓
-Programmatic Analysis → Comprehensive LLM Analysis → Unified Knowledge State
+    Selected Pages: [5, 6, 17, 19, 50, 120, ...]
     ↓
-[Phase 2: Iterative Content Analysis] 
+┌─────────────────────────────────────────────────┐
+│ Phase 1: Pattern Discovery & Validation        │
+│ - Sequential single-page processing            │
+│ - Comprehensive LLM validation per page        │
+│ - Knowledge accumulation across pages          │
+└─────────────────────────────────────────────────┘
     ↓
-LLM Content Analysis ← Updated Context ← Pattern Re-scanning
+    Validated Patterns + Confidence Scores
     ↓
-[Phase 3: Completion Assessment]
+┌─────────────────────────────────────────────────┐
+│ Phase 2: Iterative Content Analysis            │
+│ - LLM content analysis with pattern context    │
+│ - Iterative refinement based on findings       │
+└─────────────────────────────────────────────────┘
     ↓
-Knowledge Validation → Confidence Scoring → Analysis Complete
+    Enhanced Document Understanding
+    ↓
+┌─────────────────────────────────────────────────┐
+│ Phase 3: Completion Assessment                 │
+│ - Multi-dimensional completeness metrics       │
+│ - Determine analysis sufficiency               │
+└─────────────────────────────────────────────────┘
+    ↓
+    Complete Document Structure Analysis
 ```
 
-### **Core Components**
+### Key Architecture Principles
 
-#### **1. Programmatic Analysis Engine**
-- **PatternSetManager**: Configurable regex patterns for all content types
-- **DocumentScanner**: Full-document pattern matching and extraction
-- **KnowledgeTracker**: Tracks discovered patterns, confidence, gaps
-- **ProjectionEngine**: Generates expectations based on current knowledge
+1. **Pattern-Driven Sampling**: Let regex results guide page selection (not rigid formulas)
+2. **Sequential Single-Page Processing**: Avoid API timeouts while maintaining comprehensive analysis
+3. **Format Optimization**: Lightweight format for scanning, detailed format for validation
+4. **Knowledge Accumulation**: Progressive understanding across sequential pages
+5. **Hybrid Efficiency**: Programmatic preprocessing + strategic LLM usage
 
-#### **2. LLM Integration Layer** 
-- **ComprehensivePatternValidator**: Single LLM call for all pattern validation phases
-- **ContentAnalyzer**: LLM analysis of document content with pattern context
-- **CompletionAssessor**: LLM-driven analysis completeness evaluation
+---
 
-#### **3. Knowledge Management**
-- **DocumentKnowledgeBase**: Persistent storage of discovered patterns
-- **CompletionAssessment**: Multi-dimensional analysis completeness scoring
-- **ValidationPriorities**: Dynamic prioritization of uncertain areas
+## Phase 0: Document Structure Discovery
 
-## Phase 1: Pattern Discovery & Validation (SINGLE LLM CALL)
+### Purpose
 
-### **Comprehensive Pattern Analysis Architecture**
+Analyze the entire document structure using lightweight regex pattern matching to identify document regions and recommend strategic page sampling for detailed Phase 1 analysis.
 
-**Key Design Decision**: All pattern validation phases (1A, 1B, 1C) are executed in a **single comprehensive LLM request** for optimal token efficiency, context preservation, and cross-referential analysis.
+### Process Flow
 
-### **Phase 1 Process Flow**
+1. **Document Flattening**: Convert block-based format to line-based format optimized for regex scanning
+2. **Regex Scanning**: Execute pattern matching across all document pages with location tracking
+3. **Match Sampling**: Apply parameterized sampling to reduce LLM input size (front + back + random middle)
+4. **LLM Analysis**: Analyze pattern distribution and recommend pages for Phase 1
+5. **Output**: List of page numbers for detailed analysis
 
-Phase 1 consists of three distinct stages that work together to produce validated pattern intelligence:
+### Input Format
 
-#### **Stage 1: Programmatic Preprocessing**
-- **PatternSetManager**: Load and configure regex patterns for different document types
-- **DocumentScanner**: Execute full-document regex scanning for all pattern types
-- **DataPreparation**: Format regex matches with font/context metadata for LLM analysis
+**Line-based document** (optimized for efficient regex scanning):
+- Page number + line number (page-relative) + text content
+- Minimal metadata (no font information needed for scanning)
+- Flat structure for fast regex processing
 
-#### **Stage 2: LLM Analysis (Single Comprehensive Call)**
-- **ComprehensivePatternValidator**: Send all preprocessed regex matches to LLM
-- **Sub-phase 1A**: Section pattern validation and false positive filtering
-- **Sub-phase 1B**: TOC/navigation pattern validation and structure extraction
-- **Sub-phase 1C**: Cross-validation, conflict resolution, and unified synthesis
+*See Appendix B for detailed format specification*
 
-#### **Stage 3: Post-LLM Processing**
-- **KnowledgeTracker**: Store validated patterns and analysis priorities
-- **ContextPreparation**: Format results for Phase 2 iterative content analysis
+### Regex Pattern Categories
 
-### **⚠️ Design Gap: Confidence Calculation**
+Phase 0 uses patterns to identify:
+- **Navigation indicators**: TOC headings, list headings, TOC entries
+- **Section structure**: Hierarchical sections, chapter headings, appendix markers
+- **Content indicators**: Figure titles, table titles, equation numbers
+- **Document regions**: Front matter, back matter, annex markers
 
-**IMPORTANT**: While confidence scores appear throughout Phase 1 outputs (e.g., `"confidence": "high"`, numerical scores like `0.95`), **the confidence calculation methodology is not yet defined**.
+*See Appendix A for complete pattern catalog*
 
-**Missing Specifications**:
-- How confidence scores are calculated (programmatic metrics vs LLM assessment)
-- Integration with existing `ConfidenceLevel` enum (HIGH/MEDIUM/LOW)
-- Confidence adjustment algorithms for cross-validation
-- Threshold definitions for confidence levels
+### Match Sampling Strategy
 
-This must be specified before Phase 1 implementation begins.
+To keep LLM input manageable, apply parameterized sampling:
+- **Small sets (≤10 matches)**: Include all
+- **Medium sets (11-30 matches)**: Front 3 + Back 3 + Random 3
+- **Large sets (>30 matches)**: Front 3 + Back 3 + Random 5
 
-### **Programmatic Pattern Consistency Framework**
+Example: 132 TOC entries → 11 sampled entries (3+5+3)
 
-#### **Font Consistency Analysis**
+*See Appendix C for detailed algorithm*
 
-Font consistency will be measured across multiple parameter combinations for each text type (section headers level 1/2/3, document headers, footers). Each text element has three independent font dimensions:
+### LLM Sampling Guidance
 
-- **Font Family**: TimesNewRoman, Arial, Helvetica, etc.
-- **Font Size**: 10pt, 12pt, 14pt, etc. (assuming rounding completed in preprocessing)
-- **Font Style**: Regular, Bold, Italic, Bold+Italic
+The LLM receives sampled regex results and is guided to:
+- **Prioritize pattern-rich pages**: Pages with navigation markers (TOC, lists) are high-value
+- **Ensure document coverage**: Sample across full document span
+- **Weight toward boundaries**: Slightly favor first and last 20% (navigation and reference content)
+- **Maintain diversity**: Avoid clustering, prefer distributed sampling
 
-**Parameter Combination Analysis**: Seven consistency calculations will be performed for each text type:
+**Key principle**: Sampling is **pattern-driven** (based on where interesting content was found) rather than **formula-driven** (rigid percentages).
 
-**Single Parameters (3)**:
-- Font Family only
-- Font Size only
-- Font Style only
+### Output
 
-**Two-Parameter Combinations (3)**:
-- Font Family + Font Size
-- Font Family + Font Style
-- Font Size + Font Style
-
-**Three-Parameter Combination (1)**:
-- Font Family + Font Size + Font Style (complete font signature)
-
-**Consistency Calculation Method**: Distribution-based consistency measuring the proportion of instances that match the most common value within each parameter combination. For example, if 99 instances use "TimesNewRoman" and 1 uses "Arial", the font family consistency is 99/100 = 0.99.
-
-**Text Type Considerations**: Different text types have different consistency expectations:
-- **Section Headers**: Expected to be highly consistent within each hierarchical level
-- **Document Headers/Footers**: May have legitimate variations (page numbers, chapter titles, dates)
-
-**⚠️ Decision Integration TBD**: How these consistency scores will be weighted, combined, and used to influence overall confidence calculations remains to be determined.
-
-#### **Section Completeness Analysis**
-
-**Missing Section Detection**: Programmatically identify missing sections through hierarchical and sequence implications. Child sections imply parent existence (e.g., `1.2.3` implies `1.2` and `1` must exist). Found sections imply complete sequences up to the highest number at each level (e.g., finding `2.5` implies `2.1, 2.2, 2.3, 2.4` should exist).
-
-**TOC Cross-Reference Completeness**: Compare found sections against all discovered Table of Contents entries across all TOC pages. Calculate what percentage of TOC-promised sections are actually found in the document.
-
-**Combined Implication Analysis**: Merge expectations from both section sequence analysis and TOC discovery to create comprehensive expected section set. All TOC entries generate their own hierarchical implications (e.g., TOC entry `4.1.1` implies complete sequence `1, 2, 3, 4, 4.1` should exist).
-
-**Completeness Metrics**:
-- **Section Sequence Completeness**: `found_sections / (found_sections + section_implied_missing)`
-- **TOC Completeness**: `found_toc_sections / total_toc_sections_across_all_pages`
-- **Comprehensive Completeness**: `found_sections / total_expected_from_all_implications`
-
-**⚠️ Decision Integration TBD**: How completeness scores will be weighted and used in confidence calculations remains to be determined.
-
-#### **Combined Input Data Structure**
-
-```python
-comprehensive_pattern_input = {
-    "section_pattern_matches": {
-        "decimal_pattern": {
-            "regex": r"(\d+(?:\.\d+)*)",
-            "matches": [
-                {"page": 1, "line": 5, "text": "1.1 Introduction", "match": "1.1", 
-                 "font": "TimesNewRomanPS-BoldMT", "size": "12.0pt"},
-                {"page": 2, "line": 8, "text": "version 2.1 of the", "match": "2.1", 
-                 "font": "TimesNewRomanPSMT", "size": "10.0pt"}
-            ]
-        },
-        "chapter_pattern": {
-            "regex": r"(Chapter\s+\d+)",
-            "matches": [...]
-        }
-    },
-    "toc_pattern_matches": {
-        "toc_title_patterns": {
-            "table_of_contents": {"matches": [...]},
-            "contents": {"matches": [...]}
-        },
-        "toc_entry_patterns": {
-            "dotted_leader": {"matches": [...]},
-            "simple_spacing": {"matches": [...]}
-        },
-        "list_of_figures_patterns": {...},
-        "list_of_tables_patterns": {...}
-    },
-    "document_context": {
-        "total_pages": 10,
-        "body_text_font": "TimesNewRomanPSMT",
-        "body_text_size": "10.0pt"
-    }
+Simple list of page numbers for Phase 1 analysis:
+```json
+{
+  "pages_to_analyze": [5, 6, 17, 19, 50, 120, 250, 305, 420, 550, 630, 685, 720, 750],
+  "total_pages": 14,
+  "rationale": "4 navigation pages, 10 content pages distributed across document"
 }
 ```
 
-#### **Single LLM Request Structure**
+---
 
-```python
-comprehensive_analysis_prompt = {
-    "task": "Comprehensive document pattern analysis in three sequential phases within single response",
-    "phases": {
-        "phase_1a": {
-            "name": "Section Numbering Pattern Analysis",
-            "input": "section_pattern_matches",
-            "tasks": [
-                "Identify valid section heading patterns vs false positives",
-                "Determine hierarchical heading levels from numbering depth", 
-                "Filter non-heading matches based on font/context",
-                "Generate section numbering hypothesis with confidence"
-            ]
-        },
-        "phase_1b": {
-            "name": "TOC/Navigation Pattern Analysis", 
-            "input": "toc_pattern_matches",
-            "tasks": [
-                "Identify actual TOC/LOF/LOT sections vs false matches",
-                "Extract document structure expectations from navigation",
-                "Determine entry formats and numbering schemes",
-                "Generate navigation structure hypothesis"
-            ]
-        },
-        "phase_1c": {
-            "name": "Unified Hypothesis Synthesis",
-            "input": "phase_1a_results + phase_1b_results + all_raw_data",
-            "tasks": [
-                "Cross-validate section patterns against TOC structure",
-                "Resolve conflicts between section and navigation analyses",
-                "Adjust confidence scores based on cross-validation",
-                "Create unified document structure hypothesis",
-                "Prioritize validation tasks for content analysis"
-            ]
-        }
-    }
+## Phase 1: Pattern Discovery & Validation
+
+### Purpose
+
+Perform comprehensive pattern validation on selected pages using sequential single-page analysis. Each page receives one comprehensive LLM call that performs section validation, TOC validation, and cross-validation together.
+
+**Key design decision**: Single-page processing prevents API timeouts while maintaining comprehensive analysis capabilities.
+
+### Process Flow
+
+1. **Load Page**: Retrieve page with detailed format (blocks, font metadata, text lines)
+2. **Comprehensive LLM Call**: Analyze page for sections, TOC entries, figures, tables, equations
+3. **Knowledge Update**: Accumulate findings into growing document structure understanding
+4. **Next Page**: Repeat for each selected page, carrying forward accumulated knowledge
+
+### Input Format
+
+**Detailed page structure** (provides rich context for pattern validation):
+- Blocks with font metadata (font family, size, style)
+- Text lines as arrays (index = line number within page)
+- Positioning information (y0, x0 coordinates)
+
+*See Appendix B for detailed format specification*
+
+### Comprehensive Single-Page Analysis
+
+Each LLM call performs all validation tasks together:
+- **Section identification**: Find genuine section headings, distinguish from false positives
+- **TOC recognition**: Identify table of contents entries and structure
+- **Content detection**: Find figures, tables, equations
+- **Cross-validation**: Validate patterns against each other (e.g., sections vs TOC structure)
+- **Hypothesis synthesis**: Update document structure understanding with confidence scores
+
+### Knowledge Accumulation
+
+As pages are processed sequentially, the system accumulates:
+- **Confirmed patterns**: Validated section numbering schemes, figure numbering formats
+- **Expected elements**: Sections/figures implied by TOC but not yet found
+- **Font signatures**: Consistent font usage for different content types
+- **Confidence evolution**: Pattern confidence increases with supporting evidence
+
+This accumulated knowledge informs analysis of subsequent pages.
+
+### Output
+
+Validated document structure with confidence scores:
+```json
+{
+  "document_structure": {
+    "primary_numbering_scheme": "decimal_hierarchical",
+    "section_levels": [1, 2, 3, 4],
+    "confidence": 0.95
+  },
+  "navigation_structure": {
+    "toc_pages": [5, 6, 7],
+    "list_of_figures": [17],
+    "confidence": 0.90
+  },
+  "content_patterns": {
+    "figures": {"format": "Figure X-Y", "confidence": 0.85},
+    "tables": {"format": "Table X-Y", "confidence": 0.80}
+  },
+  "validation_priorities": [
+    "Verify appendix numbering (limited samples)",
+    "Confirm table patterns (need more diversity)"
+  ]
 }
 ```
 
-#### **Single Response Output Structure**
-
-```python
-comprehensive_pattern_result = {
-    "phase_1a_section_analysis": {
-        "primary_pattern": {
-            "name": "decimal_pattern",
-            "confidence": "high",
-            "heading_levels": [1, 2, 3],
-            "false_positives": [...],
-            "missing_sections": [...]
-        },
-        "rejected_patterns": [...],
-        "evidence_summary": "..."
-    },
-    "phase_1b_toc_analysis": {
-        "navigation_sections": [
-            {"type": "table_of_contents", "location": "page_2", "confidence": "high"},
-            {"type": "list_of_figures", "location": "page_4", "confidence": "high"}
-        ],
-        "implied_structure": {
-            "sections": {"expected_sections": [...], "numbering_scheme": "decimal"},
-            "figures": {"expected_figures": [...], "gaps": [...]},
-            "tables": {"expected_tables": [...]}
-        }
-    },
-    "phase_1c_unified_synthesis": {
-        "document_structure": {
-            "primary_numbering": {...},
-            "secondary_numbering": [...]
-        },
-        "cross_validation_results": {
-            "alignments": [...],
-            "conflicts": [...],
-            "confidence_adjustments": [...]
-        },
-        "expected_document_elements": {
-            "sections": [...],
-            "figures": [...], 
-            "tables": [...]
-        },
-        "validation_priorities": [
-            {"priority": "high", "task": "verify_missing_section_2.2", "reason": "implied by 2.2.1 but not in TOC"},
-            {"priority": "medium", "task": "confirm_level_3_headings", "reason": "section analysis found evidence, TOC doesn't show them"}
-        ]
-    },
-    "overall_confidence": {
-        "section_numbering": 0.95,
-        "navigation_structure": 0.85,
-        "cross_validation": 0.90
-    }
-}
-```
-
-### **Sequential Single-Call Analysis Approach**
-
-**Core Design**: Each page group receives **one comprehensive LLM call** performing all analysis tasks (pattern validation, section identification, TOC analysis, cross-validation) to maintain token efficiency and context preservation benefits.
-
-**Sequential Processing**: Due to context window limitations, analysis proceeds through sequential page groups with knowledge accumulation:
-
-#### **Single Call Per Group Benefits**
-- **Token Efficiency**: One comprehensive call vs multiple separate calls on same pages
-- **Context Preservation**: Full cross-referential analysis within each page group
-- **Unified Analysis**: All pattern validation tasks performed together with shared context
-
-#### **Sequential Group Process**
-- **Group 1** (4 consecutive pages): Comprehensive analysis → initial patterns and knowledge
-- **Group 2** (4 consecutive pages): Comprehensive analysis + Group 1 knowledge → refined understanding
-- **Group 3** (4 consecutive pages): Comprehensive analysis + accumulated knowledge → final patterns
-- **Individual Pages**: Comprehensive validation call using established pattern knowledge
-
-#### **Knowledge Accumulation Between Groups**
-- **Confirmed Sections**: High-confidence section identifications carry forward
-- **Pattern Performance**: Regex pattern effectiveness tracked across groups
-- **Working Hypotheses**: Document structure possibilities with evolving confidence
-- **LLM Decision Authority**: LLM acts as final arbiter of section identification and confidence scoring
-
-#### **Comprehensive Analysis Per Call**
-Each single LLM call performs:
-- **Direct Section Identification**: Analyze page content for genuine section headings
-- **Regex Pattern Cross-Reference**: Evaluate all regex matches against identified sections
-- **TOC Structure Recognition**: Identify and validate table of contents patterns
-- **Knowledge Integration**: Synthesize findings with previous group knowledge
-- **Hypothesis Management**: Update confidence in competing document structure theories
+---
 
 ## Phase 2: Iterative Content Analysis
 
-### **Enhanced LLM Context from Phase 1**
+### Purpose
 
-Phase 1's comprehensive analysis provides rich context for content analysis:
+Use validated patterns from Phase 1 to enhance LLM analysis of document content, with iterative refinement based on new findings.
 
-```python
-llm_content_context = {
-    "validated_patterns": {
-        "primary_section_pattern": "decimal (1.1, 1.2, 2.1)",
-        "confirmed_heading_levels": [1, 2, 3],
-        "navigation_structure": "TOC on page 2, LOF on page 4"
-    },
-    "expected_elements": [
-        {"type": "section", "number": "2.2", "status": "missing_implied_by_2.2.1"},
-        {"type": "figure", "number": "Figure 1.2", "status": "gap_in_sequence"}
-    ],
-    "validation_requests": [
-        "Flag any section numbering not matching decimal pattern",
-        "Report figure numbers higher than Figure 2.5",
-        "Look specifically for missing section 2.2"
-    ],
-    "confidence_levels": {
-        "section_detection": 0.95,
-        "figure_detection": 0.75,
-        "table_detection": 0.80
-    }
-}
-```
+### Enhanced Context from Phase 1
 
-### **Iterative Knowledge Updates**
+Phase 2 LLM calls receive rich context:
+- Validated numbering schemes and formatting patterns
+- Expected document elements (from TOC or section implications)
+- Font signatures for different content types
+- Specific validation requests ("look for missing section 6.4.3")
 
-```
-For Each LLM Content Batch:
-    ↓
-Execute LLM Analysis with Phase 1 Context
-    ↓
-Extract New Findings → Compare Against Phase 1 Expectations
-    ↓
-Update Knowledge State → Run Full Document Regex Re-scan
-    ↓
-Generate Updated Projections → Prepare Next Batch Context
-```
+### Iterative Process
+
+1. Execute LLM analysis with Phase 1 pattern context
+2. Extract new findings and compare against Phase 1 expectations
+3. Update knowledge state and adjust pattern confidence
+4. Generate updated projections for next analysis batch
+
+This iterative approach progressively refines document understanding.
+
+---
 
 ## Phase 3: Completion Assessment
 
-### **Multi-Dimensional Completion Metrics**
+### Purpose
 
-Building on Phase 1's comprehensive foundation:
+Evaluate analysis completeness using multi-dimensional metrics to determine when sufficient understanding has been achieved.
 
+### Completion Metrics
+
+- **Pattern validation completeness**: All major pattern types validated
+- **Content coverage**: Percentage of expected elements found
+- **Validation priorities**: High-priority tasks addressed
+- **Knowledge gaps**: Identified gaps resolved
+- **Overall completeness score**: Combined metric determining analysis sufficiency
+
+### Threshold-Based Decision
+
+When completeness metrics exceed configured thresholds (e.g., 0.75 overall), analysis is considered complete. Otherwise, additional iterations or sampling may be recommended.
+
+---
+
+## Key Design Decisions
+
+### Why Phase 0 Exists
+
+**Problem**: Analyzing all 756 pages with LLM is prohibitively expensive.
+
+**Solution**: Phase 0 performs cheap regex scan across full document, then uses LLM once to recommend which pages are most valuable for detailed analysis.
+
+**Benefit**: $2-3 for Phase 0 + $20-30 for Phase 1 (20 pages) vs $500+ for full document analysis.
+
+### Why Single-Page Processing
+
+**Problem**: Multi-page LLM requests caused API timeouts and reliability issues.
+
+**Solution**: Process one page at a time sequentially, accumulating knowledge between pages.
+
+**Benefit**: Consistent performance, no timeouts, still maintains comprehensive analysis through knowledge accumulation.
+
+*See PATTERN_DETECTION_EVOLUTION.md for detailed analysis*
+
+### Why Different Formats for Phase 0 vs Phase 1
+
+**Phase 0 Format** (line-based):
+- **Purpose**: Fast regex scanning across full document
+- **Optimization**: Minimal metadata, flat structure
+- **Trade-off**: No font information, but scanning speed critical
+
+**Phase 1 Format** (detailed blocks):
+- **Purpose**: Rich context for pattern validation
+- **Optimization**: Font metadata, positioning, block grouping
+- **Trade-off**: Larger data size, but only processing ~20 pages
+
+### Why Pattern-Driven Sampling
+
+**Alternative approach**: Use rigid formulas (e.g., "10% of pages from front matter")
+
+**Chosen approach**: Let regex results guide sampling (prioritize pages with navigation markers)
+
+**Rationale**: Documents vary widely in structure. Pattern-driven approach adapts to actual document organization rather than assuming uniform structure.
+
+---
+
+## Appendix A: Regex Pattern Catalog
+
+### Navigation/TOC Indicators
 ```python
-completion_assessment = {
-    "pattern_validation_complete": {
-        "section_numbering": True,   # Phase 1 validated decimal pattern
-        "navigation_structure": True, # Phase 1 confirmed TOC/LOF structure
-        "cross_validation": True     # Phase 1 resolved conflicts
-    },
-    "content_analysis_progress": {
-        "expected_sections_found": 0.85,  # 85% of Phase 1 expectations confirmed
-        "validation_priorities_addressed": 0.70,  # 70% of high-priority validations complete
-        "knowledge_gaps_resolved": 0.60   # 60% of identified gaps filled
-    },
-    "overall_completeness": 0.78
+{
+    "toc_heading": r"^(Table of Contents|Contents|List of (Tables|Figures|Equations))$",
+    "toc_entry": r"^([A-Z]?[\d\.]+|Figure|Table)\s+.+\s+\.{3,}\s+(\d+)$",
+    "list_heading": r"^List of (Tables|Figures)$"
 }
 ```
 
-## Component Interfaces
+### Section Structure Patterns
+```python
+{
+    "hierarchical_section": r"^(\d+\.[\d\.]+)\s+([A-Z][A-Za-z0-9 ,\-()]+)$",
+    "appendix_section": r"^([A-Z]\.\d+(?:\.\d+)*)\s+([A-Z][A-Za-z0-9 ,\-()]+)$",
+    "chapter_heading": r"^(Chapter|Section|Part|Appendix)\s+(\d+|[A-Z])[\s:]"
+}
+```
 
-### **ComprehensivePatternValidator** (Core Component)
+### Content Type Indicators
+```python
+{
+    "figure_title": r"^Figure\s+([A-Z]?[\d\-]+)\s+[–\-]\s+(.+)$",
+    "table_title": r"^Table\s+([\d\-]+)\s+[–\-]\s+(.+)$",
+    "equation_number": r"\((\d+\-\d+)\)$"
+}
+```
+
+### Document Region Markers
+```python
+{
+    "front_matter": r"^(Abstract|Foreword|Preface|Executive Summary|Introduction)$",
+    "back_matter": r"^(References|Bibliography|Glossary|Index|Acronyms|Abbreviations)$",
+    "annex_marker": r"^(Annex|Appendix)\s+([A-Z])[\s:]?"
+}
+```
+
+---
+
+## Appendix B: Data Format Specifications
+
+### Phase 0 Line-Based Format
+
+Optimized for regex scanning across full document:
+
+```json
+{
+  "document_id": "h264_spec",
+  "total_pages": 756,
+  "pages": [
+    {
+      "page": 50,
+      "lines": [
+        {"line_num": 1, "text": "6.4.2.1 Inverse macroblock partition scanning process"},
+        {"line_num": 2, "text": "Input to this process is the index of a macroblock partition."},
+        {"line_num": 3, "text": ""}
+      ]
+    }
+  ]
+}
+```
+
+**Key characteristics**:
+- **Page-relative line numbers**: Explicit line numbering (1-indexed)
+- **Minimal metadata**: Only page, line_num, text
+- **Flat structure**: No blocks, no font information
+
+### Phase 1 Detailed Format
+
+Provides rich context for pattern validation:
+
+```json
+{
+  "page_index": 50,
+  "blocks": [
+    {
+      "text_lines": [
+        "6.4.2.1 Inverse macroblock partition scanning process"
+      ],
+      "font_name": "TimesNewRomanPS-BoldMT",
+      "font_size": 10.0,
+      "y0": 100.0,
+      "x0": 54.48
+    },
+    {
+      "text_lines": [
+        "Input to this process is the index of a macroblock partition mbPartIdx.",
+        "Output of this process is the location ( x, y ) of the upper-left luma sample."
+      ],
+      "font_name": "TimesNewRomanPSMT",
+      "font_size": 10.0,
+      "y0": 115.0,
+      "x0": 54.48
+    }
+  ]
+}
+```
+
+**Key characteristics**:
+- **Implicit line numbers**: Array index = line number (0-indexed array, presented as 1-indexed to LLM)
+- **Font metadata**: Family, size, style for pattern consistency analysis
+- **Positioning**: Y/X coordinates for spatial context
+- **Block grouping**: Related text lines grouped by formatting
+
+### Phase 0 Regex Scan Output
+
+Sampled matches with location tracking:
+
+```json
+{
+  "pattern_results": {
+    "toc_entries": {
+      "total_matches": 132,
+      "sampling_applied": "front_3_back_3_random_5",
+      "sampled_matches": [
+        {"page": 5, "line": 12, "text": "J.8.4 Initialization ........................... 485"},
+        {"page": 5, "line": 13, "text": "J.8.5 Decoding process ......................... 486"},
+        {"page": 6, "line": 8, "text": "0.1 Overview ................................... 1"}
+      ]
+    },
+    "section_headings": {
+      "total_matches": 1247,
+      "sampling_applied": "front_3_back_3_random_5",
+      "sampled_matches": [...]
+    }
+  }
+}
+```
+
+---
+
+## Appendix C: Sampling Strategy Algorithm
+
+Parameterized sampling to reduce LLM input size while maintaining representative coverage:
+
+```python
+def sample_matches(matches, threshold_low=10, threshold_high=30,
+                   front_count=3, back_count=3,
+                   random_medium=3, random_large=5):
+    """
+    Apply front + back + random middle sampling
+
+    Args:
+        matches: List of regex matches
+        threshold_low: Include all if N <= this
+        threshold_high: Switch to large random at this point
+        front_count: Items from beginning
+        back_count: Items from end
+        random_medium: Random items for medium sets
+        random_large: Random items for large sets
+
+    Returns:
+        Sampled subset of matches
+    """
+    N = len(matches)
+
+    if N <= threshold_low:
+        return matches  # All items
+
+    elif N <= threshold_high:
+        front = matches[:front_count]
+        back = matches[-back_count:]
+        middle = matches[front_count:-back_count]
+        random_middle = random.sample(middle, min(random_medium, len(middle)))
+        return front + random_middle + back
+
+    else:
+        front = matches[:front_count]
+        back = matches[-back_count:]
+        middle = matches[front_count:-back_count]
+        random_middle = random.sample(middle, min(random_large, len(middle)))
+        return front + random_middle + back
+```
+
+**Default parameters**: 10, 30, 3, 3, 3, 5
+
+**Example**: 132 matches → 3 + 5 + 3 = 11 sampled items
+
+---
+
+## Appendix D: Component Interfaces
+
+### Phase 0 Components
+
+```python
+class DocumentFlattener:
+    """Convert block-based document to line-based format"""
+    def flatten_document(self, doc_blocks: Dict) -> Dict:
+        """Returns: {"pages": [{"page": N, "lines": [...]}]}"""
+
+class DocumentScanner:
+    """Execute regex patterns across full document"""
+    def scan_full_document(self, flattened_doc: Dict, patterns: Dict) -> Dict:
+        """Returns: {"pattern_name": {"total_matches": N, "matches": [...]}}"""
+
+class SamplingStrategy:
+    """Apply parameterized sampling to matches"""
+    def sample(self, matches: List, params: SamplingParams) -> List:
+        """Returns: Sampled subset of matches"""
+
+class LLMSamplingAdvisor:
+    """Generate page sampling strategy via LLM"""
+    def recommend_sampling(self, regex_summary: Dict) -> List[int]:
+        """Returns: List of page numbers to analyze in Phase 1"""
+```
+
+### Phase 1 Components
 
 ```python
 class ComprehensivePatternValidator:
-    """Single LLM call handler for all pattern validation phases"""
-    
-    def analyze_all_patterns(
-        self, 
-        section_patterns: Dict, 
-        toc_patterns: Dict, 
-        context: Dict
-    ) -> ComprehensivePatternResult:
-        """
-        Execute Phases 1A, 1B, and 1C in single LLM request
-        
-        Returns:
-            ComprehensivePatternResult with all three phases
-        """
-        
-    def _build_comprehensive_prompt(self, section_patterns: Dict, toc_patterns: Dict) -> str:
-        """Build single structured prompt for all phases"""
-        
-    def _parse_comprehensive_response(self, response: str) -> ComprehensivePatternResult:
-        """Parse single response containing all three phases"""
+    """Single LLM call handler for pattern validation"""
+    def analyze_page(self, page_data: Dict, knowledge_state: Dict) -> PageAnalysisResult:
+        """Execute comprehensive pattern validation for single page"""
+
+class KnowledgeTracker:
+    """Accumulate knowledge across sequential page analysis"""
+    def update(self, page_result: PageAnalysisResult):
+        """Update knowledge state with new page findings"""
+
+    def get_context_for_next_page(self) -> Dict:
+        """Get accumulated knowledge for next page analysis"""
 ```
 
-### **PatternSetManager**
+---
 
-```python
-class PatternSetManager:
-    def __init__(self, config_path: Optional[str] = None):
-        """Load configurable pattern definitions"""
-        
-    def get_all_patterns(self) -> Dict[str, Dict]:
-        """Get all patterns for comprehensive analysis"""
-        
-    def add_custom_pattern(self, pattern_type: str, name: str, regex: str):
-        """Add document-specific pattern"""
-```
+## Summary
 
-### **DocumentScanner**
+The Pattern Detection Architecture provides a four-phase approach balancing cost efficiency, analysis quality, and system reliability:
 
-```python
-class DocumentScanner:
-    def scan_full_document(self, document_data: Dict, patterns: Dict) -> Dict:
-        """Run all patterns on entire document for Phase 1 input"""
-        
-    def rescan_with_new_patterns(self, additional_patterns: List) -> Dict:
-        """Re-scan document when Phase 1 suggests new patterns"""
-```
+1. **Phase 0**: Pattern-driven strategic sampling (cheap, full document)
+2. **Phase 1**: Sequential comprehensive validation (expensive, selected pages)
+3. **Phase 2**: Iterative content analysis (context-enhanced)
+4. **Phase 3**: Completeness assessment (confidence-based)
 
-## Configuration Management
-
-### **Pattern Configuration**
-
-```yaml
-# config/patterns.yaml
-comprehensive_analysis:
-  single_llm_call: true
-  phases_included: ["1a_section", "1b_toc", "1c_synthesis"]
-  
-section_patterns:
-  decimal:
-    regex: '(\d+(?:\.\d+)*)'
-    description: 'Standard decimal numbering (1.1, 1.1.1)'
-  chapter:
-    regex: '(Chapter\s+\d+)'
-    description: 'Chapter-style headings'
-    
-toc_patterns:
-  dotted_leader:
-    regex: '(\d+(?:\.\d+)*)\s+(.+?)\s+\.{3,}\s+(\d+)'
-    description: 'TOC entries with dotted leaders'
-    
-completion_thresholds:
-  headers_footers: 0.95
-  section_headings: 0.90
-  table_figures: 0.85
-```
-
-## Benefits of Single LLM Call Architecture
-
-### **Technical Advantages**
-- **Token Efficiency**: ~20K token savings vs three separate calls
-- **Context Preservation**: Complete cross-referential analysis capability
-- **Reduced Latency**: Single network round-trip vs three sequential calls
-- **Lower Failure Rate**: Single point of failure vs multiple API calls
-
-### **Analysis Quality Benefits**
-- **Comprehensive Cross-Validation**: Section patterns immediately validated against TOC
-- **Holistic Confidence Assessment**: Unified confidence scoring across all pattern types  
-- **Real-Time Conflict Resolution**: Immediate reconciliation of discrepancies
-- **Unified Knowledge Base**: Single authoritative source of pattern validation results
-
-### **Implementation Benefits**
-- **Simplified Architecture**: One response parser vs coordinating three
-- **Atomic Operations**: All-or-nothing pattern validation
-- **Easier Testing**: Single comprehensive response to validate
-- **Cleaner Error Handling**: Simplified failure scenarios and recovery logic
-
-This architecture provides a robust foundation for intelligent document structure analysis while optimizing for cost, performance, and analysis quality through the strategic use of a single comprehensive LLM call for all pattern validation phases.
-
-## Empirical Pattern Discovery Methodology (Implementation Evolution)
-
-### **Background: Prompt Complexity Investigation**
-
-During implementation, systematic analysis revealed critical scaling issues with the original comprehensive LLM approach:
-
-- **Multi-objective overload**: 845-line prompt attempting 6 simultaneous analysis tasks created computational complexity explosion
-- **Template matching bias**: Prescriptive format examples hindered genuine pattern discovery
-- **Request size bottleneck**: 77% larger data + 39% larger prompt caused API timeouts at just 2 pages
-- **Architectural mismatch**: Current multi-objective extraction approach conflicted with designed iterative pattern methodology
-
-### **Evolved Approach: Extract → Analyze → Scale**
-
-Based on findings, the Pattern Detection Architecture has evolved to emphasize **empirical pattern discovery** through systematic prompt optimization:
-
-#### **Phase 1: Systematic Prompt Prototyping**
-**Objective**: Identify optimal prompt architecture through systematic testing
-
-**Prototype Matrix**:
-1. **Single-objective, single-page**: "Find TOC entries on this page"
-2. **Single-objective, multi-page**: "Find TOC entries on these 2 pages"
-3. **Multi-objective, single-page**: "Find TOC entries and section headings on this page"
-4. **Multi-objective, multi-page**: "Find TOC entries and section headings on these 2 pages"
-
-**Data Format Independence**: Generic data structure explanation independent of search objectives, using template system with placeholders for `{data}`, `{objective}`, `{format_explanation}`.
-
-#### **Phase 2: Empirical Pattern Discovery**
-**Objective**: Build concrete pattern understanding from actual extraction results
-
-**Stage 2A - Direct Extraction**: Apply optimal prompt architecture to extract specific content types across multiple pages
-**Stage 2B - Pattern Analysis**: "Here are TOC entries found across pages 1-3: [results]. What specific patterns do you see?"
-**Stage 2C - Pattern Validation**: Cross-validate discovered patterns against original data for consistency
-
-#### **Phase 3: Hybrid Automation Architecture**
-**Objective**: Scale using pattern-driven extraction strategies
-
-**Implementation Options**:
-- **Programmatic extraction**: Convert well-defined patterns to regex for simple cases
-- **Guided LLM extraction**: Use discovered patterns to focus LLM analysis for complex cases
-- **Hybrid approach**: Combine programmatic efficiency with LLM intelligence based on pattern complexity
-
-### **Integration with Original Design**
-
-The empirical methodology **extends** rather than replaces the original Pattern Detection Architecture:
-
-- **Preserves core principles**: Programmatic preprocessing + LLM validation + iterative refinement
-- **Addresses scaling issues**: Systematic prompt optimization prevents complexity explosion
-- **Maintains pattern focus**: Empirical discovery validates actual patterns vs theoretical assumptions
-- **Enables hybrid automation**: Graduated approach from LLM discovery to programmatic application
-
-### **Test Infrastructure Requirements**
-
-**Test Utility Design**:
-- **Template system**: Reusable prompt components with variable substitution
-- **Batch execution**: Matrix testing of prompt variants × data combinations
-- **Performance tracking**: Request size, timing, accuracy metrics for systematic comparison
-- **Results analysis**: Side-by-side comparison of prompt effectiveness
-
-This evolved methodology ensures the Pattern Detection Architecture scales effectively through systematic prompt optimization while maintaining the intelligent pattern discovery and validation principles of the original design.
+This architecture enables intelligent document structure analysis while minimizing LLM costs through strategic preprocessing and sampling.
