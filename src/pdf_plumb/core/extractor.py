@@ -493,9 +493,96 @@ class PDFExtractor:
 
         return comparison
 
+    def _process_blank_lines(self, lines_data: List[Dict]) -> List[Dict]:
+        """Remove blank lines and re-derive gaps around the removed lines.
+
+        Blank (whitespace-only) lines carry real vertical space that must be
+        folded into the surrounding gap rather than discarded, or downstream
+        block-merge decisions see an understated gap_before/gap_after wherever
+        a blank line intervenes between two visible lines.
+
+        Args:
+            lines_data: List of page data dictionaries containing lines
+
+        Returns:
+            List of page data dictionaries with blank lines removed and
+            gap_before/gap_after recomputed from the nearest non-blank
+            neighbours.
+        """
+        processed_pages = []
+
+        for page_data in lines_data:
+            page_lines = page_data.get("lines", [])
+            if not page_lines:
+                processed_pages.append(page_data)
+                continue
+
+            processed_lines = []
+            prev_line = None
+            page_height = page_data.get("page_height", 0)
+
+            for i, line in enumerate(page_lines):
+                if not line.get("text", "").strip():
+                    continue
+
+                new_line = line.copy()
+                new_line["original_line_number"] = line.get("line_number")
+
+                # --- Gap Before: from previous non-blank line's bottom ---
+                if prev_line is None:
+                    gap = line.get("bbox", {}).get("top", 0)
+                    new_line["gap_before"] = gap
+                else:
+                    prev_bottom = prev_line.get("bbox", {}).get("bottom")
+                    curr_top = line.get("bbox", {}).get("top")
+                    if prev_bottom is not None and curr_top is not None:
+                        gap = curr_top - prev_bottom
+                        if gap < 0:
+                            gap = 0
+                        new_line["gap_before"] = gap
+                    else:
+                        new_line["gap_before"] = None
+
+                # --- Gap After: to next non-blank line's top ---
+                next_line = None
+                for j in range(i + 1, len(page_lines)):
+                    if page_lines[j].get("text", "").strip():
+                        next_line = page_lines[j]
+                        break
+
+                if next_line is not None:
+                    curr_bottom = line.get("bbox", {}).get("bottom")
+                    next_top = next_line.get("bbox", {}).get("top")
+                    if curr_bottom is not None and next_top is not None:
+                        gap = next_top - curr_bottom
+                        if gap < 0:
+                            gap = 0
+                        new_line["gap_after"] = gap
+                    else:
+                        new_line["gap_after"] = None
+                else:
+                    line_bottom = line.get("bbox", {}).get("bottom")
+                    if line_bottom is not None and page_height is not None:
+                        gap = page_height - line_bottom
+                        if gap < 0:
+                            gap = 0
+                        new_line["gap_after"] = gap
+                    else:
+                        new_line["gap_after"] = None
+
+                new_line["line_number"] = len(processed_lines) + 1
+                processed_lines.append(new_line)
+                prev_line = new_line
+
+            processed_page = page_data.copy()
+            processed_page["lines"] = processed_lines
+            processed_pages.append(processed_page)
+
+        return processed_pages
+
     def save_results(self, results: Dict, output_dir: str, base_name: str) -> None:
         """Save extraction results to files.
-        
+
         Args:
             results: Dictionary containing extraction results
             output_dir: Directory to save results in
@@ -503,12 +590,13 @@ class PDFExtractor:
         """
         # Update FileHandler's output directory
         self.file_handler.output_dir = output_dir
-        
-        # Save full lines data
+
+        # Save full lines data (unfiltered - includes blank lines)
         self.file_handler.save_json(results["lines_json_by_page"], base_name, "full_lines")
-        
-        # Save lines data (already processed in _process_words)
-        self.file_handler.save_json(results["lines_json_by_page"], base_name, "lines")
+
+        # Save lines data with blank lines removed and gaps re-derived around them
+        processed_lines = self._process_blank_lines(results["lines_json_by_page"])
+        self.file_handler.save_json(processed_lines, base_name, "lines")
         
         # Save raw words data
         self.file_handler.save_json(results["raw_words_by_page"], base_name, "words")

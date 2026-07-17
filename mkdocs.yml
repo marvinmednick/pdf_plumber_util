@@ -32,6 +32,7 @@ nav:
   - Project README: readme.md
   - Development Guide: development.md
   - CLI Usage: cli-usage.md
+  - Output Files: output-files.md
   - Architecture: architecture.md
   - Status: status.md
   - Design Decisions: design-decisions.md

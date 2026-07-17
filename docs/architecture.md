@@ -75,6 +75,25 @@ Document Structure + Analysis Reports
 
 **Diagnostic Visualization**: At any processing stage, visualization can be applied for debugging and troubleshooting - examining extraction results, spacing patterns, block formation, classification decisions, or boundary validation.
 
+### Concrete File Chain
+
+The conceptual flow above maps to specific output files as follows:
+
+```
+document.pdf
+    ↓ extract
+{basename}_full_lines.json, {basename}_lines.json
+    ↓ analyze
+{basename}_blocks.json, {basename}_analysis.txt
+    ↓ llm-analyze
+llm_{focus}_{timestamp}_results.json
+```
+
+`{basename}_lines.json` (blank lines removed, gaps re-derived) is the primary
+input to both `analyze` and `llm-analyze` — see the
+[Output Files Reference](output-files.md) for the full schema of every file
+and what each field means.
+
 ### Core Components
 
 #### 1. PDF Extraction Engine (`src/pdf_plumb/core/extractor.py`)

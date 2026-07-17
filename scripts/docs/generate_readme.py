@@ -6,7 +6,8 @@ the links to work correctly in the mkdocs documentation site context.
 
 Link Transformations:
 - docs/cli-usage.md → cli-usage.md
-- docs/architecture.md → architecture.md  
+- docs/output-files.md → output-files.md
+- docs/architecture.md → architecture.md
 - docs/design-decisions.md → design-decisions.md
 - CLAUDE.md → development.md
 
@@ -30,7 +31,8 @@ def transform_readme_links(content: str) -> str:
     # Link mappings for docs context
     link_mappings = {
         "docs/cli-usage.md": "cli-usage.md",
-        "docs/architecture.md": "architecture.md", 
+        "docs/output-files.md": "output-files.md",
+        "docs/architecture.md": "architecture.md",
         "docs/design-decisions.md": "design-decisions.md",
         "CLAUDE.md": "development.md"
     }

@@ -113,11 +113,14 @@ uv run pdf-plumb --profile technical extract document.pdf \
 ```
 
 #### Output Files
-- `{basename}_lines.json` - Structured line data with gaps and fonts (main input for analysis)
+- `{basename}_full_lines.json` - Raw line data including blank lines (unfiltered ground truth)
+- `{basename}_lines.json` - Structured line data with blank lines removed and gaps re-derived (main input for analysis)
 - `{basename}_words.json` - Raw word-level data (for debugging)
 - `{basename}_compare.json` - Extraction method comparison (for debugging)
 - `{basename}_info.json` - Metadata and extraction statistics
 - `{basename}_visualized.pdf` - Visualization overlay (if requested)
+
+See [Output Files Reference](output-files.md) for the full JSON schemas.
 
 ### 2. Analyze Command
 
@@ -148,6 +151,8 @@ uv run pdf-plumb analyze output/document_lines.json -f my_analysis.txt
 #### Output Files
 - `{basename}_analysis.txt` - Human-readable analysis report
 - `{basename}_blocks.json` - Block-level document structure
+
+See [Output Files Reference](output-files.md) for the full JSON schema.
 
 ### 3. Process Command (Recommended)
 
@@ -200,9 +205,9 @@ uv run pdf-plumb --profile technical process document.pdf \
 ```
 
 #### Output Files
-All files from extract + analyze commands plus:
-- `{basename}_spacing.pdf` - Line spacing visualization
-- `{basename}_block_spacing.pdf` - Block spacing visualization
+All files from the extract and analyze commands (see above), run as a single
+in-memory pipeline. See [Output Files Reference](output-files.md) for the
+complete list and schemas.
 
 ### 4. LLM Analyze Command
 
@@ -660,16 +665,17 @@ After running `uv run -m pdf_plumb.cli process document.pdf`, expect these files
 
 ```
 output/
-├── document_lines.json           # Main structured data
+├── document_full_lines.json      # Raw line data, including blank lines
+├── document_lines.json           # Main structured data (blanks removed, gaps re-derived)
 ├── document_words.json           # Raw word data
 ├── document_compare.json         # Method comparison (debugging)
 ├── document_info.json            # Metadata
 ├── document_analysis.txt         # Human-readable analysis
 ├── document_blocks.json          # Block structure
-├── document_visualized.pdf       # Spacing visualization
-├── document_spacing.pdf          # Line spacing overlay
-└── document_block_spacing.pdf    # Block spacing overlay
+└── document_visualized.pdf       # Spacing visualization (only with --visualize-spacing)
 ```
+
+See [Output Files Reference](output-files.md) for the full schema of each file.
 
 ## Troubleshooting
 
