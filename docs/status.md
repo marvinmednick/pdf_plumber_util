@@ -20,6 +20,12 @@
 
 ## Last Completed Work
 
+**Pre-LLM Statistical Analysis Pipeline Documentation**:
+- Created `docs/design/STATISTICAL_ANALYSIS_PIPELINE.md` documenting the deterministic, statistics-driven analysis in `analyzer.py` that runs before any LLM stage: enriched-line input contract (width-weighted `predominant_size`/`font`, geometric gaps after blank-line folding), the `analyze_document_data` multi-pass sequence, font/size mode statistics, line/paragraph spacing statistics, contextual spacing-rule derivation (`_collect_contextual_gaps` same-size-adjacency gate + `_analyze_contextual_spacing` formulas), three-way gap classification, block-formation merge criteria, traditional vs. contextual header/footer detection, final boundary selection, a decision-criteria/threshold quick-reference table (config defaults + profile overrides), what the LLM stage consumes, and known limitations (sparse-class issue, redundant recompute, mode-based body detection)
+- Verified every claim against source; corrected one imprecision (`x_tolerance`/`_combine_words` feeds only the `content` line representation, not the segment/`predominant_size` path)
+- Wired into `mkdocs.yml` nav and the CLAUDE.md Tier 3 doc list (retiring the never-created `CONTEXTUAL_SPACING.md` placeholder it fulfills); cross-linked with `TEXT_PROCESSING_AND_BLOCK_GROUPING.md`; fixed a stale mkdocs nav entry pointing at the non-existent `design/BLOCK_GROUPING.md`
+- **Files**: `docs/design/STATISTICAL_ANALYSIS_PIPELINE.md` (new), `docs/design/TEXT_PROCESSING_AND_BLOCK_GROUPING.md`, `mkdocs.yml`, `CLAUDE.md`
+
 **Blank-Line Handling Fix and Output Documentation Overhaul**:
 - Investigated and fixed a live correctness bug: `_lines.json` was not filtering blank lines despite analyzer docstrings claiming it was (silently lost in a 2025-05-07 refactor), causing block-merge decisions to see understated gaps wherever a blank line intervened between two visible lines (verified: a heading's true 67-86pt separation from its preceding paragraph was reading as ~8pt)
 - Restored blank-line filtering in `extractor.py` (`_process_blank_lines`, adapted from the pre-refactor implementation with an unrelated legacy rounding step deliberately omitted after A/B testing showed it caused unrelated false merges): `_full_lines.json` now retains the raw unfiltered record, `_lines.json` has blanks removed with `gap_before`/`gap_after` re-derived from the nearest non-blank neighbours; verified end-to-end on the H.264 100-page document
