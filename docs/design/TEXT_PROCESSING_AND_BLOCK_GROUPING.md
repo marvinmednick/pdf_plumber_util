@@ -9,6 +9,11 @@ PDF Plumb implements a two-stage text processing pipeline that addresses fundame
 
 This dual approach ensures both accurate text representation and meaningful document organization for technical specifications.
 
+> **Related:** For how these blocks fit into the wider pre-LLM analysis — the font/size/spacing
+> statistics, contextual spacing rules, gap classification, and header/footer detection that
+> surround block formation — see
+> [STATISTICAL_ANALYSIS_PIPELINE.md](STATISTICAL_ANALYSIS_PIPELINE.md).
+
 ## Part I: Text Segment Processing and Spacing Reconstruction
 
 ### Problem Statement: Missing Word Boundaries

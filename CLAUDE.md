@@ -339,12 +339,12 @@ This project uses a hierarchical documentation structure designed to preserve de
 - `docs/phase-history.md` - Detailed development phase history and achievements
 
 **Tier 3: Implementation Deep-Dives**
+- `docs/design/STATISTICAL_ANALYSIS_PIPELINE.md` - Pre-LLM statistical analysis flow: font/size/spacing statistics, contextual spacing rules, gap classification, header/footer detection, and decision criteria/thresholds
 - `docs/design/TEXT_PROCESSING_AND_BLOCK_GROUPING.md` - Text segment spacing reconstruction and block formation algorithms
 - `docs/design/HEADER_FOOTER_DETECTION.md` - Iterative boundary detection development
 - `docs/design/STATE_MACHINE_ARCHITECTURE.md` - State machine orchestrator for multi-objective analysis workflows
 - `docs/design/LLM_INTEGRATION.md` - LLM implementation guide and current usage
 - `docs/design/LLM_STRATEGY.md` - Complete LLM strategic framework and advanced features
-- `docs/design/CONTEXTUAL_SPACING.md` - Core spacing analysis algorithm (to be created)
 - `docs/design/PATTERN_DETECTION_ARCHITECTURE.md` - Comprehensive Phase 1 pattern detection methodology
 
 **Tier 4: Analysis & Strategy**

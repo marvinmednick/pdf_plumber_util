@@ -40,7 +40,8 @@ nav:
   - Guidelines:
     - Test Docstrings: test_docstring_guidelines.md
   - Design:
-    - Block Grouping: design/BLOCK_GROUPING.md
+    - Statistical Analysis Pipeline: design/STATISTICAL_ANALYSIS_PIPELINE.md
+    - Text Processing & Block Grouping: design/TEXT_PROCESSING_AND_BLOCK_GROUPING.md
     - Header Footer Detection: design/HEADER_FOOTER_DETECTION.md
     - State Machine Architecture: design/STATE_MACHINE_ARCHITECTURE.md
     - LLM Integration: design/LLM_INTEGRATION.md
