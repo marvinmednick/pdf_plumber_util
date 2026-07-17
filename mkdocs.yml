@@ -44,6 +44,7 @@ nav:
     - Text Processing & Block Grouping: design/TEXT_PROCESSING_AND_BLOCK_GROUPING.md
     - Header Footer Detection: design/HEADER_FOOTER_DETECTION.md
     - State Machine Architecture: design/STATE_MACHINE_ARCHITECTURE.md
+    - State Machine Implementation (As-Built): design/STATE_MACHINE_IMPLEMENTATION.md
     - LLM Integration: design/LLM_INTEGRATION.md
     - LLM Strategy: design/LLM_STRATEGY.md
   - Analysis:

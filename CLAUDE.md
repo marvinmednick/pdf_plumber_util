@@ -342,7 +342,8 @@ This project uses a hierarchical documentation structure designed to preserve de
 - `docs/design/STATISTICAL_ANALYSIS_PIPELINE.md` - Pre-LLM statistical analysis flow: font/size/spacing statistics, contextual spacing rules, gap classification, header/footer detection, and decision criteria/thresholds
 - `docs/design/TEXT_PROCESSING_AND_BLOCK_GROUPING.md` - Text segment spacing reconstruction and block formation algorithms
 - `docs/design/HEADER_FOOTER_DETECTION.md` - Iterative boundary detection development
-- `docs/design/STATE_MACHINE_ARCHITECTURE.md` - State machine orchestrator for multi-objective analysis workflows
+- `docs/design/STATE_MACHINE_ARCHITECTURE.md` - State machine orchestrator design for multi-objective analysis workflows (framework/concepts)
+- `docs/design/STATE_MACHINE_IMPLEMENTATION.md` - As-built analysis of the current state machine: live execution path, orchestrator/context internals, the two implemented states, what's stubbed vs. designed, and design/code drift
 - `docs/design/LLM_INTEGRATION.md` - LLM implementation guide and current usage
 - `docs/design/LLM_STRATEGY.md` - Complete LLM strategic framework and advanced features
 - `docs/design/PATTERN_DETECTION_ARCHITECTURE.md` - Comprehensive Phase 1 pattern detection methodology

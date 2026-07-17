@@ -4,6 +4,12 @@
 
 This document details the design of a state machine orchestrator for managing complex, multi-objective analysis workflows. The architecture provides a flexible framework where different analysis tasks can be chained together with conditional logic determining the flow between states.
 
+> **This is the design/framework document.** For an analysis of what is *actually implemented
+> today* — the live `header_footer_analysis → additional_section_headings` execution path, the
+> orchestrator/context internals as coded, what is stubbed vs. designed-only, and where this
+> design doc has drifted from the code — see
+> [STATE_MACHINE_IMPLEMENTATION.md](STATE_MACHINE_IMPLEMENTATION.md).
+
 ## Core Concepts
 
 ### State Machine Fundamentals
