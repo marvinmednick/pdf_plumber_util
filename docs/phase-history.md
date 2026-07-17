@@ -2,6 +2,82 @@
 
 This document provides detailed information about each development phase of PDF Plumb, including achievements, technical decisions, and migration details.
 
+## Recent Archived Work (July 2026)
+
+**LLM TOC Extraction Performance Investigation**:
+- Investigated multi-page LLM TOC extraction degradation: single-page 101.9% accuracy vs multi-page 30.2% accuracy
+- Systematic testing revealed issue not with spacing correction or format optimization but with block grouping structure
+- Key findings: Multiple TOC entries grouped into single blocks with newline separators ("entry1\nentry2\nentry3")
+- LLM processes grouped entries as single TOC item instead of parsing individual lines within blocks
+- Tested corrected blocks data, streamlined 5-field format, and various data optimizations with minimal improvement
+- Root cause hypothesis: Array-based line representation needed instead of concatenated text with newlines
+- Created comprehensive debug infrastructure with LLM input data logging for troubleshooting analysis
+- **Files**: src/pdf_plumb/llm/sampling.py enhanced with debug capabilities, output/h264_100pages_blocks.json regenerated
+- **Status**: Multi-page degradation cause identified, solution approach defined but not yet implemented
+
+**PDF Text Spacing Reconstruction (Phase 3.1)**:
+- Implemented comprehensive spacing reconstruction system fixing critical "9.3.4.6Byte" → "9.3.4.6 Byte" pattern detection issues
+- Enhanced `extractor.py` with `_build_line_with_proportional_spacing` method providing dual text output (normalized + proportional)
+- Font-adaptive spacing algorithm using 0.3 space-width ratio with gap-based proportional space calculation
+- Space-only segment handling: treats `{"text": "   "}` identical to empty segments to avoid double-counting
+- Created comprehensive test infrastructure: 8-case JSON fixture covering real H.264 data + edge cases (overlapping segments, mixed fonts)
+- Moved standalone test scripts to proper pytest structure: integration/unit test organization with 14 new tests all passing
+- Enhanced documentation: renamed and expanded BLOCK_GROUPING.md → TEXT_PROCESSING_AND_BLOCK_GROUPING.md with Part I: Text Segment Processing
+- **Validation Results**: Pattern detection improved from broken matches to 25 total matches, H.264 section spacing confirmed fixed
+- **Files**: src/pdf_plumb/core/extractor.py enhanced (68 lines added), tests/fixtures/test_spacing_reconstruction.json (8 cases), tests/unit/test_spacing_reconstruction.py (9 tests)
+- **Test Coverage**: 14/14 spacing tests + 90/90 core unit tests passing, no regressions detected
+- **Architecture**: Production-ready spacing reconstruction with comprehensive edge case handling and font-size adaptive thresholds
+
+**Pattern Detection Architecture Core Implementation**:
+- Implemented comprehensive pattern detection system with 31 patterns across 20 section types
+- Created cross-document validation covering Academic, Legal, Manual, Technical, and Research document types
+- Achieved 30 high-quality pattern matches in H.264 document with complete hierarchical structure detection (A.1 → A.3.1)
+- Discovered and analyzed PDF text extraction spacing issue: 12.2pt positional gaps lost during segment concatenation
+- Enhanced HeaderFooterAnalysisState with three-phase pattern detection architecture integration
+- **Files**: src/pdf_plumb/core/pattern_manager.py (318 lines), src/pdf_plumb/core/document_scanner.py (582 lines), test_comprehensive_patterns.py (318 lines)
+- **Test Results**: All 31 patterns validate successfully, comprehensive cross-document pattern coverage proven
+- **Result**: Spacing reconstruction implemented successfully, pattern detection accuracy significantly improved
+
+**Command Enhancement and Protocol Refinement**:
+- Enhanced /update-worklog and /update-status commands to be immediate action triggers rather than guidance documents
+- Implemented self-auditing behavior with compliance review and automatic correction mechanisms
+- Updated CLAUDE.md protocols with 200-line limit for docs/status.md and automatic archival to phase-history.md
+- Clarified work log trigger language to explicitly include design work, analysis work, and documentation updates
+- Added status.md archival management with size monitoring and historical preservation
+- **Files**: .claude/commands/update-worklog.md (84 lines), .claude/commands/update-status.md (73 lines), enhanced CLAUDE.md protocols
+
+**Pattern Detection Architecture Design (Phase 1 Design)**:
+- Comprehensive Phase 1 pattern detection methodology design with sequential single-call LLM analysis
+- Font consistency analysis framework across 7 parameter combinations for programmatic pattern validation
+- Section completeness algorithms with hierarchical implication analysis and TOC cross-reference
+- Dual analysis method: direct section identification + regex pattern cross-reference validation
+- Multi-hypothesis management system with confidence evolution across sequential page groups
+- Knowledge accumulation structure for building understanding progressively through page group analysis
+- **File**: docs/design/PATTERN_DETECTION_ARCHITECTURE.md (comprehensive design specification)
+
+**Workflow Automation Commands (Phase 2.6)**:
+- Created 3 custom Claude Code commands for development checkpoint automation
+- Implemented two-commit checkpoint pattern with auto-generated content from file analysis
+- Added /update-worklog command for automatic work log entry generation with timestamp
+- Added /commit-work command as main workflow automation with implementation + status commits
+- Added /complete-checkpoint command for status consolidation in edge case scenarios
+- Features include user guidance parameters for commit message framing and emphasis control
+- Integration with established work log format and project status structure
+- Commands support both standard development workflow and experimental edge cases
+- **Files**: 3 command definition files totaling 9,459 bytes of workflow automation
+
+**TOC Detection Integration (Phase 2.5)**:
+- Enhanced HeaderFooterAnalysisState to 6-objective analysis including comprehensive TOC detection
+- Implemented hierarchical TOC structure analysis with page references and multi-level nesting
+- Added double categorization prevention (TOC entries separate from section headings)
+- Created comprehensive testing framework with 11/11 unit tests using boundary-focused mocking methodology
+- Developed complete test infrastructure: unit, integration, golden document tests with H.264 spec fixtures
+- Fixed critical implementation issues: save_json import error and page_indexes_analyzed field consistency
+- Added specialized testing agents for strategy design, implementation, and result validation
+- Token cost analysis shows 47.9% savings by expanding existing prompts vs separate TOC requests
+- **Test Results**: 11/11 TOC tests + 23/23 additional section heading tests passing
+- **Architecture**: Boundary-focused mocking pattern proven successful for LLM response testing
+
 ## Recent Archived Work (September 2025)
 
 **Documentation Organization and Claude Code Session Guidance**:
