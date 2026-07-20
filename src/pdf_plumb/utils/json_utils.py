@@ -39,18 +39,49 @@ def dumps(obj: Any, indent: Union[int, None] = None) -> str:
 
 def dump(obj: Any, fp: TextIO, indent: Union[int, None] = None) -> None:
     """Serialize object to JSON file with performance optimization.
-    
+
+    For top-level lists, writes one element at a time so the full
+    serialized JSON is never held in memory at once (large per-page
+    result lists like raw_words_by_page can otherwise use several GB).
+
     Args:
         obj: Object to serialize
         fp: File-like object to write to
         indent: Indentation level (None for compact, int for pretty-printed)
     """
     if HAS_ORJSON:
-        # orjson doesn't have a direct dump() method, so we use dumps() + write
-        json_str = dumps(obj, indent=indent)
-        fp.write(json_str)
+        if isinstance(obj, list):
+            _dump_list_streaming(obj, fp, indent=indent)
+        else:
+            # orjson doesn't have a direct dump() method, so we use dumps() + write
+            json_str = dumps(obj, indent=indent)
+            fp.write(json_str)
     else:
         _stdlib_json.dump(obj, fp, indent=indent)
+
+
+def _dump_list_streaming(items: list, fp: TextIO, indent: Union[int, None] = None) -> None:
+    """Write a list to fp as a JSON array, serializing one element at a time.
+
+    Produces output equivalent to orjson.dumps(items, option=OPT_INDENT_2)
+    without ever materializing the full array's JSON in memory.
+    """
+    if not items:
+        fp.write("[]")
+        return
+
+    pad = " " * indent if indent else ""
+    fp.write("[\n" if indent else "[")
+    for i, item in enumerate(items):
+        if indent:
+            item_json = orjson.dumps(item, option=orjson.OPT_INDENT_2).decode('utf-8')
+            item_json = "\n".join(pad + line for line in item_json.split("\n"))
+        else:
+            item_json = orjson.dumps(item).decode('utf-8')
+        if i > 0:
+            fp.write(",\n" if indent else ",")
+        fp.write(item_json)
+    fp.write("\n]" if indent else "]")
 
 
 def loads(s: str) -> Any:

@@ -20,6 +20,13 @@
 
 ## Last Completed Work
 
+**Full H.264 Document Extraction Fix (IndexError + OOM)**:
+- Fixed `IndexError: list index out of range` in `PDFExtractor._generate_comparison` (`src/pdf_plumb/core/extractor.py`): `extract_words_manual` was only appended for pages with extractable words, while `extract_text`/`extract_text_lines` always append one entry per page — the lists desynced once any page in the 836-page H.264 spec had zero words, and comparison's page-indexed lookup eventually ran off the end. Now always appends an empty-content placeholder for word-less pages.
+- Fixed a resulting OOM (exit 137) during `pdf-plumb extract`'s save step: `json_utils.dump()` built the entire pretty-printed JSON string for top-level lists via `orjson.dumps(...).decode()` before writing a single byte, which for `raw_words_by_page` (~1.5GB serialized for 836 pages) spiked memory past available RAM. Added `_dump_list_streaming()` to serialize and write one list element at a time; verified byte-identical output to the old approach.
+- **Tests**: 67/69 unit+integration passing (2 pre-existing Azure OpenAI connectivity failures, no network access in this environment, unrelated).
+- **Verified**: `uv run pdf-plumb extract data/H264.pdf` completes with exit code 0 for all 836 pages, producing full_lines (65MB), lines (65MB), words (1.5GB), compare (15MB), and info JSON files.
+- **Files**: `src/pdf_plumb/core/extractor.py`, `src/pdf_plumb/utils/json_utils.py`
+
 **State Machine As-Built Implementation Documentation**:
 - Created `docs/design/STATE_MACHINE_IMPLEMENTATION.md`, the as-built companion to the design-only `STATE_MACHINE_ARCHITECTURE.md`, analyzing the workflow state machine as actually coded: the live execution path (`header_footer_analysis → additional_section_headings → END`, two LLM calls) and CLI wiring (`--use-direct-analyzer` bypass, seed registry-swap), framework internals (`AnalysisState` ABC, explicit `STATE_REGISTRY`, `WorkflowStateMap`, `AnalysisOrchestrator` loop with `MAX_TOTAL_STATES=50` / 1800s timeout), context threading + knowledge accumulation + snapshot serialization, loop-prevention mechanisms, and the two live states
 - Documented what is stubbed vs. built: `HeaderFooterAnalysisState`'s Phase 2/3 pattern→LLM integration is stubbed (falls back to legacy LLM call, `pending_*` placeholders) and both live states use a constant `determine_next_state`; included a works-vs-stubbed status table and a Drift section flagging 5 design/code mismatches (misnamed state, unexercised conditional routing, vaporware next-states, entry-state ambiguity requiring explicit `initial_state`)

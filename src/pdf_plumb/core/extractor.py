@@ -159,6 +159,10 @@ class PDFExtractor:
                             "page": page_num + 1,
                             "words": []
                         })
+                        results["extract_words_manual"].append({
+                            "page": page_num + 1,
+                            "content": [],
+                        })
                     
                     progress.advance(task)
 
